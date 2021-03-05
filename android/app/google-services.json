@@ -1,0 +1,40 @@
+{
+  "project_info": {
+    "project_number": "818229751787",
+    "firebase_url": "https://aboutlx-472dc.firebaseio.com",
+    "project_id": "aboutlx-472dc",
+    "storage_bucket": "aboutlx-472dc.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:818229751787:android:0c68eaf8dba1fa4247b3ae",
+        "android_client_info": {
+          "package_name": "com.example.aboutlx"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "818229751787-i6ltcfq94i3tjavc0d288no9g0lptlde.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyCbII2jT795n5w984W4vfUeBfsr4H1vvAU"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "818229751787-i6ltcfq94i3tjavc0d288no9g0lptlde.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

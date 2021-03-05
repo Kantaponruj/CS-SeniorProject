@@ -1,4 +1,4 @@
-name: test_map
+name: test_map_api
 description: A new Flutter project.
 
 # The following line prevents the package from being accidentally published to
@@ -24,7 +24,7 @@ dependencies:
   flutter:
     sdk: flutter
 
-
+  google_maps_flutter: ^0.5.27+3
   # The following adds the Cupertino Icons font to your application.
   # Use with the CupertinoIcons class for iOS style icons.
   cupertino_icons: ^1.0.2

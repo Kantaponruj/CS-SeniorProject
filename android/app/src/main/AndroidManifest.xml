@@ -3,6 +3,8 @@
    <application
         android:label="test_map_api"
         android:icon="@mipmap/ic_launcher">
+        <meta-data android:name="com.google.android.geo.API_KEY"
+            android:value="AIzaSyDfADvpduNUJR1-de8aeqxgs95tjQl9WGk"/>
         <activity
             android:name=".MainActivity"
             android:launchMode="singleTop"
@@ -27,8 +29,6 @@
               android:name="io.flutter.embedding.android.SplashScreenDrawable"
               android:resource="@drawable/launch_background"
               />
-            <meta-data android:name="com.google.android.geo.API_KEY"
-            android:value="AIzaSyDfADvpduNUJR1-de8aeqxgs95tjQl9WGk"/>
             <intent-filter>
                 <action android:name="android.intent.action.MAIN"/>
                 <category android:name="android.intent.category.LAUNCHER"/>

@@ -30,32 +30,46 @@ class MyHomePage extends StatefulWidget {
   _MyHomePageState createState() => _MyHomePageState();
 }
 
-class _MyHomePageState extends State<MyHomePage> {
-  // int _counter = 0;
+class _MyHomePageState extends State<MyHomePage> {  
 
-  Completer<GoogleMapController> _controller = Completer();
+  GoogleMapController mapController;
+  void _onMapCreated(GoogleMapController controller) {
+  mapController = controller;
+  setMarkers();
+}
 
-  static final CameraPosition _kGooglePlex = CameraPosition(
-    target: LatLng(13.655258306757673, 100.49825516513702),
-    zoom: 14.4746,
+      double startLat = 13.652720;
+double startLng = 100.493635;
+double endLat = 13.6640896;
+double endLng = 100.4357021;
+// For holding instance of Marker
+final Set<Marker> markers = {};   
+      setMarkers() {
+  markers.add(Marker(
+    markerId: MarkerId("Home"),
+    position: LatLng(startLat, startLng),
+    infoWindow: InfoWindow(
+      title: "Home",
+      snippet: "Home Sweet Home",
+    ),
+  ),
   );
+markers.add(Marker(
+    markerId: MarkerId("Destination"),
+    position: LatLng(endLat, endLng),
+    infoWindow: InfoWindow(
+      title: "Masjid",
+      snippet: "5 star rated place",
+    ),
+  ));
+  setState(() {});
+}
 
-  static final CameraPosition _sit = CameraPosition(
+static final CameraPosition _sit = CameraPosition(
       // bearing: 192.8334901395799,
       target: LatLng(13.652720, 100.493635),
       tilt: 59.440717697143555,
       zoom: 19.151926040649414);
-
-  // void _incrementCounter() {
-  //   setState(() {
-  //     // This call to setState tells the Flutter framework that something has
-  //     // changed in this State, which causes it to rerun the build method below
-  //     // so that the display can reflect the updated values. If we changed
-  //     // _counter without calling setState(), then the build method would not be
-  //     // called again, and so nothing would appear to happen.
-  //     _counter++;
-  //   });
-  // }
 
   @override
   Widget build(BuildContext context) {
@@ -63,31 +77,21 @@ class _MyHomePageState extends State<MyHomePage> {
       appBar: AppBar(
         title: Text(widget.title),
       ),
-      body: GoogleMap(
-        mapType: MapType.normal,
-        initialCameraPosition: _kGooglePlex,
-        onMapCreated: (GoogleMapController controller) {
-          _controller.complete(controller);
-        },
+      body: 
+      GoogleMap(
+        onMapCreated: _onMapCreated,
+        initialCameraPosition: CameraPosition(
+          target: const LatLng(13.652720, 100.493635),
+          zoom: 13,
+        ),
+        markers: markers,
 
-        // child: Column(
-        //   mainAxisAlignment: MainAxisAlignment.center,
-        //   // children: <Widget>[
-        //     // Text(
-        //     //   'You have pushed the button this many times:',
-        //     // ),
-        //     // Text(
-        //     //   '$_counter',
-        //     //   style: Theme.of(context).textTheme.headline4,
-        //     // ),
-        //   // ],
-        // ),
       ),
-      floatingActionButton: FloatingActionButton.extended(
-        onPressed: _goToTheSIT,
-        label: Text('To the SIT!'),
-        icon: Icon(Icons.directions_boat),
-      ),
+      // floatingActionButton: FloatingActionButton.extended(
+      //   onPressed: _goToTheSIT,
+      //   label: Text('To the SIT!'),
+      //   icon: Icon(Icons.directions_boat),
+      // ),
       // floatingActionButton: FloatingActionButton(
       //   onPressed: _incrementCounter,
       //   tooltip: 'Increment',
@@ -96,8 +100,8 @@ class _MyHomePageState extends State<MyHomePage> {
     );
   }
 
-  Future<void> _goToTheSIT() async {
-    final GoogleMapController controller = await _controller.future;
-    controller.animateCamera(CameraUpdate.newCameraPosition(_sit));
-  }
+  // Future<void> _goToTheSIT() async {
+  //   final GoogleMapController controller = await mapController;
+  //   controller.animateCamera(CameraUpdate.newCameraPosition(_sit));
+  // }
 }

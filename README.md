@@ -1,4 +1,4 @@
-# test_map_api
+# google_map_stores
 
 A new Flutter project.
 

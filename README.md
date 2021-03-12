@@ -1,6 +1,6 @@
-# google_map_stores
+# CS-SeniorProject
 
-A new Flutter project.
+Application for Tracking Food Stall and Food Truck
 
 ## Getting Started
 
@@ -14,3 +14,24 @@ A few resources to get you started if this is your first Flutter project:
 For help getting started with Flutter, view our
 [online documentation](https://flutter.dev/docs), which offers tutorials,
 samples, guidance on mobile development, and a full API reference.
+
+# []Setup
+
+After setup flutter with your prefered IDEs, clone the project
+
+`git clone`
+
+Run the project by
+
+`flutter run`
+
+# []Common error
+
+**Missing packages or packages related errors, try**
+
+`flutter pub get`
+
+**Anything realated to**
+`pubspec.lock`
+**Just delete everything inside it and run**
+`flutter pub get`

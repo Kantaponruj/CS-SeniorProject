@@ -12,7 +12,7 @@ void main() async {
   runApp(MultiProvider(
     providers: [
       ChangeNotifierProvider(create: (context) => AuthNotifier()),
-      ChangeNotifierProvider(create: (context) => StoreNotifier())
+      // ChangeNotifierProvider(create: (context) => StoreNotifier())
     ],
     child: MyApp(),
   ));

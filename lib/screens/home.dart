@@ -4,14 +4,12 @@ import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 import 'package:google_map_stores/notifiers/store_notifier.dart';
 import 'package:google_map_stores/screens/directionPage.dart';
+import 'package:google_map_stores/widgets/storeListWidget.dart';
 import 'package:google_map_stores/services/store_service.dart';
 import 'package:google_maps_flutter/google_maps_flutter.dart';
 import 'package:provider/provider.dart';
 
 class Home extends StatefulWidget {
-  // const Home({@required this.title});
-  // final String title;
-
   @override
   _HomeState createState() => _HomeState();
 }
@@ -53,11 +51,10 @@ class _HomeState extends State<Home> {
                           initialPosition: const LatLng(
                               13.655258306757673, 100.49825516513702),
                           mapController: _mapController)),
+                  SizedBox(height: 12),
                   Flexible(
                       flex: 3,
-                      child: StoreList(
-                          documents: snapshot.data.docs,
-                          mapController: _mapController)),
+                      child: StoreListWidget(mapController: _mapController)),
                   FloatingActionButton.extended(
                     onPressed: () {
                       Navigator.push(
@@ -110,35 +107,5 @@ class StoreMap extends StatelessWidget {
         this.mapController.complete(mapController);
       },
     );
-  }
-}
-
-class StoreList extends StatelessWidget {
-  const StoreList(
-      {Key key, @required this.documents, @required this.mapController})
-      : super(key: key);
-
-  final List<DocumentSnapshot> documents;
-  final Completer<GoogleMapController> mapController;
-
-  @override
-  Widget build(BuildContext context) {
-    return ListView.builder(
-        itemCount: documents.length,
-        itemBuilder: (context, index) {
-          final document = documents[index];
-          return ListTile(
-            title: Text(document['name']),
-            subtitle: Text(document['address']),
-            onTap: () async {
-              final controller = await mapController.future;
-              await controller.animateCamera(CameraUpdate.newCameraPosition(
-                  CameraPosition(
-                      target: LatLng(document['location'].latitude,
-                          document['location'].longitude),
-                      zoom: 18)));
-            },
-          );
-        });
   }
 }

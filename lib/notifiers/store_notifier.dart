@@ -1,5 +1,4 @@
 import 'dart:collection';
-import 'dart:typed_data';
 
 import 'package:flutter/material.dart';
 import 'package:google_map_stores/models/store.dart';

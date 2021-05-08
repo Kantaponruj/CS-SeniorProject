@@ -2,32 +2,17 @@ import 'dart:async';
 
 import 'package:flutter/material.dart';
 import 'package:google_map_stores/notifiers/store_notifier.dart';
-import 'package:google_map_stores/services/store_service.dart';
 import 'package:google_maps_flutter/google_maps_flutter.dart';
 import 'package:provider/provider.dart';
 
-class StoreListWidget extends StatefulWidget {
-  StoreListWidget({Key key, @required this.mapController}) : super(key: key);
-
+class StoreListWidget extends StatelessWidget {
+  const StoreListWidget({Key key, @required this.mapController})
+      : super(key: key);
   final Completer<GoogleMapController> mapController;
-
-  @override
-  _StoreListWidgetState createState() => _StoreListWidgetState();
-}
-
-class _StoreListWidgetState extends State<StoreListWidget> {
-  @override
-  void initState() {
-    StoreNotifier storeNotifier =
-        Provider.of<StoreNotifier>(context, listen: false);
-    getStores(storeNotifier);
-    super.initState();
-  }
 
   @override
   Widget build(BuildContext context) {
     StoreNotifier storeNotifier = Provider.of<StoreNotifier>(context);
-    Completer<GoogleMapController> mapController;
 
     return Scaffold(
       body: ListView.builder(

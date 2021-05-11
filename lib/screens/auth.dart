@@ -47,7 +47,7 @@ class _AuthState extends State<Auth> {
         return null;
       },
       onSaved: (String value) {
-        _customer.displayName = value;
+        _customer.userName = value;
       },
     );
   }
@@ -126,7 +126,7 @@ class _AuthState extends State<Auth> {
     );
   }
 
-  void _sunmitForm() {
+  void _submitForm() {
     if (!_formkey.currentState.validate()) {
       return;
     }
@@ -180,7 +180,7 @@ class _AuthState extends State<Auth> {
                         child: Text(_authMode == AuthMode.Login
                             ? 'เข้าสู่ระบบ'
                             : 'ลงทะเบียน'),
-                        onPressed: () => _sunmitForm(),
+                        onPressed: () => _submitForm(),
                       ),
                     ),
                   ),

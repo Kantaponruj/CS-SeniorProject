@@ -40,14 +40,14 @@ class _AuthState extends State<Auth> {
           return 'Display Name is required';
         }
 
-        if (value.length > 20) {
-          return 'Display Name cannot be more than 20 characters';
+        if (value.length < 5 || value.length > 12) {
+          return 'Display Name must be betweem 5 and 12 characters';
         }
 
         return null;
       },
       onSaved: (String value) {
-        _customer.userName = value;
+        _customer.displayName = value;
       },
     );
   }

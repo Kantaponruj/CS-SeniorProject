@@ -1,22 +1,19 @@
 import 'dart:async';
 
-import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:geocoding/geocoding.dart';
 import 'package:geolocator/geolocator.dart';
+import 'package:google_map_stores/notifiers/auth_notifier.dart';
 import 'package:google_map_stores/services/databaseService.dart';
 import 'package:google_maps_flutter/google_maps_flutter.dart';
+import 'package:provider/provider.dart';
 
 class SelectMap extends StatefulWidget {
-  SelectMap({Key key, this.uid}) : super(key: key);
-  final String uid;
-
   @override
   _SelectMapState createState() => _SelectMapState();
 }
 
 class _SelectMapState extends State<SelectMap> {
-  User currentUser;
   Completer<GoogleMapController> mapController = Completer();
   Position currentPosition;
   String currentAddress;
@@ -24,18 +21,15 @@ class _SelectMapState extends State<SelectMap> {
 
   static LatLng _initialPosition;
 
-  void getCurrentUser() async {
-    currentUser = await FirebaseAuth.instance.currentUser;
-  }
-
   void initState() {
-    this.getCurrentUser();
     _getUserLocation();
     super.initState();
   }
 
   @override
   Widget build(BuildContext context) {
+    AuthNotifier authNotifier = Provider.of<AuthNotifier>(context);
+
     return Scaffold(
         body: _initialPosition == null
             ? Container(
@@ -67,7 +61,8 @@ class _SelectMapState extends State<SelectMap> {
                 if (currentAddress != null) Text(currentAddress),
                 Flexible(flex: 1, child: Container(child: _getUserLocation())),
                 FloatingActionButton.extended(
-                  onPressed: () => _saveLocation(),
+                  onPressed: () => updateUserLocation(
+                      authNotifier.user.uid, currentPosition),
                   label: Text('Save Location'),
                   icon: Icon(Icons.save),
                 )
@@ -111,9 +106,5 @@ class _SelectMapState extends State<SelectMap> {
       currentAddress =
           "${place.street}, ${place.locality} ${place.country}, ${place.postalCode}";
     });
-  }
-
-  _saveLocation() async {
-    updateUserLocation(widget.uid, currentPosition);
   }
 }

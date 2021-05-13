@@ -1,9 +1,10 @@
 import 'dart:async';
 
-import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
+import 'package:google_map_stores/notifiers/auth_notifier.dart';
 import 'package:google_map_stores/notifiers/store_notifier.dart';
 import 'package:google_map_stores/screens/selectMap.dart';
+import 'package:google_map_stores/services/auth_service.dart';
 import 'package:google_map_stores/services/store_service.dart';
 import 'package:google_map_stores/widgets/mapWidget.dart';
 import 'package:google_map_stores/widgets/storeListWidget.dart';
@@ -11,25 +12,15 @@ import 'package:google_maps_flutter/google_maps_flutter.dart';
 import 'package:provider/provider.dart';
 
 class Home extends StatefulWidget {
-  Home({Key key, this.uid}) : super(key: key);
-  final String uid;
-
   @override
   _HomeState createState() => _HomeState();
 }
 
 class _HomeState extends State<Home> {
-  User currentUser;
-
   final Completer<GoogleMapController> _mapController = Completer();
-
-  void getCurrentUser() async {
-    currentUser = await FirebaseAuth.instance.currentUser;
-  }
 
   @override
   void initState() {
-    this.getCurrentUser();
     StoreNotifier storeNotifier =
         Provider.of<StoreNotifier>(context, listen: false);
     getStores(storeNotifier);
@@ -38,9 +29,21 @@ class _HomeState extends State<Home> {
 
   @override
   Widget build(BuildContext context) {
+    AuthNotifier authNotifier = Provider.of<AuthNotifier>(context);
+
     return Scaffold(
         appBar: AppBar(
-          title: Text("Welcome"),
+          title: Text(authNotifier.user != null
+              ? authNotifier.user.displayName
+              : "Welcome"),
+          actions: <Widget>[
+            TextButton(
+                onPressed: () => signout(authNotifier),
+                child: Text(
+                  'Logout',
+                  style: TextStyle(fontSize: 20, color: Colors.white),
+                ))
+          ],
         ),
         body: Container(
             child: Column(children: [
@@ -51,10 +54,8 @@ class _HomeState extends State<Home> {
           SizedBox(height: 12),
           FloatingActionButton.extended(
             onPressed: () {
-              Navigator.push(
-                  context,
-                  MaterialPageRoute(
-                      builder: (context) => SelectMap(uid: currentUser.uid)));
+              Navigator.push(context,
+                  MaterialPageRoute(builder: (context) => SelectMap()));
             },
             label: Text('Get Current Location'),
             icon: Icon(Icons.directions_boat),

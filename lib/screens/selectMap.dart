@@ -62,7 +62,7 @@ class _SelectMapState extends State<SelectMap> {
                 Flexible(flex: 1, child: Container(child: _getUserLocation())),
                 FloatingActionButton.extended(
                   onPressed: () => updateUserLocation(
-                      authNotifier.user.uid, currentPosition),
+                      authNotifier.user.uid, currentPosition, currentAddress),
                   label: Text('Save Location'),
                   icon: Icon(Icons.save),
                 )

@@ -128,10 +128,11 @@ class _RegisterState extends State<Register> {
                                 return;
                               }
                               authNotifier.clearController();
-                              Navigator.pushReplacement(
+                              Navigator.pushAndRemoveUntil(
                                   context,
                                   MaterialPageRoute(
-                                      builder: (context) => Home()));
+                                      builder: (context) => Home()),
+                                  (route) => false);
                             },
                           ),
                         ),

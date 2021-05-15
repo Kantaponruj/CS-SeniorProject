@@ -3,8 +3,8 @@ import 'dart:async';
 import 'package:flutter/material.dart';
 import 'package:geocoding/geocoding.dart';
 import 'package:geolocator/geolocator.dart';
-import 'package:google_map_stores/notifiers/auth_notifier.dart';
-import 'package:google_map_stores/services/databaseService.dart';
+import 'package:google_map_stores/notifiers/user_notifier.dart';
+import 'package:google_map_stores/widgets/loadingWidget.dart';
 import 'package:google_maps_flutter/google_maps_flutter.dart';
 import 'package:provider/provider.dart';
 
@@ -28,41 +28,34 @@ class _SelectMapState extends State<SelectMap> {
 
   @override
   Widget build(BuildContext context) {
-    AuthNotifier authNotifier = Provider.of<AuthNotifier>(context);
+    UserNotifier userNotifier = Provider.of<UserNotifier>(context);
 
     return Scaffold(
         body: _initialPosition == null
-            ? Container(
-                child: Center(
-                  child: Text(
-                    'loading map..',
-                    style: TextStyle(color: Colors.grey[400]),
-                  ),
-                ),
-              )
+            ? LoadingWidget()
             : Column(children: <Widget>[
                 Flexible(
                   flex: 5,
                   child: GoogleMap(
-                    myLocationEnabled: true,
-                    mapType: MapType.normal,
-                    initialCameraPosition: CameraPosition(
-                      target: _initialPosition,
-                      zoom: 17,
-                    ),
-                    markers: Set.from(marker),
-                    onMapCreated: (GoogleMapController controller) {
-                      mapController.complete(controller);
-                    },
-                    // onCameraMove: _onCameraMove,
-                  ),
+                      myLocationEnabled: true,
+                      mapType: MapType.normal,
+                      initialCameraPosition: CameraPosition(
+                        target: _initialPosition,
+                        zoom: 18,
+                      ),
+                      markers: Set.from(marker),
+                      onMapCreated: (GoogleMapController controller) {
+                        mapController.complete(controller);
+                      }),
                 ),
                 SizedBox(height: 12),
                 if (currentAddress != null) Text(currentAddress),
                 Flexible(flex: 1, child: Container(child: _getUserLocation())),
                 FloatingActionButton.extended(
-                  onPressed: () => updateUserLocation(
-                      authNotifier.user.uid, currentPosition, currentAddress),
+                  onPressed: () => userNotifier.saveUserLocation(
+                      userNotifier.userModel.uid,
+                      currentAddress,
+                      currentPosition),
                   label: Text('Save Location'),
                   icon: Icon(Icons.save),
                 )
@@ -74,19 +67,17 @@ class _SelectMapState extends State<SelectMap> {
             desiredAccuracy: LocationAccuracy.high,
             forceAndroidLocationManager: true)
         .then((Position position) {
-      setState(() {
-        currentPosition = position;
-        _initialPosition =
-            LatLng(currentPosition.latitude, currentPosition.longitude);
-        _getMarkerLocation();
-        _getAddressFromLatLng();
-      });
+      if (mounted) {
+        setState(() {
+          currentPosition = position;
+          _initialPosition =
+              LatLng(currentPosition.latitude, currentPosition.longitude);
+          _getMarkerLocation();
+          _getAddressFromLatLng();
+        });
+      }
     });
   }
-
-  // _onCameraMove(CameraPosition position) {
-  //   _lastMapPosition = position.target;
-  // }
 
   _getMarkerLocation() async {
     setState(() {

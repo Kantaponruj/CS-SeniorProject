@@ -1,15 +1,16 @@
 import 'dart:async';
 
 import 'package:flutter/material.dart';
-import 'package:google_map_stores/notifiers/auth_notifier.dart';
 import 'package:google_map_stores/notifiers/store_notifier.dart';
+import 'package:google_map_stores/notifiers/user_notifier.dart';
+import 'package:google_map_stores/screens/login.dart';
 import 'package:google_map_stores/screens/selectMap.dart';
-import 'package:google_map_stores/services/auth_service.dart';
 import 'package:google_map_stores/services/store_service.dart';
 import 'package:google_map_stores/widgets/mapWidget.dart';
 import 'package:google_map_stores/widgets/storeListWidget.dart';
 import 'package:google_maps_flutter/google_maps_flutter.dart';
 import 'package:provider/provider.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 
 class Home extends StatefulWidget {
   @override
@@ -24,21 +25,33 @@ class _HomeState extends State<Home> {
     StoreNotifier storeNotifier =
         Provider.of<StoreNotifier>(context, listen: false);
     getStores(storeNotifier);
+    // _deviceToken();
     super.initState();
   }
 
+  // _deviceToken() async {
+  //   SharedPreferences preferences = await SharedPreferences.getInstance();
+  //   UserNotifier _user = Provider.of<UserNotifier>(context, listen: false);
+
+  //   if (_user.userModel.token != preferences.getString('token')) {
+  //     Provider.of<UserNotifier>(context, listen: false).saveDeviceToken();
+  //   }
+  // }
+
   @override
   Widget build(BuildContext context) {
-    AuthNotifier authNotifier = Provider.of<AuthNotifier>(context);
+    UserNotifier userNotifier = Provider.of<UserNotifier>(context);
 
     return Scaffold(
         appBar: AppBar(
-          title: Text(authNotifier.user != null
-              ? authNotifier.user.displayName
-              : "Welcome"),
+          title: Text(userNotifier.userModel?.displayName ?? ""),
           actions: <Widget>[
             TextButton(
-                onPressed: () => signout(authNotifier),
+                onPressed: () {
+                  userNotifier.signOut();
+                  Navigator.push(context,
+                      MaterialPageRoute(builder: (context) => Login()));
+                },
                 child: Text(
                   'Logout',
                   style: TextStyle(fontSize: 20, color: Colors.white),

@@ -93,10 +93,10 @@ class _LoginState extends State<Login> {
                               return;
                             }
                             authNotifier.clearController();
-                            Navigator.pushReplacement(
+                            Navigator.pushAndRemoveUntil(
                                 context,
-                                MaterialPageRoute(
-                                    builder: (context) => Home()));
+                                MaterialPageRoute(builder: (context) => Home()),
+                                (route) => false);
                           },
                         ),
                       ),

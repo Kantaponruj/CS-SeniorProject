@@ -1,5 +1,6 @@
 import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
+import 'package:google_map_stores/notifiers/location_notifier.dart';
 import 'package:google_map_stores/notifiers/store_notifier.dart';
 import 'package:google_map_stores/notifiers/user_notifier.dart';
 import 'package:google_map_stores/screens/home.dart';
@@ -13,6 +14,7 @@ void main() async {
   runApp(MultiProvider(
       providers: [
         ChangeNotifierProvider(create: (context) => StoreNotifier()),
+        ChangeNotifierProvider(create: (context) => LocationNotifier()),
         ChangeNotifierProvider.value(value: UserNotifier.initialize())
         // ChangeNotifierProvider(create: (context) => UserNotifier.initialize())
       ],

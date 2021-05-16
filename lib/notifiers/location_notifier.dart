@@ -9,6 +9,8 @@ class LocationNotifier with ChangeNotifier {
   Geolocator geolocator = Geolocator();
   Position _currentPosition;
   String _currentAddress;
+  Map<MarkerId, Marker> _marker;
+  final MarkerId markerId = MarkerId("currentLocation");
   // Set<Marker> _marker = {};
 
   static LatLng _initialPosition;
@@ -17,7 +19,12 @@ class LocationNotifier with ChangeNotifier {
   LatLng get initialPosition => _initialPosition;
   Position get currentPosition => _currentPosition;
   String get currentAddress => _currentAddress;
+  Map<MarkerId, Marker> get marker => _marker;
   // Set<Marker> get marker => _marker;
+
+  LocationNotifier() {
+    _marker = <MarkerId, Marker>{};
+  }
 
   initialization() async {
     await _determinePosition();
@@ -63,13 +70,24 @@ class LocationNotifier with ChangeNotifier {
     _currentAddress =
         "${place.street}, ${place.locality} ${place.country}, ${place.postalCode}";
 
+    Marker marker = Marker(
+      markerId: MarkerId('currentLocation'),
+      position: LatLng(
+        _currentPosition.latitude,
+        _currentPosition.longitude,
+      ),
+      icon: BitmapDescriptor.defaultMarker,
+      draggable: true,
+    );
+    _marker[markerId] = marker;
+
     notifyListeners();
   }
 
-  // _addMarkerLocation() async {
-  //   _marker.add(Marker(
-  //       markerId: MarkerId('currentLocation'),
-  //       draggable: true,
-  //       position: _initialPosition));
+  // _addMarkerLocation() {
+  // _marker.add(Marker(
+  //     markerId: MarkerId('currentLocation'),
+  //     draggable: true,
+  //     position: _initialPosition));
   // }
 }

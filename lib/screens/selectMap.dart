@@ -40,12 +40,13 @@ class _SelectMapState extends State<SelectMap> {
                         target: locationNotifier.initialPosition,
                         zoom: 18,
                       ),
-                      markers: {
-                        Marker(
-                            markerId: MarkerId('user location'),
-                            position: locationNotifier.initialPosition,
-                            draggable: true)
-                      },
+                      markers: Set<Marker>.of(locationNotifier.marker.values),
+                      // {
+                      //   Marker(
+                      //       markerId: MarkerId('user location'),
+                      //       position: locationNotifier.initialPosition,
+                      //       draggable: true)
+                      // },
                       onMapCreated: (GoogleMapController controller) {
                         mapController.complete(controller);
                       }),

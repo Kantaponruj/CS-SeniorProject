@@ -28,6 +28,7 @@ class _LoginState extends State<Login> {
                     height: MediaQuery.of(context).size.height),
                 decoration: BoxDecoration(color: Colors.white),
                 child: Column(
+                  mainAxisAlignment: MainAxisAlignment.center,
                   children: <Widget>[
                     Text(
                       "Please Sign In",
@@ -35,47 +36,49 @@ class _LoginState extends State<Login> {
                       style: TextStyle(fontSize: 36, color: Colors.black),
                     ),
                     SizedBox(height: 32),
-                    TextFormField(
-                      decoration: InputDecoration(
-                        labelText: "อีเมล",
-                        labelStyle: TextStyle(color: Colors.black12),
-                      ),
-                      controller: authNotifier.email,
-                      keyboardType: TextInputType.emailAddress,
-                      style: TextStyle(fontSize: 26, color: Colors.black),
-                      cursorColor: Colors.black,
-                      validator: (String value) {
-                        if (value.isEmpty) {
-                          return 'Email is required';
-                        }
+                    Padding(
+                        padding: EdgeInsets.fromLTRB(30, 15, 30, 15),
+                        child: TextFormField(
+                            decoration: InputDecoration(
+                              labelText: "อีเมล",
+                              labelStyle: TextStyle(color: Colors.black12),
+                            ),
+                            controller: authNotifier.email,
+                            keyboardType: TextInputType.emailAddress,
+                            style: TextStyle(fontSize: 26, color: Colors.black),
+                            cursorColor: Colors.black,
+                            validator: (String value) {
+                              if (value.isEmpty) {
+                                return 'Email is required';
+                              }
 
-                        if (!RegExp(
-                                r"[a-z0-9!#$%&'*+/=?^_`{|}~-]+(?:\.[a-z0-9!#$%&'*+/=?^_`{|}~-]+)*@(?:[a-z0-9](?:[a-z0-9-]*[a-z0-9])?\.)+[a-z0-9](?:[a-z0-9-]*[a-z0-9])?")
-                            .hasMatch(value)) {
-                          return 'Please enter a valid email address';
-                        }
+                              if (!RegExp(
+                                      r"[a-z0-9!#$%&'*+/=?^_`{|}~-]+(?:\.[a-z0-9!#$%&'*+/=?^_`{|}~-]+)*@(?:[a-z0-9](?:[a-z0-9-]*[a-z0-9])?\.)+[a-z0-9](?:[a-z0-9-]*[a-z0-9])?")
+                                  .hasMatch(value)) {
+                                return 'Please enter a valid email address';
+                              }
 
-                        return null;
-                      },
-                    ),
+                              return null;
+                            })),
                     SizedBox(height: 16),
-                    TextFormField(
-                      decoration: InputDecoration(
-                        labelText: "รหัสผ่าน",
-                        labelStyle: TextStyle(color: Colors.black12),
-                      ),
-                      controller: authNotifier.password,
-                      style: TextStyle(fontSize: 26, color: Colors.black),
-                      cursorColor: Colors.black,
-                      obscureText: true,
-                      validator: (String value) {
-                        if (value.isEmpty) {
-                          return 'Password is required';
-                        }
+                    Padding(
+                        padding: EdgeInsets.fromLTRB(30, 15, 30, 15),
+                        child: TextFormField(
+                            decoration: InputDecoration(
+                              labelText: "รหัสผ่าน",
+                              labelStyle: TextStyle(color: Colors.black12),
+                            ),
+                            controller: authNotifier.password,
+                            style: TextStyle(fontSize: 26, color: Colors.black),
+                            cursorColor: Colors.black,
+                            obscureText: true,
+                            validator: (String value) {
+                              if (value.isEmpty) {
+                                return 'Password is required';
+                              }
 
-                        return null;
-                      },
-                    ),
+                              return null;
+                            })),
                     SizedBox(height: 32),
                     ButtonTheme(
                       minWidth: 200,

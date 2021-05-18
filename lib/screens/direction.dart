@@ -2,6 +2,7 @@ import 'dart:async';
 
 import 'package:flutter/material.dart';
 import 'package:flutter_polyline_points/flutter_polyline_points.dart';
+import 'package:google_map_stores/helper/constant.dart';
 import 'package:google_maps_flutter/google_maps_flutter.dart';
 
 const LatLng SOURCE_LOCATION = LatLng(13.652720, 100.493635);
@@ -81,7 +82,7 @@ class _DirectionState extends State<Direction> {
 
   void setPolylines() async {
     PolylineResult result = await polylinePoints.getRouteBetweenCoordinates(
-        "AIzaSyCZ7E5m7NK51FUloIHQo_3ay73cq0PcVCk",
+        GOOGLE_MAPS_API_KEY,
         PointLatLng(currentLocation.latitude, currentLocation.longitude),
         PointLatLng(
             destinationLocation.latitude, destinationLocation.longitude));

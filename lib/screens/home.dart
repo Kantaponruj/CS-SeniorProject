@@ -3,6 +3,7 @@ import 'dart:async';
 import 'package:flutter/material.dart';
 import 'package:google_map_stores/notifiers/store_notifier.dart';
 import 'package:google_map_stores/notifiers/user_notifier.dart';
+import 'package:google_map_stores/screens/direction.dart';
 import 'package:google_map_stores/screens/login.dart';
 import 'package:google_map_stores/screens/selectMap.dart';
 import 'package:google_map_stores/services/store_service.dart';
@@ -71,6 +72,15 @@ class _HomeState extends State<Home> {
                   MaterialPageRoute(builder: (context) => SelectMap()));
             },
             label: Text('Get Current Location'),
+            icon: Icon(Icons.directions_boat),
+          ),
+          SizedBox(height: 12),
+          FloatingActionButton.extended(
+            onPressed: () {
+              Navigator.push(context,
+                  MaterialPageRoute(builder: (context) => Direction()));
+            },
+            label: Text('Get Direction'),
             icon: Icon(Icons.directions_boat),
           )
         ])));

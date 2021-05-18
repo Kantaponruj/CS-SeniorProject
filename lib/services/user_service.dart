@@ -1,11 +1,10 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:geolocator/geolocator.dart';
+import 'package:google_map_stores/helper/constant.dart';
 import 'package:google_map_stores/models/user.dart';
 
 class UserService {
   String collection = "users";
-
-  FirebaseFirestore firebaseFirestore = FirebaseFirestore.instance;
 
   void createUser({
     String uid,

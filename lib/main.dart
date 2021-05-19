@@ -8,6 +8,10 @@ import 'package:google_map_stores/screens/login.dart';
 import 'package:google_map_stores/widgets/loadingWidget.dart';
 import 'package:provider/provider.dart';
 
+import './screens/Home_page.dart';
+import './asset/colors.dart';
+
+
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
   await Firebase.initializeApp();

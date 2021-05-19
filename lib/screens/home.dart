@@ -12,6 +12,10 @@ import 'package:google_maps_flutter/google_maps_flutter.dart';
 import 'package:provider/provider.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
+import '../component/bottomBar.dart';
+
+
+
 class Home extends StatefulWidget {
   @override
   _HomeState createState() => _HomeState();

@@ -10,7 +10,7 @@ class LocationNotifier with ChangeNotifier {
   Position _currentPosition;
   String _currentAddress;
   Map<MarkerId, Marker> _marker;
-  final MarkerId markerId = MarkerId("currentLocation");
+  final MarkerId markerIdUser = MarkerId("userLocation");
   // Set<Marker> _marker = {};
 
   static LatLng _initialPosition;
@@ -70,8 +70,8 @@ class LocationNotifier with ChangeNotifier {
     _currentAddress =
         "${place.street}, ${place.locality} ${place.country}, ${place.postalCode}";
 
-    Marker marker = Marker(
-      markerId: MarkerId('currentLocation'),
+    Marker markerUser = Marker(
+      markerId: MarkerId('userLocation'),
       position: LatLng(
         _currentPosition.latitude,
         _currentPosition.longitude,
@@ -79,7 +79,7 @@ class LocationNotifier with ChangeNotifier {
       icon: BitmapDescriptor.defaultMarker,
       draggable: true,
     );
-    _marker[markerId] = marker;
+    _marker[markerIdUser] = markerUser;
 
     notifyListeners();
   }

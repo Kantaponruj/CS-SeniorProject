@@ -3,7 +3,9 @@ import 'dart:async';
 import 'package:flutter/material.dart';
 import 'package:flutter_polyline_points/flutter_polyline_points.dart';
 import 'package:google_map_stores/helper/constant.dart';
+import 'package:google_map_stores/notifiers/user_notifier.dart';
 import 'package:google_maps_flutter/google_maps_flutter.dart';
+import 'package:provider/provider.dart';
 
 const LatLng SOURCE_LOCATION = LatLng(13.652720, 100.493635);
 const LatLng DEST_LOCATION = LatLng(13.6640896, 100.4357021);
@@ -26,20 +28,29 @@ class _DirectionState extends State<Direction> {
 
   @override
   void initState() {
+    // UserNotifier userNotifier =
+    //     Provider.of<UserNotifier>(context, listen: false);
+    // LocationNotifier locationNotifier =
+    //     Provider.of<LocationNotifier>(context, listen: false);
+    // locationNotifier.setRoutePositions(userNotifier.userModel.realtimeLocation);
     super.initState();
     polylinePoints = PolylinePoints();
     this.setInitialLocation();
   }
 
   void setInitialLocation() {
-    currentLocation =
-        LatLng(SOURCE_LOCATION.latitude, SOURCE_LOCATION.longitude);
+    UserNotifier userNotifier =
+        Provider.of<UserNotifier>(context, listen: false);
+    currentLocation = LatLng(userNotifier.userModel.realtimeLocation.latitude,
+        userNotifier.userModel.realtimeLocation.longitude);
     destinationLocation =
         LatLng(DEST_LOCATION.latitude, DEST_LOCATION.longitude);
   }
 
   @override
   Widget build(BuildContext context) {
+    // LocationNotifier locationNotifier = Provider.of<LocationNotifier>(context);
+
     return Scaffold(
       appBar: AppBar(
         title: Text("Direction"),
@@ -52,12 +63,11 @@ class _DirectionState extends State<Direction> {
         markers: _markers,
         onMapCreated: (GoogleMapController controller) {
           mapController.complete(controller);
-
           showMarker();
           setPolylines();
         },
         initialCameraPosition: CameraPosition(
-          target: SOURCE_LOCATION,
+          target: currentLocation,
           zoom: 13,
         ),
       ),
@@ -94,7 +104,7 @@ class _DirectionState extends State<Direction> {
 
       setState(() {
         _polylines.add(Polyline(
-            width: 10,
+            width: 5,
             polylineId: PolylineId('polyLine'),
             color: Color(0xFF08A5CB),
             points: polylineCoordinates));

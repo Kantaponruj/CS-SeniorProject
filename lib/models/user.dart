@@ -8,6 +8,7 @@ class UserModel {
   static const PHONE = "phone";
   static const TOKEN = "token";
   static const IMAGE = "image";
+  static const REALTIMELOCATION = "realtimeLocation";
 
   String _uid;
   String _displayName;
@@ -36,6 +37,6 @@ class UserModel {
     _phone = snapshot.data()[PHONE];
     _token = snapshot.data()[TOKEN];
     _image = snapshot.data()[IMAGE];
-    _realtimeLocation = snapshot.data()[realtimeLocation];
+    _realtimeLocation = snapshot.data()[REALTIMELOCATION];
   }
 }

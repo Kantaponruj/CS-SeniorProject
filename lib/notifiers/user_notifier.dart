@@ -1,11 +1,10 @@
 import 'package:firebase_auth/firebase_auth.dart';
-import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
 import 'package:geolocator/geolocator.dart';
+import 'package:google_map_stores/helper/constant.dart';
 import 'package:google_map_stores/models/user.dart';
 import 'package:google_map_stores/services/user_service.dart';
 import 'package:shared_preferences/shared_preferences.dart';
-import 'package:firebase_messaging/firebase_messaging.dart';
 
 enum Status { Uninitialized, Authenticated, Authenticating, Unauthenticated }
 
@@ -26,10 +25,6 @@ class UserNotifier with ChangeNotifier {
   TextEditingController email = TextEditingController();
   TextEditingController password = TextEditingController();
   TextEditingController displayName = TextEditingController();
-
-  final Future<FirebaseApp> initialization = Firebase.initializeApp();
-  FirebaseAuth auth = FirebaseAuth.instance;
-  FirebaseMessaging fcm = FirebaseMessaging.instance;
 
   UserNotifier.initialize() {
     _fireSetUp();

@@ -2,15 +2,15 @@ import 'package:cs_senior_project/component/appBar.dart';
 import 'package:flutter/material.dart';
 
 
-class Notifications extends StatefulWidget {
+class NotificationsPage extends StatefulWidget {
   static const routeName = '/notifications';
 
   @override
-  _NotificationsState createState() => _NotificationsState();
+  _NotificationsPageState createState() => _NotificationsPageState();
 }
 
 
-class _NotificationsState extends State<Notifications> {
+class _NotificationsPageState extends State<NotificationsPage> {
 
   @override
   void initState() {

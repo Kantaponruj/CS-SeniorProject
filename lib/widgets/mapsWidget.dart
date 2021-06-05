@@ -1,5 +1,6 @@
 import 'dart:async';
 import 'package:flutter/material.dart';
+import 'package:geolocator/geolocator.dart';
 import 'package:google_maps_flutter/google_maps_flutter.dart';
 import 'package:provider/provider.dart';
 
@@ -11,12 +12,15 @@ class MapWidget extends StatelessWidget {
   const MapWidget({Key key, @required this.mapController}) : super(key: key);
   final Completer<GoogleMapController> mapController;
 
+  // String latitude;
+  // String longtitude;
+
   @override
   Widget build(BuildContext context) {
     StoreNotifier storeNotifier = Provider.of<StoreNotifier>(context);
 
     Iterable _markers =
-    Iterable.generate(storeNotifier.storeList.length, (index) {
+        Iterable.generate(storeNotifier.storeList.length, (index) {
       return Marker(
           markerId: MarkerId(storeNotifier.storeList[index].storeId),
           icon: BitmapDescriptor.defaultMarkerWithHue(_marker),
@@ -36,4 +40,16 @@ class MapWidget extends StatelessWidget {
       markers: Set.from(_markers),
     );
   }
+  //
+  // void getCurrentLocation() async {
+  //   var position = await Geolocator.getCurrentPosition(
+  //       desiredAccuracy: LocationAccuracy.high);
+  //
+  //   var lat = position.latitude;
+  //   var long = position.longitude;
+  //
+  //   latitude = "$lat";
+  //   longtitude = "$long";
+  //
+  // }
 }

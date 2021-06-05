@@ -1,10 +1,10 @@
+import 'package:cs_senior_project/screens/home.dart';
+import 'package:cs_senior_project/screens/login.dart';
+import 'package:cs_senior_project/screens/menu.dart';
+import 'package:cs_senior_project/screens/notification.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_icons/flutter_icons.dart';
 
-import '../screens/home.dart';
-import '../screens/history.dart';
-import '../screens/menu.dart';
-import '../screens/notification.dart';
 
 class bottomBar extends StatefulWidget {
   static const routeName = '/';
@@ -18,9 +18,9 @@ class _State extends State<bottomBar> {
   int _selectedIndex = 0;
   List<Widget> _pageWidget = <Widget>[
     Home(),
-    Notifications(),
-    History(),
-    Menu(),
+    NotificationsPage(),
+    LoginPage(),
+    MenuPage(),
 
 
   ];

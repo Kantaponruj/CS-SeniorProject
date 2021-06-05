@@ -7,14 +7,14 @@ import 'package:flutter/material.dart';
 import 'package:google_maps_flutter/google_maps_flutter.dart';
 
 
-class Menu extends StatefulWidget {
+class MenuPage extends StatefulWidget {
   static const routeName = '/menu';
 
   @override
-  _MenuState createState() => _MenuState();
+  _MenuPageState createState() => _MenuPageState();
 }
 
-class _MenuState extends State<Menu> {
+class _MenuPageState extends State<MenuPage> {
   List<Widget> _children;
 
   @override

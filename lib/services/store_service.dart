@@ -1,10 +1,11 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
-import 'package:google_map_stores/models/store.dart';
-import 'package:google_map_stores/notifiers/store_notifier.dart';
+import 'package:cs_senior_project/models/store.dart';
+import 'package:cs_senior_project/notifiers/storeNotifier.dart';
+import 'package:cs_senior_project/models/store.dart';
 
 getStores(StoreNotifier storeNotifier) async {
   QuerySnapshot snapshot =
-      await FirebaseFirestore.instance.collection('stores').get();
+  await FirebaseFirestore.instance.collection('stores').get();
 
   List<Store> _storeList = [];
 
@@ -14,4 +15,7 @@ getStores(StoreNotifier storeNotifier) async {
   });
 
   storeNotifier.storeList = _storeList;
+
+  // if()
+
 }

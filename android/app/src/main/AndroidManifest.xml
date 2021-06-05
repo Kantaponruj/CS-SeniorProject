@@ -1,13 +1,12 @@
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
-    package="com.example.google_map_stores">
+    package="com.example.cs_senior_project">
     <uses-permission android:name="android.permission.ACCESS_FINE_LOCATION" />
-    <uses-permission android:name="android.permission.ACCESS_COARSE_LOCATION" />
-    <!-- <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE" /> -->
+    <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE" />
    <application
-        android:label="google_map_stores"
+        android:label="cs_senior_project"
         android:icon="@mipmap/ic_launcher">
         <meta-data android:name="com.google.android.geo.API_KEY"
-            android:value="AIzaSyCZ7E5m7NK51FUloIHQo_3ay73cq0PcVCk"/>
+           android:value="AIzaSyCZ7E5m7NK51FUloIHQo_3ay73cq0PcVCk"/>
         <activity
             android:name=".MainActivity"
             android:launchMode="singleTop"

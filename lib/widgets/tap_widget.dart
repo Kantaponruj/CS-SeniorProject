@@ -1,18 +1,27 @@
 import 'package:cs_senior_project/models/store.dart';
 import 'package:cs_senior_project/notifiers/storeNotifier.dart';
+import 'package:cs_senior_project/services/store_service.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 
 class TapWidget extends StatelessWidget {
-  const TapWidget({
-    Key key,
-    @required this.scrollController,
-  }) : super(key: key);
+  const TapWidget({Key key, @required this.scrollController, this.tapName})
+      : super(key: key);
   final ScrollController scrollController;
+  final String tapName;
 
   @override
   Widget build(BuildContext context) {
     StoreNotifier storeNotifier = Provider.of<StoreNotifier>(context);
+    if (tapName == "all") {
+      getStores(storeNotifier, tapName);
+    }
+    if (tapName == "delivery") {
+      getStores(storeNotifier, tapName);
+    }
+    if (tapName == "pickup") {
+      getStores(storeNotifier, tapName);
+    }
 
     return ListView.builder(
       padding: EdgeInsets.all(16),
@@ -42,8 +51,6 @@ class TapWidget extends StatelessWidget {
           style: TextStyle(fontSize: 18),
         ),
         subtitle: Text('ของหวาน'),
-        onTap: () async {
-
-        },
+        onTap: () async {},
       );
 }

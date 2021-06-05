@@ -32,13 +32,13 @@ class _HomeState extends State<Home> {
 
   String query = ' ';
 
-  @override
-  void initState() {
-    StoreNotifier storeNotifier =
-        Provider.of<StoreNotifier>(context, listen: false);
-    getStores(storeNotifier);
-    super.initState();
-  }
+  // @override
+  // void initState() {
+  //   StoreNotifier storeNotifier =
+  //       Provider.of<StoreNotifier>(context, listen: false);
+  //   getStores(storeNotifier, "all");
+  //   super.initState();
+  // }
 
   // static const double heightClosed = 200;
   // static const double fabHeightClosed = heightClosed + 20;
@@ -63,8 +63,9 @@ class _HomeState extends State<Home> {
             controller: panelController,
             // maxHeight: MediaQuery.of(context).size.height,
             panelBuilder: (scrollController) => buildSlidingPanel(
-                scrollController: scrollController,
-                panelController: panelController,),
+              scrollController: scrollController,
+              panelController: panelController,
+            ),
             body: MapWidget(mapController: _mapController),
             borderRadius: BorderRadius.vertical(top: Radius.circular(30)),
           ),
@@ -109,9 +110,10 @@ class _HomeState extends State<Home> {
           ),
           body: TabBarView(
             children: [
-              TapWidget(scrollController: scrollController),
-              TapWidget(scrollController: scrollController),
-              TapWidget(scrollController: scrollController),
+              TapWidget(scrollController: scrollController, tapName: "all"),
+              TapWidget(
+                  scrollController: scrollController, tapName: "delivery"),
+              TapWidget(scrollController: scrollController, tapName: "pickup"),
             ],
           ),
         ),
@@ -126,7 +128,9 @@ class _HomeState extends State<Home> {
             centerTitle: true,
             bottom: TabBar(
               tabs: [
-                Tab(child: Text('ทั้งหมด'),),
+                Tab(
+                  child: Text('ทั้งหมด'),
+                ),
                 Tab(child: Text('จัดส่ง')),
                 Tab(child: Text('รับเอง')),
               ],

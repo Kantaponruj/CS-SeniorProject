@@ -5,27 +5,22 @@ import 'package:cs_senior_project/screens/notification.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_icons/flutter_icons.dart';
 
-
 class bottomBar extends StatefulWidget {
-  static const routeName = '/';
+  // static const routeName = '/';
 
   @override
   _State createState() => _State();
 }
 
 class _State extends State<bottomBar> {
-
   int _selectedIndex = 0;
   List<Widget> _pageWidget = <Widget>[
     Home(),
     NotificationsPage(),
     LoginPage(),
     MenuPage(),
-
-
   ];
-  List<BottomNavigationBarItem> _menuBar
-  = <BottomNavigationBarItem>[
+  List<BottomNavigationBarItem> _menuBar = <BottomNavigationBarItem>[
     BottomNavigationBarItem(
       icon: Icon(MaterialIcons.home),
       title: Text('Home'),
@@ -64,4 +59,3 @@ class _State extends State<bottomBar> {
     );
   }
 }
-

@@ -35,7 +35,7 @@ dependencies:
   firebase_auth: ^1.1.3
   firebase_core: ^1.0.0
   shared_preferences: ^2.0.5
-  firebase_messaging: ^9.1.4
+  firebase_messaging: ^10.0.1
 
   #map
   google_maps_flutter: ^2.0.3

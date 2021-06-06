@@ -1,5 +1,5 @@
 import 'package:cs_senior_project/models/store.dart';
-import 'package:cs_senior_project/notifiers/storeNotifier.dart';
+import 'package:cs_senior_project/notifiers/store_notifier.dart';
 import 'package:cs_senior_project/services/store_service.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
@@ -13,6 +13,19 @@ class TapWidget extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     StoreNotifier storeNotifier = Provider.of<StoreNotifier>(context);
+
+    // switch (tapName) {
+    //   case "all":
+    //     getStores(storeNotifier, tapName);
+    //     break;
+    //   case "delivery":
+    //     getStores(storeNotifier, tapName);
+    //     break;
+    //   case "pickup":
+    //     getStores(storeNotifier, tapName);
+    //     break;
+    // }
+
     if (tapName == "all") {
       getStores(storeNotifier, tapName);
     }

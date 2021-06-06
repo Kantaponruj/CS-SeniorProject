@@ -3,7 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 
 import './component/bottomBar.dart';
-import 'notifiers/storeNotifier.dart';
+import 'notifiers/store_notifier.dart';
 
 void main() async{
   WidgetsFlutterBinding.ensureInitialized();

@@ -1,12 +1,10 @@
 import 'dart:async';
 
-import 'package:cs_senior_project/services/store_service.dart';
 import 'package:cs_senior_project/widgets/panel_widget.dart';
 import 'package:cs_senior_project/widgets/tap_widget.dart';
 import 'package:cs_senior_project/widgets/storeListView.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
-import 'package:provider/provider.dart';
 import 'package:google_maps_flutter/google_maps_flutter.dart';
 import 'package:sliding_up_panel/sliding_up_panel.dart';
 
@@ -14,7 +12,6 @@ import '../asset/color.dart';
 import 'package:cs_senior_project/component/appBar.dart';
 import 'package:cs_senior_project/component/located_FAB.dart';
 import 'package:cs_senior_project/widgets/mapsWidget.dart';
-import 'package:cs_senior_project/notifiers/storeNotifier.dart';
 import 'package:cs_senior_project/models/store.dart';
 
 class Home extends StatefulWidget {
@@ -32,22 +29,12 @@ class _HomeState extends State<Home> {
 
   String query = ' ';
 
-  // @override
-  // void initState() {
-  //   StoreNotifier storeNotifier =
-  //       Provider.of<StoreNotifier>(context, listen: false);
-  //   getStores(storeNotifier, "all");
-  //   super.initState();
-  // }
-
   // static const double heightClosed = 200;
   // static const double fabHeightClosed = heightClosed + 20;
   // double fabHeight = fabHeightClosed;
 
   @override
   Widget build(BuildContext context) {
-    StoreNotifier storeNotifier = Provider.of<StoreNotifier>(context);
-
     // final initialSizeOpen = 0.3
     // // MediaQuery.of(context).size.height * 0.1
     //     ;

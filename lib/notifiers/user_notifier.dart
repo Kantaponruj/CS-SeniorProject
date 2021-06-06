@@ -33,8 +33,9 @@ class UserNotifier with ChangeNotifier {
   }
 
   _fireSetUp() async {
-    await initialization
-        .then((value) => auth.authStateChanges().listen(_onStateChange));
+    await initialization.then((value) {
+      auth.authStateChanges().listen(_onStateChange);
+    });
   }
 
   Future<bool> signIn() async {
@@ -132,5 +133,6 @@ class UserNotifier with ChangeNotifier {
         return value;
       });
     }
+    notifyListeners();
   }
 }

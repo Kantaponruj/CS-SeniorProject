@@ -1,6 +1,8 @@
 import 'package:cs_senior_project/asset/constant.dart';
 import 'package:cs_senior_project/notifiers/user_notifier.dart';
+import 'package:cs_senior_project/screens/home.dart';
 import 'package:cs_senior_project/screens/login.dart';
+import 'package:cs_senior_project/widgets/loading_widget.dart';
 import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
@@ -50,13 +52,13 @@ class MyApp extends StatelessWidget {
 
           if (snapshot.connectionState == ConnectionState.done) {
             switch (auth.status) {
-              // case Status.Uninitialized:
-              //   return LoadingWidget();
+              case Status.Uninitialized:
+                return LoadingWidget();
               case Status.Unauthenticated:
               case Status.Authenticating:
                 return LoginPage();
               case Status.Authenticated:
-                return bottomBar();
+                return Home();
               default:
                 return LoginPage();
             }

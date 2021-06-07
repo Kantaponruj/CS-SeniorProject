@@ -14,26 +14,16 @@ class TapWidget extends StatelessWidget {
   Widget build(BuildContext context) {
     StoreNotifier storeNotifier = Provider.of<StoreNotifier>(context);
 
-    // switch (tapName) {
-    //   case "all":
-    //     getStores(storeNotifier, tapName);
-    //     break;
-    //   case "delivery":
-    //     getStores(storeNotifier, tapName);
-    //     break;
-    //   case "pickup":
-    //     getStores(storeNotifier, tapName);
-    //     break;
-    // }
-
-    if (tapName == "all") {
-      getStores(storeNotifier, tapName);
-    }
-    if (tapName == "delivery") {
-      getStores(storeNotifier, tapName);
-    }
-    if (tapName == "pickup") {
-      getStores(storeNotifier, tapName);
+    switch (tapName) {
+      case "all":
+        getStores(storeNotifier, tapName);
+        break;
+      case "delivery":
+        getStores(storeNotifier, tapName);
+        break;
+      case "pickup":
+        getStores(storeNotifier, tapName);
+        break;
     }
 
     return ListView.builder(

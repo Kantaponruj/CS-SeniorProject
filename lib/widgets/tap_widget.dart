@@ -50,7 +50,7 @@ class TapWidget extends StatelessWidget {
           fit: BoxFit.cover,
         ),
         title: Text(
-          store.name,
+          store.storeName,
           style: TextStyle(fontSize: 18),
         ),
         subtitle: Text('ของหวาน'),

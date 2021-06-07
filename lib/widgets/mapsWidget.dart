@@ -28,7 +28,8 @@ class MapWidget extends StatelessWidget {
             storeNotifier.storeList[index].location.latitude,
             storeNotifier.storeList[index].location.longitude,
           ),
-          infoWindow: InfoWindow(title: storeNotifier.storeList[index].name));
+          infoWindow:
+              InfoWindow(title: storeNotifier.storeList[index].storeName));
     });
 
     return GoogleMap(

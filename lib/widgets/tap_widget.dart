@@ -46,6 +46,10 @@ class TapWidget extends StatelessWidget {
           store.image != null
               ? store.image
               : 'https://www.testingxperts.com/wp-content/uploads/2019/02/placeholder-img.jpg',
+          errorBuilder:
+              (BuildContext context, Object exception, StackTrace stackTrace) {
+            return Icon(Icons.image, size: 40.0);
+          },
           width: 100,
           fit: BoxFit.cover,
         ),

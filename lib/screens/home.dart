@@ -11,7 +11,7 @@ import 'package:sliding_up_panel/sliding_up_panel.dart';
 import '../asset/color.dart';
 import 'package:cs_senior_project/component/appBar.dart';
 import 'package:cs_senior_project/component/located_FAB.dart';
-import 'package:cs_senior_project/widgets/mapsWidget.dart';
+import 'package:cs_senior_project/widgets/maps_widget.dart';
 
 class Home extends StatefulWidget {
   static const routeName = '/home';
@@ -39,6 +39,7 @@ class _HomeState extends State<Home> {
     //     ;
 
     return Scaffold(
+      extendBodyBehindAppBar: true,
       appBar: RoundedAppBar(
         appBarTitle: 'Home',
       ),

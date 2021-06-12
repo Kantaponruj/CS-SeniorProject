@@ -1,6 +1,7 @@
 import 'dart:async';
 
 import 'package:cs_senior_project/component/appBar.dart';
+import 'package:cs_senior_project/component/shopAppBar.dart';
 import 'package:cs_senior_project/models/store.dart';
 import 'package:cs_senior_project/widgets/search_widget.dart';
 import 'package:flutter/material.dart';
@@ -21,14 +22,19 @@ class _MenuPageState extends State<MenuPage> {
   Widget build(BuildContext context) {
 
     return Scaffold(
-      appBar: RoundedAppBar(appBarTitle: 'Menu',),
+      extendBodyBehindAppBar: true,
+      appBar: ShopRoundedAppBar(appBarTitle: 'Menu',),
       body: Center(
-        child: Column(
-          mainAxisAlignment: MainAxisAlignment.center,
-          children: <Widget>[
-            Text('This is menu page'),
-            // SearchWidget(),
-          ],
+        child: Container(
+          color: Colors.teal,
+          width: 600,
+          child: Column(
+            mainAxisAlignment: MainAxisAlignment.center,
+            children: <Widget>[
+              Text('This is menu page'),
+              // SearchWidget(),
+            ],
+          ),
         ),
       ),
     );

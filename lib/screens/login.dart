@@ -149,7 +149,7 @@ class _LoginPageState extends State<LoginPage> {
     UserNotifier authNotifier = Provider.of<UserNotifier>(context);
 
     return ButtonWidget(
-      text: 'Submit',
+      text: 'เข้าสู่ระบบ',
       onClicked: () async {
         // final isValid = formKey.currentState.validate();
         if (!await authNotifier.signIn()) {

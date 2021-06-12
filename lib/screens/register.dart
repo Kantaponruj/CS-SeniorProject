@@ -1,6 +1,6 @@
 import 'package:cs_senior_project/component/bottomBar.dart';
 import 'package:cs_senior_project/notifiers/user_notifier.dart';
-import 'package:cs_senior_project/screens/home.dart';
+import 'package:cs_senior_project/screens/login.dart';
 import 'package:cs_senior_project/widgets/button_widget.dart';
 import 'package:cs_senior_project/widgets/loading_widget.dart';
 import 'package:flutter/material.dart';
@@ -15,9 +15,19 @@ class RegisterPage extends StatefulWidget {
 
 class _RegisterPageState extends State<RegisterPage> {
   final formKey = GlobalKey<ScaffoldState>();
-  String username = '';
-  String email = '';
+  // String username = '';
+  // String email = '';
   String password = '';
+
+  void login(BuildContext context) {
+    Navigator.of(context).push(
+      MaterialPageRoute(
+        builder: (_) {
+          return LoginPage();
+        },
+      ),
+    );
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -79,6 +89,13 @@ class _RegisterPageState extends State<RegisterPage> {
                       ),
                       const SizedBox(
                         height: 30,
+                      ),
+                      InkWell(
+                        onTap: () => login(context),
+                        child: Text(
+                          'เข้าสู่ระบบ',
+                          style: TextStyle(),
+                        ),
                       ),
                     ],
                   ),
@@ -194,7 +211,7 @@ class _RegisterPageState extends State<RegisterPage> {
     UserNotifier authNotifier = Provider.of<UserNotifier>(context);
 
     return ButtonWidget(
-      text: 'Register',
+      text: 'ลงทะเบียน',
       onClicked: () async {
         if (!await authNotifier.signUp()) {
           ScaffoldMessenger.of(context)

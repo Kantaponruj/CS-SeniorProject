@@ -3,10 +3,12 @@ import 'dart:async';
 import 'package:cs_senior_project/component/appBar.dart';
 import 'package:cs_senior_project/component/shopAppBar.dart';
 import 'package:cs_senior_project/models/store.dart';
+import 'package:cs_senior_project/notifiers/user_notifier.dart';
+import 'package:cs_senior_project/screens/login.dart';
 import 'package:cs_senior_project/widgets/search_widget.dart';
 import 'package:flutter/material.dart';
 import 'package:google_maps_flutter/google_maps_flutter.dart';
-
+import 'package:provider/provider.dart';
 
 class MenuPage extends StatefulWidget {
   static const routeName = '/menu';
@@ -20,8 +22,10 @@ class _MenuPageState extends State<MenuPage> {
 
   @override
   Widget build(BuildContext context) {
+    UserNotifier userNotifier = Provider.of<UserNotifier>(context);
 
     return Scaffold(
+<<<<<<< HEAD
       extendBodyBehindAppBar: true,
       appBar: ShopRoundedAppBar(appBarTitle: 'Menu',),
       body: Center(
@@ -35,6 +39,34 @@ class _MenuPageState extends State<MenuPage> {
               // SearchWidget(),
             ],
           ),
+=======
+      appBar: RoundedAppBar(
+        appBarTitle: 'Menu',
+      ),
+      body: Center(
+        child: Column(
+          mainAxisAlignment: MainAxisAlignment.center,
+          children: <Widget>[
+            Text('This is menu page'),
+            // SearchWidget(),
+            ElevatedButton(
+              child: Text(
+                'Log out',
+                style: TextStyle(fontSize: 15.0),
+              ),
+              style: ElevatedButton.styleFrom(
+                primary: Colors.blue,
+              ),
+              onPressed: () {
+                userNotifier.signOut();
+                Navigator.pushAndRemoveUntil(
+                    context,
+                    MaterialPageRoute(builder: (context) => LoginPage()),
+                    (route) => false);
+              },
+            ),
+          ],
+>>>>>>> main
         ),
       ),
     );

@@ -23,7 +23,7 @@ class Home extends StatefulWidget {
 
 class _HomeState extends State<Home> {
   final Completer<GoogleMapController> _mapController = Completer();
-  final double tabBarHeight = 80;
+  final double tabBarHeight = 30;
   final panelController = PanelController();
 
   String query = ' ';

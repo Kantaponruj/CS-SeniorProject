@@ -25,21 +25,7 @@ class _MenuPageState extends State<MenuPage> {
     UserNotifier userNotifier = Provider.of<UserNotifier>(context);
 
     return Scaffold(
-<<<<<<< HEAD
       extendBodyBehindAppBar: true,
-      appBar: ShopRoundedAppBar(appBarTitle: 'Menu',),
-      body: Center(
-        child: Container(
-          color: Colors.teal,
-          width: 600,
-          child: Column(
-            mainAxisAlignment: MainAxisAlignment.center,
-            children: <Widget>[
-              Text('This is menu page'),
-              // SearchWidget(),
-            ],
-          ),
-=======
       appBar: RoundedAppBar(
         appBarTitle: 'Menu',
       ),
@@ -66,7 +52,6 @@ class _MenuPageState extends State<MenuPage> {
               },
             ),
           ],
->>>>>>> main
         ),
       ),
     );

@@ -9,7 +9,7 @@ class StoreNotifier with ChangeNotifier {
   UnmodifiableListView<Store> get storeList => UnmodifiableListView(_storeList);
 
   set storeList(List<Store> storeList) {
-    Future.delayed(Duration(seconds: 2), () {
+    Future.delayed(Duration(seconds: 1), () {
       _storeList = storeList;
       notifyListeners();
     });

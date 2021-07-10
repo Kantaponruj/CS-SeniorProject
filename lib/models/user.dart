@@ -17,7 +17,7 @@ class UserModel {
   String _phone;
   String _token;
   String _image;
-  GeoPoint _realtimeLocation;
+  GeoPoint _geopoint;
 
   // getter
   String get uid => _uid;
@@ -27,7 +27,7 @@ class UserModel {
   String get phone => _phone;
   String get token => _token;
   String get image => _image;
-  GeoPoint get realtimeLocation => _realtimeLocation;
+  GeoPoint get geopoint => _geopoint;
 
   UserModel.fromSnapshot(DocumentSnapshot snapshot) {
     _uid = snapshot.data()["uid"];
@@ -37,6 +37,6 @@ class UserModel {
     _phone = snapshot.data()["phone"];
     _token = snapshot.data()["token"];
     _image = snapshot.data()["image"];
-    _realtimeLocation = snapshot.data()["realtimeLocation"];
+    _geopoint = snapshot.data()["geopoint"];
   }
 }

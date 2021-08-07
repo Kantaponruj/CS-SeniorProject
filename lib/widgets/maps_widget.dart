@@ -31,25 +31,29 @@ class MapWidget extends StatelessWidget {
               InfoWindow(title: storeNotifier.storeList[index].storeName));
     });
 
-    return GoogleMap(
-      initialCameraPosition: CameraPosition(
-          target: LatLng(13.655258306757673, 100.49825516513702), zoom: 15),
-      onMapCreated: (GoogleMapController controller) {
-        mapController.complete(controller);
-      },
-      markers: Set.from(_markers),
+    return Container(
+      width: double.infinity,
+      height: double.infinity,
+      child: GoogleMap(
+        initialCameraPosition: CameraPosition(
+            target: LatLng(13.655258306757673, 100.49825516513702), zoom: 15),
+        onMapCreated: (GoogleMapController controller) {
+          mapController.complete(controller);
+        },
+        markers: Set.from(_markers),
+      ),
     );
   }
-  //
-  // void getCurrentLocation() async {
-  //   var position = await Geolocator.getCurrentPosition(
-  //       desiredAccuracy: LocationAccuracy.high);
-  //
-  //   var lat = position.latitude;
-  //   var long = position.longitude;
-  //
-  //   latitude = "$lat";
-  //   longtitude = "$long";
-  //
-  // }
+//
+// void getCurrentLocation() async {
+//   var position = await Geolocator.getCurrentPosition(
+//       desiredAccuracy: LocationAccuracy.high);
+//
+//   var lat = position.latitude;
+//   var long = position.longitude;
+//
+//   latitude = "$lat";
+//   longtitude = "$long";
+//
+// }
 }

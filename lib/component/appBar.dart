@@ -16,15 +16,13 @@ class RoundedAppBar extends StatefulWidget implements PreferredSizeWidget {
 
 class _RoundedAppBarState extends State<RoundedAppBar> {
   @override
-  Widget build(BuildContext context) => Scaffold(
-        extendBodyBehindAppBar: true,
-        appBar: AppBar(
+  Widget build(BuildContext context) => ClipRRect(
+        borderRadius: BorderRadius.vertical(
+          bottom: Radius.circular(30),
+        ),
+        child: AppBar(
           title: Text(widget.appBarTitle),
           toolbarHeight: 100,
-          // shape: RoundedRectangleBorder(
-          //   borderRadius: BorderRadius.vertical(
-          //     bottom: Radius.circular(30),
-          //   ),
           flexibleSpace: Container(
             decoration: BoxDecoration(
               gradient: LinearGradient(
@@ -32,16 +30,13 @@ class _RoundedAppBarState extends State<RoundedAppBar> {
                 begin: Alignment.topLeft,
                 end: Alignment.bottomRight,
               ),
-              borderRadius: BorderRadius.vertical(
-                bottom: Radius.circular(30),
-              ),
             ),
           ),
           elevation: 10,
           titleSpacing: 20,
         ),
       );
-  // {
-  //   return
-  // }
+// {
+//   return
+// }
 }

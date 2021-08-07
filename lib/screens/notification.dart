@@ -19,14 +19,16 @@ class _NotificationsPageState extends State<NotificationsPage> {
 
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
-      appBar: RoundedAppBar(appBarTitle: 'Notification',),
-      body: Center(
-        child: Column(
-          mainAxisAlignment: MainAxisAlignment.center,
-          children: <Widget>[
-            Text('This is notification page'),
-          ],
+    return SafeArea(
+      child: Scaffold(
+        appBar: RoundedAppBar(appBarTitle: 'Notification',),
+        body: Center(
+          child: Column(
+            mainAxisAlignment: MainAxisAlignment.center,
+            children: <Widget>[
+              Text('This is notification page'),
+            ],
+          ),
         ),
       ),
     );

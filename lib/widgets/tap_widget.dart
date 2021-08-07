@@ -1,5 +1,8 @@
+
 import 'package:cs_senior_project/models/store.dart';
 import 'package:cs_senior_project/notifiers/store_notifier.dart';
+import 'package:cs_senior_project/screens/shop/shop_detail.dart';
+import 'package:cs_senior_project/screens/shop/shop_menu.dart';
 import 'package:cs_senior_project/services/store_service.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
@@ -34,14 +37,13 @@ class TapWidget extends StatelessWidget {
         final store = storeNotifier.storeList[index];
         return Column(
           children: [
-            buildStore(store),
-          ],
+            buildStore(store, context)],
         );
       },
     );
   }
 
-  Widget buildStore(Store store) => ListTile(
+  Widget buildStore(Store store, context) => ListTile(
         leading: Image.network(
           store.image != null
               ? store.image
@@ -58,6 +60,8 @@ class TapWidget extends StatelessWidget {
           style: TextStyle(fontSize: 18),
         ),
         subtitle: Text('ของหวาน'),
-        onTap: () async {},
+        onTap: () {
+          Navigator.of(context).push(MaterialPageRoute(builder: (context) => ShopMenu(),));
+        }
       );
 }

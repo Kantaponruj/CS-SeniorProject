@@ -11,10 +11,12 @@ class ShopDetail extends StatefulWidget {
 class _ShopDetailState extends State<ShopDetail> {
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
-      appBar: ShopRoundedAppBar(),
-      body: Container(
-        
+    return SafeArea(
+      child: Scaffold(
+        appBar: ShopRoundedAppBar(),
+        body: Container(
+          
+        ),
       ),
     );
   }

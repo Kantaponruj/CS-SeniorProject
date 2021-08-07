@@ -1,12 +1,17 @@
+
+import 'package:cs_senior_project/asset/color.dart';
 import 'package:cs_senior_project/asset/constant.dart';
 import 'package:cs_senior_project/notifiers/user_notifier.dart';
 import 'package:cs_senior_project/screens/login.dart';
+import 'package:cs_senior_project/screens/shop/menu/menu_detail.dart';
+import 'package:cs_senior_project/screens/shop/shop_menu.dart';
 import 'package:cs_senior_project/widgets/loading_widget.dart';
 import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 
 import './component/bottomBar.dart';
+import 'asset/text_style.dart';
 import 'notifiers/store_notifier.dart';
 
 void main() async {
@@ -20,14 +25,18 @@ void main() async {
       ],
       child: MaterialApp(
         theme: ThemeData(
-          primaryColor: Colors.white,
+          fontFamily: NotoSansFont,
+          primaryColor: CollectionsColors.orange,
           backgroundColor: Colors.white,
+          scaffoldBackgroundColor: CollectionsColors.grey,
+          buttonColor: CollectionsColors.yellow,
         ),
         home: MyApp(),
         // initialRoute: '/',
-        // routes: {
-        //   bottomBar.routeName: (context) => bottomBar(),
-        // },
+        routes: {
+          '/shopMenu': (context) => ShopMenu(),
+          '/menuDetail': (context) => MenuDetail(),
+        },
       )));
 }
 

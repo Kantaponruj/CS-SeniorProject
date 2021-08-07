@@ -1,8 +1,6 @@
 import 'dart:async';
 
-import 'package:cs_senior_project/widgets/panel_widget.dart';
 import 'package:cs_senior_project/widgets/tap_widget.dart';
-import 'package:cs_senior_project/widgets/storeListView.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:google_maps_flutter/google_maps_flutter.dart';
@@ -13,17 +11,17 @@ import 'package:cs_senior_project/component/appBar.dart';
 import 'package:cs_senior_project/component/located_FAB.dart';
 import 'package:cs_senior_project/widgets/maps_widget.dart';
 
-class Home extends StatefulWidget {
+class HomePage extends StatefulWidget {
   static const routeName = '/home';
   static final String title = 'Home';
 
   @override
-  _HomeState createState() => _HomeState();
+  _HomePageState createState() => _HomePageState();
 }
 
-class _HomeState extends State<Home> {
+class _HomePageState extends State<HomePage> {
   final Completer<GoogleMapController> _mapController = Completer();
-  final double tabBarHeight = 50;
+  final double tabBarHeight = 30;
   final panelController = PanelController();
 
   String query = ' ';
@@ -38,30 +36,36 @@ class _HomeState extends State<Home> {
     // // MediaQuery.of(context).size.height * 0.1
     //     ;
 
-    return Scaffold(
-      extendBodyBehindAppBar: true,
-      appBar: RoundedAppBar(
-        appBarTitle: 'Home',
-      ),
-      body: Stack(
-        fit: StackFit.expand,
-        children: [
-          SlidingUpPanel(
-            controller: panelController,
-            // maxHeight: MediaQuery.of(context).size.height,
-            panelBuilder: (scrollController) => buildSlidingPanel(
-              scrollController: scrollController,
-              panelController: panelController,
+    return SafeArea(
+      child: Scaffold(
+        extendBodyBehindAppBar: true,
+        appBar: RoundedAppBar(
+          appBarTitle: 'Home',
+        ),
+        body: Stack(
+          // fit: StackFit.expand,
+          children: [
+            SlidingUpPanel(
+              color: Theme.of(context).backgroundColor,
+              controller: panelController,
+              borderRadius: BorderRadius.vertical(top: Radius.circular(30)),
+              // maxHeight: MediaQuery.of(context).size.height,
+              panelBuilder: (scrollController) => ClipRRect(
+                borderRadius: BorderRadius.vertical(top: Radius.circular(30)),
+                child: buildSlidingPanel(
+                  scrollController: scrollController,
+                  panelController: panelController,
+                ),
+              ),
+              body: MapWidget(mapController: _mapController),
             ),
-            body: MapWidget(mapController: _mapController),
-            borderRadius: BorderRadius.vertical(top: Radius.circular(30)),
-          ),
-          Positioned(
-            right: 20,
-            bottom: 600,
-            child: locateFAB(context),
-          ),
-        ],
+            Positioned(
+              right: 20,
+              top: 130,
+              child: locateFAB(context),
+            ),
+          ],
+        ),
       ),
     );
   }
@@ -90,39 +94,34 @@ class _HomeState extends State<Home> {
     @required ScrollController scrollController,
   }) =>
       DefaultTabController(
-        length: 3,
-        child: Scaffold(
-          appBar: buildTabBar(
-            onClicked: panelController.open,
-          ),
-          body: TabBarView(
-            children: [
-              TapWidget(scrollController: scrollController, tapName: "all"),
-              TapWidget(
-                  scrollController: scrollController, tapName: "delivery"),
-              TapWidget(scrollController: scrollController, tapName: "pickup"),
-            ],
-          ),
+          length: 3,
+          child: Scaffold(
+            appBar: AppBar(
+              backgroundColor: Colors.white,
+              title: buildDragHandle(),
+              centerTitle: true,
+              bottom: TabBar(
+                indicatorColor: CollectionsColors.orange,
+                indicatorWeight: 3,
+                tabs: [
+                  Tab(
+                    child: Text('ทั้งหมด'),
+                  ),
+                  Tab(child: Text('จัดส่ง')),
+                  Tab(child: Text('รับเอง')),
+                ],
+              ),
+            ),
+            body: TabBarView(
+              children: [
+                TapWidget(scrollController: scrollController, tapName: "all"),
+                TapWidget(
+                    scrollController: scrollController, tapName: "delivery"),
+                TapWidget(
+                    scrollController: scrollController, tapName: "pickup"),
+              ],
+            ),
         ),
       );
 
-  Widget buildTabBar({VoidCallback(), onClicked}) => PreferredSize(
-        preferredSize: Size.fromHeight(80),
-        child: GestureDetector(
-          onTap: onClicked,
-          child: AppBar(
-            title: buildDragHandle(),
-            centerTitle: true,
-            bottom: TabBar(
-              tabs: [
-                Tab(
-                  child: Text('ทั้งหมด'),
-                ),
-                Tab(child: Text('จัดส่ง')),
-                Tab(child: Text('รับเอง')),
-              ],
-            ),
-          ),
-        ),
-      );
 }

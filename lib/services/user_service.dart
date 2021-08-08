@@ -28,9 +28,13 @@ class UserService {
   }
 
   // void addUserLocation({String uid, String address, Position position}) {
-  //   firebaseFirestore.collection(collection).doc(uid).update({
+  //   firebaseFirestore
+  //       .collection(collection)
+  //       .doc(uid)
+  //       .collection(address)
+  //       .add({
   //     'address': address,
-  //     'realtimeLocation': GeoPoint(position.latitude, position.longitude)
+  //     'geopoint': GeoPoint(position.latitude, position.longitude)
   //   });
   // }
 

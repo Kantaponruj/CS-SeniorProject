@@ -1,6 +1,8 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:cs_senior_project/asset/constant.dart';
+import 'package:cs_senior_project/models/address.dart';
 import 'package:cs_senior_project/models/user.dart';
+import 'package:cs_senior_project/notifiers/address_notifier.dart';
 
 class UserService {
   String collection = "users";
@@ -43,4 +45,21 @@ class UserService {
       .doc(uid)
       .get()
       .then((doc) => UserModel.fromSnapshot(doc));
+}
+
+getAddress(AddressNotifier addressNotifier, String uid) async {
+  QuerySnapshot snapshot = await firebaseFirestore
+      .collection('users')
+      .doc(uid)
+      .collection('address')
+      .get();
+
+  List<AddressModel> _addressList = [];
+
+  snapshot.docs.forEach((document) {
+    AddressModel address = AddressModel.fromMap(document.data());
+    _addressList.add(address);
+  });
+
+  addressNotifier.addressList = _addressList;
 }

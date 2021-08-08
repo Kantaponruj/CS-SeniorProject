@@ -94,34 +94,32 @@ class _HomePageState extends State<HomePage> {
     @required ScrollController scrollController,
   }) =>
       DefaultTabController(
-          length: 3,
-          child: Scaffold(
-            appBar: AppBar(
-              backgroundColor: Colors.white,
-              title: buildDragHandle(),
-              centerTitle: true,
-              bottom: TabBar(
-                indicatorColor: CollectionsColors.orange,
-                indicatorWeight: 3,
-                tabs: [
-                  Tab(
-                    child: Text('ทั้งหมด'),
-                  ),
-                  Tab(child: Text('จัดส่ง')),
-                  Tab(child: Text('รับเอง')),
-                ],
-              ),
-            ),
-            body: TabBarView(
-              children: [
-                TapWidget(scrollController: scrollController, tapName: "all"),
-                TapWidget(
-                    scrollController: scrollController, tapName: "delivery"),
-                TapWidget(
-                    scrollController: scrollController, tapName: "pickup"),
+        length: 3,
+        child: Scaffold(
+          appBar: AppBar(
+            backgroundColor: Colors.white,
+            title: buildDragHandle(),
+            centerTitle: true,
+            bottom: TabBar(
+              indicatorColor: CollectionsColors.orange,
+              indicatorWeight: 3,
+              tabs: [
+                Tab(
+                  child: Text('ทั้งหมด'),
+                ),
+                Tab(child: Text('จัดส่ง')),
+                Tab(child: Text('รับเอง')),
               ],
             ),
+          ),
+          body: TabBarView(
+            children: [
+              TapWidget(scrollController: scrollController, tapName: "all"),
+              TapWidget(
+                  scrollController: scrollController, tapName: "delivery"),
+              TapWidget(scrollController: scrollController, tapName: "pickup"),
+            ],
+          ),
         ),
       );
-
 }

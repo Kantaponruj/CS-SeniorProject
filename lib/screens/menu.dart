@@ -2,14 +2,9 @@ import 'dart:async';
 
 import 'package:cs_senior_project/asset/color.dart';
 import 'package:cs_senior_project/asset/text_style.dart';
-import 'package:cs_senior_project/component/appBar.dart';
-import 'package:cs_senior_project/component/shopAppBar.dart';
-import 'package:cs_senior_project/models/store.dart';
 import 'package:cs_senior_project/notifiers/user_notifier.dart';
 import 'package:cs_senior_project/screens/login.dart';
-import 'package:cs_senior_project/widgets/search_widget.dart';
 import 'package:flutter/material.dart';
-import 'package:google_maps_flutter/google_maps_flutter.dart';
 import 'package:provider/provider.dart';
 
 import 'adress/address.dart';
@@ -57,13 +52,13 @@ class _MenuPageState extends State<MenuPage> {
                           backgroundColor: CollectionsColors.yellow,
                           radius: 30.0,
                           child: Text(
-                            'A',
+                            userNotifier.userModel.displayName,
                             style: FontCollection.descriptionTextStyle,
                             textAlign: TextAlign.left,
                           ),
                         ),
                         title: Text(
-                          'Chantisa',
+                          userNotifier.userModel.displayName,
                           style: FontCollection.topicTextStyle,
                         ),
                         subtitle: Text(
@@ -92,8 +87,8 @@ class _MenuPageState extends State<MenuPage> {
                   Navigator.push(
                       context,
                       MaterialPageRoute(
-                        builder: (context) => Address(),
-                      ));
+                          builder: (context) =>
+                              Address(uid: userNotifier.userModel.uid)));
                 },
               ),
               menuCard(
@@ -127,7 +122,10 @@ class _MenuPageState extends State<MenuPage> {
           child: Padding(
             padding: const EdgeInsets.symmetric(horizontal: 10),
             child: ListTile(
-              leading: Icon(icons, color: Colors.black,),
+              leading: Icon(
+                icons,
+                color: Colors.black,
+              ),
               title: Text(
                 text,
                 style: FontCollection.topicTextStyle,

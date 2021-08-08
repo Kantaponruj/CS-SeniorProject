@@ -61,7 +61,8 @@ class TapWidget extends StatelessWidget {
           onTap: () {
             storeNotifier.currentStore = store;
             Navigator.of(context).push(MaterialPageRoute(
-              builder: (context) => ShopMenu(),
+              builder: (context) =>
+                  ShopMenu(storeId: storeNotifier.currentStore.storeId),
             ));
           });
 }

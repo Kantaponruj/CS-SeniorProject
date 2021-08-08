@@ -1,7 +1,10 @@
+import 'package:cs_senior_project/asset/color.dart';
+import 'package:cs_senior_project/screens/history.dart';
 import 'package:cs_senior_project/screens/home.dart';
 import 'package:cs_senior_project/screens/login.dart';
 import 'package:cs_senior_project/screens/menu.dart';
 import 'package:cs_senior_project/screens/notification.dart';
+import 'package:cs_senior_project/screens/shop/shop_menu.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_icons/flutter_icons.dart';
 
@@ -15,9 +18,10 @@ class bottomBar extends StatefulWidget {
 class _State extends State<bottomBar> {
   int _selectedIndex = 0;
   List<Widget> _pageWidget = <Widget>[
-    Home(),
-    NotificationsPage(),
-    LoginPage(),
+    HomePage(),
+    // NotificationsPage(),
+    ShopMenu(),
+    HistoryPage(),
     MenuPage(),
   ];
   List<BottomNavigationBarItem> _menuBar = <BottomNavigationBarItem>[
@@ -52,8 +56,8 @@ class _State extends State<bottomBar> {
       bottomNavigationBar: BottomNavigationBar(
         items: _menuBar,
         currentIndex: _selectedIndex,
-        selectedItemColor: Colors.orange,
-        unselectedItemColor: Colors.grey,
+        selectedItemColor: CollectionsColors.orange,
+        unselectedItemColor: CollectionsColors.grey,
         onTap: _onItemTapped,
       ),
     );

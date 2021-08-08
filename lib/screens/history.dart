@@ -1,15 +1,15 @@
 import 'package:cs_senior_project/component/appBar.dart';
+import 'package:cs_senior_project/component/shopAppBar.dart';
 import 'package:flutter/material.dart';
 
-class History extends StatefulWidget {
+class HistoryPage extends StatefulWidget {
   static const routeName = '/history';
 
   @override
-  _HistoryState createState() => _HistoryState();
+  _HistoryPageState createState() => _HistoryPageState();
 }
 
-class _HistoryState extends State<History> {
-
+class _HistoryPageState extends State<HistoryPage> {
   @override
   void initState() {
     super.initState();
@@ -17,14 +17,18 @@ class _HistoryState extends State<History> {
 
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
-      appBar: RoundedAppBar(appBarTitle: 'History',),
-      body: Center(
-        child: Column(
-          mainAxisAlignment: MainAxisAlignment.center,
-          children: <Widget>[
-            Text('This is history page'),
-          ],
+    return SafeArea(
+      child: Scaffold(
+        extendBodyBehindAppBar: true,
+        appBar: RoundedAppBar(appBarTitle: 'ประวัติการสั่งซื้อ',),
+        // AppBar(
+        //   title: Text('Test'),
+        //   centerTitle: true,
+        //   shape: RoundedRectangleBorder(
+        //       borderRadius: BorderRadius.vertical(bottom: Radius.circular(30))),
+        // ),
+        body: Container(
+
         ),
       ),
     );

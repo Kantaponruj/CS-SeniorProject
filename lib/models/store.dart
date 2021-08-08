@@ -25,7 +25,7 @@ class Store {
     phone = data['phone'];
     startTime = data['startTime'];
     endTime = data['endTime'];
-    address = data['address'];
-    location = data['location'];
+    address = data['currentAddress'];
+    location = data['currentLocation'];
   }
 }

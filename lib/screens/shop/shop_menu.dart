@@ -1,8 +1,10 @@
 import 'package:cs_senior_project/asset/text_style.dart';
 import 'package:cs_senior_project/component/appBar.dart';
 import 'package:cs_senior_project/component/shopAppBar.dart';
+import 'package:cs_senior_project/notifiers/store_notifier.dart';
 import 'package:cs_senior_project/screens/shop/menu/menu_detail.dart';
 import 'package:flutter/material.dart';
+import 'package:provider/provider.dart';
 
 class ShopMenu extends StatefulWidget {
   @override
@@ -16,12 +18,14 @@ class _ShopMenuState extends State<ShopMenu> {
 
   @override
   Widget build(BuildContext context) {
+    StoreNotifier storeNotifier = Provider.of<StoreNotifier>(context);
+
     return SafeArea(
       child: Scaffold(
         extendBodyBehindAppBar: true,
         extendBody: true,
         appBar: ShopRoundedAppBar(
-          appBarTitle: 'Menu',
+          appBarTitle: storeNotifier.currentStore.storeName,
         ),
         body: Container(
           child: Column(
@@ -106,10 +110,14 @@ class _ShopMenuState extends State<ShopMenu> {
       );
 
   Widget buildNumber(String number) => InkWell(
-    onTap: () {
-      Navigator.push(context, MaterialPageRoute(builder: (context) => MenuDetail(),));
-    },
-    child: Container(
+        onTap: () {
+          Navigator.push(
+              context,
+              MaterialPageRoute(
+                builder: (context) => MenuDetail(),
+              ));
+        },
+        child: Container(
           alignment: Alignment.centerLeft,
           color: Theme.of(context).primaryColor,
           child: GridTile(
@@ -142,5 +150,5 @@ class _ShopMenuState extends State<ShopMenu> {
             ),
           ),
         ),
-  );
+      );
 }

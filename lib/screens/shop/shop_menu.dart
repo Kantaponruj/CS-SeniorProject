@@ -49,25 +49,19 @@ class _ShopMenuState extends State<ShopMenu> {
                     // padding: EdgeInsets.only(top: 80),
                     children: [
                       Expanded(
-                          child: Image.network(
-                        storeNotifier.currentStore.image != null
-                            ? storeNotifier.currentStore.image
-                            : 'https://www.testingxperts.com/wp-content/uploads/2019/02/placeholder-img.jpg',
-                        errorBuilder: (BuildContext context, Object exception,
-                            StackTrace stackTrace) {
-                          return Icon(Icons.image, size: 40.0);
-                        },
-                        fit: BoxFit.cover,
-                        width: double.infinity,
-                        height: double.infinity,
-                      )
-                          //     Image.asset(
-                          //   'assets/images/shop_test.jpg',
-                          //   fit: BoxFit.cover,
-                          //   width: double.infinity,
-                          //   height: double.infinity,
-                          // ),
-                          ),
+                        child: Image.network(
+                          storeNotifier.currentStore.image != null
+                              ? storeNotifier.currentStore.image
+                              : 'https://www.testingxperts.com/wp-content/uploads/2019/02/placeholder-img.jpg',
+                          errorBuilder: (BuildContext context, Object exception,
+                              StackTrace stackTrace) {
+                            return Icon(Icons.image, size: 40.0);
+                          },
+                          fit: BoxFit.cover,
+                          width: double.infinity,
+                          height: double.infinity,
+                        ),
+                      ),
                     ]),
               ),
               Expanded(
@@ -135,6 +129,7 @@ class _ShopMenuState extends State<ShopMenu> {
         // final item = items[index];
         return InkWell(
           onTap: () {
+            storeNotifier.currentMenu = storeNotifier.menuList[index];
             Navigator.push(
                 context,
                 MaterialPageRoute(
@@ -150,16 +145,17 @@ class _ShopMenuState extends State<ShopMenu> {
                   Expanded(
                     flex: 8,
                     child: SizedBox(
-                        child: Image.network(
-                      storeNotifier.menuList[index].image != null
-                          ? storeNotifier.menuList[index].image
-                          : 'https://www.testingxperts.com/wp-content/uploads/2019/02/placeholder-img.jpg',
-                      // errorBuilder: (BuildContext context, Object exception,
-                      //     StackTrace stackTrace) {
-                      //   return Icon(Icons.image, size: 40.0);
-                      // },
-                      fit: BoxFit.cover,
-                    )),
+                      child: Image.network(
+                        storeNotifier.menuList[index].image != null
+                            ? storeNotifier.menuList[index].image
+                            : 'https://www.testingxperts.com/wp-content/uploads/2019/02/placeholder-img.jpg',
+                        // errorBuilder: (BuildContext context, Object exception,
+                        //     StackTrace stackTrace) {
+                        //   return Icon(Icons.image, size: 40.0);
+                        // },
+                        fit: BoxFit.cover,
+                      ),
+                    ),
                   ),
                   Expanded(
                     flex: 2,

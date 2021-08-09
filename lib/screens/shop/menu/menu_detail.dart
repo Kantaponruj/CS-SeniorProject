@@ -1,10 +1,11 @@
 import 'package:cs_senior_project/asset/color.dart';
 import 'package:cs_senior_project/asset/text_style.dart';
-import 'package:cs_senior_project/component/orderCard.dart';
+import 'package:cs_senior_project/notifiers/store_notifier.dart';
 import 'package:cs_senior_project/screens/order/orderDetail.dart';
 import 'package:cs_senior_project/widgets/bottomOrder_widget.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:provider/provider.dart';
 
 class MenuDetail extends StatefulWidget {
   static const routeName = '/history';
@@ -21,6 +22,8 @@ class _MenuDetailState extends State<MenuDetail> {
 
   @override
   Widget build(BuildContext context) {
+    StoreNotifier storeNotifier = Provider.of<StoreNotifier>(context);
+
     final double imgHeight = MediaQuery.of(context).size.height / 4;
 
     return SafeArea(
@@ -41,23 +44,31 @@ class _MenuDetailState extends State<MenuDetail> {
                     Container(
                       height: imgHeight,
                       child: ClipRRect(
-                        borderRadius: BorderRadius.vertical(
-                          bottom: Radius.circular(20),
-                        ),
-                        child: Image.asset(
-                          'assets/images/shop_test.jpg',
-                          fit: BoxFit.cover,
-                          width: double.infinity,
-                          height: double.infinity,
-                        ),
-                      ),
+                          borderRadius: BorderRadius.vertical(
+                            bottom: Radius.circular(20),
+                          ),
+                          child: Image.network(
+                            storeNotifier.currentMenu.image != null
+                                ? storeNotifier.currentMenu.image
+                                : 'https://www.testingxperts.com/wp-content/uploads/2019/02/placeholder-img.jpg',
+                            fit: BoxFit.cover,
+                            width: double.infinity,
+                            height: double.infinity,
+                          )
+                          // Image.asset(
+                          //   'assets/images/shop_test.jpg',
+                          //   fit: BoxFit.cover,
+                          //   width: double.infinity,
+                          //   height: double.infinity,
+                          // ),
+                          ),
                     ),
                     Positioned(
                       child: Container(
                         margin: EdgeInsets.fromLTRB(20, imgHeight - 30, 20, 30),
                         child: Column(
                           children: [
-                            menuDetailCard(),
+                            menuDetailCard(storeNotifier),
                             moreCard(),
                             //end
                           ],
@@ -108,7 +119,7 @@ class _MenuDetailState extends State<MenuDetail> {
     );
   }
 
-  Widget menuDetailCard() {
+  Widget menuDetailCard(StoreNotifier storeNotifier) {
     return ClipRRect(
       borderRadius: BorderRadius.circular(20),
       child: Container(
@@ -121,7 +132,7 @@ class _MenuDetailState extends State<MenuDetail> {
                 mainAxisAlignment: MainAxisAlignment.spaceBetween,
                 children: [
                   Text(
-                    'โตเกียวไส้เค็ม',
+                    storeNotifier.currentMenu.name,
                     style: FontCollection.topicTextStyle,
                   ),
                   Container(
@@ -131,7 +142,7 @@ class _MenuDetailState extends State<MenuDetail> {
                         Container(
                             alignment: Alignment.centerRight,
                             child: Text(
-                              '20',
+                              storeNotifier.currentMenu.price,
                               style: FontCollection.topicTextStyle,
                             )),
                         Text(
@@ -147,7 +158,7 @@ class _MenuDetailState extends State<MenuDetail> {
             Container(
                 alignment: Alignment.centerLeft,
                 child: Text(
-                  'โตเกียวใส่เค็มมี หมูสับ ไส้กรอก ไข่',
+                  storeNotifier.currentMenu.description,
                   style: FontCollection.bodyTextStyle,
                 )),
           ],

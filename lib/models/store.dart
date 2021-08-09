@@ -6,6 +6,7 @@ class Store {
   bool isPickUp;
   String storeCategory;
   String storeName;
+  String kindOfFood;
   String image;
   String phone;
   String startTime;
@@ -21,6 +22,7 @@ class Store {
     isPickUp = data['isPickUp'];
     storeCategory = data['storeCategory'];
     storeName = data['storeName'];
+    kindOfFood = data['kindOfFood'];
     image = data['image'];
     phone = data['phone'];
     startTime = data['startTime'];

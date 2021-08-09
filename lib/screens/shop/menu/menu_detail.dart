@@ -44,24 +44,18 @@ class _MenuDetailState extends State<MenuDetail> {
                     Container(
                       height: imgHeight,
                       child: ClipRRect(
-                          borderRadius: BorderRadius.vertical(
-                            bottom: Radius.circular(20),
-                          ),
-                          child: Image.network(
-                            storeNotifier.currentMenu.image != null
-                                ? storeNotifier.currentMenu.image
-                                : 'https://www.testingxperts.com/wp-content/uploads/2019/02/placeholder-img.jpg',
-                            fit: BoxFit.cover,
-                            width: double.infinity,
-                            height: double.infinity,
-                          )
-                          // Image.asset(
-                          //   'assets/images/shop_test.jpg',
-                          //   fit: BoxFit.cover,
-                          //   width: double.infinity,
-                          //   height: double.infinity,
-                          // ),
-                          ),
+                        borderRadius: BorderRadius.vertical(
+                          bottom: Radius.circular(20),
+                        ),
+                        child: Image.network(
+                          storeNotifier.currentMenu.image != null
+                              ? storeNotifier.currentMenu.image
+                              : 'https://www.testingxperts.com/wp-content/uploads/2019/02/placeholder-img.jpg',
+                          fit: BoxFit.cover,
+                          width: double.infinity,
+                          height: double.infinity,
+                        ),
+                      ),
                     ),
                     Positioned(
                       child: Container(
@@ -77,7 +71,6 @@ class _MenuDetailState extends State<MenuDetail> {
                     ),
                   ],
                 ),
-
                 // SearchWidget(),
               ],
             ),

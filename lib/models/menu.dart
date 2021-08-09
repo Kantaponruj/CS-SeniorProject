@@ -15,3 +15,15 @@ class MenuModel {
     price = data["price"];
   }
 }
+
+class ToppingModel {
+  String name;
+  String price;
+
+  ToppingModel();
+
+  ToppingModel.fromMap(Map<String, dynamic> data) {
+    name = data["name"];
+    price = data["price"];
+  }
+}

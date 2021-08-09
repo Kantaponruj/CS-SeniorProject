@@ -2,12 +2,17 @@ import 'package:cs_senior_project/asset/color.dart';
 import 'package:cs_senior_project/asset/text_style.dart';
 import 'package:cs_senior_project/notifiers/store_notifier.dart';
 import 'package:cs_senior_project/screens/order/orderDetail.dart';
+import 'package:cs_senior_project/services/store_service.dart';
 import 'package:cs_senior_project/widgets/bottomOrder_widget.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 
 class MenuDetail extends StatefulWidget {
+  MenuDetail({Key key, this.storeId, this.menuId}) : super(key: key);
+  final String storeId;
+  final String menuId;
+
   static const routeName = '/history';
 
   @override
@@ -17,6 +22,9 @@ class MenuDetail extends StatefulWidget {
 class _MenuDetailState extends State<MenuDetail> {
   @override
   void initState() {
+    StoreNotifier storeNotifier =
+        Provider.of<StoreNotifier>(context, listen: false);
+    getTopping(storeNotifier, widget.storeId, widget.menuId);
     super.initState();
   }
 
@@ -63,8 +71,7 @@ class _MenuDetailState extends State<MenuDetail> {
                         child: Column(
                           children: [
                             menuDetailCard(storeNotifier),
-                            moreCard(),
-                            //end
+                            moreCard(storeNotifier),
                           ],
                         ),
                       ),
@@ -160,7 +167,7 @@ class _MenuDetailState extends State<MenuDetail> {
     );
   }
 
-  Widget moreCard() {
+  Widget moreCard(StoreNotifier storeNotifier) {
     return Container(
       margin: EdgeInsets.only(top: 20),
       child: Card(
@@ -188,12 +195,17 @@ class _MenuDetailState extends State<MenuDetail> {
                   ],
                 ),
               ),
-              Container(
-                child: Column(
-                  children: [
-                    Text('test 1'),
-                    Text('test 2'),
-                  ],
+              Expanded(
+                child: SizedBox(
+                  height: 200.0,
+                  child: ListView.builder(
+                    itemBuilder: (BuildContext context, index) {
+                      return ListTile(
+                        title: Text(storeNotifier.toppingList[index].name),
+                      );
+                    },
+                    itemCount: storeNotifier.toppingList.length,
+                  ),
                 ),
               ),
             ],

@@ -133,7 +133,9 @@ class _ShopMenuState extends State<ShopMenu> {
             Navigator.push(
                 context,
                 MaterialPageRoute(
-                  builder: (context) => MenuDetail(),
+                  builder: (context) => MenuDetail(
+                      storeId: storeNotifier.currentStore.storeId,
+                      menuId: storeNotifier.currentMenu.menuId),
                 ));
           },
           child: Container(

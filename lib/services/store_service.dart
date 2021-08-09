@@ -55,3 +55,22 @@ getMenu(StoreNotifier storeNotifier, String storeId) async {
 
   storeNotifier.menuList = _menuList;
 }
+
+getTopping(StoreNotifier storeNotifier, String storeId, String menuId) async {
+  QuerySnapshot snapshot = await firebaseFirestore
+      .collection(collection)
+      .doc(storeId)
+      .collection('menu')
+      .doc(menuId)
+      .collection('topping')
+      .get();
+
+  List<ToppingModel> _toppingList = [];
+
+  snapshot.docs.forEach((document) {
+    ToppingModel topping = ToppingModel.fromMap(document.data());
+    _toppingList.add(topping);
+  });
+
+  storeNotifier.toppingList = _toppingList;
+}

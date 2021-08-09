@@ -11,12 +11,17 @@ class StoreNotifier with ChangeNotifier {
   List<MenuModel> _menuList = [];
   MenuModel _currentMenu;
 
+  List<ToppingModel> _toppingList = [];
+
   UnmodifiableListView<Store> get storeList => UnmodifiableListView(_storeList);
+  Store get currentStore => _currentStore;
+
   UnmodifiableListView<MenuModel> get menuList =>
       UnmodifiableListView(_menuList);
-
-  Store get currentStore => _currentStore;
   MenuModel get currentMenu => _currentMenu;
+
+  UnmodifiableListView<ToppingModel> get toppingList =>
+      UnmodifiableListView(_toppingList);
 
   set storeList(List<Store> storeList) {
     Future.delayed(Duration(seconds: 1), () {
@@ -37,6 +42,11 @@ class StoreNotifier with ChangeNotifier {
 
   set currentMenu(MenuModel menu) {
     _currentMenu = menu;
+    notifyListeners();
+  }
+
+  set toppingList(List<ToppingModel> topping) {
+    _toppingList = topping;
     notifyListeners();
   }
 }

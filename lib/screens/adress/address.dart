@@ -39,102 +39,44 @@ class _AddressState extends State<Address> {
           ),
           body: new RefreshIndicator(
             child: Container(
-                padding: EdgeInsets.symmetric(horizontal: 20, vertical: 20),
-                child: Column(children: [
-                  Expanded(
-                    child: ListView.separated(
-                      itemCount: addressNotifier.addressList.length,
-                      itemBuilder: (BuildContext context, int index) {
-                        return ListTile(
-                          title: Text(
-                              addressNotifier.addressList[index].addressName,
-                              style: FontCollection.bodyTextStyle),
-                          subtitle: AutoSizeText(
-                            addressNotifier.addressList[index].address,
-                            maxLines: 2,
-                          ),
-                        );
-                      },
-                      separatorBuilder: (BuildContext context, int index) {
-                        return Divider();
-                      },
+              padding: EdgeInsets.symmetric(horizontal: 20, vertical: 20),
+              child: Column(
+                children: [
+                  Card(
+                    elevation: 0,
+                    shape: RoundedRectangleBorder(
+                      borderRadius: BorderRadius.circular(20),
+                    ),
+                    child: Container(
+                      padding:
+                          EdgeInsets.symmetric(horizontal: 20, vertical: 20),
+                      child: ListView.separated(
+                        shrinkWrap: true,
+                        itemCount: addressNotifier.addressList.length,
+                        itemBuilder: (BuildContext context, int index) {
+                          return ListTile(
+                            title: Text(
+                                addressNotifier.addressList[index].addressName,
+                                style: FontCollection.bodyTextStyle),
+                            subtitle: AutoSizeText(
+                              addressNotifier.addressList[index].address,
+                              maxLines: 2,
+                            ),
+                          );
+                        },
+                        separatorBuilder: (BuildContext context, int index) {
+                          return Divider();
+                        },
+                      ),
                     ),
                   ),
                   StadiumButtonWidget(
                     text: 'เพิ่มที่อยู่ใหม่',
                     onClicked: () {},
                   ),
-                ])
-                // Column(
-                //   children: [
-                //     Card(
-                //         elevation: 0,
-                //         shape: RoundedRectangleBorder(
-                //           borderRadius: BorderRadius.circular(20),
-                //         ),
-                //         child: Container(
-                //           padding: EdgeInsets.symmetric(horizontal: 20, vertical: 20),
-                //           child: ListView.separated(
-                //             itemCount: addressNotifier.addressList.length,
-                //             itemBuilder: (BuildContext context, int index) {
-                //               return ListTile(
-                //                 title: Text(
-                //                     addressNotifier.addressList[index].addressName,
-                //                     style: FontCollection.bodyTextStyle),
-                //                 subtitle: AutoSizeText(
-                //                   addressNotifier.addressList[index].address,
-                //                   maxLines: 2,
-                //                 ),
-                //               );
-                //             },
-                //             separatorBuilder: (BuildContext context, int index) {
-                //               return Divider();
-                //             },
-                //           ),
-                //         )
-                // Column(
-                //   children: [
-                //     Container(
-                //       width: MediaQuery.of(context).size.width,
-                //       child: Text(
-                //         'บ้าน',
-                //         style: FontCollection.bodyTextStyle,
-                //       ),
-                //     ),
-                //     Container(
-                //       margin: EdgeInsets.fromLTRB(0, 5, 0, 5),
-                //       child: AutoSizeText(
-                //         '55/176 พฤกษาวิลเลจ 2 ถ.รังสิต ต.ลำผักกูด อ.ธัญบุรี จ.ปทุมธานี',
-                //         style: FontCollection.bodyTextStyle,
-                //         maxLines: 2,
-                //       ),
-                //     ),
-                //     Divider(),
-                //     Container(
-                //       width: MediaQuery.of(context).size.width,
-                //       child: AutoSizeText(
-                //         'คอนโด',
-                //         style: FontCollection.bodyTextStyle,
-                //       ),
-                //     ),
-                //     Container(
-                //       margin: EdgeInsets.fromLTRB(0, 5, 0, 5),
-                //       child: AutoSizeText(
-                //         '218 ไลบราลี่คอนโด ถนนประชาอุทิศ แขวงบางมด เขตทุ่งครุ กรุงเทพมหานคร',
-                //         style: FontCollection.bodyTextStyle,
-                //         maxLines: 2,
-                //       ),
-                //     ),
-                //     Divider(),
-                //   ],
-                // ),
-                //       ),
-                //   StadiumButtonWidget(
-                //     text: 'เพิ่มที่อยู่ใหม่',
-                //     onClicked: () {},
-                //   ),
-                // ],
-                ),
+                ],
+              ),
+            ),
             onRefresh: _refreshList,
           )),
       // ),

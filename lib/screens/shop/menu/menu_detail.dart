@@ -195,18 +195,16 @@ class _MenuDetailState extends State<MenuDetail> {
                   ],
                 ),
               ),
-              Expanded(
-                child: SizedBox(
-                  height: 200.0,
-                  child: ListView.builder(
-                    itemBuilder: (BuildContext context, index) {
-                      return ListTile(
-                        title: Text(storeNotifier.toppingList[index].name),
-                      );
-                    },
-                    itemCount: storeNotifier.toppingList.length,
-                  ),
-                ),
+              ListView.builder(
+                shrinkWrap: true,
+                itemBuilder: (BuildContext context, index) {
+                  return ListTile(
+                    title: Text(storeNotifier.toppingList[index].name),
+                    subtitle:
+                        Text('+' + storeNotifier.toppingList[index].price),
+                  );
+                },
+                itemCount: storeNotifier.toppingList.length,
               ),
             ],
           ),

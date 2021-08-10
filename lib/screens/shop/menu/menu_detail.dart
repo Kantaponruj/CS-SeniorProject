@@ -84,6 +84,7 @@ class _MenuDetailState extends State<MenuDetail> {
           ),
         ),
         bottomNavigationBar: BottomOrder(
+          price: storeNotifier.currentMenu.price,
           onClicked: () {
             Navigator.push(
                 context,

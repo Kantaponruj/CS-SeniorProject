@@ -1,7 +1,8 @@
 import 'package:auto_size_text/auto_size_text.dart';
 import 'package:cs_senior_project/asset/text_style.dart';
 import 'package:cs_senior_project/component/appBar.dart';
-import 'package:cs_senior_project/screens/adress/select_address.dart';
+import 'package:cs_senior_project/screens/address/add_address.dart';
+import 'package:cs_senior_project/screens/address/select_address.dart';
 import 'package:cs_senior_project/widgets/button_widget.dart';
 import 'package:flutter/material.dart';
 
@@ -87,7 +88,10 @@ class _ManageAddressState extends State<ManageAddress> {
               ),
               StadiumButtonWidget(
                 text: 'เพิ่มที่อยู่ใหม่',
-                onClicked: () {},
+                onClicked: () {
+                  Navigator.push(context,
+                      MaterialPageRoute(builder: (context) => AddAddress()));
+                },
               ),
             ],
           ),

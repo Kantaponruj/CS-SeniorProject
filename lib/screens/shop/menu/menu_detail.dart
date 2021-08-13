@@ -41,47 +41,41 @@ class _MenuDetailState extends State<MenuDetail> {
         appBar: AppBar(
           backgroundColor: Colors.transparent,
           foregroundColor: Colors.white,
+          elevation: 0,
         ),
-        body: SingleChildScrollView(
-          child: Container(
-            child: Column(
-              mainAxisAlignment: MainAxisAlignment.start,
-              children: <Widget>[
-                Stack(
-                  children: [
-                    Container(
-                      height: imgHeight,
-                      child: ClipRRect(
-                        borderRadius: BorderRadius.vertical(
-                          bottom: Radius.circular(20),
-                        ),
-                        child: Image.network(
-                          storeNotifier.currentMenu.image != null
-                              ? storeNotifier.currentMenu.image
-                              : 'https://www.testingxperts.com/wp-content/uploads/2019/02/placeholder-img.jpg',
-                          fit: BoxFit.cover,
-                          width: double.infinity,
-                          height: double.infinity,
-                        ),
-                      ),
-                    ),
-                    Positioned(
-                      child: Container(
-                        margin: EdgeInsets.fromLTRB(20, imgHeight - 30, 20, 30),
-                        child: Column(
-                          children: [
-                            menuDetailCard(storeNotifier),
-                            moreCard(storeNotifier),
-                          ],
-                        ),
-                      ),
-                    ),
-                  ],
+        body: Container(
+          child: Stack(
+            children: [
+              Container(
+                height: imgHeight,
+                child: ClipRRect(
+                  borderRadius: BorderRadius.vertical(
+                    bottom: Radius.circular(20),
+                  ),
+                  child: Image.network(
+                    storeNotifier.currentMenu.image != null
+                        ? storeNotifier.currentMenu.image
+                        : 'https://www.testingxperts.com/wp-content/uploads/2019/02/placeholder-img.jpg',
+                    fit: BoxFit.cover,
+                    width: double.infinity,
+                    height: double.infinity,
+                  ),
                 ),
-                // SearchWidget(),
-              ],
-            ),
+              ),
+              Positioned(
+                child: Container(
+                  margin: EdgeInsets.fromLTRB(20, imgHeight - 30, 20, 30),
+                  child: Column(
+                    children: [
+                      menuDetailCard(storeNotifier),
+                      moreCard(storeNotifier),
+                    ],
+                  ),
+                ),
+              ),
+            ],
           ),
+          // SearchWidget(),
         ),
         bottomNavigationBar: BottomOrder(
           price: storeNotifier.currentMenu.price,
@@ -196,21 +190,42 @@ class _MenuDetailState extends State<MenuDetail> {
                   ],
                 ),
               ),
+              Divider(),
               ListView.builder(
                 shrinkWrap: true,
-                itemBuilder: (BuildContext context, index) {
-                  return ListTile(
-                    title: Text(storeNotifier.toppingList[index].name),
-                    subtitle:
-                        Text('+' + storeNotifier.toppingList[index].price),
-                  );
-                },
+                padding: EdgeInsets.all(0),
+                physics: NeverScrollableScrollPhysics(),
                 itemCount: storeNotifier.toppingList.length,
+                itemBuilder: (context, index) {
+                  return listAddOn(storeNotifier, index);
+                },
               ),
             ],
           ),
         ),
       ),
+    );
+  }
+
+  bool checkboxValue = false;
+
+  Widget listAddOn(StoreNotifier storeNotifier, int index) {
+    return ListTile(
+            leading: checkbox(checkboxValue),
+            title: Text(storeNotifier.toppingList[index].name),
+            trailing: Text('+' + storeNotifier.toppingList[index].price),
+    );
+  }
+
+  Widget checkbox(bool boolValue) {
+    return Column(
+      mainAxisAlignment: MainAxisAlignment.center,
+      children: <Widget>[
+        Checkbox(
+          value: boolValue,
+          onChanged: (bool value) {},
+        )
+      ],
     );
   }
 }

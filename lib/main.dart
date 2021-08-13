@@ -1,6 +1,7 @@
-
 import 'package:cs_senior_project/asset/color.dart';
 import 'package:cs_senior_project/asset/constant.dart';
+import 'package:cs_senior_project/notifiers/address_notifier.dart';
+import 'package:cs_senior_project/notifiers/location_notifer.dart';
 import 'package:cs_senior_project/notifiers/user_notifier.dart';
 import 'package:cs_senior_project/screens/login.dart';
 import 'package:cs_senior_project/screens/shop/menu/menu_detail.dart';
@@ -21,7 +22,8 @@ void main() async {
       providers: [
         ChangeNotifierProvider.value(value: UserNotifier.initialize()),
         ChangeNotifierProvider(create: (context) => StoreNotifier()),
-        // ChangeNotifierProvider(create: (context) => LocationNotifier()),
+        ChangeNotifierProvider(create: (context) => AddressNotifier()),
+        ChangeNotifierProvider(create: (context) => LocationNotifier())
       ],
       child: MaterialApp(
         theme: ThemeData(

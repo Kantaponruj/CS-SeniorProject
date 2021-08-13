@@ -4,7 +4,7 @@ import 'package:cs_senior_project/component/appBar.dart';
 import 'package:cs_senior_project/component/orderCard.dart';
 import 'package:cs_senior_project/screens/adress/address.dart';
 import 'package:cs_senior_project/screens/adress/manage_address.dart';
-import 'package:cs_senior_project/screens/adress/selectAddress.dart';
+import 'package:cs_senior_project/screens/adress/select_address.dart';
 import 'package:cs_senior_project/widgets/bottomOrder_widget.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
@@ -38,7 +38,7 @@ class _OrderDetailPageState extends State<OrderDetailPage> {
         ),
         body: SingleChildScrollView(
           child: Container(
-            margin: EdgeInsets.fromLTRB(0,10,0,20),
+            margin: EdgeInsets.fromLTRB(0, 10, 0, 20),
             child: Column(
               // mainAxisAlignment: MainAxisAlignment.center,
               children: [
@@ -214,9 +214,7 @@ class _OrderDetailPageState extends State<OrderDetailPage> {
           ),
         ),
         bottomNavigationBar: BottomOrderDetail(
-          onClicked: () {
-
-          },
+          onClicked: () {},
           child: Column(
             children: [
               Container(

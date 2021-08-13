@@ -1,7 +1,7 @@
 import 'package:auto_size_text/auto_size_text.dart';
 import 'package:cs_senior_project/asset/text_style.dart';
 import 'package:cs_senior_project/component/appBar.dart';
-import 'package:cs_senior_project/screens/adress/selectAddress.dart';
+import 'package:cs_senior_project/screens/adress/select_address.dart';
 import 'package:cs_senior_project/widgets/button_widget.dart';
 import 'package:flutter/material.dart';
 
@@ -27,7 +27,9 @@ class _ManageAddressState extends State<ManageAddress> {
               StadiumButtonWidget(
                 text: 'เลือกบนแผนที่',
                 onClicked: () {
-                  Navigator.of(context).push(MaterialPageRoute(builder: (context) =>  SelectAddress(),));
+                  Navigator.of(context).push(MaterialPageRoute(
+                    builder: (context) => SelectAddress(),
+                  ));
                 },
               ),
               Card(

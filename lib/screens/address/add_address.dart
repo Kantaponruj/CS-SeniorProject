@@ -98,29 +98,29 @@ class _AddAddressState extends State<AddAddress> {
                         ),
                         Container(
                           child: buildTextFormField(
-                              'ชื่อสถานที่', TextInputType.text, (value) {
-                            if (value.isEmpty) {
-                              return 'โปรดกรอก';
-                            }
-                            return null;
-                          }, addressName
-                              // (String value) {
-                              //   _currentAddress.addressName = value;
-                              // },
-                              ),
+                            'ชื่อสถานที่',
+                            TextInputType.text,
+                            (value) {
+                              if (value.isEmpty) {
+                                return 'โปรดกรอก';
+                              }
+                              return null;
+                            },
+                            addressName,
+                          ),
                         ),
                         Container(
                           child: buildTextFormField(
-                              'รายละเอียดสถานที่', TextInputType.text, (value) {
-                            if (value.isEmpty) {
-                              return 'โปรดกรอก';
-                            }
-                            return null;
-                          }, addressDetail
-                              // (String value) {
-                              //   _currentAddress.addressDetail = value;
-                              // },
-                              ),
+                            'รายละเอียดสถานที่',
+                            TextInputType.text,
+                            (value) {
+                              if (value.isEmpty) {
+                                return 'โปรดกรอก';
+                              }
+                              return null;
+                            },
+                            addressDetail,
+                          ),
                         ),
                       ],
                     ),
@@ -134,43 +134,43 @@ class _AddAddressState extends State<AddAddress> {
                     child: Column(
                       children: [
                         Container(
-                          child: buildTextFormField('ชื่อ', TextInputType.text,
-                              (value) {
-                            if (value.isEmpty) {
-                              return 'โปรดกรอก';
-                            }
-                            return null;
-                          }, residentName
-                              // (String value) {
-                              //   _currentAddress.residentName = value;
-                              // },
-                              ),
+                          child: buildTextFormField(
+                            'ชื่อ',
+                            TextInputType.text,
+                            (value) {
+                              if (value.isEmpty) {
+                                return 'โปรดกรอก';
+                              }
+                              return null;
+                            },
+                            residentName,
+                          ),
                         ),
                         Container(
                           child: buildTextFormField(
-                              'เบอร์โทรศัพท์', TextInputType.number, (value) {
-                            if (value.isEmpty) {
-                              return 'โปรดกรอก';
-                            }
-                            return null;
-                          }, phone
-                              // (String value) {
-                              //   _currentAddress.phone = value;
-                              // },
-                              ),
+                            'เบอร์โทรศัพท์',
+                            TextInputType.number,
+                            (value) {
+                              if (value.isEmpty) {
+                                return 'โปรดกรอก';
+                              }
+                              return null;
+                            },
+                            phone,
+                          ),
                         ),
                         Container(
                           child: buildTextFormField(
-                              'เพิ่มเติม', TextInputType.text, (value) {
-                            if (value.isEmpty) {
-                              return 'เพิ่มเติม';
-                            }
-                            return null;
-                          }, other
-                              // (String value) {
-                              //   _currentAddress.other = value;
-                              // },
-                              ),
+                            'เพิ่มเติม',
+                            TextInputType.text,
+                            (value) {
+                              if (value.isEmpty) {
+                                return 'เพิ่มเติม';
+                              }
+                              return null;
+                            },
+                            other,
+                          ),
                         ),
                       ],
                     ),
@@ -210,8 +210,6 @@ class _AddAddressState extends State<AddAddress> {
         keyboardType: keyboardType,
         controller: controller,
         validator: validator,
-        // onSaved: onSaved
-        // obscureText: true,
       ),
     );
   }

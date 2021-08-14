@@ -1,5 +1,6 @@
 import 'package:cs_senior_project/component/appBar.dart';
 import 'package:cs_senior_project/component/orderCard.dart';
+import 'package:cs_senior_project/screens/address/select_address.dart';
 import 'package:cs_senior_project/widgets/button_widget.dart';
 import 'package:flutter/material.dart';
 
@@ -15,7 +16,9 @@ class _AddAddressState extends State<AddAddress> {
   Widget build(BuildContext context) {
     return SafeArea(
       child: Scaffold(
-        appBar: RoundedAppBar(appBarTitle: 'ข้อมูลที่อยู่',),
+        appBar: RoundedAppBar(
+          appBarTitle: 'ข้อมูลที่อยู่',
+        ),
         body: SingleChildScrollView(
           child: Container(
             child: Column(
@@ -24,7 +27,13 @@ class _AddAddressState extends State<AddAddress> {
                   margin: EdgeInsets.symmetric(horizontal: 20),
                   child: StadiumButtonWidget(
                     text: 'เลือกบนแผนที่',
-                    onClicked: () {},
+                    onClicked: () {
+                      Navigator.of(context).push(
+                        MaterialPageRoute(
+                          builder: (context) => SelectAddress(),
+                        ),
+                      );
+                    },
                   ),
                 ),
                 BuildCard(
@@ -39,22 +48,28 @@ class _AddAddressState extends State<AddAddress> {
                           child: Text('กรุณาเลือกที่อยู่'),
                         ),
                         Container(
-                          child: buildTextFormField('ชื่อสถานที่',
-                            TextInputType.text, (value) {
+                          child: buildTextFormField(
+                            'ชื่อสถานที่',
+                            TextInputType.text,
+                            (value) {
                               if (value.isEmpty) {
                                 return 'โปรดกรอก';
                               }
                               return null;
-                            },),
+                            },
+                          ),
                         ),
                         Container(
-                          child: buildTextFormField('รายละเอียดสถานที่',
-                            TextInputType.text, (value) {
+                          child: buildTextFormField(
+                            'รายละเอียดสถานที่',
+                            TextInputType.text,
+                            (value) {
                               if (value.isEmpty) {
                                 return 'โปรดกรอก';
                               }
                               return null;
-                            },),
+                            },
+                          ),
                         ),
                       ],
                     ),
@@ -68,31 +83,40 @@ class _AddAddressState extends State<AddAddress> {
                     child: Column(
                       children: [
                         Container(
-                          child: buildTextFormField('ชื่อ',
-                            TextInputType.text, (value) {
+                          child: buildTextFormField(
+                            'ชื่อ',
+                            TextInputType.text,
+                            (value) {
                               if (value.isEmpty) {
                                 return 'โปรดกรอก';
                               }
                               return null;
-                            },),
+                            },
+                          ),
                         ),
                         Container(
-                          child: buildTextFormField('เบอร์โทรศัพท์',
-                            TextInputType.number, (value) {
+                          child: buildTextFormField(
+                            'เบอร์โทรศัพท์',
+                            TextInputType.number,
+                            (value) {
                               if (value.isEmpty) {
                                 return 'โปรดกรอก';
                               }
                               return null;
-                            },),
+                            },
+                          ),
                         ),
                         Container(
-                          child: buildTextFormField('เพิ่มเติม',
-                            TextInputType.text, (value) {
+                          child: buildTextFormField(
+                            'เพิ่มเติม',
+                            TextInputType.text,
+                            (value) {
                               if (value.isEmpty) {
                                 return 'เพิ่มเติม';
                               }
                               return null;
-                            },),
+                            },
+                          ),
                         ),
                       ],
                     ),
@@ -114,8 +138,11 @@ class _AddAddressState extends State<AddAddress> {
     );
   }
 
-  Widget buildTextFormField(String labelText, TextInputType keyboardType,
-      String Function(String) validator,) {
+  Widget buildTextFormField(
+    String labelText,
+    TextInputType keyboardType,
+    String Function(String) validator,
+  ) {
     return Padding(
       padding: const EdgeInsets.only(top: 20),
       child: TextFormField(
@@ -123,7 +150,7 @@ class _AddAddressState extends State<AddAddress> {
           labelText: labelText,
           border: OutlineInputBorder(),
           errorBorder:
-          OutlineInputBorder(borderSide: BorderSide(color: Colors.red)),
+              OutlineInputBorder(borderSide: BorderSide(color: Colors.red)),
           errorStyle: TextStyle(color: Colors.red),
         ),
         keyboardType: keyboardType,

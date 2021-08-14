@@ -75,10 +75,11 @@ class _SelectAddressState extends State<SelectAddress> {
               StadiumButtonWidget(
                 text: 'เลือกตำแหน่ง',
                 onClicked: () {
-                  userNotifier.saveUserLocation(
-                      userNotifier.userModel.uid,
-                      locationNotifier.currentAddress,
-                      locationNotifier.currentPosition);
+                  Navigator.pop(context);
+                  // userNotifier.saveUserLocation(
+                  //     userNotifier.userModel.uid,
+                  //     locationNotifier.currentAddress,
+                  //     locationNotifier.currentPosition);
                 },
               ),
             ],

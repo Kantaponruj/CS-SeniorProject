@@ -116,10 +116,10 @@ class UserNotifier with ChangeNotifier {
     }
   }
 
-  saveUserLocation(String uid, String address, Position position) {
-    _userService.addUserLocation(
-        uid: user.uid, address: address, position: position);
-  }
+  // saveUserLocation(String uid, String address, Position position) {
+  //   _userService.addUserLocation(
+  //       uid: user.uid, address: address, position: position);
+  // }
 
   _onStateChange(User firebaseUser) async {
     SharedPreferences prefs = await SharedPreferences.getInstance();

@@ -19,8 +19,7 @@ class _State extends State<bottomBar> {
   int _selectedIndex = 0;
   List<Widget> _pageWidget = <Widget>[
     HomePage(),
-    // NotificationsPage(),
-    ShopMenu(),
+    NotificationsPage(),
     HistoryPage(),
     MenuPage(),
   ];

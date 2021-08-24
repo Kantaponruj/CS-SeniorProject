@@ -1,5 +1,6 @@
 import 'package:cs_senior_project/asset/color.dart';
 import 'package:cs_senior_project/asset/text_style.dart';
+import 'package:cs_senior_project/models/store.dart';
 import 'package:cs_senior_project/notifiers/store_notifier.dart';
 import 'package:cs_senior_project/screens/order/orderDetail.dart';
 import 'package:cs_senior_project/services/store_service.dart';
@@ -7,6 +8,8 @@ import 'package:cs_senior_project/widgets/bottomOrder_widget.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
+
+import '../shop_menu.dart';
 
 class MenuDetail extends StatefulWidget {
   MenuDetail({Key key, this.storeId, this.menuId}) : super(key: key);
@@ -31,7 +34,7 @@ class _MenuDetailState extends State<MenuDetail> {
   @override
   Widget build(BuildContext context) {
     StoreNotifier storeNotifier = Provider.of<StoreNotifier>(context);
-
+    Store store;
     final double imgHeight = MediaQuery.of(context).size.height / 4;
 
     return SafeArea(
@@ -83,7 +86,8 @@ class _MenuDetailState extends State<MenuDetail> {
             Navigator.push(
                 context,
                 MaterialPageRoute(
-                  builder: (context) => OrderDetailPage(),
+                  builder: (context) =>
+                      ShopMenu(),
                 ));
           },
           child: Column(
@@ -211,9 +215,9 @@ class _MenuDetailState extends State<MenuDetail> {
 
   Widget listAddOn(StoreNotifier storeNotifier, int index) {
     return ListTile(
-            leading: checkbox(checkboxValue),
-            title: Text(storeNotifier.toppingList[index].name),
-            trailing: Text('+' + storeNotifier.toppingList[index].price),
+      leading: checkbox(checkboxValue),
+      title: Text(storeNotifier.toppingList[index].name),
+      trailing: Text('+' + storeNotifier.toppingList[index].price),
     );
   }
 

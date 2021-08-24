@@ -3,8 +3,10 @@ import 'package:cs_senior_project/component/appBar.dart';
 import 'package:cs_senior_project/component/shopAppBar.dart';
 import 'package:cs_senior_project/models/store.dart';
 import 'package:cs_senior_project/notifiers/store_notifier.dart';
+import 'package:cs_senior_project/screens/order/orderDetail.dart';
 import 'package:cs_senior_project/screens/shop/menu/menu_detail.dart';
 import 'package:cs_senior_project/services/store_service.dart';
+import 'package:cs_senior_project/widgets/bottomOrder_widget.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 
@@ -36,7 +38,6 @@ class _ShopMenuState extends State<ShopMenu> {
     return SafeArea(
       child: Scaffold(
         extendBodyBehindAppBar: true,
-        extendBody: true,
         appBar: ShopRoundedAppBar(
           appBarTitle: storeNotifier.currentStore.storeName,
         ),
@@ -79,6 +80,13 @@ class _ShopMenuState extends State<ShopMenu> {
             ],
           ),
         ),
+        bottomNavigationBar: BottomButton(onClicked: () {
+          Navigator.push(
+              context,
+              MaterialPageRoute(
+                builder: (context) => OrderDetailPage(),
+              ));
+        },),
       ),
     );
   }
@@ -140,12 +148,13 @@ class _ShopMenuState extends State<ShopMenu> {
           },
           child: Container(
             alignment: Alignment.centerLeft,
-            color: Theme.of(context).primaryColor,
+            // color: Theme.of(context).primaryColor,
             child: GridTile(
               child: Column(
                 children: [
-                  Expanded(
-                    flex: 8,
+                  Container(
+                    width: 200,
+                    height: 150,
                     child: SizedBox(
                       child: Image.network(
                         storeNotifier.menuList[index].image != null
@@ -159,15 +168,13 @@ class _ShopMenuState extends State<ShopMenu> {
                       ),
                     ),
                   ),
-                  Expanded(
-                    flex: 2,
+                  Container(
                     child: Text(
                       storeNotifier.menuList[index].name,
                       textAlign: TextAlign.left,
                     ),
                   ),
-                  Expanded(
-                    flex: 2,
+                  Container(
                     child: Text(
                       storeNotifier.menuList[index].price + ' บาท',
                       textAlign: TextAlign.left,

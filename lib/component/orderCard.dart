@@ -18,7 +18,7 @@ class BuildCard extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Padding(
-      padding: EdgeInsets.fromLTRB(20, 10, 20, 0),
+      padding: const EdgeInsets.only(bottom: 10),
       child: Column(
         children: [
           Card(
@@ -33,8 +33,6 @@ class BuildCard extends StatelessWidget {
                   (canEdit == true)
                       ? Container(
                           margin: EdgeInsets.fromLTRB(20, 20, 20, 0),
-                          padding: EdgeInsets.symmetric(
-                              horizontal: 20, vertical: 20),
                           child: Row(
                             mainAxisAlignment: MainAxisAlignment.spaceBetween,
                             children: [

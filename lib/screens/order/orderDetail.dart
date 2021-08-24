@@ -2,9 +2,9 @@ import 'package:cs_senior_project/asset/color.dart';
 import 'package:cs_senior_project/asset/text_style.dart';
 import 'package:cs_senior_project/component/appBar.dart';
 import 'package:cs_senior_project/component/orderCard.dart';
-import 'package:cs_senior_project/screens/adress/address.dart';
-import 'package:cs_senior_project/screens/adress/manage_address.dart';
-import 'package:cs_senior_project/screens/adress/select_address.dart';
+import 'package:cs_senior_project/screens/address/address.dart';
+import 'package:cs_senior_project/screens/address/manage_address.dart';
+import 'package:cs_senior_project/screens/address/select_address.dart';
 import 'package:cs_senior_project/widgets/bottomOrder_widget.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
@@ -42,7 +42,7 @@ class _OrderDetailPageState extends State<OrderDetailPage> {
             child: Column(
               // mainAxisAlignment: MainAxisAlignment.center,
               children: [
-                OrderCard(
+                BuildCard(
                   headerText: 'ข้อมูลผู้สั่งซื้อ',
                   child: Container(
                     width: MediaQuery.of(context).size.width,
@@ -113,7 +113,7 @@ class _OrderDetailPageState extends State<OrderDetailPage> {
                         ));
                   },
                 ),
-                OrderCard(
+                BuildCard(
                   headerText: 'เวลานัดหมาย',
                   child: Container(
                     padding: EdgeInsets.all(20),
@@ -153,7 +153,7 @@ class _OrderDetailPageState extends State<OrderDetailPage> {
                   ),
                   canEdit: false,
                 ),
-                OrderCard(
+                BuildCard(
                   headerText: 'สรุปการสั่งซื้อ',
                   child: Container(
                     margin: EdgeInsets.symmetric(horizontal: 20, vertical: 20),

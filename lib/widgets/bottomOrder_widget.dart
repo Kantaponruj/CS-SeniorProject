@@ -6,8 +6,11 @@ import 'package:flutter/material.dart';
 class BottomOrder extends StatefulWidget {
   final Widget child;
   final VoidCallback onClicked;
+  final String price;
 
-  BottomOrder({Key key, this.child, @required this.onClicked}) : super(key: key);
+  BottomOrder(
+      {Key key, this.child, @required this.onClicked, @required this.price})
+      : super(key: key);
 
   @override
   _BottomOrderState createState() => _BottomOrderState();
@@ -31,8 +34,10 @@ class _BottomOrderState extends State<BottomOrder> {
             child: widget.child,
           ),
           Container(
-            child:
-                StadiumConfirmButtonWidget(text: 'เพิ่มในตะกร้า',price: '20 บาท', onClicked: widget.onClicked),
+            child: StadiumConfirmButtonWidget(
+                text: 'เพิ่มในตะกร้า',
+                price: widget.price + ' บาท',
+                onClicked: widget.onClicked),
           ),
         ],
       ),
@@ -44,7 +49,8 @@ class BottomOrderDetail extends StatefulWidget {
   final Widget child;
   final VoidCallback onClicked;
 
-  BottomOrderDetail({Key key, this.child, @required this.onClicked}) : super(key: key);
+  BottomOrderDetail({Key key, this.child, @required this.onClicked})
+      : super(key: key);
 
   @override
   _BottomOrderDetailState createState() => _BottomOrderDetailState();
@@ -84,8 +90,8 @@ class _BottomOrderDetailState extends State<BottomOrderDetail> {
             ),
           ),
           Container(
-            child:
-                StadiumButtonWidget(text: 'ยืนยันการสั่งซื้อ', onClicked: widget.onClicked),
+            child: StadiumButtonWidget(
+                text: 'ยืนยันการสั่งซื้อ', onClicked: widget.onClicked),
           ),
         ],
       ),

@@ -3,7 +3,6 @@ import 'package:cs_senior_project/asset/constant.dart';
 import 'package:cs_senior_project/models/address.dart';
 import 'package:cs_senior_project/models/user.dart';
 import 'package:cs_senior_project/notifiers/address_notifier.dart';
-import 'package:geolocator/geolocator.dart';
 
 class UserService {
   String collection = "users";
@@ -30,17 +29,6 @@ class UserService {
     firebaseFirestore.collection(collection).doc(uid).update({'token': token});
   }
 
-  void addUserLocation({String uid, String address, Position position}) {
-    firebaseFirestore
-        .collection(collection)
-        .doc(uid)
-        .collection('address')
-        .add({
-      'address': address,
-      'geoPoint': GeoPoint(position.latitude, position.longitude)
-    });
-  }
-
   Future<UserModel> getUserById(String uid) => firebaseFirestore
       .collection(collection)
       .doc(uid)
@@ -63,4 +51,14 @@ getAddress(AddressNotifier addressNotifier, String uid) async {
   });
 
   addressNotifier.addressList = _addressList;
+}
+
+addAddress(AddressModel address, String uid, Function addAddress) async {
+  CollectionReference addressRef =
+      firebaseFirestore.collection('users').doc(uid).collection('address');
+
+  DocumentReference documentRef = await addressRef.add(address.toMap());
+  await documentRef.set(address.toMap(), SetOptions(merge: true));
+
+  addAddress(address);
 }

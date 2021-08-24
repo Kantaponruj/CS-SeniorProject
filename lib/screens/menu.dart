@@ -7,7 +7,7 @@ import 'package:cs_senior_project/screens/login.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 
-import 'adress/address.dart';
+import 'address/address.dart';
 
 class MenuPage extends StatefulWidget {
   static const routeName = '/menu';

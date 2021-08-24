@@ -1,12 +1,18 @@
 import 'package:cs_senior_project/asset/color.dart';
 import 'package:cs_senior_project/asset/text_style.dart';
-import 'package:cs_senior_project/component/orderCard.dart';
+import 'package:cs_senior_project/notifiers/store_notifier.dart';
 import 'package:cs_senior_project/screens/order/orderDetail.dart';
+import 'package:cs_senior_project/services/store_service.dart';
 import 'package:cs_senior_project/widgets/bottomOrder_widget.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:provider/provider.dart';
 
 class MenuDetail extends StatefulWidget {
+  MenuDetail({Key key, this.storeId, this.menuId}) : super(key: key);
+  final String storeId;
+  final String menuId;
+
   static const routeName = '/history';
 
   @override
@@ -16,11 +22,16 @@ class MenuDetail extends StatefulWidget {
 class _MenuDetailState extends State<MenuDetail> {
   @override
   void initState() {
+    StoreNotifier storeNotifier =
+        Provider.of<StoreNotifier>(context, listen: false);
+    getTopping(storeNotifier, widget.storeId, widget.menuId);
     super.initState();
   }
 
   @override
   Widget build(BuildContext context) {
+    StoreNotifier storeNotifier = Provider.of<StoreNotifier>(context);
+
     final double imgHeight = MediaQuery.of(context).size.height / 4;
 
     return SafeArea(
@@ -30,49 +41,44 @@ class _MenuDetailState extends State<MenuDetail> {
         appBar: AppBar(
           backgroundColor: Colors.transparent,
           foregroundColor: Colors.white,
+          elevation: 0,
         ),
-        body: SingleChildScrollView(
-          child: Container(
-            child: Column(
-              mainAxisAlignment: MainAxisAlignment.start,
-              children: <Widget>[
-                Stack(
-                  children: [
-                    Container(
-                      height: imgHeight,
-                      child: ClipRRect(
-                        borderRadius: BorderRadius.vertical(
-                          bottom: Radius.circular(20),
-                        ),
-                        child: Image.asset(
-                          'assets/images/shop_test.jpg',
-                          fit: BoxFit.cover,
-                          width: double.infinity,
-                          height: double.infinity,
-                        ),
-                      ),
-                    ),
-                    Positioned(
-                      child: Container(
-                        margin: EdgeInsets.fromLTRB(20, imgHeight - 30, 20, 30),
-                        child: Column(
-                          children: [
-                            menuDetailCard(),
-                            moreCard(),
-                            //end
-                          ],
-                        ),
-                      ),
-                    ),
-                  ],
+        body: Container(
+          child: Stack(
+            children: [
+              Container(
+                height: imgHeight,
+                child: ClipRRect(
+                  borderRadius: BorderRadius.vertical(
+                    bottom: Radius.circular(20),
+                  ),
+                  child: Image.network(
+                    storeNotifier.currentMenu.image != null
+                        ? storeNotifier.currentMenu.image
+                        : 'https://www.testingxperts.com/wp-content/uploads/2019/02/placeholder-img.jpg',
+                    fit: BoxFit.cover,
+                    width: double.infinity,
+                    height: double.infinity,
+                  ),
                 ),
-
-                // SearchWidget(),
-              ],
-            ),
+              ),
+              Positioned(
+                child: Container(
+                  margin: EdgeInsets.fromLTRB(20, imgHeight - 30, 20, 30),
+                  child: Column(
+                    children: [
+                      menuDetailCard(storeNotifier),
+                      moreCard(storeNotifier),
+                    ],
+                  ),
+                ),
+              ),
+            ],
           ),
+          // SearchWidget(),
         ),
         bottomNavigationBar: BottomOrder(
+          price: storeNotifier.currentMenu.price,
           onClicked: () {
             Navigator.push(
                 context,
@@ -108,7 +114,7 @@ class _MenuDetailState extends State<MenuDetail> {
     );
   }
 
-  Widget menuDetailCard() {
+  Widget menuDetailCard(StoreNotifier storeNotifier) {
     return ClipRRect(
       borderRadius: BorderRadius.circular(20),
       child: Container(
@@ -121,7 +127,7 @@ class _MenuDetailState extends State<MenuDetail> {
                 mainAxisAlignment: MainAxisAlignment.spaceBetween,
                 children: [
                   Text(
-                    'โตเกียวไส้เค็ม',
+                    storeNotifier.currentMenu.name,
                     style: FontCollection.topicTextStyle,
                   ),
                   Container(
@@ -131,7 +137,7 @@ class _MenuDetailState extends State<MenuDetail> {
                         Container(
                             alignment: Alignment.centerRight,
                             child: Text(
-                              '20',
+                              storeNotifier.currentMenu.price,
                               style: FontCollection.topicTextStyle,
                             )),
                         Text(
@@ -147,7 +153,7 @@ class _MenuDetailState extends State<MenuDetail> {
             Container(
                 alignment: Alignment.centerLeft,
                 child: Text(
-                  'โตเกียวใส่เค็มมี หมูสับ ไส้กรอก ไข่',
+                  storeNotifier.currentMenu.description,
                   style: FontCollection.bodyTextStyle,
                 )),
           ],
@@ -156,7 +162,7 @@ class _MenuDetailState extends State<MenuDetail> {
     );
   }
 
-  Widget moreCard() {
+  Widget moreCard(StoreNotifier storeNotifier) {
     return Container(
       margin: EdgeInsets.only(top: 20),
       child: Card(
@@ -184,18 +190,42 @@ class _MenuDetailState extends State<MenuDetail> {
                   ],
                 ),
               ),
-              Container(
-                child: Column(
-                  children: [
-                    Text('test 1'),
-                    Text('test 2'),
-                  ],
-                ),
+              Divider(),
+              ListView.builder(
+                shrinkWrap: true,
+                padding: EdgeInsets.all(0),
+                physics: NeverScrollableScrollPhysics(),
+                itemCount: storeNotifier.toppingList.length,
+                itemBuilder: (context, index) {
+                  return listAddOn(storeNotifier, index);
+                },
               ),
             ],
           ),
         ),
       ),
+    );
+  }
+
+  bool checkboxValue = false;
+
+  Widget listAddOn(StoreNotifier storeNotifier, int index) {
+    return ListTile(
+            leading: checkbox(checkboxValue),
+            title: Text(storeNotifier.toppingList[index].name),
+            trailing: Text('+' + storeNotifier.toppingList[index].price),
+    );
+  }
+
+  Widget checkbox(bool boolValue) {
+    return Column(
+      mainAxisAlignment: MainAxisAlignment.center,
+      children: <Widget>[
+        Checkbox(
+          value: boolValue,
+          onChanged: (bool value) {},
+        )
+      ],
     );
   }
 }

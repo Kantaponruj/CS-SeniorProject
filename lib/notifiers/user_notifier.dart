@@ -4,7 +4,6 @@ import 'package:cs_senior_project/services/user_service.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
-import 'package:geolocator/geolocator.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
 enum Status { Uninitialized, Authenticated, Authenticating, Unauthenticated }
@@ -114,11 +113,6 @@ class UserNotifier with ChangeNotifier {
     if (deviceToken != null) {
       _userService.addDeviceToken(uid: user.uid, token: deviceToken);
     }
-  }
-
-  saveUserLocation(String uid, String address, Position position) {
-    _userService.addUserLocation(
-        uid: user.uid, address: address, position: position);
   }
 
   _onStateChange(User firebaseUser) async {

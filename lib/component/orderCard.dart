@@ -1,13 +1,13 @@
 import 'package:cs_senior_project/asset/text_style.dart';
 import 'package:flutter/material.dart';
 
-class OrderCard extends StatelessWidget {
+class BuildCard extends StatelessWidget {
   final Widget child;
   final VoidCallback onClicked;
   final String headerText;
   final bool canEdit;
 
-  const OrderCard({
+  const BuildCard({
     Key key,
     this.headerText,
     this.onClicked,
@@ -18,7 +18,7 @@ class OrderCard extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Padding(
-      padding: EdgeInsets.fromLTRB(15, 10, 15, 0),
+      padding: EdgeInsets.fromLTRB(20, 10, 20, 0),
       child: Column(
         children: [
           Card(
@@ -32,7 +32,9 @@ class OrderCard extends StatelessWidget {
                 children: [
                   (canEdit == true)
                       ? Container(
-                    margin: EdgeInsets.fromLTRB(20,10,20,0),
+                          margin: EdgeInsets.fromLTRB(20, 20, 20, 0),
+                          padding: EdgeInsets.symmetric(
+                              horizontal: 20, vertical: 20),
                           child: Row(
                             mainAxisAlignment: MainAxisAlignment.spaceBetween,
                             children: [
@@ -54,7 +56,7 @@ class OrderCard extends StatelessWidget {
                           ),
                         )
                       : Container(
-                    margin: EdgeInsets.fromLTRB(20,10,20,0),
+                          margin: EdgeInsets.fromLTRB(20, 20, 20, 0),
                           alignment: Alignment.centerLeft,
                           child: Text(
                             headerText,

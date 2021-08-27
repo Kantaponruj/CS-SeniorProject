@@ -16,6 +16,8 @@ class CollectionsColors {
 
   static const red = Color(0xFFEB5757);
 
+  static const black =  Color(0xFF000000);
+
 // static Color navbar() {
 //   return const Color(0xFFECECEC);
 // }

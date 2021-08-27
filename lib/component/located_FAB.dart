@@ -1,10 +1,11 @@
+import 'package:cs_senior_project/asset/color.dart';
 import 'package:flutter/material.dart';
 
 Widget locateFAB(BuildContext context) => FloatingActionButton(
-  backgroundColor: Colors.white,
+  backgroundColor: CollectionsColors.orange,
   child: Icon(
     Icons.gps_fixed,
-    color: Theme.of(context).primaryColor,
+    color: CollectionsColors.white,
   ),
   onPressed: () {},
 );

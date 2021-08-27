@@ -3,6 +3,7 @@ import 'package:cs_senior_project/asset/text_style.dart';
 import 'package:cs_senior_project/component/appBar.dart';
 import 'package:cs_senior_project/component/orderCard.dart';
 import 'package:cs_senior_project/screens/address/manage_address.dart';
+import 'package:cs_senior_project/screens/order/confirm_order.dart';
 import 'package:cs_senior_project/widgets/bottomOrder_widget.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
@@ -28,14 +29,14 @@ class _OrderDetailPageState extends State<OrderDetailPage> {
 
     return SafeArea(
       child: Scaffold(
-        // extendBodyBehindAppBar: true,
+        extendBodyBehindAppBar: true,
         backgroundColor: CollectionsColors.grey,
         appBar: RoundedAppBar(
           appBarTitle: 'ข้อมูลการสั่งซื้ออาหาร',
         ),
         body: SingleChildScrollView(
           child: Container(
-            margin: EdgeInsets.symmetric(horizontal: 20,vertical: 20),
+            margin: EdgeInsets.fromLTRB(20,100,20,20),
             child: Column(
               // mainAxisAlignment: MainAxisAlignment.center,
               children: [
@@ -159,6 +160,7 @@ class _OrderDetailPageState extends State<OrderDetailPage> {
                         Container(
                           child: ListView.builder(
                             shrinkWrap: true,
+                            padding: EdgeInsets.zero,
                             physics: NeverScrollableScrollPhysics(),
                             itemCount: items.length,
                             itemBuilder: (context, index) {
@@ -212,6 +214,7 @@ class _OrderDetailPageState extends State<OrderDetailPage> {
         ),
         bottomNavigationBar: BottomOrderDetail(
           onClicked: () {
+            Navigator.of(context).push(MaterialPageRoute(builder: (context) => ConfirmOrder()),);
           },
           child: Column(
             children: [
@@ -242,6 +245,8 @@ class _OrderDetailPageState extends State<OrderDetailPage> {
   }
 
   Widget listOrder(int index) => Container(
+    padding: EdgeInsets.zero,
+        margin: EdgeInsets.zero,
         child: Row(
           children: [
             Expanded(

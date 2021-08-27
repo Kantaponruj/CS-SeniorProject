@@ -20,6 +20,7 @@ class _State extends State<bottomBar> {
   List<Widget> _pageWidget = <Widget>[
     HomePage(),
     NotificationsPage(),
+    // ShopMenu(),
     HistoryPage(),
     MenuPage(),
   ];

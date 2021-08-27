@@ -90,6 +90,7 @@ class _BottomOrderDetailState extends State<BottomOrderDetail> {
             ),
           ),
           Container(
+            margin: EdgeInsets.only(top: 20),
             child: StadiumButtonWidget(
                 text: 'ยืนยันการสั่งซื้อ', onClicked: widget.onClicked),
           ),

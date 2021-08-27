@@ -36,7 +36,7 @@ class UserService {
       .then((doc) => UserModel.fromSnapshot(doc));
 }
 
-getAddress(AddressNotifier addressNotifier, String uid) async {
+Future<void> getAddress(AddressNotifier addressNotifier, String uid) async {
   QuerySnapshot snapshot = await firebaseFirestore
       .collection('users')
       .doc(uid)

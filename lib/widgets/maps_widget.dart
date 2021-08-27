@@ -70,7 +70,7 @@ class _MapWidgetState extends State<MapWidget> {
               ),
               Positioned(
                 right: 20,
-                top: 130,
+                top: 40,
                 child: locateFAB(context),
               ),
             ],

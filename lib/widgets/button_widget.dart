@@ -48,7 +48,7 @@ class StadiumButtonWidget extends StatelessWidget {
   Widget build(BuildContext context) {
     return Center(
       child: Container(
-        margin: EdgeInsets.fromLTRB(0, 20, 0, 20),
+        margin: EdgeInsets.fromLTRB(0, 0, 0, 0),
         width: MediaQuery.of(context).size.width,
         height: 50,
         child: ElevatedButton(

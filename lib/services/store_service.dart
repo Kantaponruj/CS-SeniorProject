@@ -6,7 +6,7 @@ import 'package:cs_senior_project/notifiers/store_notifier.dart';
 
 String collection = 'stores';
 
-getStores(StoreNotifier storeNotifier, String tapName) async {
+Future<void> getStores(StoreNotifier storeNotifier, String tapName) async {
   QuerySnapshot snapshot;
 
   switch (tapName) {
@@ -39,7 +39,7 @@ getStores(StoreNotifier storeNotifier, String tapName) async {
   storeNotifier.storeList = _storeList;
 }
 
-getMenu(StoreNotifier storeNotifier, String storeId) async {
+Future<void> getMenu(StoreNotifier storeNotifier, String storeId) async {
   QuerySnapshot snapshot = await firebaseFirestore
       .collection(collection)
       .doc(storeId)
@@ -56,7 +56,7 @@ getMenu(StoreNotifier storeNotifier, String storeId) async {
   storeNotifier.menuList = _menuList;
 }
 
-getTopping(StoreNotifier storeNotifier, String storeId, String menuId) async {
+Future<void> getTopping(StoreNotifier storeNotifier, String storeId, String menuId) async {
   QuerySnapshot snapshot = await firebaseFirestore
       .collection(collection)
       .doc(storeId)

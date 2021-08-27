@@ -1,3 +1,4 @@
+import 'package:cs_senior_project/asset/color.dart';
 import 'package:cs_senior_project/asset/text_style.dart';
 import 'package:cs_senior_project/component/appBar.dart';
 import 'package:cs_senior_project/component/shopAppBar.dart';
@@ -80,13 +81,22 @@ class _ShopMenuState extends State<ShopMenu> {
             ],
           ),
         ),
-        bottomNavigationBar: BottomButton(onClicked: () {
-          Navigator.push(
-              context,
-              MaterialPageRoute(
-                builder: (context) => OrderDetailPage(),
-              ));
-        },),
+        floatingActionButton: Container(
+          width: 80,
+          height: 80,
+          child: FloatingActionButton(
+            backgroundColor: CollectionsColors.orange,
+            mini: false,
+            onPressed: () {
+              Navigator.push(
+                  context,
+                  MaterialPageRoute(
+                    builder: (context) => OrderDetailPage(),
+                  ));
+            },
+            child: Icon(Icons.shopping_cart,size: 35,),
+          ),
+        ),
       ),
     );
   }

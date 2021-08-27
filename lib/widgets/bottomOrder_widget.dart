@@ -98,3 +98,42 @@ class _BottomOrderDetailState extends State<BottomOrderDetail> {
     );
   }
 }
+
+class BottomButton extends StatefulWidget {
+  final Widget child;
+  final VoidCallback onClicked;
+
+  BottomButton(
+      {Key key, this.child, @required this.onClicked})
+      : super(key: key);
+
+  @override
+  _BottomButtonState createState() => _BottomButtonState();
+}
+
+class _BottomButtonState extends State<BottomButton> {
+  @override
+  Widget build(BuildContext context) {
+    return Container(
+      // height: 200,
+      padding: EdgeInsets.symmetric(horizontal: 20, vertical: 20),
+      decoration: BoxDecoration(
+        borderRadius: BorderRadius.vertical(top: Radius.circular(20)),
+        color: CollectionsColors.white,
+      ),
+      child: Column(
+        mainAxisSize: MainAxisSize.min,
+        children: [
+          Container(
+            width: MediaQuery.of(context).size.width,
+            child: widget.child,
+          ),
+          Container(
+            child: StadiumButtonWidget(
+                text: 'สรุปการสั่งซื้อ', onClicked: widget.onClicked),
+          ),
+        ],
+      ),
+    );
+  }
+}

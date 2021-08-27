@@ -2,13 +2,10 @@ import 'package:cs_senior_project/asset/color.dart';
 import 'package:cs_senior_project/asset/text_style.dart';
 import 'package:cs_senior_project/component/appBar.dart';
 import 'package:cs_senior_project/component/orderCard.dart';
-import 'package:cs_senior_project/screens/address/address.dart';
 import 'package:cs_senior_project/screens/address/manage_address.dart';
-import 'package:cs_senior_project/screens/address/select_address.dart';
 import 'package:cs_senior_project/widgets/bottomOrder_widget.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
-import 'package:provider/provider.dart';
 
 class OrderDetailPage extends StatefulWidget {
   // OrderDetailPage(this.meetingId);
@@ -38,7 +35,7 @@ class _OrderDetailPageState extends State<OrderDetailPage> {
         ),
         body: SingleChildScrollView(
           child: Container(
-            margin: EdgeInsets.fromLTRB(0, 10, 0, 20),
+            margin: EdgeInsets.symmetric(horizontal: 20,vertical: 20),
             child: Column(
               // mainAxisAlignment: MainAxisAlignment.center,
               children: [
@@ -214,7 +211,8 @@ class _OrderDetailPageState extends State<OrderDetailPage> {
           ),
         ),
         bottomNavigationBar: BottomOrderDetail(
-          onClicked: () {},
+          onClicked: () {
+          },
           child: Column(
             children: [
               Container(

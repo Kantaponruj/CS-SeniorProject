@@ -11,16 +11,14 @@ class MapWidget extends StatelessWidget {
   const MapWidget({Key key, @required this.mapController}) : super(key: key);
   final Completer<GoogleMapController> mapController;
 
-  // String latitude;
-  // String longtitude;
-
   @override
   Widget build(BuildContext context) {
     StoreNotifier storeNotifier = Provider.of<StoreNotifier>(context);
 
-    Iterable _markers =
-        Iterable.generate(storeNotifier.storeList.length, (index) {
-      return Marker(
+    Iterable _markers = Iterable.generate(
+      storeNotifier.storeList.length,
+      (index) {
+        return Marker(
           markerId: MarkerId(storeNotifier.storeList[index].storeId),
           icon: BitmapDescriptor.defaultMarkerWithHue(_marker),
           position: LatLng(
@@ -28,15 +26,18 @@ class MapWidget extends StatelessWidget {
             storeNotifier.storeList[index].location.longitude,
           ),
           infoWindow:
-              InfoWindow(title: storeNotifier.storeList[index].storeName));
-    });
+              InfoWindow(title: storeNotifier.storeList[index].storeName),
+        );
+      },
+    );
 
     return Container(
       width: double.infinity,
       height: double.infinity,
       child: GoogleMap(
+        // myLocationEnabled: true,
         initialCameraPosition: CameraPosition(
-            target: LatLng(13.655258306757673, 100.49825516513702), zoom: 15),
+            target: LatLng(13.655258306757673, 100.49825516513702), zoom: 14),
         onMapCreated: (GoogleMapController controller) {
           mapController.complete(controller);
         },
@@ -44,16 +45,4 @@ class MapWidget extends StatelessWidget {
       ),
     );
   }
-//
-// void getCurrentLocation() async {
-//   var position = await Geolocator.getCurrentPosition(
-//       desiredAccuracy: LocationAccuracy.high);
-//
-//   var lat = position.latitude;
-//   var long = position.longitude;
-//
-//   latitude = "$lat";
-//   longtitude = "$long";
-//
-// }
 }

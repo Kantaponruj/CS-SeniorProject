@@ -9,8 +9,6 @@ class Store {
   String kindOfFood;
   String image;
   String phone;
-  String startTime;
-  String endTime;
   String address;
   GeoPoint location;
 
@@ -25,9 +23,7 @@ class Store {
     kindOfFood = data['kindOfFood'];
     image = data['image'];
     phone = data['phone'];
-    startTime = data['startTime'];
-    endTime = data['endTime'];
-    address = data['currentAddress'];
-    location = data['currentLocation'];
+    address = data['selectedAddress'];
+    location = data['selectedLocation'];
   }
 }

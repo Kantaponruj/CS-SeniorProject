@@ -59,11 +59,11 @@ class _HomePageState extends State<HomePage> {
               ),
               body: MapWidget(mapController: _mapController),
             ),
-            Positioned(
-              right: 20,
-              top: 130,
-              child: locateFAB(context),
-            ),
+            // Positioned(
+            //   right: 20,
+            //   top: 130,
+            //   child: locateFAB(context),
+            // ),
           ],
         ),
       ),

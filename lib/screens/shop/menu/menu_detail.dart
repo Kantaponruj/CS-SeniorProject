@@ -1,4 +1,5 @@
 import 'package:cs_senior_project/asset/color.dart';
+import 'package:cs_senior_project/asset/constant.dart';
 import 'package:cs_senior_project/asset/text_style.dart';
 import 'package:cs_senior_project/models/store.dart';
 import 'package:cs_senior_project/notifiers/store_notifier.dart';
@@ -83,6 +84,9 @@ class _MenuDetailState extends State<MenuDetail> {
         bottomNavigationBar: BottomOrder(
           price: storeNotifier.currentMenu.price,
           onClicked: () {
+            setState(() {
+              orderedMenu = true;
+            });
             Navigator.of(context).pop();
           },
           child: Column(

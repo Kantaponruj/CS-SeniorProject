@@ -3,8 +3,13 @@ import 'package:cs_senior_project/asset/constant.dart';
 import 'package:cs_senior_project/notifiers/address_notifier.dart';
 import 'package:cs_senior_project/notifiers/location_notifer.dart';
 import 'package:cs_senior_project/notifiers/user_notifier.dart';
+import 'package:cs_senior_project/screens/address/add_address.dart';
+import 'package:cs_senior_project/screens/address/manage_address.dart';
 import 'package:cs_senior_project/screens/login.dart';
+import 'package:cs_senior_project/screens/order/confirm_order.dart';
+import 'package:cs_senior_project/screens/order/orderDetail.dart';
 import 'package:cs_senior_project/screens/shop/menu/menu_detail.dart';
+import 'package:cs_senior_project/screens/shop/shop_detail.dart';
 import 'package:cs_senior_project/screens/shop/shop_menu.dart';
 import 'package:cs_senior_project/widgets/loading_widget.dart';
 import 'package:firebase_core/firebase_core.dart';
@@ -38,6 +43,11 @@ void main() async {
         routes: {
           '/shopMenu': (context) => ShopMenu(),
           '/menuDetail': (context) => MenuDetail(),
+          '/confirmOrder': (context) => ConfirmOrder(),
+          '/orderDetail': (context) => OrderDetailPage(),
+          '/shopDetail': (context) => ShopDetail(),
+          '/manageAddress': (context) => ManageAddress(),
+          '/addAddress': (context) => AddAddress(),
         },
       )));
 }

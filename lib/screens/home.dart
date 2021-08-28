@@ -1,5 +1,6 @@
 import 'dart:async';
 
+import 'package:cs_senior_project/asset/text_style.dart';
 import 'package:cs_senior_project/widgets/tap_widget.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
@@ -38,9 +39,7 @@ class _HomePageState extends State<HomePage> {
     return SafeArea(
       child: Scaffold(
         // extendBodyBehindAppBar: true,
-        appBar: RoundedAppBar(
-          appBarTitle: 'Home',
-        ),
+        appBar: HomeAppBar(),
         body: Stack(
           // fit: StackFit.expand,
           children: [
@@ -92,6 +91,7 @@ class _HomePageState extends State<HomePage> {
         child: Scaffold(
           appBar: AppBar(
             backgroundColor: Colors.white,
+            automaticallyImplyLeading: false,
             title: buildDragHandle(),
             centerTitle: true,
             bottom: TabBar(
@@ -116,4 +116,5 @@ class _HomePageState extends State<HomePage> {
           ),
         ),
       );
+
 }

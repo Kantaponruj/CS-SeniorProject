@@ -1,19 +1,25 @@
+import 'package:auto_size_text/auto_size_text.dart';
 import 'package:cs_senior_project/asset/color.dart';
+import 'package:cs_senior_project/asset/constant.dart';
 import 'package:cs_senior_project/asset/text_style.dart';
 import 'package:cs_senior_project/component/appBar.dart';
+import 'package:cs_senior_project/component/orderCard.dart';
 import 'package:cs_senior_project/component/shopAppBar.dart';
 import 'package:cs_senior_project/models/store.dart';
 import 'package:cs_senior_project/notifiers/store_notifier.dart';
 import 'package:cs_senior_project/screens/order/orderDetail.dart';
 import 'package:cs_senior_project/screens/shop/menu/menu_detail.dart';
+import 'package:cs_senior_project/screens/shop/shop_detail.dart';
 import 'package:cs_senior_project/services/store_service.dart';
 import 'package:cs_senior_project/widgets/bottomOrder_widget.dart';
+import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 
 class ShopMenu extends StatefulWidget {
-  ShopMenu({Key key, this.storeId}) : super(key: key);
+  ShopMenu({Key key, this.storeId, this.storeIndex}) : super(key: key);
   final String storeId;
+  final int storeIndex;
 
   @override
   _ShopMenuState createState() => _ShopMenuState();
@@ -41,6 +47,12 @@ class _ShopMenuState extends State<ShopMenu> {
         extendBodyBehindAppBar: true,
         appBar: ShopRoundedAppBar(
           appBarTitle: storeNotifier.currentStore.storeName,
+          onClicked: () {
+            Navigator.of(context).push(MaterialPageRoute(
+              builder: (context) =>
+                  ShopDetail(storeId: storeNotifier.currentStore.storeId),
+            ));
+          },
         ),
         body: Container(
           child: Column(
@@ -74,8 +86,19 @@ class _ShopMenuState extends State<ShopMenu> {
               ),
               Expanded(
                 flex: 6,
-                child: Container(
-                  child: gridView(),
+                child: SingleChildScrollView(
+                  child: Container(
+                    margin: EdgeInsets.symmetric(horizontal: 20, vertical: 20),
+                    child: ListView.builder(
+                      shrinkWrap: true,
+                      physics: NeverScrollableScrollPhysics(),
+                      itemCount: 2,
+                      padding: EdgeInsets.zero,
+                      itemBuilder: (context, index) {
+                        return menuCategories();
+                      },
+                    ),
+                  ),
                 ),
               ),
             ],
@@ -88,13 +111,19 @@ class _ShopMenuState extends State<ShopMenu> {
             backgroundColor: CollectionsColors.orange,
             mini: false,
             onPressed: () {
+              setState(() {
+                orderFinish = false;
+              });
               Navigator.push(
                   context,
                   MaterialPageRoute(
                     builder: (context) => OrderDetailPage(),
                   ));
             },
-            child: Icon(Icons.shopping_cart,size: 35,),
+            child: Icon(
+              Icons.shopping_cart,
+              size: 35,
+            ),
           ),
         ),
       ),
@@ -119,33 +148,52 @@ class _ShopMenuState extends State<ShopMenu> {
         },
       );
 
-  Widget menuCategories() => ExpansionTile(
-        childrenPadding: EdgeInsets.all(16).copyWith(top: 0),
-        title: Text(
-          items[index],
-          style: FontCollection.topicTextStyle,
+  Widget menuCategories() => BuildCard(
+        headerText: items[index],
+        child: Container(
+          margin: EdgeInsets.symmetric(horizontal: 20, vertical: 20),
+          child: gridView(),
         ),
-        children: [
-          gridView(),
-        ],
+        canEdit: false,
       );
+
+  // Container(
+  // child: Text(
+  //
+  // style: FontCollection.topicTextStyle,
+  // ),
+  // ),
 
   Widget gridView() {
     StoreNotifier storeNotifier = Provider.of<StoreNotifier>(context);
 
-    return GridView.builder(
-      gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
-        crossAxisCount: 2,
-        childAspectRatio: 1,
-        mainAxisSpacing: 20,
-        crossAxisSpacing: 30,
+    return Container(
+      child: GridView.builder(
+        shrinkWrap: true,
+        physics: NeverScrollableScrollPhysics(),
+        gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
+          crossAxisCount: 2,
+          childAspectRatio: 0.7,
+          mainAxisSpacing: 10,
+          crossAxisSpacing: 20,
+        ),
+        padding: EdgeInsets.fromLTRB(20, 20, 20, 0),
+        controller: controller,
+        itemCount: storeNotifier.menuList.length,
+        itemBuilder: (context, index) {
+          // final item = items[index];
+          return menuData(storeNotifier, index);
+        },
       ),
-      padding: EdgeInsets.fromLTRB(30, 10, 30, 10),
-      controller: controller,
-      itemCount: storeNotifier.menuList.length,
-      itemBuilder: (context, index) {
-        // final item = items[index];
-        return InkWell(
+    );
+  }
+
+  // Widget catagoryCard() {}
+
+  Widget menuData(StoreNotifier storeNotifier, int index) {
+    return Stack(
+      children: [
+        InkWell(
           onTap: () {
             storeNotifier.currentMenu = storeNotifier.menuList[index];
             Navigator.push(
@@ -158,44 +206,87 @@ class _ShopMenuState extends State<ShopMenu> {
           },
           child: Container(
             alignment: Alignment.centerLeft,
+            width: 150,
             // color: Theme.of(context).primaryColor,
-            child: GridTile(
-              child: Column(
-                children: [
-                  Container(
-                    width: 200,
-                    height: 150,
-                    child: SizedBox(
-                      child: Image.network(
-                        storeNotifier.menuList[index].image != null
-                            ? storeNotifier.menuList[index].image
-                            : 'https://www.testingxperts.com/wp-content/uploads/2019/02/placeholder-img.jpg',
-                        // errorBuilder: (BuildContext context, Object exception,
-                        //     StackTrace stackTrace) {
-                        //   return Icon(Icons.image, size: 40.0);
-                        // },
-                        fit: BoxFit.cover,
+            child: Column(
+              children: [
+                Container(
+                  height: 150,
+                  margin: EdgeInsets.only(top: 15),
+                  child: SizedBox(
+                    child: Image.network(
+                      storeNotifier.menuList[index].image != null
+                          ? storeNotifier.menuList[index].image
+                          : 'https://www.testingxperts.com/wp-content/uploads/2019/02/placeholder-img.jpg',
+                      // errorBuilder: (BuildContext context, Object exception,
+                      //     StackTrace stackTrace) {
+                      //   return Icon(Icons.image, size: 40.0);
+                      // },
+                      fit: BoxFit.cover,
+                    ),
+                  ),
+                ),
+                Container(
+                  alignment: Alignment.centerLeft,
+                  margin: EdgeInsets.only(top: 10),
+                  child: Text(
+                    storeNotifier.menuList[index].name,
+                    textAlign: TextAlign.left,
+                    style: //orderedMenu
+                        (index == 2)
+                            ? TextStyle(
+                                fontFamily: NotoSansFont,
+                                fontWeight: FontWeight.w700,
+                                fontSize: mediumSize,
+                                color: CollectionsColors.orange,
+                              )
+                            : FontCollection.bodyTextStyle,
+                  ),
+                ),
+                Container(
+                  alignment: Alignment.centerLeft,
+                  child: Text(
+                    storeNotifier.menuList[index].price + ' บาท',
+                    textAlign: TextAlign.left,
+                    style: //orderedMenu
+                        (index == 2)
+                            ? TextStyle(
+                                fontFamily: NotoSansFont,
+                                fontWeight: FontWeight.w700,
+                                fontSize: regularSize,
+                                color: CollectionsColors.orange,
+                              )
+                            : FontCollection.bodyTextStyle,
+                  ),
+                ),
+              ],
+            ),
+          ),
+        ),
+        (index == 2)
+            ? Positioned(
+                right: 0,
+                top: 0,
+                child: Container(
+                  width: 35,
+                  height: 35,
+                  decoration: BoxDecoration(
+                      shape: BoxShape.circle, color: CollectionsColors.navy),
+                  child: Center(
+                    child: AutoSizeText(
+                      '9',
+                      style: TextStyle(
+                        fontFamily: NotoSansFont,
+                        fontWeight: FontWeight.w700,
+                        fontSize: regularSize,
+                        color: CollectionsColors.white,
                       ),
                     ),
                   ),
-                  Container(
-                    child: Text(
-                      storeNotifier.menuList[index].name,
-                      textAlign: TextAlign.left,
-                    ),
-                  ),
-                  Container(
-                    child: Text(
-                      storeNotifier.menuList[index].price + ' บาท',
-                      textAlign: TextAlign.left,
-                    ),
-                  ),
-                ],
-              ),
-            ),
-          ),
-        );
-      },
+                ),
+              )
+            : SizedBox.shrink(),
+      ],
     );
   }
 }

@@ -72,12 +72,15 @@ class _AddressState extends State<Address> {
                       ),
                     ),
                   ),
-                  StadiumButtonWidget(
-                    text: 'เพิ่มที่อยู่ใหม่',
-                    onClicked: () {
-                      Navigator.push(context,
-                          MaterialPageRoute(builder: (context) => AddAddress()));
-                    },
+                  Container(
+                    margin: EdgeInsets.only(top: 20),
+                    child: StadiumButtonWidget(
+                      text: 'เพิ่มที่อยู่ใหม่',
+                      onClicked: () {
+                        Navigator.push(context,
+                            MaterialPageRoute(builder: (context) => AddAddress()));
+                      },
+                    ),
                   ),
                 ],
               ),

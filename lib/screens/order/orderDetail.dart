@@ -1,4 +1,5 @@
 import 'package:cs_senior_project/asset/color.dart';
+import 'package:cs_senior_project/asset/constant.dart';
 import 'package:cs_senior_project/asset/text_style.dart';
 import 'package:cs_senior_project/component/appBar.dart';
 import 'package:cs_senior_project/component/orderCard.dart';
@@ -36,7 +37,7 @@ class _OrderDetailPageState extends State<OrderDetailPage> {
         ),
         body: SingleChildScrollView(
           child: Container(
-            margin: EdgeInsets.fromLTRB(20,100,20,20),
+            margin: EdgeInsets.fromLTRB(20, 100, 20, 20),
             child: Column(
               // mainAxisAlignment: MainAxisAlignment.center,
               children: [
@@ -104,11 +105,7 @@ class _OrderDetailPageState extends State<OrderDetailPage> {
                   ),
                   canEdit: true,
                   onClicked: () {
-                    Navigator.push(
-                        context,
-                        MaterialPageRoute(
-                          builder: (context) => ManageAddress(),
-                        ));
+                    Navigator.of(context).pushNamed('/manageAddress');
                   },
                 ),
                 BuildCard(
@@ -208,44 +205,58 @@ class _OrderDetailPageState extends State<OrderDetailPage> {
                   ),
                   canEdit: true,
                 ),
+                orderFinish
+                    ? Container(
+                        margin: EdgeInsets.only(top: 20),
+                        child: TextButton(
+                          onPressed: () {},
+                          child: Text(
+                            'ยกเลิกคำสั่งซื้อ',
+                            style: FontCollection.underlineButtonTextStyle,
+                          ),
+                        ),
+                      )
+                    : SizedBox.shrink()
               ],
             ),
           ),
         ),
-        bottomNavigationBar: BottomOrderDetail(
-          onClicked: () {
-            Navigator.of(context).push(MaterialPageRoute(builder: (context) => ConfirmOrder()),);
-          },
-          child: Column(
-            children: [
-              Container(
-                alignment: Alignment.centerLeft,
-                margin: EdgeInsets.only(bottom: 10),
-                child: Text(
-                  'ข้อความเพิ่มเติม',
-                  style: FontCollection.bodyTextStyle,
+        bottomNavigationBar: orderFinish
+            ? SizedBox.shrink()
+            : BottomOrderDetail(
+                onClicked: () {
+                  Navigator.of(context).pushReplacementNamed('/confirmOrder');
+                },
+                child: Column(
+                  children: [
+                    Container(
+                      alignment: Alignment.centerLeft,
+                      margin: EdgeInsets.only(bottom: 10),
+                      child: Text(
+                        'ข้อความเพิ่มเติม',
+                        style: FontCollection.bodyTextStyle,
+                      ),
+                    ),
+                    TextFormField(
+                      decoration: InputDecoration(
+                        // errorText: 'Error message',
+                        hintText: 'ใส่ข้อความตรงนี้',
+                        border: OutlineInputBorder(
+                            borderRadius: BorderRadius.circular(10)),
+                        // suffixIcon: Icon(
+                        //   Icons.error,
+                        // ),
+                      ),
+                    ),
+                  ],
                 ),
               ),
-              TextFormField(
-                decoration: InputDecoration(
-                  // errorText: 'Error message',
-                  hintText: 'ใส่ข้อความตรงนี้',
-                  border: OutlineInputBorder(
-                      borderRadius: BorderRadius.circular(10)),
-                  // suffixIcon: Icon(
-                  //   Icons.error,
-                  // ),
-                ),
-              ),
-            ],
-          ),
-        ),
       ),
     );
   }
 
   Widget listOrder(int index) => Container(
-    padding: EdgeInsets.zero,
+        padding: EdgeInsets.zero,
         margin: EdgeInsets.zero,
         child: Row(
           children: [

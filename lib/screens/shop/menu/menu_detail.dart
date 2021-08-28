@@ -1,15 +1,11 @@
 import 'package:cs_senior_project/asset/color.dart';
 import 'package:cs_senior_project/asset/text_style.dart';
-import 'package:cs_senior_project/models/store.dart';
 import 'package:cs_senior_project/notifiers/store_notifier.dart';
-import 'package:cs_senior_project/screens/order/orderDetail.dart';
 import 'package:cs_senior_project/services/store_service.dart';
 import 'package:cs_senior_project/widgets/bottomOrder_widget.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
-
-import '../shop_menu.dart';
 
 class MenuDetail extends StatefulWidget {
   MenuDetail({Key key, this.storeId, this.menuId}) : super(key: key);
@@ -23,19 +19,28 @@ class MenuDetail extends StatefulWidget {
 }
 
 class _MenuDetailState extends State<MenuDetail> {
+  String totalPrice;
+  List isSelectedTopping = [];
+
   @override
   void initState() {
     StoreNotifier storeNotifier =
         Provider.of<StoreNotifier>(context, listen: false);
     getTopping(storeNotifier, widget.storeId, widget.menuId);
+
+    totalPrice = storeNotifier.currentMenu.price;
+
     super.initState();
   }
 
   @override
   Widget build(BuildContext context) {
     StoreNotifier storeNotifier = Provider.of<StoreNotifier>(context);
-    Store store;
     final double imgHeight = MediaQuery.of(context).size.height / 4;
+
+    for (int i = 0; i <= storeNotifier.toppingList.length - 1; i++) {
+      isSelectedTopping.add(false);
+    }
 
     return SafeArea(
       child: Scaffold(
@@ -56,7 +61,7 @@ class _MenuDetailState extends State<MenuDetail> {
                     bottom: Radius.circular(20),
                   ),
                   child: Image.network(
-                    storeNotifier.currentMenu.image != null
+                    storeNotifier.currentMenu.image.isNotEmpty
                         ? storeNotifier.currentMenu.image
                         : 'https://www.testingxperts.com/wp-content/uploads/2019/02/placeholder-img.jpg',
                     fit: BoxFit.cover,
@@ -81,7 +86,7 @@ class _MenuDetailState extends State<MenuDetail> {
           // SearchWidget(),
         ),
         bottomNavigationBar: BottomOrder(
-          price: storeNotifier.currentMenu.price,
+          price: totalPrice,
           onClicked: () {
             Navigator.of(context).pop();
           },
@@ -206,25 +211,31 @@ class _MenuDetailState extends State<MenuDetail> {
     );
   }
 
-  bool checkboxValue = false;
-
   Widget listAddOn(StoreNotifier storeNotifier, int index) {
-    return ListTile(
-      leading: checkbox(checkboxValue),
-      title: Text(storeNotifier.toppingList[index].name),
-      trailing: Text('+' + storeNotifier.toppingList[index].price),
-    );
-  }
+    int totalPriceInt = int.parse(totalPrice);
+    int toppingPriceInt = int.parse(storeNotifier.toppingList[index].price);
 
-  Widget checkbox(bool boolValue) {
-    return Column(
-      mainAxisAlignment: MainAxisAlignment.center,
-      children: <Widget>[
-        Checkbox(
-          value: boolValue,
-          onChanged: (bool value) {},
-        )
-      ],
+    return CheckboxListTile(
+      title: Text(storeNotifier.toppingList[index].name),
+      secondary: Text('+' + storeNotifier.toppingList[index].price),
+      controlAffinity: ListTileControlAffinity.leading,
+      value: isSelectedTopping[index],
+      onChanged: (bool value) {
+        setState(() {
+          isSelectedTopping[index] = value;
+
+          switch (isSelectedTopping[index]) {
+            case true:
+              totalPriceInt += toppingPriceInt;
+              break;
+            default:
+              totalPriceInt -= toppingPriceInt;
+          }
+          totalPrice = totalPriceInt.toString();
+        });
+      },
+      activeColor: CollectionsColors.yellow,
+      checkColor: CollectionsColors.white,
     );
   }
 }

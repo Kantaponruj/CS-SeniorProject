@@ -25,7 +25,12 @@ class _AddAddressState extends State<AddAddress> {
   TextEditingController addressDetail = new TextEditingController();
   TextEditingController residentName = new TextEditingController();
   TextEditingController phone = new TextEditingController();
-  TextEditingController other = new TextEditingController();
+
+  @override
+  void initState() {
+    _currentAddress = AddressModel();
+    super.initState();
+  }
 
   _onAddAddress(AddressModel address) {
     AddressNotifier addressNotifier =
@@ -46,15 +51,8 @@ class _AddAddressState extends State<AddAddress> {
     _currentAddress.addressDetail = addressDetail.text.trim();
     _currentAddress.residentName = residentName.text.trim();
     _currentAddress.phone = phone.text.trim();
-    _currentAddress.other = other.text.trim();
 
     addAddress(_currentAddress, userNotifier.userModel.uid, _onAddAddress);
-  }
-
-  @override
-  void initState() {
-    _currentAddress = AddressModel();
-    super.initState();
   }
 
   @override
@@ -157,19 +155,6 @@ class _AddAddressState extends State<AddAddress> {
                               return null;
                             },
                             phone,
-                          ),
-                        ),
-                        Container(
-                          child: buildTextFormField(
-                            'เพิ่มเติม',
-                            TextInputType.text,
-                            (value) {
-                              if (value.isEmpty) {
-                                return 'เพิ่มเติม';
-                              }
-                              return null;
-                            },
-                            other,
                           ),
                         ),
                       ],

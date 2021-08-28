@@ -7,7 +7,6 @@ class AddressModel {
   GeoPoint geoPoint;
   String residentName;
   String phone;
-  String other;
 
   AddressModel();
 
@@ -28,7 +27,6 @@ class AddressModel {
     geoPoint = data['geoPoint'];
     residentName = data['residentName'];
     phone = data['phone'];
-    other = data['other'];
   }
 
   Map<String, dynamic> toMap() {
@@ -38,8 +36,7 @@ class AddressModel {
       'addressDetail': addressDetail,
       'geoPoint': geoPoint,
       'residentName': residentName,
-      'phone': phone,
-      'other': other
+      'phone': phone
     };
   }
 }

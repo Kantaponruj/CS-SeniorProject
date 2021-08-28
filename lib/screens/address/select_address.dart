@@ -29,34 +29,38 @@ class _SelectAddressState extends State<SelectAddress> {
 
   @override
   Widget build(BuildContext context) {
-    UserNotifier userNotifier = Provider.of<UserNotifier>(context);
+    // UserNotifier userNotifier = Provider.of<UserNotifier>(context);
     LocationNotifier locationNotifier = Provider.of<LocationNotifier>(context);
 
     return SafeArea(
       child: Scaffold(
-        extendBodyBehindAppBar: true,
+        // extendBodyBehindAppBar: true,
         appBar: RoundedAppBar(
           appBarTitle: 'ค้นหาสถานที่',
         ),
-        body: locationNotifier.initialPosition == null
-            ? LoadingWidget()
-            : Container(
-                child: Flexible(
-                  flex: 15,
-                  child: GoogleMap(
-                    myLocationEnabled: true,
-                    mapType: MapType.normal,
-                    initialCameraPosition: CameraPosition(
-                      target: locationNotifier.initialPosition,
-                      zoom: 18,
+        body: Stack(
+          children: [
+            locationNotifier.initialPosition == null
+                ? LoadingWidget()
+                : Container(
+                    child: Flexible(
+                      flex: 15,
+                      child: GoogleMap(
+                        myLocationEnabled: true,
+                        mapType: MapType.normal,
+                        initialCameraPosition: CameraPosition(
+                          target: locationNotifier.initialPosition,
+                          zoom: 18,
+                        ),
+                        markers: Set<Marker>.of(locationNotifier.marker.values),
+                        onMapCreated: (GoogleMapController controller) {
+                          _mapController.complete(controller);
+                        },
+                      ),
                     ),
-                    markers: Set<Marker>.of(locationNotifier.marker.values),
-                    onMapCreated: (GoogleMapController controller) {
-                      _mapController.complete(controller);
-                    },
                   ),
-                ),
-              ),
+          ],
+        ),
         bottomNavigationBar: Container(
           alignment: Alignment.bottomCenter,
           height: 180,
@@ -69,7 +73,7 @@ class _SelectAddressState extends State<SelectAddress> {
                 child: Container(
                   child: Text(locationNotifier.currentAddress != null
                       ? locationNotifier.currentAddress
-                      : "Your Address"),
+                      : 'ที่อยู่'),
                 ),
               ),
               StadiumButtonWidget(

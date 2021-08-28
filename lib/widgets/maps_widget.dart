@@ -1,5 +1,4 @@
 import 'dart:async';
-import 'package:cs_senior_project/component/located_FAB.dart';
 import 'package:cs_senior_project/notifiers/location_notifer.dart';
 import 'package:cs_senior_project/widgets/loading_widget.dart';
 import 'package:flutter/material.dart';
@@ -56,7 +55,6 @@ class _MapWidgetState extends State<MapWidget> {
                 width: double.infinity,
                 height: double.infinity,
                 child: GoogleMap(
-                  myLocationButtonEnabled: false,
                   myLocationEnabled: true,
                   initialCameraPosition: CameraPosition(
                       // target: LatLng(13.655258306757673, 100.49825516513702),
@@ -67,11 +65,6 @@ class _MapWidgetState extends State<MapWidget> {
                   },
                   markers: Set.from(_markers),
                 ),
-              ),
-              Positioned(
-                right: 20,
-                top: 40,
-                child: locateFAB(context),
               ),
             ],
           );

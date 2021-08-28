@@ -8,7 +8,6 @@ import 'package:sliding_up_panel/sliding_up_panel.dart';
 
 import '../asset/color.dart';
 import 'package:cs_senior_project/component/appBar.dart';
-import 'package:cs_senior_project/component/located_FAB.dart';
 import 'package:cs_senior_project/widgets/maps_widget.dart';
 
 class HomePage extends StatefulWidget {
@@ -59,11 +58,6 @@ class _HomePageState extends State<HomePage> {
               ),
               body: MapWidget(mapController: _mapController),
             ),
-            // Positioned(
-            //   right: 20,
-            //   top: 130,
-            //   child: locateFAB(context),
-            // ),
           ],
         ),
       ),

@@ -81,6 +81,7 @@ class _MenuDetailState extends State<MenuDetail> {
         print('order length ' + orderNotifier.orderList.length.toString());
         print(orderNotifier.orderList.map((data) => data.menuName));
         print(orderNotifier.orderList.map((data) => data.totalPrice));
+        print(order.topping);
       } else {
         order.menuId = widget.menuId;
         order.menuName = storeNotifier.currentMenu.name;
@@ -268,6 +269,8 @@ class _MenuDetailState extends State<MenuDetail> {
     int toppingPriceInt = int.parse(storeNotifier.toppingList[index].price);
 
     if (order.topping != null) {
+      trueTopping = order.topping;
+
       for (int i = 0; i <= order.topping.length - 1; i++) {
         if (order.topping[i] == storeNotifier.toppingList[index].name) {
           isSelectedTopping[index] = true;
@@ -287,7 +290,7 @@ class _MenuDetailState extends State<MenuDetail> {
           switch (isSelectedTopping[index]) {
             case true:
               totalPriceInt += toppingPriceInt;
-              trueTopping.add(storeNotifier.toppingList[index].name);
+              trueTopping.insert(0, storeNotifier.toppingList[index].name);
               break;
             default:
               totalPriceInt -= toppingPriceInt;

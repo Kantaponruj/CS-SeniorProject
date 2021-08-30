@@ -40,13 +40,13 @@ class _MenuDetailState extends State<MenuDetail> {
         if (orderNotifier.orderList[i].menuName ==
             storeNotifier.currentMenu.name) {
           orderNotifier.currentOrder = orderNotifier.orderList[i];
-          print('this current menu: ' + orderNotifier.currentOrder.menuId);
-          print(i);
+          // print('this current menu: ' + orderNotifier.currentOrder.menuId);
+          // print(i);
           break;
         } else {
           orderNotifier.currentOrder = null;
-          print('new menu in list');
-          print(i);
+          // print('new menu in list');
+          // print(i);
         }
       }
     }
@@ -74,16 +74,24 @@ class _MenuDetailState extends State<MenuDetail> {
     }
 
     handleClick() {
-      order.menuId = widget.menuId;
-      order.menuName = storeNotifier.currentMenu.name;
-      order.totalPrice = price;
-      order.topping = trueTopping;
+      if (orderNotifier.currentOrder != null) {
+        order.totalPrice = price;
+        order.topping = trueTopping;
 
-      orderNotifier.addOrder(order);
-      print('order length ' + orderNotifier.orderList.length.toString());
-      print(orderNotifier.orderList.map((data) => data.menuName));
-      print(orderNotifier.orderList.map((data) => data.totalPrice));
-      // print(orderNotifier.orderList[0].topping);
+        print('order length ' + orderNotifier.orderList.length.toString());
+        print(orderNotifier.orderList.map((data) => data.menuName));
+        print(orderNotifier.orderList.map((data) => data.totalPrice));
+      } else {
+        order.menuId = widget.menuId;
+        order.menuName = storeNotifier.currentMenu.name;
+        order.totalPrice = price;
+        order.topping = trueTopping;
+
+        orderNotifier.addOrder(order);
+        print('order length ' + orderNotifier.orderList.length.toString());
+        print(orderNotifier.orderList.map((data) => data.menuName));
+        print(orderNotifier.orderList.map((data) => data.totalPrice));
+      }
 
       Navigator.of(context).pop();
     }

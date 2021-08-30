@@ -26,8 +26,4 @@ class OrderNotifier with ChangeNotifier {
     _orderList.add(order);
     notifyListeners();
   }
-
-  // updateOrder(OrderModel orderModel) {
-  //   _orderList.replaceRange(start, end, replacement)
-  // }
 }

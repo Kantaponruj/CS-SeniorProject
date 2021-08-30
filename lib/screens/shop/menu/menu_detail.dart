@@ -23,7 +23,7 @@ class MenuDetail extends StatefulWidget {
 class _MenuDetailState extends State<MenuDetail> {
   String price;
   List isSelectedTopping = [];
-  List trueTopping = [];
+  List selectedTopping = [];
 
   OrderModel order;
 
@@ -76,7 +76,7 @@ class _MenuDetailState extends State<MenuDetail> {
     handleClick() {
       if (orderNotifier.currentOrder != null) {
         order.totalPrice = price;
-        order.topping = trueTopping;
+        order.topping = selectedTopping;
 
         print('order length ' + orderNotifier.orderList.length.toString());
         print(orderNotifier.orderList.map((data) => data.menuName));
@@ -86,7 +86,7 @@ class _MenuDetailState extends State<MenuDetail> {
         order.menuId = widget.menuId;
         order.menuName = storeNotifier.currentMenu.name;
         order.totalPrice = price;
-        order.topping = trueTopping;
+        order.topping = selectedTopping;
 
         orderNotifier.addOrder(order);
         print('order length ' + orderNotifier.orderList.length.toString());
@@ -269,7 +269,7 @@ class _MenuDetailState extends State<MenuDetail> {
     int toppingPriceInt = int.parse(storeNotifier.toppingList[index].price);
 
     if (order.topping != null) {
-      trueTopping = order.topping;
+      selectedTopping = order.topping;
 
       for (int i = 0; i <= order.topping.length - 1; i++) {
         if (order.topping[i] == storeNotifier.toppingList[index].name) {
@@ -290,11 +290,11 @@ class _MenuDetailState extends State<MenuDetail> {
           switch (isSelectedTopping[index]) {
             case true:
               totalPriceInt += toppingPriceInt;
-              trueTopping.insert(0, storeNotifier.toppingList[index].name);
+              selectedTopping.insert(0, storeNotifier.toppingList[index].name);
               break;
             default:
               totalPriceInt -= toppingPriceInt;
-              trueTopping.remove(storeNotifier.toppingList[index].name);
+              selectedTopping.remove(storeNotifier.toppingList[index].name);
           }
           price = totalPriceInt.toString();
         });

@@ -65,4 +65,20 @@ class FontCollection {
     fontSize: bigSize,
     color: Colors.black,
   );
+
+  static const underlineButtonTextStyle = TextStyle(
+    fontFamily: NotoSansFont,
+    fontWeight: FontWeight.w400,
+    fontSize: regularSize,
+    color: Colors.black,
+    decoration: TextDecoration.underline,
+  );
+
+  static const underlineSmallButtonTextStyle = TextStyle(
+    fontFamily: NotoSansFont,
+    fontWeight: FontWeight.w400,
+    fontSize: smallestSize,
+    color: Colors.black,
+    decoration: TextDecoration.underline,
+  );
 }

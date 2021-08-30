@@ -34,13 +34,13 @@ class TapWidget extends StatelessWidget {
       itemBuilder: (context, index) {
         final store = storeNotifier.storeList[index];
         return Column(
-          children: [buildStore(store, context, storeNotifier)],
+          children: [buildStore(store, context, storeNotifier,index)],
         );
       },
     );
   }
 
-  Widget buildStore(Store store, context, StoreNotifier storeNotifier) =>
+  Widget buildStore(Store store, context, StoreNotifier storeNotifier, int index) =>
       ListTile(
           leading: Image.network(
             store.image != null
@@ -62,7 +62,7 @@ class TapWidget extends StatelessWidget {
             storeNotifier.currentStore = store;
             Navigator.of(context).push(MaterialPageRoute(
               builder: (context) =>
-                  ShopMenu(storeId: storeNotifier.currentStore.storeId),
+                  ShopMenu(storeId: storeNotifier.currentStore.storeId, storeIndex: index,),
             ));
           });
 }

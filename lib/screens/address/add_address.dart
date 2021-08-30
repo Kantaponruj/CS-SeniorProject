@@ -66,10 +66,11 @@ class _AddAddressState extends State<AddAddress> {
         ),
         body: SingleChildScrollView(
           child: Container(
+            margin: EdgeInsets.symmetric(horizontal: 20,vertical: 20),
             child: Column(
               children: [
                 Container(
-                  margin: EdgeInsets.symmetric(horizontal: 20),
+                  margin: EdgeInsets.only(bottom: 20),
                   child: StadiumButtonWidget(
                     text: 'เลือกบนแผนที่',
                     onClicked: () {
@@ -163,7 +164,7 @@ class _AddAddressState extends State<AddAddress> {
                   canEdit: false,
                 ),
                 Container(
-                  margin: EdgeInsets.symmetric(horizontal: 20),
+                  margin: EdgeInsets.only(top: 20),
                   child: StadiumButtonWidget(
                     text: 'บันทึก',
                     onClicked: () {

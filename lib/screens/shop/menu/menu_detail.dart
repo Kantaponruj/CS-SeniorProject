@@ -1,16 +1,14 @@
 import 'package:cs_senior_project/asset/color.dart';
 import 'package:cs_senior_project/asset/constant.dart';
 import 'package:cs_senior_project/asset/text_style.dart';
-import 'package:cs_senior_project/models/store.dart';
+import 'package:cs_senior_project/models/order.dart';
+import 'package:cs_senior_project/notifiers/order_notifier.dart';
 import 'package:cs_senior_project/notifiers/store_notifier.dart';
-import 'package:cs_senior_project/screens/order/orderDetail.dart';
 import 'package:cs_senior_project/services/store_service.dart';
 import 'package:cs_senior_project/widgets/bottomOrder_widget.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
-
-import '../shop_menu.dart';
 
 class MenuDetail extends StatefulWidget {
   MenuDetail({Key key, this.storeId, this.menuId}) : super(key: key);
@@ -24,19 +22,81 @@ class MenuDetail extends StatefulWidget {
 }
 
 class _MenuDetailState extends State<MenuDetail> {
+  String price;
+  List isSelectedTopping = [];
+  List selectedTopping = [];
+
+  OrderModel order;
+
   @override
   void initState() {
     StoreNotifier storeNotifier =
         Provider.of<StoreNotifier>(context, listen: false);
+    OrderNotifier orderNotifier =
+        Provider.of<OrderNotifier>(context, listen: false);
     getTopping(storeNotifier, widget.storeId, widget.menuId);
+
+    if (orderNotifier.orderList != null) {
+      for (int i = 0; i <= orderNotifier.orderList.length - 1; i++) {
+        if (orderNotifier.orderList[i].menuName ==
+            storeNotifier.currentMenu.name) {
+          orderNotifier.currentOrder = orderNotifier.orderList[i];
+          // print('this current menu: ' + orderNotifier.currentOrder.menuId);
+          // print(i);
+          break;
+        } else {
+          orderNotifier.currentOrder = null;
+          // print('new menu in list');
+          // print(i);
+        }
+      }
+    }
+
+    if (orderNotifier.currentOrder != null) {
+      order = orderNotifier.currentOrder;
+      price = order.totalPrice;
+    } else {
+      order = OrderModel();
+      price = storeNotifier.currentMenu.price;
+    }
+
     super.initState();
   }
 
   @override
   Widget build(BuildContext context) {
     StoreNotifier storeNotifier = Provider.of<StoreNotifier>(context);
-    Store store;
+    OrderNotifier orderNotifier = Provider.of<OrderNotifier>(context);
+
     final double imgHeight = MediaQuery.of(context).size.height / 4;
+
+    for (int i = 0; i <= storeNotifier.toppingList.length - 1; i++) {
+      isSelectedTopping.add(false);
+    }
+
+    handleClick() {
+      if (orderNotifier.currentOrder != null) {
+        order.totalPrice = price;
+        order.topping = selectedTopping;
+
+        print('order length ' + orderNotifier.orderList.length.toString());
+        print(orderNotifier.orderList.map((data) => data.menuName));
+        print(orderNotifier.orderList.map((data) => data.totalPrice));
+        print(order.topping);
+      } else {
+        order.menuId = widget.menuId;
+        order.menuName = storeNotifier.currentMenu.name;
+        order.totalPrice = price;
+        order.topping = selectedTopping;
+
+        orderNotifier.addOrder(order);
+        print('order length ' + orderNotifier.orderList.length.toString());
+        print(orderNotifier.orderList.map((data) => data.menuName));
+        print(orderNotifier.orderList.map((data) => data.totalPrice));
+      }
+
+      Navigator.of(context).pop();
+    }
 
     return SafeArea(
       child: Scaffold(
@@ -57,7 +117,7 @@ class _MenuDetailState extends State<MenuDetail> {
                     bottom: Radius.circular(20),
                   ),
                   child: Image.network(
-                    storeNotifier.currentMenu.image != null
+                    storeNotifier.currentMenu.image.isNotEmpty
                         ? storeNotifier.currentMenu.image
                         : 'https://www.testingxperts.com/wp-content/uploads/2019/02/placeholder-img.jpg',
                     fit: BoxFit.cover,
@@ -82,13 +142,8 @@ class _MenuDetailState extends State<MenuDetail> {
           // SearchWidget(),
         ),
         bottomNavigationBar: BottomOrder(
-          price: storeNotifier.currentMenu.price,
-          onClicked: () {
-            setState(() {
-              orderedMenu = true;
-            });
-            Navigator.of(context).pop();
-          },
+          price: price,
+          onClicked: handleClick,
           child: Column(
             children: [
               Container(
@@ -210,25 +265,43 @@ class _MenuDetailState extends State<MenuDetail> {
     );
   }
 
-  bool checkboxValue = false;
-
   Widget listAddOn(StoreNotifier storeNotifier, int index) {
-    return ListTile(
-      leading: checkbox(checkboxValue),
-      title: Text(storeNotifier.toppingList[index].name),
-      trailing: Text('+' + storeNotifier.toppingList[index].price),
-    );
-  }
+    int totalPriceInt = int.parse(price);
+    int toppingPriceInt = int.parse(storeNotifier.toppingList[index].price);
 
-  Widget checkbox(bool boolValue) {
-    return Column(
-      mainAxisAlignment: MainAxisAlignment.center,
-      children: <Widget>[
-        Checkbox(
-          value: boolValue,
-          onChanged: (bool value) {},
-        )
-      ],
+    if (order.topping != null) {
+      selectedTopping = order.topping;
+
+      for (int i = 0; i <= order.topping.length - 1; i++) {
+        if (order.topping[i] == storeNotifier.toppingList[index].name) {
+          isSelectedTopping[index] = true;
+        }
+      }
+    }
+
+    return CheckboxListTile(
+      title: Text(storeNotifier.toppingList[index].name),
+      secondary: Text('+' + storeNotifier.toppingList[index].price),
+      controlAffinity: ListTileControlAffinity.leading,
+      value: isSelectedTopping[index],
+      onChanged: (bool value) {
+        setState(() {
+          isSelectedTopping[index] = value;
+
+          switch (isSelectedTopping[index]) {
+            case true:
+              totalPriceInt += toppingPriceInt;
+              selectedTopping.insert(0, storeNotifier.toppingList[index].name);
+              break;
+            default:
+              totalPriceInt -= toppingPriceInt;
+              selectedTopping.remove(storeNotifier.toppingList[index].name);
+          }
+          price = totalPriceInt.toString();
+        });
+      },
+      activeColor: CollectionsColors.yellow,
+      checkColor: CollectionsColors.white,
     );
   }
 }

@@ -35,42 +35,28 @@ class _MenuDetailState extends State<MenuDetail> {
         Provider.of<OrderNotifier>(context, listen: false);
     getTopping(storeNotifier, widget.storeId, widget.menuId);
 
-    price = storeNotifier.currentMenu.price;
-
-    // if (orderNotifier.currentOrder != null) {
-    //   for (int i = 0; i <= orderNotifier.orderList.length - 1; i++) {
-    //     if (orderNotifier.orderList[i].menuId ==
-    //         storeNotifier.currentMenu.menuId) {
-    //       orderNotifier.currentOrder = orderNotifier.orderList[i];
-    //       order = orderNotifier.currentOrder;
-    //     }
-    //   }
-    //   // order = orderNotifier.currentOrder;
-    // } else {
-    //   order = OrderModel();
-    // }
-
-    // if (orderNotifier.currentOrder != null) {
-    //   order = orderNotifier.currentOrder;
-    // }
-    // else {
-    //   // order = OrderModel();
-    //   storeNotifier.currentMenu;
-    //   price = storeNotifier.currentMenu.price;
-    // }
-
-    if (orderNotifier.orderList.isNotEmpty) {
+    if (orderNotifier.orderList != null) {
       for (int i = 0; i <= orderNotifier.orderList.length - 1; i++) {
-        if (orderNotifier.orderList[i].menuId ==
-            storeNotifier.currentMenu.menuId) {
+        if (orderNotifier.orderList[i].menuName ==
+            storeNotifier.currentMenu.name) {
           orderNotifier.currentOrder = orderNotifier.orderList[i];
-          order = orderNotifier.currentOrder;
+          print('this current menu: ' + orderNotifier.currentOrder.menuId);
+          print(i);
+          break;
         } else {
-          order = OrderModel();
+          orderNotifier.currentOrder = null;
+          print('new menu in list');
+          print(i);
         }
       }
+    }
+
+    if (orderNotifier.currentOrder != null) {
+      order = orderNotifier.currentOrder;
+      price = order.totalPrice;
     } else {
       order = OrderModel();
+      price = storeNotifier.currentMenu.price;
     }
 
     super.initState();
@@ -146,7 +132,7 @@ class _MenuDetailState extends State<MenuDetail> {
           // SearchWidget(),
         ),
         bottomNavigationBar: BottomOrder(
-          price: order.totalPrice != null ? order.totalPrice : price,
+          price: price,
           onClicked: handleClick,
           child: Column(
             children: [

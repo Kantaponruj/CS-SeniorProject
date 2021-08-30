@@ -1,8 +1,6 @@
 import 'package:cs_senior_project/asset/color.dart';
 import 'package:cs_senior_project/asset/text_style.dart';
 import 'package:cs_senior_project/component/shopAppBar.dart';
-import 'package:cs_senior_project/models/order.dart';
-import 'package:cs_senior_project/notifiers/order_notifier.dart';
 import 'package:cs_senior_project/notifiers/store_notifier.dart';
 import 'package:cs_senior_project/screens/order/orderDetail.dart';
 import 'package:cs_senior_project/screens/shop/menu/menu_detail.dart';
@@ -134,7 +132,6 @@ class _ShopMenuState extends State<ShopMenu> {
 
   Widget gridView() {
     StoreNotifier storeNotifier = Provider.of<StoreNotifier>(context);
-    OrderNotifier orderNotifier = Provider.of<OrderNotifier>(context);
 
     return GridView.builder(
       gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
@@ -152,21 +149,13 @@ class _ShopMenuState extends State<ShopMenu> {
           onTap: () {
             storeNotifier.currentMenu = storeNotifier.menuList[index];
 
-            // if (orderNotifier.orderList != null) {
-            // for (int i = 0; i <= orderNotifier.orderList.length - 1; i++) {
-            //   if (orderNotifier.orderList[i].menuName ==
-            //       storeNotifier.menuList[index].name) {
-            //     orderNotifier.currentOrder = orderNotifier.orderList[i];
-            //   }
-            // }
-            // }
-
             Navigator.push(
                 context,
                 MaterialPageRoute(
                   builder: (context) => MenuDetail(
-                      storeId: storeNotifier.currentStore.storeId,
-                      menuId: storeNotifier.currentMenu.menuId),
+                    storeId: storeNotifier.currentStore.storeId,
+                    menuId: storeNotifier.currentMenu.menuId,
+                  ),
                 ));
           },
           child: Container(

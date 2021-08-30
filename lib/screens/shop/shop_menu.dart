@@ -1,13 +1,12 @@
 import 'package:cs_senior_project/asset/color.dart';
 import 'package:cs_senior_project/asset/text_style.dart';
-import 'package:cs_senior_project/component/appBar.dart';
 import 'package:cs_senior_project/component/shopAppBar.dart';
-import 'package:cs_senior_project/models/store.dart';
+import 'package:cs_senior_project/models/order.dart';
+import 'package:cs_senior_project/notifiers/order_notifier.dart';
 import 'package:cs_senior_project/notifiers/store_notifier.dart';
 import 'package:cs_senior_project/screens/order/orderDetail.dart';
 import 'package:cs_senior_project/screens/shop/menu/menu_detail.dart';
 import 'package:cs_senior_project/services/store_service.dart';
-import 'package:cs_senior_project/widgets/bottomOrder_widget.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 
@@ -94,7 +93,10 @@ class _ShopMenuState extends State<ShopMenu> {
                     builder: (context) => OrderDetailPage(),
                   ));
             },
-            child: Icon(Icons.shopping_cart,size: 35,),
+            child: Icon(
+              Icons.shopping_cart,
+              size: 35,
+            ),
           ),
         ),
       ),
@@ -132,6 +134,7 @@ class _ShopMenuState extends State<ShopMenu> {
 
   Widget gridView() {
     StoreNotifier storeNotifier = Provider.of<StoreNotifier>(context);
+    OrderNotifier orderNotifier = Provider.of<OrderNotifier>(context);
 
     return GridView.builder(
       gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
@@ -148,6 +151,16 @@ class _ShopMenuState extends State<ShopMenu> {
         return InkWell(
           onTap: () {
             storeNotifier.currentMenu = storeNotifier.menuList[index];
+
+            // if (orderNotifier.orderList != null) {
+            // for (int i = 0; i <= orderNotifier.orderList.length - 1; i++) {
+            //   if (orderNotifier.orderList[i].menuName ==
+            //       storeNotifier.menuList[index].name) {
+            //     orderNotifier.currentOrder = orderNotifier.orderList[i];
+            //   }
+            // }
+            // }
+
             Navigator.push(
                 context,
                 MaterialPageRoute(

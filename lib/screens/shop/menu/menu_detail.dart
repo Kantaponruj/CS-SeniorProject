@@ -1,5 +1,7 @@
 import 'package:cs_senior_project/asset/color.dart';
 import 'package:cs_senior_project/asset/text_style.dart';
+import 'package:cs_senior_project/models/order.dart';
+import 'package:cs_senior_project/notifiers/order_notifier.dart';
 import 'package:cs_senior_project/notifiers/store_notifier.dart';
 import 'package:cs_senior_project/services/store_service.dart';
 import 'package:cs_senior_project/widgets/bottomOrder_widget.dart';
@@ -19,16 +21,57 @@ class MenuDetail extends StatefulWidget {
 }
 
 class _MenuDetailState extends State<MenuDetail> {
-  String totalPrice;
+  String price;
   List isSelectedTopping = [];
+  List trueTopping = [];
+
+  OrderModel order;
 
   @override
   void initState() {
     StoreNotifier storeNotifier =
         Provider.of<StoreNotifier>(context, listen: false);
+    OrderNotifier orderNotifier =
+        Provider.of<OrderNotifier>(context, listen: false);
     getTopping(storeNotifier, widget.storeId, widget.menuId);
 
-    totalPrice = storeNotifier.currentMenu.price;
+    price = storeNotifier.currentMenu.price;
+
+    // if (orderNotifier.currentOrder != null) {
+    //   for (int i = 0; i <= orderNotifier.orderList.length - 1; i++) {
+    //     if (orderNotifier.orderList[i].menuId ==
+    //         storeNotifier.currentMenu.menuId) {
+    //       orderNotifier.currentOrder = orderNotifier.orderList[i];
+    //       order = orderNotifier.currentOrder;
+    //     }
+    //   }
+    //   // order = orderNotifier.currentOrder;
+    // } else {
+    //   order = OrderModel();
+    // }
+
+    // if (orderNotifier.currentOrder != null) {
+    //   order = orderNotifier.currentOrder;
+    // }
+    // else {
+    //   // order = OrderModel();
+    //   storeNotifier.currentMenu;
+    //   price = storeNotifier.currentMenu.price;
+    // }
+
+    if (orderNotifier.orderList.isNotEmpty) {
+      for (int i = 0; i <= orderNotifier.orderList.length - 1; i++) {
+        if (orderNotifier.orderList[i].menuId ==
+            storeNotifier.currentMenu.menuId) {
+          orderNotifier.currentOrder = orderNotifier.orderList[i];
+          order = orderNotifier.currentOrder;
+        } else {
+          order = OrderModel();
+        }
+      }
+    } else {
+      order = OrderModel();
+    }
 
     super.initState();
   }
@@ -36,10 +79,27 @@ class _MenuDetailState extends State<MenuDetail> {
   @override
   Widget build(BuildContext context) {
     StoreNotifier storeNotifier = Provider.of<StoreNotifier>(context);
+    OrderNotifier orderNotifier = Provider.of<OrderNotifier>(context);
+
     final double imgHeight = MediaQuery.of(context).size.height / 4;
 
     for (int i = 0; i <= storeNotifier.toppingList.length - 1; i++) {
       isSelectedTopping.add(false);
+    }
+
+    handleClick() {
+      order.menuId = widget.menuId;
+      order.menuName = storeNotifier.currentMenu.name;
+      order.totalPrice = price;
+      order.topping = trueTopping;
+
+      orderNotifier.addOrder(order);
+      print('order length ' + orderNotifier.orderList.length.toString());
+      print(orderNotifier.orderList.map((data) => data.menuName));
+      print(orderNotifier.orderList.map((data) => data.totalPrice));
+      // print(orderNotifier.orderList[0].topping);
+
+      Navigator.of(context).pop();
     }
 
     return SafeArea(
@@ -86,10 +146,8 @@ class _MenuDetailState extends State<MenuDetail> {
           // SearchWidget(),
         ),
         bottomNavigationBar: BottomOrder(
-          price: totalPrice,
-          onClicked: () {
-            Navigator.of(context).pop();
-          },
+          price: order.totalPrice != null ? order.totalPrice : price,
+          onClicked: handleClick,
           child: Column(
             children: [
               Container(
@@ -212,8 +270,16 @@ class _MenuDetailState extends State<MenuDetail> {
   }
 
   Widget listAddOn(StoreNotifier storeNotifier, int index) {
-    int totalPriceInt = int.parse(totalPrice);
+    int totalPriceInt = int.parse(price);
     int toppingPriceInt = int.parse(storeNotifier.toppingList[index].price);
+
+    if (order.topping != null) {
+      for (int i = 0; i <= order.topping.length - 1; i++) {
+        if (order.topping[i] == storeNotifier.toppingList[index].name) {
+          isSelectedTopping[index] = true;
+        }
+      }
+    }
 
     return CheckboxListTile(
       title: Text(storeNotifier.toppingList[index].name),
@@ -227,11 +293,13 @@ class _MenuDetailState extends State<MenuDetail> {
           switch (isSelectedTopping[index]) {
             case true:
               totalPriceInt += toppingPriceInt;
+              trueTopping.add(storeNotifier.toppingList[index].name);
               break;
             default:
               totalPriceInt -= toppingPriceInt;
+              trueTopping.remove(storeNotifier.toppingList[index].name);
           }
-          totalPrice = totalPriceInt.toString();
+          price = totalPriceInt.toString();
         });
       },
       activeColor: CollectionsColors.yellow,

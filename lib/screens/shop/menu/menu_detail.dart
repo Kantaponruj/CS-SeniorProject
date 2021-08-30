@@ -95,6 +95,7 @@ class _MenuDetailState extends State<MenuDetail> {
         print(orderNotifier.orderList.map((data) => data.totalPrice));
       }
 
+      orderedMenu = true;
       Navigator.of(context).pop();
     }
 

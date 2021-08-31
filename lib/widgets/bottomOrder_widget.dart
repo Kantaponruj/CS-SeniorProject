@@ -48,8 +48,10 @@ class _BottomOrderState extends State<BottomOrder> {
 class BottomOrderDetail extends StatefulWidget {
   final Widget child;
   final VoidCallback onClicked;
+  final String netPrice;
 
-  BottomOrderDetail({Key key, this.child, @required this.onClicked})
+  BottomOrderDetail(
+      {Key key, this.child, @required this.onClicked, @required this.netPrice})
       : super(key: key);
 
   @override
@@ -83,7 +85,7 @@ class _BottomOrderDetailState extends State<BottomOrderDetail> {
                   style: FontCollection.topicBoldTextStyle,
                 ),
                 Text(
-                  '80 บาท',
+                  widget.netPrice + ' บาท',
                   style: FontCollection.topicBoldTextStyle,
                 ),
               ],
@@ -104,8 +106,7 @@ class BottomButton extends StatefulWidget {
   final Widget child;
   final VoidCallback onClicked;
 
-  BottomButton(
-      {Key key, this.child, @required this.onClicked})
+  BottomButton({Key key, this.child, @required this.onClicked})
       : super(key: key);
 
   @override

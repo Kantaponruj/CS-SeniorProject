@@ -3,11 +3,13 @@ import 'package:cs_senior_project/asset/constant.dart';
 import 'package:cs_senior_project/asset/text_style.dart';
 import 'package:cs_senior_project/component/appBar.dart';
 import 'package:cs_senior_project/component/orderCard.dart';
-import 'package:cs_senior_project/screens/address/manage_address.dart';
-import 'package:cs_senior_project/screens/order/confirm_order.dart';
+import 'package:cs_senior_project/models/order.dart';
+import 'package:cs_senior_project/notifiers/order_notifier.dart';
+import 'package:cs_senior_project/notifiers/user_notifier.dart';
 import 'package:cs_senior_project/widgets/bottomOrder_widget.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:provider/provider.dart';
 
 class OrderDetailPage extends StatefulWidget {
   // OrderDetailPage(this.meetingId);
@@ -19,14 +21,26 @@ class OrderDetailPage extends StatefulWidget {
 }
 
 class _OrderDetailPageState extends State<OrderDetailPage> {
+  int netPrice = 0;
+
+  TextEditingController otherMessageController = new TextEditingController();
+
   @override
   void initState() {
+    OrderNotifier orderNotifier =
+        Provider.of<OrderNotifier>(context, listen: false);
+
+    for (int i = 0; i < orderNotifier.orderList.length; i++) {
+      netPrice += int.parse(orderNotifier.orderList[i].totalPrice);
+    }
+
     super.initState();
   }
 
   @override
   Widget build(BuildContext context) {
-    final items = List.generate(10, (counter) => 'Item: $counter');
+    UserNotifier userNotifier = Provider.of<UserNotifier>(context);
+    OrderNotifier orderNotifier = Provider.of<OrderNotifier>(context);
 
     return SafeArea(
       child: Scaffold(
@@ -58,7 +72,7 @@ class _OrderDetailPageState extends State<OrderDetailPage> {
                             backgroundColor: CollectionsColors.yellow,
                             radius: 35.0,
                             child: Text(
-                              '1',
+                              userNotifier.userModel.displayName[0],
                               style: FontCollection.descriptionTextStyle,
                               textAlign: TextAlign.left,
                             ),
@@ -75,7 +89,9 @@ class _OrderDetailPageState extends State<OrderDetailPage> {
                                   alignment: Alignment.centerLeft,
                                   padding: EdgeInsets.only(top: 5),
                                   child: Text(
-                                    'Jane Cooper',
+                                    userNotifier.userModel
+                                            .selectedAddress['residentName'] ??
+                                        userNotifier.userModel.displayName,
                                     style: FontCollection.bodyTextStyle,
                                     textAlign: TextAlign.left,
                                   ),
@@ -84,7 +100,9 @@ class _OrderDetailPageState extends State<OrderDetailPage> {
                                   alignment: Alignment.centerLeft,
                                   padding: EdgeInsets.only(top: 5),
                                   child: Text(
-                                    '0862584569',
+                                    userNotifier.userModel
+                                            .selectedAddress['phone'] ??
+                                        userNotifier.userModel.phone,
                                     style: FontCollection.bodyTextStyle,
                                   ),
                                 ),
@@ -92,7 +110,9 @@ class _OrderDetailPageState extends State<OrderDetailPage> {
                                   alignment: Alignment.centerLeft,
                                   padding: EdgeInsets.fromLTRB(0, 5, 0, 10),
                                   child: Text(
-                                    '2 Library houze ถนนประชาอุทิศ \nทุ่งครุ ราษฎรบูรณะ กทม',
+                                    userNotifier.userModel
+                                            .selectedAddress['address'] ??
+                                        'โปรดระบุที่อยู่',
                                     style: FontCollection.bodyTextStyle,
                                   ),
                                 ),
@@ -108,46 +128,46 @@ class _OrderDetailPageState extends State<OrderDetailPage> {
                     Navigator.of(context).pushNamed('/manageAddress');
                   },
                 ),
-                BuildCard(
-                  headerText: 'เวลานัดหมาย',
-                  child: Container(
-                    padding: EdgeInsets.all(20),
-                    child: Row(
-                      mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-                      children: [
-                        Container(
-                          child: Text(
-                            'วันที่',
-                            style: FontCollection.bodyTextStyle,
-                            textAlign: TextAlign.left,
-                          ),
-                        ),
-                        Container(
-                          child: Text(
-                            '21 เมษายน 2564',
-                            style: FontCollection.bodyTextStyle,
-                            textAlign: TextAlign.right,
-                          ),
-                        ),
-                        Container(
-                          child: Text(
-                            'เวลา',
-                            style: FontCollection.bodyTextStyle,
-                            textAlign: TextAlign.right,
-                          ),
-                        ),
-                        Container(
-                          child: Text(
-                            '12.30 น.',
-                            style: FontCollection.bodyTextStyle,
-                            textAlign: TextAlign.right,
-                          ),
-                        ),
-                      ],
-                    ),
-                  ),
-                  canEdit: false,
-                ),
+                // BuildCard(
+                //   headerText: 'เวลานัดหมาย',
+                //   child: Container(
+                //     padding: EdgeInsets.all(20),
+                //     child: Row(
+                //       mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                //       children: [
+                //         Container(
+                //           child: Text(
+                //             'วันที่',
+                //             style: FontCollection.bodyTextStyle,
+                //             textAlign: TextAlign.left,
+                //           ),
+                //         ),
+                //         Container(
+                //           child: Text(
+                //             '21 เมษายน 2564',
+                //             style: FontCollection.bodyTextStyle,
+                //             textAlign: TextAlign.right,
+                //           ),
+                //         ),
+                //         Container(
+                //           child: Text(
+                //             'เวลา',
+                //             style: FontCollection.bodyTextStyle,
+                //             textAlign: TextAlign.right,
+                //           ),
+                //         ),
+                //         Container(
+                //           child: Text(
+                //             '12.30 น.',
+                //             style: FontCollection.bodyTextStyle,
+                //             textAlign: TextAlign.right,
+                //           ),
+                //         ),
+                //       ],
+                //     ),
+                //   ),
+                //   canEdit: false,
+                // ),
                 BuildCard(
                   headerText: 'สรุปการสั่งซื้อ',
                   child: Container(
@@ -159,10 +179,10 @@ class _OrderDetailPageState extends State<OrderDetailPage> {
                             shrinkWrap: true,
                             padding: EdgeInsets.zero,
                             physics: NeverScrollableScrollPhysics(),
-                            itemCount: items.length,
+                            itemCount: orderNotifier.orderList.length,
                             itemBuilder: (context, index) {
-                              final item = items[index];
-                              return listOrder(index);
+                              // final item = items[index];
+                              return listOrder(orderNotifier.orderList[index]);
                             },
                           ),
                         ),
@@ -182,7 +202,7 @@ class _OrderDetailPageState extends State<OrderDetailPage> {
                                 child: Container(
                                   alignment: Alignment.centerRight,
                                   child: Text(
-                                    '6',
+                                    netPrice.toString(),
                                     style: FontCollection.bodyTextStyle,
                                   ),
                                 ),
@@ -238,6 +258,7 @@ class _OrderDetailPageState extends State<OrderDetailPage> {
                       ),
                     ),
                     TextFormField(
+                      controller: otherMessageController,
                       decoration: InputDecoration(
                         // errorText: 'Error message',
                         hintText: 'ใส่ข้อความตรงนี้',
@@ -250,53 +271,77 @@ class _OrderDetailPageState extends State<OrderDetailPage> {
                     ),
                   ],
                 ),
+                netPrice: netPrice.toString(),
               ),
       ),
     );
   }
 
-  Widget listOrder(int index) => Container(
+  Widget listOrder(OrderModel order) => Container(
         padding: EdgeInsets.zero,
         margin: EdgeInsets.zero,
-        child: Row(
+        child: Column(
           children: [
-            Expanded(
-              flex: 2,
-              child: Container(
-                alignment: Alignment.center,
-                child: Text(
-                  '2',
-                  style: FontCollection.bodyTextStyle,
+            Row(
+              children: [
+                Expanded(
+                  flex: 2,
+                  child: Container(
+                    alignment: Alignment.center,
+                    child: Text(
+                      order.amount.toString(),
+                      style: FontCollection.bodyTextStyle,
+                    ),
+                  ),
                 ),
-              ),
-            ),
-            Expanded(
-              flex: 6,
-              child: Text(
-                'โตเกียวไส้เค็ม',
-                style: FontCollection.bodyTextStyle,
-              ),
-            ),
-            Expanded(
-              flex: 2,
-              child: Container(
-                alignment: Alignment.centerRight,
-                child: Text(
-                  '40',
-                  style: FontCollection.bodyTextStyle,
+                Expanded(
+                  flex: 6,
+                  child: Text(
+                    order.menuName,
+                    style: FontCollection.bodyTextStyle,
+                  ),
                 ),
-              ),
-            ),
-            Expanded(
-              flex: 2,
-              child: Container(
-                alignment: Alignment.centerRight,
-                child: Text(
-                  'บาท',
-                  style: FontCollection.bodyTextStyle,
+                Expanded(
+                  flex: 2,
+                  child: Container(
+                    alignment: Alignment.centerRight,
+                    child: Text(
+                      order.totalPrice,
+                      style: FontCollection.bodyTextStyle,
+                    ),
+                  ),
                 ),
-              ),
+                Expanded(
+                  flex: 2,
+                  child: Container(
+                    alignment: Alignment.centerRight,
+                    child: Text(
+                      'บาท',
+                      style: FontCollection.bodyTextStyle,
+                    ),
+                  ),
+                ),
+              ],
             ),
+            Column(
+              children: [
+                Row(
+                  children: order.topping
+                      .map((topping) => Text(
+                            '$topping ',
+                            style: FontCollection.bodyTextStyle,
+                          ))
+                      .toList(),
+                ),
+                Container(
+                  alignment: Alignment.centerLeft,
+                  child: Text(
+                    order.other,
+                    style: FontCollection.bodyTextStyle,
+                  ),
+                ),
+              ],
+            )
           ],
         ),
       );

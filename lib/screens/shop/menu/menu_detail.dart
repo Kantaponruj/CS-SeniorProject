@@ -28,6 +28,8 @@ class _MenuDetailState extends State<MenuDetail> {
 
   OrderModel order;
 
+  TextEditingController otherController = new TextEditingController();
+
   @override
   void initState() {
     StoreNotifier storeNotifier =
@@ -55,9 +57,11 @@ class _MenuDetailState extends State<MenuDetail> {
     if (orderNotifier.currentOrder != null) {
       order = orderNotifier.currentOrder;
       price = order.totalPrice;
+      otherController.text = order.other;
     } else {
       order = OrderModel();
       price = storeNotifier.currentMenu.price;
+      // other = '';
     }
 
     super.initState();
@@ -78,23 +82,27 @@ class _MenuDetailState extends State<MenuDetail> {
       if (orderNotifier.currentOrder != null) {
         order.totalPrice = price;
         order.topping = selectedTopping;
-        // order.amount = 1;
+        order.amount = 1;
+        order.other = otherController.text.trim();
 
         print('order length ' + orderNotifier.orderList.length.toString());
         print(orderNotifier.orderList.map((data) => data.menuName));
         print(orderNotifier.orderList.map((data) => data.totalPrice));
         print(order.topping);
+        print(order.other);
       } else {
         order.menuId = widget.menuId;
         order.menuName = storeNotifier.currentMenu.name;
         order.totalPrice = price;
         order.topping = selectedTopping;
         order.amount = 1;
+        order.other = otherController.text.trim();
 
         orderNotifier.addOrder(order);
         print('order length ' + orderNotifier.orderList.length.toString());
         print(orderNotifier.orderList.map((data) => data.menuName));
         print(orderNotifier.orderList.map((data) => data.totalPrice));
+        print(order.other);
       }
 
       orderedMenu = true;
@@ -158,6 +166,7 @@ class _MenuDetailState extends State<MenuDetail> {
                 ),
               ),
               TextFormField(
+                controller: otherController,
                 decoration: InputDecoration(
                   // errorText: 'Error message',
                   hintText: 'ใส่ข้อความตรงนี้',

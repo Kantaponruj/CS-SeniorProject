@@ -52,7 +52,7 @@ class _MenuPageState extends State<MenuPage> {
                           backgroundColor: CollectionsColors.yellow,
                           radius: 30.0,
                           child: Text(
-                            userNotifier.userModel.displayName,
+                            userNotifier.userModel.displayName[0],
                             style: FontCollection.descriptionTextStyle,
                             textAlign: TextAlign.left,
                           ),

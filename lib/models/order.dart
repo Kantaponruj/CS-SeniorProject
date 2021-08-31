@@ -3,6 +3,8 @@ class OrderModel {
   String menuName;
   String totalPrice;
   List topping;
+  int amount;
+  String other;
 
   OrderModel();
 
@@ -11,7 +13,9 @@ class OrderModel {
       'menuId': menuId,
       'menuName': menuName,
       'totalPrice': totalPrice,
-      'topping': topping
+      'topping': topping,
+      'amount': amount,
+      'other': other
     };
   }
 
@@ -20,5 +24,7 @@ class OrderModel {
     menuName = data['menuName'];
     totalPrice = data['totalPrice'];
     topping = data['topping'];
+    amount = data['amount'];
+    other = data['other'];
   }
 }

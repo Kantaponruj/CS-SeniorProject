@@ -2,16 +2,14 @@ import 'package:auto_size_text/auto_size_text.dart';
 import 'package:cs_senior_project/asset/color.dart';
 import 'package:cs_senior_project/asset/constant.dart';
 import 'package:cs_senior_project/asset/text_style.dart';
-import 'package:cs_senior_project/component/appBar.dart';
 import 'package:cs_senior_project/component/orderCard.dart';
 import 'package:cs_senior_project/component/shopAppBar.dart';
-import 'package:cs_senior_project/models/store.dart';
+import 'package:cs_senior_project/notifiers/order_notifier.dart';
 import 'package:cs_senior_project/notifiers/store_notifier.dart';
 import 'package:cs_senior_project/screens/order/orderDetail.dart';
 import 'package:cs_senior_project/screens/shop/menu/menu_detail.dart';
 import 'package:cs_senior_project/screens/shop/shop_detail.dart';
 import 'package:cs_senior_project/services/store_service.dart';
-import 'package:cs_senior_project/widgets/bottomOrder_widget.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
@@ -35,12 +33,14 @@ class _ShopMenuState extends State<ShopMenu> {
     StoreNotifier storeNotifier =
         Provider.of<StoreNotifier>(context, listen: false);
     getMenu(storeNotifier, widget.storeId);
+
     super.initState();
   }
 
   @override
   Widget build(BuildContext context) {
     StoreNotifier storeNotifier = Provider.of<StoreNotifier>(context);
+    OrderNotifier orderNotifier = Provider.of<OrderNotifier>(context);
 
     return SafeArea(
       child: Scaffold(
@@ -104,28 +104,30 @@ class _ShopMenuState extends State<ShopMenu> {
             ],
           ),
         ),
-        floatingActionButton: Container(
-          width: 80,
-          height: 80,
-          child: FloatingActionButton(
-            backgroundColor: CollectionsColors.orange,
-            mini: false,
-            onPressed: () {
-              setState(() {
-                orderFinish = false;
-              });
-              Navigator.push(
-                  context,
-                  MaterialPageRoute(
-                    builder: (context) => OrderDetailPage(),
-                  ));
-            },
-            child: Icon(
-              Icons.shopping_cart,
-              size: 35,
-            ),
-          ),
-        ),
+        floatingActionButton: orderNotifier.orderList.isNotEmpty
+            ? Container(
+                width: 80,
+                height: 80,
+                child: FloatingActionButton(
+                  backgroundColor: CollectionsColors.orange,
+                  mini: false,
+                  onPressed: () {
+                    setState(() {
+                      orderFinish = false;
+                    });
+                    Navigator.push(
+                        context,
+                        MaterialPageRoute(
+                          builder: (context) => OrderDetailPage(),
+                        ));
+                  },
+                  child: Icon(
+                    Icons.shopping_cart,
+                    size: 35,
+                  ),
+                ),
+              )
+            : Container(),
       ),
     );
   }
@@ -191,6 +193,21 @@ class _ShopMenuState extends State<ShopMenu> {
   // Widget catagoryCard() {}
 
   Widget menuData(StoreNotifier storeNotifier, int index) {
+    OrderNotifier orderNotifier = Provider.of<OrderNotifier>(context);
+    int amount = 0;
+    bool isOrdered = false;
+
+    if (orderNotifier.orderList != null) {
+      for (int i = 0; i <= orderNotifier.orderList.length - 1; i++) {
+        if (orderNotifier.orderList[i].menuName ==
+            storeNotifier.menuList[index].name) {
+          amount = orderNotifier.orderList[i].amount;
+          isOrdered = true;
+          // print(orderNotifier.orderList[i].menuName);
+        }
+      }
+    }
+
     return Stack(
       children: [
         InkWell(
@@ -233,7 +250,7 @@ class _ShopMenuState extends State<ShopMenu> {
                     storeNotifier.menuList[index].name,
                     textAlign: TextAlign.left,
                     style: //orderedMenu
-                        (index == 2)
+                        (isOrdered)
                             ? TextStyle(
                                 fontFamily: NotoSansFont,
                                 fontWeight: FontWeight.w700,
@@ -249,7 +266,7 @@ class _ShopMenuState extends State<ShopMenu> {
                     storeNotifier.menuList[index].price + ' บาท',
                     textAlign: TextAlign.left,
                     style: //orderedMenu
-                        (index == 2)
+                        (isOrdered)
                             ? TextStyle(
                                 fontFamily: NotoSansFont,
                                 fontWeight: FontWeight.w700,
@@ -263,7 +280,7 @@ class _ShopMenuState extends State<ShopMenu> {
             ),
           ),
         ),
-        (index == 2)
+        (amount > 0)
             ? Positioned(
                 right: 0,
                 top: 0,
@@ -274,7 +291,7 @@ class _ShopMenuState extends State<ShopMenu> {
                       shape: BoxShape.circle, color: CollectionsColors.navy),
                   child: Center(
                     child: AutoSizeText(
-                      '9',
+                      amount.toString(),
                       style: TextStyle(
                         fontFamily: NotoSansFont,
                         fontWeight: FontWeight.w700,

@@ -78,6 +78,7 @@ class _MenuDetailState extends State<MenuDetail> {
       if (orderNotifier.currentOrder != null) {
         order.totalPrice = price;
         order.topping = selectedTopping;
+        // order.amount = 1;
 
         print('order length ' + orderNotifier.orderList.length.toString());
         print(orderNotifier.orderList.map((data) => data.menuName));
@@ -88,6 +89,7 @@ class _MenuDetailState extends State<MenuDetail> {
         order.menuName = storeNotifier.currentMenu.name;
         order.totalPrice = price;
         order.topping = selectedTopping;
+        order.amount = 1;
 
         orderNotifier.addOrder(order);
         print('order length ' + orderNotifier.orderList.length.toString());

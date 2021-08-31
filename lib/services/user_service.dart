@@ -1,6 +1,7 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:cs_senior_project/asset/constant.dart';
 import 'package:cs_senior_project/models/address.dart';
+import 'package:cs_senior_project/models/order.dart';
 import 'package:cs_senior_project/models/user.dart';
 import 'package:cs_senior_project/notifiers/address_notifier.dart';
 
@@ -61,4 +62,48 @@ addAddress(AddressModel address, String uid, Function addAddress) async {
   await documentRef.set(address.toMap(), SetOptions(merge: true));
 
   addAddress(address);
+}
+
+String orderId;
+
+saveDeliveryOrder(
+  String storeId,
+  String customerName,
+  String phone,
+  String address,
+  String addreeDetail,
+  GeoPoint geoPoint,
+  String netPrice,
+) async {
+  DocumentReference orderRef = firebaseFirestore
+      .collection('stores')
+      .doc(storeId)
+      .collection('delivery-orders')
+      .doc();
+
+  orderId = orderRef.id;
+
+  await orderRef.set({
+    'customerName': customerName,
+    'phone': phone,
+    'address': address,
+    'addressDetail': addreeDetail,
+    'geoPoint': geoPoint,
+    'netPrice': netPrice,
+  });
+
+  print('Saved to Firebase');
+  print(orderRef.id);
+}
+
+saveOrder(String storeId, OrderModel order) async {
+  CollectionReference orderToppingRef = firebaseFirestore
+      .collection('stores')
+      .doc(storeId)
+      .collection('delivery-orders')
+      .doc(orderId)
+      .collection('orders');
+
+  DocumentReference documentRef = await orderToppingRef.add(order.toMap());
+  await documentRef.set(order.toMap(), SetOptions(merge: true));
 }

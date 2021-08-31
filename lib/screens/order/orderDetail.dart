@@ -6,15 +6,16 @@ import 'package:cs_senior_project/component/orderCard.dart';
 import 'package:cs_senior_project/models/order.dart';
 import 'package:cs_senior_project/notifiers/order_notifier.dart';
 import 'package:cs_senior_project/notifiers/user_notifier.dart';
+import 'package:cs_senior_project/services/user_service.dart';
 import 'package:cs_senior_project/widgets/bottomOrder_widget.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 
 class OrderDetailPage extends StatefulWidget {
-  // OrderDetailPage(this.meetingId);
-  //
-  // final String meetingId;
+  OrderDetailPage({Key key, this.storeId}) : super(key: key);
+
+  final String storeId;
 
   @override
   _OrderDetailPageState createState() => _OrderDetailPageState();
@@ -245,6 +246,24 @@ class _OrderDetailPageState extends State<OrderDetailPage> {
             ? SizedBox.shrink()
             : BottomOrderDetail(
                 onClicked: () {
+                  saveDeliveryOrder(
+                    widget.storeId,
+                    userNotifier.userModel.selectedAddress['residentName'] ??
+                        userNotifier.userModel.displayName,
+                    userNotifier.userModel.selectedAddress['phone'] ??
+                        userNotifier.userModel.phone,
+                    userNotifier.userModel.selectedAddress['address'],
+                    userNotifier.userModel.selectedAddress['addressDetail'],
+                    userNotifier.userModel.selectedAddress['geoPoint'],
+                    netPrice.toString(),
+                  );
+
+                  for (int i = 0; i < orderNotifier.orderList.length; i++) {
+                    saveOrder(widget.storeId, orderNotifier.orderList[i]);
+                  }
+
+                  orderNotifier.orderList.clear();
+
                   Navigator.of(context).pushReplacementNamed('/confirmOrder');
                 },
                 child: Column(

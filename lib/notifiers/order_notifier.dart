@@ -7,8 +7,7 @@ class OrderNotifier with ChangeNotifier {
   List<OrderModel> _orderList = [];
   OrderModel _currentOrder;
 
-  UnmodifiableListView<OrderModel> get orderList =>
-      UnmodifiableListView(_orderList);
+  List<OrderModel> get orderList => _orderList;
 
   OrderModel get currentOrder => _currentOrder;
 

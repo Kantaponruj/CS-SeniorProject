@@ -15,9 +15,7 @@ import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 
 class ShopMenu extends StatefulWidget {
-  ShopMenu({Key key, this.storeId, this.storeIndex}) : super(key: key);
-  final String storeId;
-  final int storeIndex;
+  ShopMenu({Key key}) : super(key: key);
 
   @override
   _ShopMenuState createState() => _ShopMenuState();
@@ -32,7 +30,7 @@ class _ShopMenuState extends State<ShopMenu> {
   void initState() {
     StoreNotifier storeNotifier =
         Provider.of<StoreNotifier>(context, listen: false);
-    getMenu(storeNotifier, widget.storeId);
+    getMenu(storeNotifier, storeNotifier.currentStore.storeId);
 
     super.initState();
   }
@@ -49,8 +47,7 @@ class _ShopMenuState extends State<ShopMenu> {
           appBarTitle: storeNotifier.currentStore.storeName,
           onClicked: () {
             Navigator.of(context).push(MaterialPageRoute(
-              builder: (context) =>
-                  ShopDetail(storeId: storeNotifier.currentStore.storeId),
+              builder: (context) => ShopDetail(),
             ));
           },
         ),

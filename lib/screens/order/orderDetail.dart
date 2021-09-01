@@ -1,9 +1,11 @@
+import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:cs_senior_project/asset/color.dart';
 import 'package:cs_senior_project/asset/constant.dart';
 import 'package:cs_senior_project/asset/text_style.dart';
 import 'package:cs_senior_project/component/appBar.dart';
 import 'package:cs_senior_project/component/orderCard.dart';
 import 'package:cs_senior_project/models/order.dart';
+import 'package:cs_senior_project/notifiers/location_notifer.dart';
 import 'package:cs_senior_project/notifiers/order_notifier.dart';
 import 'package:cs_senior_project/notifiers/user_notifier.dart';
 import 'package:cs_senior_project/services/user_service.dart';
@@ -23,6 +25,8 @@ class OrderDetailPage extends StatefulWidget {
 
 class _OrderDetailPageState extends State<OrderDetailPage> {
   int netPrice = 0;
+  String customerName, phone, address, addressDetail;
+  GeoPoint geoPoint;
 
   TextEditingController otherMessageController = new TextEditingController();
 
@@ -42,6 +46,23 @@ class _OrderDetailPageState extends State<OrderDetailPage> {
   Widget build(BuildContext context) {
     UserNotifier userNotifier = Provider.of<UserNotifier>(context);
     OrderNotifier orderNotifier = Provider.of<OrderNotifier>(context);
+    LocationNotifier locationNotifier = Provider.of<LocationNotifier>(context);
+
+    customerName = userNotifier.userModel.selectedAddress['residentName'] == ""
+        ? userNotifier.userModel.displayName
+        : userNotifier.userModel.selectedAddress['residentName'];
+    phone = userNotifier.userModel.selectedAddress['phone'] == ""
+        ? userNotifier.userModel.phone
+        : userNotifier.userModel.selectedAddress['phone'];
+    address = userNotifier.userModel.selectedAddress['address'] == ""
+        ? locationNotifier.currentAddress
+        : userNotifier.userModel.selectedAddress['address'];
+    addressDetail = userNotifier.userModel.selectedAddress['addressDetail'];
+    geoPoint =
+        userNotifier.userModel.selectedAddress['geoPoint'] == GeoPoint(0, 0)
+            ? GeoPoint(locationNotifier.currentPosition.latitude,
+                locationNotifier.currentPosition.longitude)
+            : userNotifier.userModel.selectedAddress['geoPoint'];
 
     return SafeArea(
       child: Scaffold(
@@ -73,7 +94,7 @@ class _OrderDetailPageState extends State<OrderDetailPage> {
                             backgroundColor: CollectionsColors.yellow,
                             radius: 35.0,
                             child: Text(
-                              userNotifier.userModel.displayName[0],
+                              customerName[0],
                               style: FontCollection.descriptionTextStyle,
                               textAlign: TextAlign.left,
                             ),
@@ -90,9 +111,7 @@ class _OrderDetailPageState extends State<OrderDetailPage> {
                                   alignment: Alignment.centerLeft,
                                   padding: EdgeInsets.only(top: 5),
                                   child: Text(
-                                    userNotifier.userModel
-                                            .selectedAddress['residentName'] ??
-                                        userNotifier.userModel.displayName,
+                                    customerName,
                                     style: FontCollection.bodyTextStyle,
                                     textAlign: TextAlign.left,
                                   ),
@@ -101,9 +120,7 @@ class _OrderDetailPageState extends State<OrderDetailPage> {
                                   alignment: Alignment.centerLeft,
                                   padding: EdgeInsets.only(top: 5),
                                   child: Text(
-                                    userNotifier.userModel
-                                            .selectedAddress['phone'] ??
-                                        userNotifier.userModel.phone,
+                                    phone,
                                     style: FontCollection.bodyTextStyle,
                                   ),
                                 ),
@@ -111,9 +128,7 @@ class _OrderDetailPageState extends State<OrderDetailPage> {
                                   alignment: Alignment.centerLeft,
                                   padding: EdgeInsets.fromLTRB(0, 5, 0, 10),
                                   child: Text(
-                                    userNotifier.userModel
-                                            .selectedAddress['address'] ??
-                                        'โปรดระบุที่อยู่',
+                                    address ?? 'โปรดระบุที่อยู่',
                                     style: FontCollection.bodyTextStyle,
                                   ),
                                 ),
@@ -248,14 +263,13 @@ class _OrderDetailPageState extends State<OrderDetailPage> {
                 onClicked: () {
                   saveDeliveryOrder(
                     widget.storeId,
-                    userNotifier.userModel.selectedAddress['residentName'] ??
-                        userNotifier.userModel.displayName,
-                    userNotifier.userModel.selectedAddress['phone'] ??
-                        userNotifier.userModel.phone,
-                    userNotifier.userModel.selectedAddress['address'],
-                    userNotifier.userModel.selectedAddress['addressDetail'],
-                    userNotifier.userModel.selectedAddress['geoPoint'],
+                    customerName,
+                    phone,
+                    address,
+                    addressDetail,
+                    geoPoint,
                     netPrice.toString(),
+                    otherMessageController.text.trim() ?? "",
                   );
 
                   for (int i = 0; i < orderNotifier.orderList.length; i++) {

@@ -14,11 +14,31 @@ class UserService {
     String email,
     String token,
   }) {
+    AddressModel addressModel = AddressModel();
+    String residentName = addressModel.residentName;
+    String address = addressModel.address;
+    String addressDetail = addressModel.addressDetail;
+    GeoPoint geoPoint = addressModel.geoPoint;
+    String phone = addressModel.phone;
+
+    residentName = "";
+    address = "";
+    addressDetail = "";
+    geoPoint = GeoPoint(0, 0);
+    phone = "";
+
     firebaseFirestore.collection(collection).doc(uid).set({
       'uid': uid,
       'displayName': displayName,
       'email': email,
-      'token': token
+      'token': token,
+      'selectedAddress': {
+        'residentName': residentName,
+        'address': address,
+        'addressDetail': addressDetail,
+        'geoPoint': geoPoint,
+        'phone': phone
+      }
     });
   }
 
@@ -74,7 +94,10 @@ saveDeliveryOrder(
   String addreeDetail,
   GeoPoint geoPoint,
   String netPrice,
+  String message,
 ) async {
+  Timestamp orderedAt = Timestamp.now();
+
   DocumentReference orderRef = firebaseFirestore
       .collection('stores')
       .doc(storeId)
@@ -90,6 +113,8 @@ saveDeliveryOrder(
     'addressDetail': addreeDetail,
     'geoPoint': geoPoint,
     'netPrice': netPrice,
+    'message': message,
+    'orderedAt': orderedAt
   });
 
   print('Saved to Firebase');

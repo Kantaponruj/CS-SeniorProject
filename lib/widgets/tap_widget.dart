@@ -34,7 +34,12 @@ class TapWidget extends StatelessWidget {
       itemBuilder: (context, index) {
         final store = storeNotifier.storeList[index];
         return Column(
-          children: [buildStore(store, context, storeNotifier, index)],
+          children: [
+            Padding(
+              padding: const EdgeInsets.only(bottom: 10),
+              child: buildStore(store, context, storeNotifier, index),
+            )
+          ],
         );
       },
     );
@@ -43,16 +48,31 @@ class TapWidget extends StatelessWidget {
   Widget buildStore(
           Store store, context, StoreNotifier storeNotifier, int index) =>
       ListTile(
-          leading: Image.network(
-            store.image != null
-                ? store.image
-                : 'https://www.testingxperts.com/wp-content/uploads/2019/02/placeholder-img.jpg',
-            errorBuilder: (BuildContext context, Object exception,
-                StackTrace stackTrace) {
-              return Icon(Icons.image, size: 40.0);
-            },
-            width: 100,
-            fit: BoxFit.cover,
+          leading: Container(
+            width: 60,
+            height: 60,
+            decoration: BoxDecoration(
+                shape: BoxShape.circle,
+                image: DecorationImage(
+                  fit: BoxFit.cover,
+                  image: NetworkImage(
+                    store.image != null
+                        ? store.image
+                        : 'https://www.testingxperts.com/wp-content/uploads/2019/02/placeholder-img.jpg',
+                  ),
+                )),
+            // child: Image.network(
+            //   store.image != null
+            //       ? store.image
+            //       : 'https://www.testingxperts.com/wp-content/uploads/2019/02/placeholder-img.jpg',
+            //   errorBuilder: (BuildContext context, Object exception,
+            //       StackTrace stackTrace) {
+            //     return Icon(Icons.image, size: 40.0);
+            //   },
+            //   width: 100,
+            //   height: 100,
+            //   fit: BoxFit.cover,
+            // ),
           ),
           title: Text(
             store.storeName,
@@ -62,7 +82,10 @@ class TapWidget extends StatelessWidget {
           onTap: () {
             storeNotifier.currentStore = store;
             Navigator.of(context).push(MaterialPageRoute(
-              builder: (context) => ShopMenu(),
+              builder: (context) => ShopMenu(
+                storeId: storeNotifier.currentStore.storeId,
+                storeIndex: index,
+              ),
             ));
           });
 }

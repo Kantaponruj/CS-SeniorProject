@@ -1,5 +1,8 @@
+import 'package:auto_size_text/auto_size_text.dart';
 import 'package:cs_senior_project/asset/text_style.dart';
 import 'package:cs_senior_project/notifiers/location_notifer.dart';
+import 'package:cs_senior_project/screens/address/address.dart';
+import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 
@@ -45,11 +48,12 @@ class _RoundedAppBarState extends State<RoundedAppBar> {
 }
 
 class HomeAppBar extends StatefulWidget implements PreferredSizeWidget {
-  HomeAppBar({Key key})
+  HomeAppBar({Key key, this.onclicked})
       : preferredSize = Size.fromHeight(100),
         super(key: key);
 
   final Size preferredSize;
+  final VoidCallback onclicked;
 
   @override
   _HomeAppBarState createState() => _HomeAppBarState();
@@ -66,40 +70,56 @@ class _HomeAppBarState extends State<HomeAppBar> {
       ),
       child: AppBar(
         title: GestureDetector(
-          onTap: () {},
+          onTap: widget.onclicked,
           child: Container(
             child: Row(
               children: [
                 Icon(Icons.location_on),
                 Container(
-                  child: Column(
-                    children: [
-                      Container(
-                        alignment: Alignment.topLeft,
-                        margin: EdgeInsets.only(left: 20),
-                        child: Text(
-                          'Deliver to : ',
-                          style: FontCollection.bodyTextStyle,
-                        ),
-                      ),
-                      Container(
-                        alignment: Alignment.bottomLeft,
-                        margin: EdgeInsets.fromLTRB(20, 0, 0, 0),
-                        child: Text(
-                          locationNotifier.currentAddress ?? 'loading...',
-                          style: FontCollection.bodyTextStyle,
-                        ),
-                      ),
-                    ],
+                  height: 18,
+                  margin: EdgeInsets.only(left: 20),
+                  alignment: Alignment.centerLeft,
+                  child: FittedBox(
+                    child: AutoSizeText(
+                      locationNotifier.currentAddress ?? 'loading...',
+                      style: FontCollection.bodyTextStyle,
+                      maxLines: 2,
+                      overflow: TextOverflow.ellipsis,
+                    ),
                   ),
                 ),
+                // Container(
+                //   margin: EdgeInsets.only(left: 20),
+                //   alignment: Alignment.centerLeft,
+                //   child: Column(
+                //     mainAxisSize: MainAxisSize.max,
+                //     children: [
+                //       Container(
+                //         alignment: Alignment.topLeft,
+                //         child: Text(
+                //           'Deliver to : ',
+                //           style: FontCollection.bodyTextStyle,
+                //         ),
+                //       ),
+                //       Container(
+                //         child: FittedBox(
+                //           child: AutoSizeText(
+                //             locationNotifier.currentAddress ?? 'loading...',
+                //             style: FontCollection.bodyTextStyle,
+                //             overflow: TextOverflow.ellipsis,
+                //           ),
+                //         ),
+                //       ),
+                //     ],
+                //   ),
+                // ),
               ],
             ),
           ),
         ),
         actions: [
           IconButton(
-            onPressed: () {},
+            onPressed: widget.onclicked,
             icon: Icon(Icons.navigate_next_outlined),
           ),
         ],

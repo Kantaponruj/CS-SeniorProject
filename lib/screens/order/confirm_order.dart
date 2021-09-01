@@ -5,6 +5,7 @@ import 'package:cs_senior_project/asset/color.dart';
 import 'package:cs_senior_project/asset/constant.dart';
 import 'package:cs_senior_project/asset/text_style.dart';
 import 'package:cs_senior_project/component/appBar.dart';
+import 'package:cs_senior_project/component/bottomBar.dart';
 import 'package:cs_senior_project/screens/home.dart';
 import 'package:cs_senior_project/screens/order/orderDetail.dart';
 import 'package:cs_senior_project/widgets/button_widget.dart';
@@ -12,14 +13,14 @@ import 'package:cs_senior_project/widgets/maps_widget.dart';
 import 'package:flutter/material.dart';
 import 'package:google_maps_flutter/google_maps_flutter.dart';
 
-class ConfirmOrder extends StatefulWidget {
-  const ConfirmOrder({Key key}) : super(key: key);
+class ConfirmedOrderMapPage extends StatefulWidget {
+  const ConfirmedOrderMapPage({Key key}) : super(key: key);
 
   @override
-  _ConfirmOrderState createState() => _ConfirmOrderState();
+  _ConfirmedOrderMapPageState createState() => _ConfirmedOrderMapPageState();
 }
 
-class _ConfirmOrderState extends State<ConfirmOrder> {
+class _ConfirmedOrderMapPageState extends State<ConfirmedOrderMapPage> {
   final Completer<GoogleMapController> _mapController = Completer();
 
   @override
@@ -189,7 +190,7 @@ class _ConfirmOrderState extends State<ConfirmOrder> {
           StadiumButtonWidget(
             text: 'โทร',
             onClicked: () {
-              Navigator.of(context).pushReplacement(MaterialPageRoute(builder: (context) => HomePage()));
+              Navigator.of(context).pushReplacement(MaterialPageRoute(builder: (context) => bottomBar()));
             },
           ),
         ],

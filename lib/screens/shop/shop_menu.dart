@@ -15,7 +15,10 @@ import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 
 class ShopMenu extends StatefulWidget {
-  ShopMenu({Key key}) : super(key: key);
+  ShopMenu({Key key, this.storeId, this.storeIndex}) : super(key: key);
+  final String storeId;
+  final int storeIndex;
+
 
   @override
   _ShopMenuState createState() => _ShopMenuState();

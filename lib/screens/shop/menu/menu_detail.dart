@@ -6,6 +6,7 @@ import 'package:cs_senior_project/notifiers/order_notifier.dart';
 import 'package:cs_senior_project/notifiers/store_notifier.dart';
 import 'package:cs_senior_project/services/store_service.dart';
 import 'package:cs_senior_project/widgets/bottomOrder_widget.dart';
+import 'package:cs_senior_project/widgets/stepper.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
@@ -177,6 +178,16 @@ class _MenuDetailState extends State<MenuDetail> {
                   // ),
                 ),
               ),
+              Container(
+                margin: EdgeInsets.only(top: 20),
+                child: CustomStepper(
+                  lowerLimit: 0,
+                  upperLimit: 20,
+                  stepValue: 1,
+                  iconSize: 30.0,
+                  value: 0,
+                ),
+              ),
             ],
           ),
         ),
@@ -202,22 +213,22 @@ class _MenuDetailState extends State<MenuDetail> {
                   ),
                   Container(
                     alignment: Alignment.centerRight,
-                    child: Column(
-                      children: [
-                        Container(
-                            alignment: Alignment.centerRight,
-                            child: Text(
-                              storeNotifier.currentMenu.price,
-                              style: FontCollection.topicTextStyle,
-                            )),
-                        Text(
-                          'ราคาเริ่มต้น',
-                          style: FontCollection.smallBodyTextStyle,
-                        )
-                      ],
+                    child: Container(
+                      alignment: Alignment.centerRight,
+                      child: Text(
+                        storeNotifier.currentMenu.price,
+                        style: FontCollection.topicBoldTextStyle,
+                      ),
                     ),
                   ),
                 ],
+              ),
+            ),
+            Container(
+              alignment: Alignment.centerRight,
+              child: Text(
+                'ราคาเริ่มต้น',
+                style: FontCollection.smallBodyTextStyle,
               ),
             ),
             Container(

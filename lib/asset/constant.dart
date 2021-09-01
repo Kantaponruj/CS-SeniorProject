@@ -14,3 +14,4 @@ FirebaseMessaging fcm = FirebaseMessaging.instance;
 
 bool orderFinish = false;
 bool orderedMenu = false;
+bool isFromHomePage = false;

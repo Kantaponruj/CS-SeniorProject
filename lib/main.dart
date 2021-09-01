@@ -5,6 +5,7 @@ import 'package:cs_senior_project/notifiers/location_notifer.dart';
 import 'package:cs_senior_project/notifiers/order_notifier.dart';
 import 'package:cs_senior_project/notifiers/user_notifier.dart';
 import 'package:cs_senior_project/screens/address/add_address.dart';
+import 'package:cs_senior_project/screens/address/address.dart';
 import 'package:cs_senior_project/screens/address/manage_address.dart';
 import 'package:cs_senior_project/screens/login.dart';
 import 'package:cs_senior_project/screens/order/confirm_order.dart';
@@ -45,11 +46,12 @@ void main() async {
         routes: {
           '/shopMenu': (context) => ShopMenu(),
           '/menuDetail': (context) => MenuDetail(),
-          '/confirmOrder': (context) => ConfirmOrder(),
+          '/confirmOrder': (context) => ConfirmedOrderMapPage(),
           '/orderDetail': (context) => OrderDetailPage(),
           '/shopDetail': (context) => ShopDetail(),
           '/manageAddress': (context) => ManageAddress(),
           '/addAddress': (context) => AddAddress(),
+          '/setAddress': (context) => Address(),
         },
       )));
 }

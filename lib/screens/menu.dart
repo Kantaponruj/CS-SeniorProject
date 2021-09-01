@@ -1,6 +1,7 @@
 import 'dart:async';
 
 import 'package:cs_senior_project/asset/color.dart';
+import 'package:cs_senior_project/asset/constant.dart';
 import 'package:cs_senior_project/asset/text_style.dart';
 import 'package:cs_senior_project/notifiers/user_notifier.dart';
 import 'package:cs_senior_project/screens/login.dart';
@@ -46,26 +47,9 @@ class _MenuPageState extends State<MenuPage> {
                     width: MediaQuery.of(context).size.width,
                     height: MediaQuery.of(context).size.height / 6,
                     padding: EdgeInsets.symmetric(horizontal: 20, vertical: 20),
-                    child: Center(
-                      child: ListTile(
-                        leading: CircleAvatar(
-                          backgroundColor: CollectionsColors.yellow,
-                          radius: 30.0,
-                          child: Text(
-                            userNotifier.userModel.displayName[0],
-                            style: FontCollection.descriptionTextStyle,
-                            textAlign: TextAlign.left,
-                          ),
-                        ),
-                        title: Text(
-                          userNotifier.userModel.displayName,
-                          style: FontCollection.topicTextStyle,
-                        ),
-                        subtitle: Text(
-                          'แก้ไข',
-                          style: FontCollection.bodyTextStyle,
-                        ),
-                      ),
+                    child: profile(
+                      userNotifier.userModel.displayName[0].toUpperCase(),
+                      userNotifier.userModel.displayName,
                     ),
                   ),
                 ),
@@ -84,6 +68,9 @@ class _MenuPageState extends State<MenuPage> {
                 Icons.place,
                 'ที่อยู่',
                 () {
+                  setState(() {
+                    isFromHomePage = false;
+                  });
                   Navigator.push(
                       context,
                       MaterialPageRoute(
@@ -133,6 +120,52 @@ class _MenuPageState extends State<MenuPage> {
             ),
           ),
         ),
+      ),
+    );
+  }
+
+  Widget profile(String nameUpperCase, String name) {
+    return Container(
+      height: double.maxFinite,
+      margin: EdgeInsets.only(left: 20),
+      child: Row(
+        children: [
+          Container(
+            child: CircleAvatar(
+              backgroundColor: CollectionsColors.yellow,
+              radius: 40.0,
+              child: Text(
+                nameUpperCase,
+                style: FontCollection.topicBoldTextStyle,
+                textAlign: TextAlign.left,
+              ),
+            ),
+          ),
+          Container(
+            alignment: Alignment.centerLeft,
+            margin: EdgeInsets.only(left: 20),
+            child: Column(
+              mainAxisAlignment: MainAxisAlignment.center,
+              children: [
+                Container(
+                  child: Text(
+                    name,
+                    style: FontCollection.topicTextStyle,
+                  ),
+                ),
+                Container(
+                  child: TextButton(
+                    onPressed: () {},
+                    child: Text(
+                      'แก้ไข',
+                      style: FontCollection.underlineButtonTextStyle,
+                    ),
+                  ),
+                ),
+              ],
+            ),
+          ),
+        ],
       ),
     );
   }

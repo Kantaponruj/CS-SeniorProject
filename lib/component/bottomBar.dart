@@ -51,14 +51,18 @@ class _State extends State<bottomBar> {
 
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
-      body: _pageWidget.elementAt(_selectedIndex),
-      bottomNavigationBar: BottomNavigationBar(
-        items: _menuBar,
-        currentIndex: _selectedIndex,
-        selectedItemColor: CollectionsColors.orange,
-        unselectedItemColor: CollectionsColors.grey,
-        onTap: _onItemTapped,
+    return SafeArea(
+      child: Scaffold(
+        body: _pageWidget.elementAt(_selectedIndex),
+        backgroundColor: CollectionsColors.orange,
+        bottomNavigationBar: BottomNavigationBar(
+          items: _menuBar,
+          currentIndex: _selectedIndex,
+          backgroundColor: CollectionsColors.orange,
+          selectedItemColor: CollectionsColors.orange,
+          unselectedItemColor: CollectionsColors.grey,
+          onTap: _onItemTapped,
+        ),
       ),
     );
   }

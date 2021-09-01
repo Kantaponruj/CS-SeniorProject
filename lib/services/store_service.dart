@@ -56,7 +56,8 @@ Future<void> getMenu(StoreNotifier storeNotifier, String storeId) async {
   storeNotifier.menuList = _menuList;
 }
 
-Future<void> getTopping(StoreNotifier storeNotifier, String storeId, String menuId) async {
+Future<void> getTopping(
+    StoreNotifier storeNotifier, String storeId, String menuId) async {
   QuerySnapshot snapshot = await firebaseFirestore
       .collection(collection)
       .doc(storeId)
@@ -73,4 +74,21 @@ Future<void> getTopping(StoreNotifier storeNotifier, String storeId, String menu
   });
 
   storeNotifier.toppingList = _toppingList;
+}
+
+Future<void> getDateAndTime(StoreNotifier storeNotifier, String storeId) async {
+  QuerySnapshot snapshot = await firebaseFirestore
+      .collection(collection)
+      .doc(storeId)
+      .collection('openingHours')
+      .get();
+
+  List<StoreOpenDateTime> _dateTime = [];
+
+  snapshot.docs.forEach((document) {
+    StoreOpenDateTime dateTime = StoreOpenDateTime.fromMap(document.data());
+    _dateTime.add(dateTime);
+  });
+
+  storeNotifier.dateTimeList = _dateTime;
 }

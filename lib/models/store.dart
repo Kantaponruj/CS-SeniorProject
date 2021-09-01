@@ -10,9 +10,11 @@ class Store {
   String image;
   String phone;
   String address;
+  String addressName;
   GeoPoint location;
+  String description;
 
-  Store();
+  // Store();
 
   Store.fromMap(Map<String, dynamic> data) {
     storeId = data['storeId'];
@@ -24,6 +26,20 @@ class Store {
     image = data['image'];
     phone = data['phone'];
     address = data['selectedAddress'];
+    addressName = data['selectedAddressName'];
     location = data['selectedLocation'];
+    description = data['description'];
+  }
+}
+
+class StoreOpenDateTime {
+  String openTime;
+  String closeTime;
+  List dates = [];
+
+  StoreOpenDateTime.fromMap(Map<String, dynamic> data) {
+    openTime = data['openTime'];
+    closeTime = data['closeTime'];
+    dates = data['date'];
   }
 }

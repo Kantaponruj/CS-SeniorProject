@@ -2,16 +2,14 @@ import 'package:auto_size_text/auto_size_text.dart';
 import 'package:cs_senior_project/asset/text_style.dart';
 import 'package:cs_senior_project/component/appBar.dart';
 import 'package:cs_senior_project/component/orderCard.dart';
-import 'package:cs_senior_project/component/shopAppBar.dart';
+import 'package:cs_senior_project/models/store.dart';
 import 'package:cs_senior_project/notifiers/store_notifier.dart';
 import 'package:cs_senior_project/services/store_service.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 
 class ShopDetail extends StatefulWidget {
-  ShopDetail({Key key, this.storeId}) : super(key: key);
-
-  final String storeId;
+  ShopDetail({Key key}) : super(key: key);
 
   @override
   _ShopDetailState createState() => _ShopDetailState();
@@ -22,8 +20,64 @@ class _ShopDetailState extends State<ShopDetail> {
   void initState() {
     StoreNotifier storeNotifier =
         Provider.of<StoreNotifier>(context, listen: false);
-    getMenu(storeNotifier, widget.storeId);
+    getDateAndTime(storeNotifier, storeNotifier.currentStore.storeId);
     super.initState();
+  }
+
+  int textCase;
+  List daysArr = [];
+  List<String> _days = [
+    'วันจันทร์',
+    'วันอังคาร',
+    'วันพุธ',
+    'วันพฤหัสบดี',
+    'วันศุกร์',
+    'วันเสาร์',
+    'วันอาทิตย์'
+  ];
+
+  showDateTime(int index, StoreOpenDateTime dateTime) {
+    if (dateTime.dates.length >= 2) {
+      daysArr = [];
+      for (int i = 0; i < dateTime.dates.length - 1; i++) {
+        if ((dateTime.dates[i].isOdd && dateTime.dates[i + 1].isEven) ||
+            (dateTime.dates[i].isEven && dateTime.dates[i + 1].isOdd)) {
+          daysArr.add(_days[dateTime.dates[i]]);
+          textCase = 1;
+        } else {
+          daysArr.add(_days[dateTime.dates[i]]);
+          textCase = 2;
+        }
+      }
+
+      daysArr.add(_days[dateTime.dates[dateTime.dates.length - 1]]);
+
+      return Container(
+        child: textCase == 1
+            ? Text(
+                daysArr[0] + " - " + daysArr[daysArr.length - 1],
+                style: FontCollection.bodyTextStyle,
+              )
+            : Row(
+                children: daysArr
+                    .map(
+                      (day) =>
+                          Text("$day ", style: FontCollection.bodyTextStyle),
+                    )
+                    .toList(),
+              ),
+      );
+    } else {
+      daysArr = [];
+      daysArr.add(_days[dateTime.dates[0]]);
+
+      return Container(
+        child: Text(
+          daysArr[0],
+          style: FontCollection.bodyTextStyle,
+        ),
+      );
+    }
   }
 
   @override
@@ -45,12 +99,19 @@ class _ShopDetailState extends State<ShopDetail> {
                     // padding: EdgeInsets.only(top: 80),
                     children: [
                       Expanded(
-                        child: Image.asset(
-                          'assets/images/shop_test.jpg',
-                          fit: BoxFit.cover,
-                          width: double.infinity,
-                          height: double.infinity,
-                        ),
+                        child: storeNotifier.currentStore.image.isNotEmpty
+                            ? Image.network(
+                                storeNotifier.currentStore.image,
+                                fit: BoxFit.cover,
+                                width: double.infinity,
+                                height: double.infinity,
+                              )
+                            : Image.asset(
+                                'assets/images/shop_test.jpg',
+                                fit: BoxFit.cover,
+                                width: double.infinity,
+                                height: double.infinity,
+                              ),
                       ),
                     ]),
               ),
@@ -66,8 +127,9 @@ class _ShopDetailState extends State<ShopDetail> {
                           child: Container(
                             margin: EdgeInsets.symmetric(
                                 horizontal: 20, vertical: 20),
+                            alignment: Alignment.centerLeft,
                             child: Text(
-                              'Lorem ipsum dolor sit amet, consectetur adipiscing elit. Condimentum blandit nisl et ullamcorper netus. Consequat dui pulvinar ligula posuere vestibulum. Sit est viverra nibh ',
+                              storeNotifier.currentStore.description,
                               style: FontCollection.bodyTextStyle,
                             ),
                           ),
@@ -80,46 +142,49 @@ class _ShopDetailState extends State<ShopDetail> {
                                 horizontal: 20, vertical: 20),
                             child: Column(
                               children: [
-                                Container(
-                                  child: Row(
-                                    mainAxisAlignment:
-                                        MainAxisAlignment.spaceBetween,
-                                    children: [
-                                      Container(
+                                storeNotifier.dateTimeList.isNotEmpty
+                                    ? ListView.builder(
+                                        shrinkWrap: true,
+                                        itemCount:
+                                            storeNotifier.dateTimeList.length,
+                                        itemBuilder: (context, index) {
+                                          return Container(
+                                            child: Row(
+                                              mainAxisAlignment:
+                                                  MainAxisAlignment
+                                                      .spaceBetween,
+                                              children: [
+                                                showDateTime(
+                                                  index,
+                                                  storeNotifier
+                                                      .dateTimeList[index],
+                                                ),
+                                                Container(
+                                                  child: Text(
+                                                    storeNotifier
+                                                            .dateTimeList[index]
+                                                            .openTime +
+                                                        " - " +
+                                                        storeNotifier
+                                                            .dateTimeList[index]
+                                                            .closeTime,
+                                                    style: FontCollection
+                                                        .bodyTextStyle,
+                                                  ),
+                                                ),
+                                              ],
+                                            ),
+                                          );
+                                        },
+                                      )
+                                    : Container(
+                                        padding: EdgeInsets.all(20),
+                                        alignment: Alignment.centerLeft,
                                         child: Text(
-                                          'จันทร์ - ศุกร์',
+                                          'ไม่มีช่วงวันและเวลาขาย',
                                           style: FontCollection.bodyTextStyle,
                                         ),
                                       ),
-                                      Container(
-                                        child: Text(
-                                          '9.00 - 12.00 น.',
-                                          style: FontCollection.bodyTextStyle,
-                                        ),
-                                      ),
-                                    ],
-                                  ),
-                                ),
-                                Container(
-                                  child: Row(
-                                    mainAxisAlignment:
-                                        MainAxisAlignment.spaceBetween,
-                                    children: [
-                                      Container(
-                                        child: Text(
-                                          'จันทร์ - ศุกร์',
-                                          style: FontCollection.bodyTextStyle,
-                                        ),
-                                      ),
-                                      Container(
-                                        child: Text(
-                                          '9.00 - 12.00 น.',
-                                          style: FontCollection.bodyTextStyle,
-                                        ),
-                                      ),
-                                    ],
-                                  ),
-                                ),
                               ],
                             ),
                           ),
@@ -135,13 +200,13 @@ class _ShopDetailState extends State<ShopDetail> {
                                 Container(
                                   alignment: Alignment.centerLeft,
                                   child: Text(
-                                    'ตลาดทุ่งครุ',
+                                    storeNotifier.currentStore.addressName,
                                     style: FontCollection.bodyTextStyle,
                                   ),
                                 ),
                                 Container(
                                   child: AutoSizeText(
-                                    'ตลาดทุ่งครุ ประชาอุทิศ 61 ถนนประชาอุทิศ แขวงทุ่งครุ เขตทุ่งครุ 10140',
+                                    storeNotifier.currentStore.address,
                                     maxLines: 2,
                                     style: FontCollection.bodyTextStyle,
                                   ),

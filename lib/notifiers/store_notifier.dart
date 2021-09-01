@@ -13,6 +13,8 @@ class StoreNotifier with ChangeNotifier {
 
   List<ToppingModel> _toppingList = [];
 
+  List<StoreOpenDateTime> _dateTimeList = [];
+
   UnmodifiableListView<Store> get storeList => UnmodifiableListView(_storeList);
   Store get currentStore => _currentStore;
 
@@ -22,6 +24,9 @@ class StoreNotifier with ChangeNotifier {
 
   UnmodifiableListView<ToppingModel> get toppingList =>
       UnmodifiableListView(_toppingList);
+
+  UnmodifiableListView<StoreOpenDateTime> get dateTimeList =>
+      UnmodifiableListView(_dateTimeList);
 
   set storeList(List<Store> storeList) {
     Future.delayed(Duration(seconds: 1), () {
@@ -47,6 +52,11 @@ class StoreNotifier with ChangeNotifier {
 
   set toppingList(List<ToppingModel> topping) {
     _toppingList = topping;
+    notifyListeners();
+  }
+
+  set dateTimeList(List<StoreOpenDateTime> dateTime) {
+    _dateTimeList = dateTime;
     notifyListeners();
   }
 }

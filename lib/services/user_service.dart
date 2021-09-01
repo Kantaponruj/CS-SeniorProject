@@ -96,8 +96,6 @@ saveDeliveryOrder(
   String netPrice,
   String message,
 ) async {
-  Timestamp orderedAt = Timestamp.now();
-
   DocumentReference orderRef = firebaseFirestore
       .collection('stores')
       .doc(storeId)
@@ -114,7 +112,7 @@ saveDeliveryOrder(
     'geoPoint': geoPoint,
     'netPrice': netPrice,
     'message': message,
-    'orderedAt': orderedAt
+    'orderedAt': Timestamp.now()
   });
 
   print('Saved to Firebase');

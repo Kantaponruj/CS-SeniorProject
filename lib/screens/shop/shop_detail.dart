@@ -140,52 +140,33 @@ class _ShopDetailState extends State<ShopDetail> {
                           child: Container(
                             margin: EdgeInsets.symmetric(
                                 horizontal: 20, vertical: 20),
-                            child: Column(
-                              children: [
-                                storeNotifier.dateTimeList.isNotEmpty
-                                    ? ListView.builder(
-                                        shrinkWrap: true,
-                                        itemCount:
-                                            storeNotifier.dateTimeList.length,
-                                        itemBuilder: (context, index) {
-                                          return Container(
-                                            child: Row(
-                                              mainAxisAlignment:
-                                                  MainAxisAlignment
-                                                      .spaceBetween,
-                                              children: [
-                                                showDateTime(
-                                                  index,
-                                                  storeNotifier
-                                                      .dateTimeList[index],
-                                                ),
-                                                Container(
-                                                  child: Text(
-                                                    storeNotifier
-                                                            .dateTimeList[index]
-                                                            .openTime +
-                                                        " - " +
-                                                        storeNotifier
-                                                            .dateTimeList[index]
-                                                            .closeTime,
-                                                    style: FontCollection
-                                                        .bodyTextStyle,
-                                                  ),
-                                                ),
-                                              ],
-                                            ),
-                                          );
-                                        },
-                                      )
-                                    : Container(
-                                        padding: EdgeInsets.all(20),
-                                        alignment: Alignment.centerLeft,
+                            child: ListView.builder(
+                              shrinkWrap: true,
+                              itemCount: storeNotifier.dateTimeList.length,
+                              itemBuilder: (context, index) {
+                                return Container(
+                                  child: Row(
+                                    mainAxisAlignment:
+                                        MainAxisAlignment.spaceBetween,
+                                    children: [
+                                      showDateTime(
+                                        index,
+                                        storeNotifier.dateTimeList[index],
+                                      ),
+                                      Container(
                                         child: Text(
-                                          'ไม่มีช่วงวันและเวลาขาย',
+                                          storeNotifier.dateTimeList[index]
+                                                  .openTime +
+                                              " - " +
+                                              storeNotifier.dateTimeList[index]
+                                                  .closeTime,
                                           style: FontCollection.bodyTextStyle,
                                         ),
                                       ),
-                              ],
+                                    ],
+                                  ),
+                                );
+                              },
                             ),
                           ),
                           canEdit: false,

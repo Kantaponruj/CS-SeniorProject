@@ -4,10 +4,13 @@ import 'package:cs_senior_project/asset/constant.dart';
 import 'package:cs_senior_project/asset/text_style.dart';
 import 'package:cs_senior_project/component/appBar.dart';
 import 'package:cs_senior_project/component/orderCard.dart';
+import 'package:cs_senior_project/component/shopAppBar.dart';
 import 'package:cs_senior_project/models/order.dart';
 import 'package:cs_senior_project/notifiers/location_notifer.dart';
 import 'package:cs_senior_project/notifiers/order_notifier.dart';
+import 'package:cs_senior_project/notifiers/store_notifier.dart';
 import 'package:cs_senior_project/notifiers/user_notifier.dart';
+import 'package:cs_senior_project/screens/shop/shop_detail.dart';
 import 'package:cs_senior_project/services/user_service.dart';
 import 'package:cs_senior_project/widgets/bottomOrder_widget.dart';
 import 'package:flutter/cupertino.dart';
@@ -45,6 +48,7 @@ class _OrderDetailPageState extends State<OrderDetailPage> {
   @override
   Widget build(BuildContext context) {
     UserNotifier userNotifier = Provider.of<UserNotifier>(context);
+    StoreNotifier storeNotifier = Provider.of<StoreNotifier>(context);
     OrderNotifier orderNotifier = Provider.of<OrderNotifier>(context);
     LocationNotifier locationNotifier = Provider.of<LocationNotifier>(context);
 
@@ -68,8 +72,13 @@ class _OrderDetailPageState extends State<OrderDetailPage> {
       child: Scaffold(
         extendBodyBehindAppBar: true,
         backgroundColor: CollectionsColors.grey,
-        appBar: RoundedAppBar(
-          appBarTitle: 'ข้อมูลการสั่งซื้ออาหาร',
+        appBar: ShopRoundedAppBar(
+          appBarTitle: storeNotifier.currentStore.storeName,
+          onClicked2: () {
+            Navigator.of(context).push(MaterialPageRoute(
+              builder: (context) => ShopDetail(),
+            ));
+          },
         ),
         body: SingleChildScrollView(
           child: Container(

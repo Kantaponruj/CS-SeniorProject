@@ -47,7 +47,7 @@ class BuildCard extends StatelessWidget {
                                     onPressed: onClicked,
                                     child: Text(
                                       'แก้ไข',
-                                      style: FontCollection.bodyTextStyle,
+                                      style: FontCollection.underlineButtonTextStyle,
                                     )),
                               )
                             ],

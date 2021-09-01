@@ -143,6 +143,7 @@ class _ShopDetailState extends State<ShopDetail> {
                             child: ListView.builder(
                               shrinkWrap: true,
                               itemCount: storeNotifier.dateTimeList.length,
+                              padding: EdgeInsets.zero,
                               itemBuilder: (context, index) {
                                 return Container(
                                   child: Row(
@@ -182,7 +183,7 @@ class _ShopDetailState extends State<ShopDetail> {
                                   alignment: Alignment.centerLeft,
                                   child: Text(
                                     storeNotifier.currentStore.addressName,
-                                    style: FontCollection.bodyTextStyle,
+                                    style: FontCollection.bodyBoldTextStyle,
                                   ),
                                 ),
                                 Container(

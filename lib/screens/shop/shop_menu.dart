@@ -19,7 +19,6 @@ class ShopMenu extends StatefulWidget {
   final String storeId;
   final int storeIndex;
 
-
   @override
   _ShopMenuState createState() => _ShopMenuState();
 }
@@ -48,7 +47,7 @@ class _ShopMenuState extends State<ShopMenu> {
         extendBodyBehindAppBar: true,
         appBar: ShopRoundedAppBar(
           appBarTitle: storeNotifier.currentStore.storeName,
-          onClicked: () {
+          onClicked2: () {
             Navigator.of(context).push(MaterialPageRoute(
               builder: (context) => ShopDetail(),
             ));
@@ -58,25 +57,26 @@ class _ShopMenuState extends State<ShopMenu> {
           child: Column(
             children: [
               Expanded(
-                flex: 5,
+                flex: 3,
                 child: Column(
-                    // padding: EdgeInsets.only(top: 80),
-                    children: [
-                      Expanded(
-                        child: Image.network(
-                          storeNotifier.currentStore.image != null
-                              ? storeNotifier.currentStore.image
-                              : 'https://www.testingxperts.com/wp-content/uploads/2019/02/placeholder-img.jpg',
-                          errorBuilder: (BuildContext context, Object exception,
-                              StackTrace stackTrace) {
-                            return Icon(Icons.image, size: 40.0);
-                          },
-                          fit: BoxFit.cover,
-                          width: double.infinity,
-                          height: double.infinity,
-                        ),
+                  // padding: EdgeInsets.only(top: 80),
+                  children: [
+                    Expanded(
+                      child: Image.network(
+                        storeNotifier.currentStore.image != null
+                            ? storeNotifier.currentStore.image
+                            : 'https://www.testingxperts.com/wp-content/uploads/2019/02/placeholder-img.jpg',
+                        errorBuilder: (BuildContext context, Object exception,
+                            StackTrace stackTrace) {
+                          return Icon(Icons.image, size: 40.0);
+                        },
+                        fit: BoxFit.cover,
+                        width: double.infinity,
+                        height: double.infinity,
                       ),
-                    ]),
+                    ),
+                  ],
+                ),
               ),
               Expanded(
                 flex: 1,
@@ -85,18 +85,29 @@ class _ShopMenuState extends State<ShopMenu> {
                 ),
               ),
               Expanded(
-                flex: 6,
+                flex: 8,
                 child: SingleChildScrollView(
                   child: Container(
                     margin: EdgeInsets.symmetric(horizontal: 20, vertical: 20),
-                    child: ListView.builder(
-                      shrinkWrap: true,
-                      physics: NeverScrollableScrollPhysics(),
-                      itemCount: 2,
-                      padding: EdgeInsets.zero,
-                      itemBuilder: (context, index) {
-                        return menuCategories();
-                      },
+                    child: Column(
+                      children: [
+                        BuildCard(
+                          headerText: 'การนัดหมาย/จัดส่ง',
+                          child: Container(),
+                          canEdit: false,
+                        ),
+                        Container(
+                          child: ListView.builder(
+                            shrinkWrap: true,
+                            physics: NeverScrollableScrollPhysics(),
+                            itemCount: 2,
+                            padding: EdgeInsets.zero,
+                            itemBuilder: (context, index) {
+                              return menuCategories();
+                            },
+                          ),
+                        ),
+                      ],
                     ),
                   ),
                 ),

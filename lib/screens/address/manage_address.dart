@@ -25,13 +25,16 @@ class _ManageAddressState extends State<ManageAddress> {
           padding: EdgeInsets.symmetric(horizontal: 20, vertical: 20),
           child: Column(
             children: [
-              StadiumButtonWidget(
-                text: 'เลือกบนแผนที่',
-                onClicked: () {
-                  Navigator.of(context).push(MaterialPageRoute(
-                    builder: (context) => SelectAddress(),
-                  ));
-                },
+              Padding(
+                padding: const EdgeInsets.only(bottom: 20),
+                child: StadiumButtonWidget(
+                  text: 'เลือกบนแผนที่',
+                  onClicked: () {
+                    Navigator.of(context).push(MaterialPageRoute(
+                      builder: (context) => SelectAddress(),
+                    ));
+                  },
+                ),
               ),
               Card(
                 elevation: 0,
@@ -86,12 +89,15 @@ class _ManageAddressState extends State<ManageAddress> {
                   ),
                 ),
               ),
-              StadiumButtonWidget(
-                text: 'เพิ่มที่อยู่ใหม่',
-                onClicked: () {
-                  Navigator.push(context,
-                      MaterialPageRoute(builder: (context) => AddAddress()));
-                },
+              Padding(
+                padding: const EdgeInsets.only(top: 20),
+                child: StadiumButtonWidget(
+                  text: 'เพิ่มที่อยู่ใหม่',
+                  onClicked: () {
+                    Navigator.push(context,
+                        MaterialPageRoute(builder: (context) => AddAddress()));
+                  },
+                ),
               ),
             ],
           ),

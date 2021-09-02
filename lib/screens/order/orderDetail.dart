@@ -200,6 +200,7 @@ class _OrderDetailPageState extends State<OrderDetailPage> {
                 // ),
                 BuildCard(
                   headerText: 'สรุปการสั่งซื้อ',
+                  editText: 'เพิ่มเมนู',
                   onClicked: () {
                     Navigator.of(context).pop();
                   },
@@ -446,6 +447,7 @@ class _OrderDetailPageState extends State<OrderDetailPage> {
                     children: [
                       Container(
                         child: EditButton(
+                          editText: 'แก้ไข',
                           onClicked: () {},
                         ),
                       ),

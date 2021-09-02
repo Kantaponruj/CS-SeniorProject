@@ -7,13 +7,15 @@ class BuildCard extends StatelessWidget {
   final VoidCallback onClicked;
   final String headerText;
   final bool canEdit;
+  final String editText;
 
-  const BuildCard({
+  BuildCard({
     Key key,
     this.headerText,
     this.onClicked,
     @required this.child,
     @required this.canEdit,
+    this.editText = 'แก้ไข',
   }) : super(key: key);
 
   @override
@@ -44,7 +46,7 @@ class BuildCard extends StatelessWidget {
                                 ),
                               ),
                               Container(
-                                child: EditButton(onClicked: onClicked,),
+                                child: EditButton(onClicked: onClicked,editText: editText,),
                               )
                             ],
                           ),

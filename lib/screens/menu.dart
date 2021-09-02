@@ -3,6 +3,7 @@ import 'dart:async';
 import 'package:cs_senior_project/asset/color.dart';
 import 'package:cs_senior_project/asset/constant.dart';
 import 'package:cs_senior_project/asset/text_style.dart';
+import 'package:cs_senior_project/notifiers/order_notifier.dart';
 import 'package:cs_senior_project/notifiers/user_notifier.dart';
 import 'package:cs_senior_project/screens/login.dart';
 import 'package:flutter/material.dart';
@@ -23,6 +24,7 @@ class _MenuPageState extends State<MenuPage> {
   @override
   Widget build(BuildContext context) {
     UserNotifier userNotifier = Provider.of<UserNotifier>(context);
+    OrderNotifier orderNotifier = Provider.of<OrderNotifier>(context);
 
     return SafeArea(
       child: Scaffold(
@@ -83,6 +85,7 @@ class _MenuPageState extends State<MenuPage> {
                 'ออกจากระบบ',
                 () {
                   userNotifier.signOut();
+                  orderNotifier.orderList.clear();
                   Navigator.pushAndRemoveUntil(
                       context,
                       MaterialPageRoute(builder: (context) => LoginPage()),

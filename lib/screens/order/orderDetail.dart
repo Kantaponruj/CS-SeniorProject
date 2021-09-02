@@ -2,7 +2,6 @@ import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:cs_senior_project/asset/color.dart';
 import 'package:cs_senior_project/asset/constant.dart';
 import 'package:cs_senior_project/asset/text_style.dart';
-import 'package:cs_senior_project/component/appBar.dart';
 import 'package:cs_senior_project/component/orderCard.dart';
 import 'package:cs_senior_project/component/shopAppBar.dart';
 import 'package:cs_senior_project/models/order.dart';
@@ -10,6 +9,7 @@ import 'package:cs_senior_project/notifiers/location_notifer.dart';
 import 'package:cs_senior_project/notifiers/order_notifier.dart';
 import 'package:cs_senior_project/notifiers/store_notifier.dart';
 import 'package:cs_senior_project/notifiers/user_notifier.dart';
+import 'package:cs_senior_project/screens/address/manage_address.dart';
 import 'package:cs_senior_project/screens/shop/shop_detail.dart';
 import 'package:cs_senior_project/services/user_service.dart';
 import 'package:cs_senior_project/widgets/bottomOrder_widget.dart';
@@ -150,7 +150,12 @@ class _OrderDetailPageState extends State<OrderDetailPage> {
                   ),
                   canEdit: true,
                   onClicked: () {
-                    Navigator.of(context).pushNamed('/manageAddress');
+                    Navigator.of(context).push(
+                      MaterialPageRoute(
+                        builder: (context) =>
+                            ManageAddress(uid: userNotifier.userModel.uid),
+                      ),
+                    );
                   },
                 ),
                 // BuildCard(

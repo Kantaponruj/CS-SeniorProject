@@ -49,9 +49,9 @@ void main() async {
           '/confirmOrder': (context) => ConfirmedOrderMapPage(),
           '/orderDetail': (context) => OrderDetailPage(),
           '/shopDetail': (context) => ShopDetail(),
-          '/manageAddress': (context) => ManageAddress(),
+          // '/manageAddress': (context) => ManageAddress(),
           '/addAddress': (context) => AddAddress(),
-          '/setAddress': (context) => Address(),
+          // '/setAddress': (context) => Address(),
         },
       )));
 }

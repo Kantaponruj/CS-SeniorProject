@@ -42,8 +42,8 @@ class UserService {
     });
   }
 
-  void updateUserData(Map<String, dynamic> value) {
-    firebaseFirestore.collection(collection).doc(value['uid']).update(value);
+  void updateUserData(String uid, Map<String, dynamic> value) {
+    firebaseFirestore.collection(collection).doc(uid).update(value);
   }
 
   void addDeviceToken({String uid, String token}) {

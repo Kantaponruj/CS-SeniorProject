@@ -105,7 +105,7 @@ class UserNotifier with ChangeNotifier {
   }
 
   updateUserData(Map<String, dynamic> data) async {
-    _userService.updateUserData(data);
+    _userService.updateUserData(user.uid, data);
   }
 
   saveDeviceToken() async {

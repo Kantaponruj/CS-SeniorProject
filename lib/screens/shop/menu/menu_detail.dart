@@ -23,6 +23,9 @@ class MenuDetail extends StatefulWidget {
 }
 
 class _MenuDetailState extends State<MenuDetail> {
+  int amount = 1;
+  int priceMenu;
+  double priceWithTopping;
   String price;
   List isSelectedTopping = [];
   List selectedTopping = [];
@@ -58,14 +61,45 @@ class _MenuDetailState extends State<MenuDetail> {
     if (orderNotifier.currentOrder != null) {
       order = orderNotifier.currentOrder;
       price = order.totalPrice;
+      amount = order.amount;
+      priceWithTopping = int.parse(order.totalPrice) / amount;
       otherController.text = order.other;
     } else {
       order = OrderModel();
       price = storeNotifier.currentMenu.price;
-      // other = '';
     }
 
+    priceMenu = int.parse(storeNotifier.currentMenu.price);
+
     super.initState();
+  }
+
+  void handleIncreaseAmount() {
+    double priceTotal = double.parse(price);
+
+    if (amount < 20) {
+      amount += 1;
+
+      if (selectedTopping.isNotEmpty)
+        priceTotal += priceWithTopping;
+      else
+        priceTotal += priceMenu;
+    }
+    price = priceTotal.toInt().toString();
+  }
+
+  void handleDecreaseAmount() {
+    double priceTotal = double.parse(price);
+
+    if (amount > 0) {
+      amount -= 1;
+
+      if (selectedTopping.isNotEmpty)
+        priceTotal -= priceWithTopping;
+      else
+        priceTotal -= priceMenu;
+    }
+    price = priceTotal.toInt().toString();
   }
 
   @override
@@ -81,9 +115,13 @@ class _MenuDetailState extends State<MenuDetail> {
 
     handleClick() {
       if (orderNotifier.currentOrder != null) {
+        if (amount == 0) {
+          orderNotifier.removeOrder(orderNotifier.currentOrder);
+        }
+
         order.totalPrice = price;
         order.topping = selectedTopping;
-        order.amount = 1;
+        order.amount = amount;
         order.other = otherController.text.trim();
 
         print('order length ' + orderNotifier.orderList.length.toString());
@@ -96,7 +134,7 @@ class _MenuDetailState extends State<MenuDetail> {
         order.menuName = storeNotifier.currentMenu.name;
         order.totalPrice = price;
         order.topping = selectedTopping;
-        order.amount = 1;
+        order.amount = amount;
         order.other = otherController.text.trim();
 
         orderNotifier.addOrder(order);
@@ -181,11 +219,10 @@ class _MenuDetailState extends State<MenuDetail> {
               Container(
                 margin: EdgeInsets.only(top: 20),
                 child: CustomStepper(
-                  lowerLimit: 0,
-                  upperLimit: 20,
-                  stepValue: 1,
                   iconSize: 30.0,
-                  value: 0,
+                  value: amount,
+                  increaseAmount: handleIncreaseAmount,
+                  decreaseAmount: handleDecreaseAmount,
                 ),
               ),
             ],
@@ -289,7 +326,7 @@ class _MenuDetailState extends State<MenuDetail> {
   }
 
   Widget listAddOn(StoreNotifier storeNotifier, int index) {
-    int totalPriceInt = int.parse(price);
+    double totalPriceInt = double.parse(price);
     int toppingPriceInt = int.parse(storeNotifier.toppingList[index].price);
 
     if (order.topping != null) {
@@ -315,12 +352,13 @@ class _MenuDetailState extends State<MenuDetail> {
             case true:
               totalPriceInt += toppingPriceInt;
               selectedTopping.insert(0, storeNotifier.toppingList[index].name);
+              priceWithTopping = totalPriceInt;
               break;
             default:
               totalPriceInt -= toppingPriceInt;
               selectedTopping.remove(storeNotifier.toppingList[index].name);
           }
-          price = totalPriceInt.toString();
+          price = totalPriceInt.toInt().toString();
         });
       },
       activeColor: CollectionsColors.yellow,

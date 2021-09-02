@@ -25,4 +25,9 @@ class OrderNotifier with ChangeNotifier {
     _orderList.add(order);
     notifyListeners();
   }
+
+  removeOrder(OrderModel order) {
+    _orderList.removeWhere((_order) => _order.menuId == order.menuId);
+    notifyListeners();
+  }
 }

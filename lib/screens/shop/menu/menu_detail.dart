@@ -115,20 +115,20 @@ class _MenuDetailState extends State<MenuDetail> {
 
     handleClick() {
       if (orderNotifier.currentOrder != null) {
-        if (amount == 0) {
+        if (amount < 1) {
           orderNotifier.removeOrder(orderNotifier.currentOrder);
+          orderNotifier.currentOrder = null;
+        } else {
+          order.totalPrice = price;
+          order.topping = selectedTopping;
+          order.amount = amount;
+          order.other = otherController.text.trim();
         }
-
-        order.totalPrice = price;
-        order.topping = selectedTopping;
-        order.amount = amount;
-        order.other = otherController.text.trim();
 
         print('order length ' + orderNotifier.orderList.length.toString());
         print(orderNotifier.orderList.map((data) => data.menuName));
         print(orderNotifier.orderList.map((data) => data.totalPrice));
         print(order.topping);
-        print(order.other);
       } else {
         order.menuId = widget.menuId;
         order.menuName = storeNotifier.currentMenu.name;
@@ -141,7 +141,6 @@ class _MenuDetailState extends State<MenuDetail> {
         print('order length ' + orderNotifier.orderList.length.toString());
         print(orderNotifier.orderList.map((data) => data.menuName));
         print(orderNotifier.orderList.map((data) => data.totalPrice));
-        print(order.other);
       }
 
       orderedMenu = true;

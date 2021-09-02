@@ -28,6 +28,8 @@ class _ShopMenuState extends State<ShopMenu> {
   final items = List.generate(10, (counter) => 'Item: $counter');
   final controller = ScrollController();
 
+  List categories = [];
+
   @override
   void initState() {
     StoreNotifier storeNotifier =
@@ -41,6 +43,16 @@ class _ShopMenuState extends State<ShopMenu> {
   Widget build(BuildContext context) {
     StoreNotifier storeNotifier = Provider.of<StoreNotifier>(context);
     OrderNotifier orderNotifier = Provider.of<OrderNotifier>(context);
+
+    categories.clear();
+    storeNotifier.menuList.forEach((menu) {
+      if (categories.contains(menu.categoryFood)) {
+      } else {
+        categories.add(menu.categoryFood);
+      }
+    });
+
+    // print(categories);
 
     return SafeArea(
       child: Scaffold(
@@ -148,14 +160,12 @@ class _ShopMenuState extends State<ShopMenu> {
         padding: EdgeInsets.all(16),
         scrollDirection: Axis.horizontal,
         separatorBuilder: (context, index) => Divider(),
-        itemCount: items.length,
+        itemCount: categories.length,
         itemBuilder: (context, index) {
-          final item = items[index];
-
           return Container(
             margin: EdgeInsets.only(right: 16),
             child: Text(
-              item,
+              categories[index],
               style: FontCollection.topicTextStyle,
             ),
           );
@@ -170,13 +180,6 @@ class _ShopMenuState extends State<ShopMenu> {
         ),
         canEdit: false,
       );
-
-  // Container(
-  // child: Text(
-  //
-  // style: FontCollection.topicTextStyle,
-  // ),
-  // ),
 
   Widget gridView() {
     StoreNotifier storeNotifier = Provider.of<StoreNotifier>(context);

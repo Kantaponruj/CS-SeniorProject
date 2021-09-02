@@ -4,8 +4,9 @@ class MenuModel {
   String description;
   String image;
   String price;
+  String categoryFood;
 
-  MenuModel();
+  // MenuModel();
 
   MenuModel.fromMap(Map<String, dynamic> data) {
     menuId = data["menuId"];
@@ -13,6 +14,7 @@ class MenuModel {
     description = data["description"];
     image = data["image"];
     price = data["price"];
+    categoryFood = data["categoryFood"];
   }
 }
 
@@ -20,7 +22,7 @@ class ToppingModel {
   String name;
   String price;
 
-  ToppingModel();
+  // ToppingModel();
 
   ToppingModel.fromMap(Map<String, dynamic> data) {
     name = data["name"];

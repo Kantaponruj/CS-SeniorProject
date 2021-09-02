@@ -350,13 +350,22 @@ class _MenuDetailState extends State<MenuDetail> {
 
           switch (isSelectedTopping[index]) {
             case true:
-              totalPriceInt += toppingPriceInt;
+              if (amount > 1) {
+                totalPriceInt += (toppingPriceInt * amount);
+              } else {
+                totalPriceInt += toppingPriceInt;
+              }
               selectedTopping.insert(0, storeNotifier.toppingList[index].name);
               priceWithTopping = totalPriceInt;
               break;
             default:
-              totalPriceInt -= toppingPriceInt;
+              if (amount > 1) {
+                totalPriceInt -= (toppingPriceInt * amount);
+              } else {
+                totalPriceInt -= toppingPriceInt;
+              }
               selectedTopping.remove(storeNotifier.toppingList[index].name);
+              priceWithTopping = totalPriceInt;
           }
           price = totalPriceInt.toInt().toString();
         });

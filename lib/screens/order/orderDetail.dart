@@ -14,6 +14,7 @@ import 'package:cs_senior_project/screens/shop/shop_detail.dart';
 import 'package:cs_senior_project/services/store_service.dart';
 import 'package:cs_senior_project/services/user_service.dart';
 import 'package:cs_senior_project/widgets/bottomOrder_widget.dart';
+import 'package:cs_senior_project/widgets/button_widget.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
@@ -199,6 +200,9 @@ class _OrderDetailPageState extends State<OrderDetailPage> {
                 // ),
                 BuildCard(
                   headerText: 'สรุปการสั่งซื้อ',
+                  onClicked: () {
+                    Navigator.of(context).pop();
+                  },
                   child: Container(
                     margin: EdgeInsets.symmetric(horizontal: 20, vertical: 20),
                     child: Column(
@@ -215,40 +219,42 @@ class _OrderDetailPageState extends State<OrderDetailPage> {
                             },
                           ),
                         ),
-                        Container(
-                          margin: EdgeInsets.only(top: 20),
-                          child: Row(
-                            children: [
-                              Expanded(
-                                flex: 7,
-                                child: Text(
-                                  'ราคาสุทธิ',
-                                  style: FontCollection.bodyTextStyle,
+                        orderFinish
+                            ? Container(
+                                margin: EdgeInsets.only(top: 20),
+                                child: Row(
+                                  children: [
+                                    Expanded(
+                                      flex: 8,
+                                      child: Text(
+                                        'ราคาสุทธิ',
+                                        style: FontCollection.bodyTextStyle,
+                                      ),
+                                    ),
+                                    Expanded(
+                                      flex: 3,
+                                      child: Container(
+                                        alignment: Alignment.centerRight,
+                                        child: Text(
+                                          netPrice.toString(),
+                                          style: FontCollection.bodyTextStyle,
+                                        ),
+                                      ),
+                                    ),
+                                    Expanded(
+                                      flex: 1,
+                                      child: Container(
+                                        alignment: Alignment.centerRight,
+                                        child: Text(
+                                          'บาท',
+                                          style: FontCollection.bodyTextStyle,
+                                        ),
+                                      ),
+                                    ),
+                                  ],
                                 ),
-                              ),
-                              Expanded(
-                                flex: 3,
-                                child: Container(
-                                  alignment: Alignment.centerRight,
-                                  child: Text(
-                                    netPrice.toString(),
-                                    style: FontCollection.bodyTextStyle,
-                                  ),
-                                ),
-                              ),
-                              Expanded(
-                                flex: 2,
-                                child: Container(
-                                  alignment: Alignment.centerRight,
-                                  child: Text(
-                                    'บาท',
-                                    style: FontCollection.bodyTextStyle,
-                                  ),
-                                ),
-                              ),
-                            ],
-                          ),
-                        ),
+                              )
+                            : SizedBox.shrink(),
                       ],
                     ),
                   ),
@@ -353,7 +359,7 @@ class _OrderDetailPageState extends State<OrderDetailPage> {
                     alignment: Alignment.center,
                     child: Text(
                       order.amount.toString(),
-                      style: FontCollection.bodyTextStyle,
+                      style: FontCollection.bodyBoldTextStyle,
                     ),
                   ),
                 ),
@@ -386,25 +392,78 @@ class _OrderDetailPageState extends State<OrderDetailPage> {
                 ),
               ],
             ),
-            Column(
-              children: [
-                Row(
-                  children: order.topping
-                      .map((topping) => Text(
-                            '$topping ',
-                            style: FontCollection.bodyTextStyle,
-                          ))
-                      .toList(),
+            order.topping.isEmpty
+                ? SizedBox.shrink()
+                : Container(
+              margin: EdgeInsets.only(top: 10),
+                  child: Column(
+                      children: [
+                        Row(
+                          children: [
+                            Expanded(
+                              flex: 2,
+                              child: Container(),
+                            ),
+                            Expanded(
+                              flex: 10,
+                              child: Row(
+                                children: order.topping
+                                    .map((topping) => Text(
+                                          '$topping' + ', ',
+                                          style: TextStyle(
+                                            fontWeight: FontWeight.w400,
+                                            fontSize: smallestSize,
+                                            color: Colors.black54,
+                                          ),
+                                        ))
+                                    .toList(),
+                              ),
+                            ),
+                          ],
+                        ),
+                        order.other.isEmpty
+                            ? SizedBox.shrink()
+                            : Container(
+                                alignment: Alignment.centerLeft,
+                                child: Text(
+                                  order.other,
+                                  style: FontCollection.bodyTextStyle,
+                                ),
+                              ),
+                      ],
+                    ),
                 ),
-                Container(
-                  alignment: Alignment.centerLeft,
-                  child: Text(
-                    order.other,
-                    style: FontCollection.bodyTextStyle,
+            Row(
+              children: [
+                Expanded(
+                  flex: 2,
+                  child: Container(),
+                ),
+                Expanded(
+                  flex: 10,
+                  child: Row(
+                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                    children: [
+                      Container(
+                        child: EditButton(
+                          onClicked: () {},
+                        ),
+                      ),
+                      Container(
+                        child: IconButton(
+                          onPressed: () {},
+                          icon: Icon(Icons.delete, color: Colors.black54,),
+                        ),
+                      ),
+                    ],
                   ),
                 ),
               ],
-            )
+            ),
+            Padding(
+              padding: const EdgeInsets.only(bottom: 10),
+              child: Divider(),
+            ),
           ],
         ),
       );

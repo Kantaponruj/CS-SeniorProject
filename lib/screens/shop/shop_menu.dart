@@ -129,8 +129,8 @@ class _ShopMenuState extends State<ShopMenu> {
         ),
         floatingActionButton: orderNotifier.orderList.isNotEmpty
             ? Container(
-                width: 80,
-                height: 80,
+                width: 70,
+                height: 70,
                 child: FloatingActionButton(
                   backgroundColor: CollectionsColors.orange,
                   mini: false,
@@ -146,7 +146,7 @@ class _ShopMenuState extends State<ShopMenu> {
                   },
                   child: Icon(
                     Icons.shopping_cart,
-                    size: 35,
+
                   ),
                 ),
               )

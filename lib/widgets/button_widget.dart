@@ -109,3 +109,20 @@ class StadiumConfirmButtonWidget extends StatelessWidget {
     );
   }
 }
+
+class EditButton extends StatelessWidget {
+  EditButton({Key key, @required this.onClicked}) : super(key: key);
+
+  final VoidCallback onClicked;
+
+  @override
+  Widget build(BuildContext context) {
+    return TextButton(
+      onPressed: onClicked,
+      child: Text(
+        'แก้ไข',
+        style: FontCollection.underlineButtonTextStyle,
+      ),
+    );
+  }
+}

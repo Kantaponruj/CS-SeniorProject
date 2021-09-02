@@ -1,4 +1,5 @@
 import 'package:cs_senior_project/asset/text_style.dart';
+import 'package:cs_senior_project/widgets/button_widget.dart';
 import 'package:flutter/material.dart';
 
 class BuildCard extends StatelessWidget {
@@ -43,12 +44,7 @@ class BuildCard extends StatelessWidget {
                                 ),
                               ),
                               Container(
-                                child: TextButton(
-                                    onPressed: onClicked,
-                                    child: Text(
-                                      'แก้ไข',
-                                      style: FontCollection.underlineButtonTextStyle,
-                                    )),
+                                child: EditButton(onClicked: onClicked,),
                               )
                             ],
                           ),

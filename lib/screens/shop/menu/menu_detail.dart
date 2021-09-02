@@ -181,7 +181,9 @@ class _MenuDetailState extends State<MenuDetail> {
                   child: Column(
                     children: [
                       menuDetailCard(storeNotifier),
-                      moreCard(storeNotifier),
+                      storeNotifier.toppingList.isEmpty
+                          ? SizedBox.shrink()
+                          : moreCard(storeNotifier),
                     ],
                   ),
                 ),

@@ -11,6 +11,7 @@ import 'package:cs_senior_project/notifiers/store_notifier.dart';
 import 'package:cs_senior_project/notifiers/user_notifier.dart';
 import 'package:cs_senior_project/screens/address/manage_address.dart';
 import 'package:cs_senior_project/screens/shop/shop_detail.dart';
+import 'package:cs_senior_project/services/store_service.dart';
 import 'package:cs_senior_project/services/user_service.dart';
 import 'package:cs_senior_project/widgets/bottomOrder_widget.dart';
 import 'package:flutter/cupertino.dart';
@@ -18,9 +19,7 @@ import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 
 class OrderDetailPage extends StatefulWidget {
-  OrderDetailPage({Key key, this.storeId}) : super(key: key);
-
-  final String storeId;
+  OrderDetailPage({Key key}) : super(key: key);
 
   @override
   _OrderDetailPageState createState() => _OrderDetailPageState();
@@ -276,7 +275,20 @@ class _OrderDetailPageState extends State<OrderDetailPage> {
             : BottomOrderDetail(
                 onClicked: () {
                   saveDeliveryOrder(
-                    widget.storeId,
+                    storeNotifier.currentStore.storeId,
+                    customerName,
+                    phone,
+                    address,
+                    addressDetail,
+                    geoPoint,
+                    netPrice.toString(),
+                    otherMessageController.text.trim() ?? "",
+                  );
+
+                  saveToHistory(
+                    userNotifier.userModel.uid,
+                    storeNotifier.currentStore.storeId,
+                    storeNotifier.currentStore.storeName,
                     customerName,
                     phone,
                     address,
@@ -287,7 +299,11 @@ class _OrderDetailPageState extends State<OrderDetailPage> {
                   );
 
                   for (int i = 0; i < orderNotifier.orderList.length; i++) {
-                    saveOrder(widget.storeId, orderNotifier.orderList[i]);
+                    saveOrder(storeNotifier.currentStore.storeId,
+                        orderNotifier.orderList[i]);
+
+                    saveOrderToHistory(
+                        userNotifier.userModel.uid, orderNotifier.orderList[i]);
                   }
 
                   orderNotifier.orderList.clear();

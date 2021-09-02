@@ -141,8 +141,7 @@ class _ShopMenuState extends State<ShopMenu> {
                     Navigator.push(
                         context,
                         MaterialPageRoute(
-                          builder: (context) => OrderDetailPage(
-                              storeId: storeNotifier.currentStore.storeId),
+                          builder: (context) => OrderDetailPage(),
                         ));
                   },
                   child: Icon(

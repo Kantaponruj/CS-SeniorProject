@@ -1,6 +1,7 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:cs_senior_project/asset/constant.dart';
 import 'package:cs_senior_project/models/menu.dart';
+import 'package:cs_senior_project/models/order.dart';
 import 'package:cs_senior_project/models/store.dart';
 import 'package:cs_senior_project/notifiers/store_notifier.dart';
 
@@ -91,4 +92,52 @@ Future<void> getDateAndTime(StoreNotifier storeNotifier, String storeId) async {
   });
 
   storeNotifier.dateTimeList = _dateTime;
+}
+
+String orderId;
+
+saveDeliveryOrder(
+  String storeId,
+  String customerName,
+  String phone,
+  String address,
+  String addressDetail,
+  GeoPoint geoPoint,
+  String netPrice,
+  String message,
+) async {
+  DocumentReference orderRefStore = firebaseFirestore
+      .collection('stores')
+      .doc(storeId)
+      .collection('delivery-orders')
+      .doc();
+
+  orderId = orderRefStore.id;
+
+  await orderRefStore.set({
+    'orderId': orderId,
+    'customerName': customerName,
+    'phone': phone,
+    'address': address,
+    'addressDetail': addressDetail,
+    'geoPoint': geoPoint,
+    'netPrice': netPrice,
+    'message': message,
+    'orderedAt': Timestamp.now()
+  });
+
+  print('Saved to Firebase');
+  print(orderRefStore.id);
+}
+
+saveOrder(String storeId, OrderModel order) async {
+  CollectionReference orderToppingRef = firebaseFirestore
+      .collection('stores')
+      .doc(storeId)
+      .collection('delivery-orders')
+      .doc(orderId)
+      .collection('orders');
+
+  DocumentReference documentRef = await orderToppingRef.add(order.toMap());
+  await documentRef.set(order.toMap(), SetOptions(merge: true));
 }

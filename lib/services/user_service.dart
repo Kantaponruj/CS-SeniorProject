@@ -86,44 +86,46 @@ addAddress(AddressModel address, String uid, Function addAddress) async {
 
 String orderId;
 
-saveDeliveryOrder(
+saveToHistory(
+  String uid,
   String storeId,
+  String storeName,
   String customerName,
   String phone,
   String address,
-  String addreeDetail,
+  String addressDetail,
   GeoPoint geoPoint,
   String netPrice,
   String message,
 ) async {
   DocumentReference orderRef = firebaseFirestore
-      .collection('stores')
-      .doc(storeId)
-      .collection('delivery-orders')
+      .collection('users')
+      .doc(uid)
+      .collection('activities')
       .doc();
 
   orderId = orderRef.id;
 
   await orderRef.set({
+    'orderId': orderId,
+    'storeId': storeId,
+    'storeName': storeName,
     'customerName': customerName,
     'phone': phone,
     'address': address,
-    'addressDetail': addreeDetail,
+    'addressDetail': addressDetail,
     'geoPoint': geoPoint,
     'netPrice': netPrice,
     'message': message,
     'orderedAt': Timestamp.now()
   });
-
-  print('Saved to Firebase');
-  print(orderRef.id);
 }
 
-saveOrder(String storeId, OrderModel order) async {
+saveOrderToHistory(String uid, OrderModel order) async {
   CollectionReference orderToppingRef = firebaseFirestore
-      .collection('stores')
-      .doc(storeId)
-      .collection('delivery-orders')
+      .collection('users')
+      .doc(uid)
+      .collection('activities')
       .doc(orderId)
       .collection('orders');
 

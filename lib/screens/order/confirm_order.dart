@@ -1,13 +1,10 @@
 import 'dart:async';
 
 import 'package:auto_size_text/auto_size_text.dart';
-import 'package:cs_senior_project/asset/color.dart';
 import 'package:cs_senior_project/asset/constant.dart';
 import 'package:cs_senior_project/asset/text_style.dart';
 import 'package:cs_senior_project/component/appBar.dart';
 import 'package:cs_senior_project/component/bottomBar.dart';
-import 'package:cs_senior_project/screens/home.dart';
-import 'package:cs_senior_project/screens/order/orderDetail.dart';
 import 'package:cs_senior_project/widgets/button_widget.dart';
 import 'package:cs_senior_project/widgets/maps_widget.dart';
 import 'package:flutter/material.dart';
@@ -97,8 +94,7 @@ class _ConfirmedOrderMapPageState extends State<ConfirmedOrderMapPage> {
                           alignment: Alignment.centerLeft,
                           child: Text(
                             'ของหวาน',
-                            style:
-                            FontCollection.descriptionTextStyle,
+                            style: FontCollection.descriptionTextStyle,
                           ),
                         ),
                       ],
@@ -190,12 +186,12 @@ class _ConfirmedOrderMapPageState extends State<ConfirmedOrderMapPage> {
           StadiumButtonWidget(
             text: 'โทร',
             onClicked: () {
-              Navigator.of(context).pushReplacement(MaterialPageRoute(builder: (context) => bottomBar()));
+              Navigator.of(context).pushReplacement(
+                  MaterialPageRoute(builder: (context) => bottomBar()));
             },
           ),
         ],
       ),
     );
   }
-
 }

@@ -75,13 +75,11 @@ class _HomeAppBarState extends State<HomeAppBar> {
             child: Row(
               children: [
                 Icon(Icons.location_on),
-                Container(
-                  height: 18,
-                  margin: EdgeInsets.only(left: 20),
-                  alignment: Alignment.centerLeft,
-                  child: FittedBox(
+                Expanded(
+                  child: Container(
+                    margin: EdgeInsets.only(left: 20),
                     child: AutoSizeText(
-                      locationNotifier.currentAddress ?? 'loading...',
+                      'Deliver to : \n' + locationNotifier.currentAddress ?? 'loading...',
                       style: FontCollection.bodyTextStyle,
                       maxLines: 2,
                       overflow: TextOverflow.ellipsis,
@@ -89,28 +87,42 @@ class _HomeAppBarState extends State<HomeAppBar> {
                   ),
                 ),
                 // Container(
+                //   height: 18,
                 //   margin: EdgeInsets.only(left: 20),
                 //   alignment: Alignment.centerLeft,
-                //   child: Column(
-                //     mainAxisSize: MainAxisSize.max,
-                //     children: [
-                //       Container(
-                //         alignment: Alignment.topLeft,
-                //         child: Text(
-                //           'Deliver to : ',
-                //           style: FontCollection.bodyTextStyle,
-                //         ),
-                //       ),
-                //       Container(
-                //         child: FittedBox(
-                //           child: AutoSizeText(
+                //   child: FittedBox(
+                //     child: AutoSizeText(
+                //       locationNotifier.currentAddress ?? 'loading...',
+                //       style: FontCollection.bodyTextStyle,
+                //       maxLines: 2,
+                //       overflow: TextOverflow.ellipsis,
+                //     ),
+                //   ),
+                // ),
+                // Expanded(
+                //   child: Container(
+                //     margin: EdgeInsets.only(left: 20),
+                //     alignment: Alignment.centerLeft,
+                //     child: Column(
+                //       mainAxisSize: MainAxisSize.max,
+                //       children: [
+                        // Container(
+                        //   alignment: Alignment.topLeft,
+                        //   child: Text(
+                        //     'Deliver to : ',
+                        //     style: FontCollection.bodyTextStyle,
+                        //   ),
+                        // ),
+                //         Flexible(
+                //           child: Text(
                 //             locationNotifier.currentAddress ?? 'loading...',
                 //             style: FontCollection.bodyTextStyle,
                 //             overflow: TextOverflow.ellipsis,
+                //             maxLines: 1,
                 //           ),
                 //         ),
-                //       ),
-                //     ],
+                //       ],
+                //     ),
                 //   ),
                 // ),
               ],

@@ -4,7 +4,9 @@ import 'package:cs_senior_project/asset/constant.dart';
 import 'package:cs_senior_project/asset/text_style.dart';
 import 'package:cs_senior_project/component/orderCard.dart';
 import 'package:cs_senior_project/component/shopAppBar.dart';
+import 'package:cs_senior_project/models/activities.dart';
 import 'package:cs_senior_project/models/order.dart';
+import 'package:cs_senior_project/notifiers/activities_notifier.dart';
 import 'package:cs_senior_project/notifiers/location_notifer.dart';
 import 'package:cs_senior_project/notifiers/order_notifier.dart';
 import 'package:cs_senior_project/notifiers/store_notifier.dart';
@@ -35,9 +37,8 @@ class _OrderDetailPageState extends State<OrderDetailPage> {
   DateFormat dateFormat;
   DateFormat timeFormat;
 
+  Activities _activities = Activities();
   int netPrice = 0;
-  String customerName, phone, address, addressDetail;
-  GeoPoint geoPoint;
   List indexMenu = [];
   // int lengthIndexMenu;
 
@@ -66,25 +67,38 @@ class _OrderDetailPageState extends State<OrderDetailPage> {
     StoreNotifier storeNotifier = Provider.of<StoreNotifier>(context);
     OrderNotifier orderNotifier = Provider.of<OrderNotifier>(context);
     LocationNotifier locationNotifier = Provider.of<LocationNotifier>(context);
+    ActivitiesNotifier activitiesNotifier =
+        Provider.of<ActivitiesNotifier>(context);
 
     dateFormat = DateFormat('d MMMM y');
     timeFormat = DateFormat.Hm('cs');
 
-    customerName = userNotifier.userModel.selectedAddress['residentName'] == ""
-        ? userNotifier.userModel.displayName
-        : userNotifier.userModel.selectedAddress['residentName'];
-    phone = userNotifier.userModel.selectedAddress['phone'] == ""
+    _activities.customerName =
+        userNotifier.userModel.selectedAddress['residentName'] == ""
+            ? userNotifier.userModel.displayName
+            : userNotifier.userModel.selectedAddress['residentName'];
+    _activities.phone = userNotifier.userModel.selectedAddress['phone'] == ""
         ? userNotifier.userModel.phone
         : userNotifier.userModel.selectedAddress['phone'];
-    address = userNotifier.userModel.selectedAddress['address'] == ""
-        ? locationNotifier.currentAddress
-        : userNotifier.userModel.selectedAddress['address'];
-    addressDetail = userNotifier.userModel.selectedAddress['addressDetail'];
-    geoPoint =
+    _activities.address =
+        userNotifier.userModel.selectedAddress['address'] == ""
+            ? locationNotifier.currentAddress
+            : userNotifier.userModel.selectedAddress['address'];
+    _activities.addressDetail =
+        userNotifier.userModel.selectedAddress['addressDetail'];
+    _activities.geoPoint =
         userNotifier.userModel.selectedAddress['geoPoint'] == GeoPoint(0, 0)
             ? GeoPoint(locationNotifier.currentPosition.latitude,
                 locationNotifier.currentPosition.longitude)
             : userNotifier.userModel.selectedAddress['geoPoint'];
+    _activities.message = otherMessageController.text.trim() ?? "";
+    _activities.dateOrdered = dateFormat.format(now);
+    _activities.timeOrdered = timeFormat.format(now);
+    _activities.netPrice = netPrice.toString();
+    _activities.storeId = storeNotifier.currentStore.storeId;
+    _activities.storeName = storeNotifier.currentStore.storeName;
+    _activities.storeImage = storeNotifier.currentStore.image;
+    _activities.kindOfFood = storeNotifier.currentStore.kindOfFood;
 
     return SafeArea(
       child: Scaffold(
@@ -121,7 +135,7 @@ class _OrderDetailPageState extends State<OrderDetailPage> {
                             backgroundColor: CollectionsColors.yellow,
                             radius: 35.0,
                             child: Text(
-                              customerName[0],
+                              _activities.customerName[0],
                               style: FontCollection.descriptionTextStyle,
                               textAlign: TextAlign.left,
                             ),
@@ -138,7 +152,7 @@ class _OrderDetailPageState extends State<OrderDetailPage> {
                                   alignment: Alignment.centerLeft,
                                   padding: EdgeInsets.only(top: 5),
                                   child: Text(
-                                    customerName,
+                                    _activities.customerName,
                                     style: FontCollection.bodyTextStyle,
                                     textAlign: TextAlign.left,
                                   ),
@@ -147,7 +161,7 @@ class _OrderDetailPageState extends State<OrderDetailPage> {
                                   alignment: Alignment.centerLeft,
                                   padding: EdgeInsets.only(top: 5),
                                   child: Text(
-                                    phone,
+                                    _activities.phone,
                                     style: FontCollection.bodyTextStyle,
                                   ),
                                 ),
@@ -155,7 +169,7 @@ class _OrderDetailPageState extends State<OrderDetailPage> {
                                   alignment: Alignment.centerLeft,
                                   padding: EdgeInsets.fromLTRB(0, 5, 0, 10),
                                   child: Text(
-                                    address ?? 'โปรดระบุที่อยู่',
+                                    _activities.address ?? 'โปรดระบุที่อยู่',
                                     style: FontCollection.bodyTextStyle,
                                   ),
                                 ),
@@ -307,43 +321,28 @@ class _OrderDetailPageState extends State<OrderDetailPage> {
                 onClicked: () {
                   saveDeliveryOrder(
                     storeNotifier.currentStore.storeId,
-                    customerName,
-                    phone,
-                    address,
-                    addressDetail,
-                    geoPoint,
-                    netPrice.toString(),
-                    otherMessageController.text.trim() ?? "",
-                    dateFormat.format(now),
-                    timeFormat.format(now),
+                    _activities,
                   );
 
                   saveToHistory(
                     userNotifier.userModel.uid,
-                    storeNotifier.currentStore.storeId,
-                    storeNotifier.currentStore.storeName,
-                    customerName,
-                    phone,
-                    address,
-                    addressDetail,
-                    geoPoint,
-                    netPrice.toString(),
-                    otherMessageController.text.trim() ?? "",
-                    dateFormat.format(now),
-                    timeFormat.format(now),
+                    _activities,
                   );
 
                   for (int i = 0; i < orderNotifier.orderList.length; i++) {
-                    saveOrder(storeNotifier.currentStore.storeId,
-                        orderNotifier.orderList[i]);
+                    saveOrder(
+                      storeNotifier.currentStore.storeId,
+                      orderNotifier.orderList[i],
+                    );
 
                     saveOrderToHistory(
-                        userNotifier.userModel.uid, orderNotifier.orderList[i]);
+                      userNotifier.userModel.uid,
+                      orderNotifier.orderList[i],
+                    );
                   }
-
-                  orderNotifier.orderList.clear();
-
+                  activitiesNotifier.currentActivity = _activities;
                   Navigator.of(context).pushReplacementNamed('/confirmOrder');
+                  // orderNotifier.orderList.clear();
                 },
                 child: Column(
                   children: [

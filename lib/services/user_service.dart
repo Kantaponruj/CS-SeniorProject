@@ -1,5 +1,6 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:cs_senior_project/asset/constant.dart';
+import 'package:cs_senior_project/models/activities.dart';
 import 'package:cs_senior_project/models/address.dart';
 import 'package:cs_senior_project/models/order.dart';
 import 'package:cs_senior_project/models/user.dart';
@@ -86,19 +87,7 @@ addAddress(AddressModel address, String uid, Function addAddress) async {
 
 String orderId;
 
-saveToHistory(
-    String uid,
-    String storeId,
-    String storeName,
-    String customerName,
-    String phone,
-    String address,
-    String addressDetail,
-    GeoPoint geoPoint,
-    String netPrice,
-    String message,
-    String dateOrdered,
-    String timeOrdered) async {
+saveToHistory(String uid, Activities activity) async {
   DocumentReference orderRef = firebaseFirestore
       .collection('users')
       .doc(uid)
@@ -106,21 +95,9 @@ saveToHistory(
       .doc();
 
   orderId = orderRef.id;
+  activity.orderId = orderId;
 
-  await orderRef.set({
-    'orderId': orderId,
-    'storeId': storeId,
-    'storeName': storeName,
-    'customerName': customerName,
-    'phone': phone,
-    'address': address,
-    'addressDetail': addressDetail,
-    'geoPoint': geoPoint,
-    'netPrice': netPrice,
-    'message': message,
-    'dateOrdered': dateOrdered,
-    'timeOrdered': timeOrdered
-  });
+  orderRef.set(activity.toMap(), SetOptions(merge: true));
 }
 
 saveOrderToHistory(String uid, OrderModel order) async {

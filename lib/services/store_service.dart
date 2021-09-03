@@ -1,5 +1,6 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:cs_senior_project/asset/constant.dart';
+import 'package:cs_senior_project/models/activities.dart';
 import 'package:cs_senior_project/models/menu.dart';
 import 'package:cs_senior_project/models/order.dart';
 import 'package:cs_senior_project/models/store.dart';
@@ -96,18 +97,7 @@ Future<void> getDateAndTime(StoreNotifier storeNotifier, String storeId) async {
 
 String orderId;
 
-saveDeliveryOrder(
-  String storeId,
-  String customerName,
-  String phone,
-  String address,
-  String addressDetail,
-  GeoPoint geoPoint,
-  String netPrice,
-  String message,
-  String dateOrdered,
-  String timeOrdered,
-) async {
+saveDeliveryOrder(String storeId, Activities activity) async {
   DocumentReference orderRefStore = firebaseFirestore
       .collection('stores')
       .doc(storeId)
@@ -115,22 +105,9 @@ saveDeliveryOrder(
       .doc();
 
   orderId = orderRefStore.id;
+  activity.orderId = orderId;
 
-  await orderRefStore.set({
-    'orderId': orderId,
-    'customerName': customerName,
-    'phone': phone,
-    'address': address,
-    'addressDetail': addressDetail,
-    'geoPoint': geoPoint,
-    'netPrice': netPrice,
-    'message': message,
-    'dateOrdered': dateOrdered,
-    'timeOrdered': timeOrdered
-  });
-
-  print('Saved to Firebase');
-  print(orderRefStore.id);
+  orderRefStore.set(activity.toMap(), SetOptions(merge: true));
 }
 
 saveOrder(String storeId, OrderModel order) async {

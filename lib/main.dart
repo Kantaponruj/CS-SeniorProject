@@ -1,5 +1,6 @@
 import 'package:cs_senior_project/asset/color.dart';
 import 'package:cs_senior_project/asset/constant.dart';
+import 'package:cs_senior_project/notifiers/activities_notifier.dart';
 import 'package:cs_senior_project/notifiers/address_notifier.dart';
 import 'package:cs_senior_project/notifiers/location_notifer.dart';
 import 'package:cs_senior_project/notifiers/order_notifier.dart';
@@ -36,6 +37,7 @@ void main() async {
         ChangeNotifierProvider(create: (context) => AddressNotifier()),
         ChangeNotifierProvider(create: (context) => LocationNotifier()),
         ChangeNotifierProvider(create: (context) => OrderNotifier()),
+        ChangeNotifierProvider(create: (context) => ActivitiesNotifier())
       ],
       child: MaterialApp(
         theme: ThemeData(

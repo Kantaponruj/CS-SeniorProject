@@ -5,10 +5,13 @@ import 'package:cs_senior_project/asset/constant.dart';
 import 'package:cs_senior_project/asset/text_style.dart';
 import 'package:cs_senior_project/component/appBar.dart';
 import 'package:cs_senior_project/component/bottomBar.dart';
+import 'package:cs_senior_project/models/activities.dart';
+import 'package:cs_senior_project/notifiers/activities_notifier.dart';
 import 'package:cs_senior_project/widgets/button_widget.dart';
 import 'package:cs_senior_project/widgets/maps_widget.dart';
 import 'package:flutter/material.dart';
 import 'package:google_maps_flutter/google_maps_flutter.dart';
+import 'package:provider/provider.dart';
 
 class ConfirmedOrderMapPage extends StatefulWidget {
   const ConfirmedOrderMapPage({Key key}) : super(key: key);
@@ -22,6 +25,9 @@ class _ConfirmedOrderMapPageState extends State<ConfirmedOrderMapPage> {
 
   @override
   Widget build(BuildContext context) {
+    ActivitiesNotifier activitiesNotifier =
+        Provider.of<ActivitiesNotifier>(context);
+
     final orderDetailHeight = MediaQuery.of(context).size.height / 2.7;
     final mapHeight = MediaQuery.of(context).size.height - (orderDetailHeight);
 
@@ -39,7 +45,11 @@ class _ConfirmedOrderMapPageState extends State<ConfirmedOrderMapPage> {
                 height: mapHeight,
                 child: MapWidget(mapController: _mapController),
               ),
-              information(orderDetailHeight, mapHeight),
+              information(
+                orderDetailHeight,
+                mapHeight,
+                activitiesNotifier.currentActivity,
+              ),
             ],
           ),
         ),
@@ -47,7 +57,8 @@ class _ConfirmedOrderMapPageState extends State<ConfirmedOrderMapPage> {
     );
   }
 
-  Widget information(double orderDetailHeight, double mapHeight) {
+  Widget information(
+      double orderDetailHeight, double mapHeight, Activities activity) {
     return Container(
       height: orderDetailHeight,
       width: MediaQuery.of(context).size.width,
@@ -86,14 +97,14 @@ class _ConfirmedOrderMapPageState extends State<ConfirmedOrderMapPage> {
                         Container(
                           alignment: Alignment.centerLeft,
                           child: Text(
-                            'โตเกียวหน้าม.',
+                            activity.storeName,
                             style: FontCollection.bodyTextStyle,
                           ),
                         ),
                         Container(
                           alignment: Alignment.centerLeft,
                           child: Text(
-                            'ของหวาน',
+                            activity.kindOfFood,
                             style: FontCollection.descriptionTextStyle,
                           ),
                         ),
@@ -140,7 +151,7 @@ class _ConfirmedOrderMapPageState extends State<ConfirmedOrderMapPage> {
                   child: Container(
                     margin: EdgeInsets.only(left: 10),
                     child: Text(
-                      '21 เมษายน 2564 ',
+                      activity.dateOrdered,
                       style: FontCollection.bodyTextStyle,
                     ),
                   ),
@@ -149,7 +160,7 @@ class _ConfirmedOrderMapPageState extends State<ConfirmedOrderMapPage> {
                   flex: 3,
                   child: Container(
                     child: Text(
-                      '12.30 น.',
+                      '${activity.timeOrdered} น.',
                       style: FontCollection.bodyTextStyle,
                     ),
                   ),
@@ -174,7 +185,7 @@ class _ConfirmedOrderMapPageState extends State<ConfirmedOrderMapPage> {
                   child: Container(
                     margin: EdgeInsets.only(left: 10),
                     child: AutoSizeText(
-                      '2 Library houze ถนนประชาอุทิศ ทุ่งครุ ราษฎรบูรณะ กทม',
+                      activity.address,
                       style: FontCollection.bodyTextStyle,
                       maxLines: 2,
                     ),

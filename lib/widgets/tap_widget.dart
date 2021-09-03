@@ -78,7 +78,7 @@ class TapWidget extends StatelessWidget {
             store.storeName,
             style: TextStyle(fontSize: 18),
           ),
-          subtitle: Text(store.kindOfFood),
+          subtitle: Container(child: Text(store.kindOfFood)),
           onTap: () {
             storeNotifier.currentStore = store;
             Navigator.of(context).push(MaterialPageRoute(

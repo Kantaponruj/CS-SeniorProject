@@ -15,8 +15,7 @@ import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 
 class ShopMenu extends StatefulWidget {
-  ShopMenu({Key key, this.storeId, this.storeIndex}) : super(key: key);
-  final String storeId;
+  ShopMenu({Key key, this.storeIndex}) : super(key: key);
   final int storeIndex;
 
   @override
@@ -35,7 +34,7 @@ class _ShopMenuState extends State<ShopMenu> {
   void initState() {
     StoreNotifier storeNotifier =
         Provider.of<StoreNotifier>(context, listen: false);
-    getMenu(storeNotifier, widget.storeId);
+    getMenu(storeNotifier);
 
     super.initState();
   }
@@ -48,7 +47,7 @@ class _ShopMenuState extends State<ShopMenu> {
     if (orderNotifier.orderList.isNotEmpty) {
       for (int i = 0; i < orderNotifier.orderList.length; i++) {
         String orderStoreId = orderNotifier.orderList[i].storeId;
-        String storeId = widget.storeId;
+        String storeId = storeNotifier.currentStore.storeId;
         if (storeId == orderStoreId) isShowBasket = true;
       }
     }

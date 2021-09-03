@@ -40,10 +40,10 @@ Future<void> getStores(StoreNotifier storeNotifier, String tapName) async {
   storeNotifier.storeList = _storeList;
 }
 
-Future<void> getMenu(StoreNotifier storeNotifier, String storeId) async {
+Future<void> getMenu(StoreNotifier storeNotifier) async {
   QuerySnapshot snapshot = await firebaseFirestore
       .collection(collection)
-      .doc(storeId)
+      .doc(storeNotifier.currentStore.storeId)
       .collection('menu')
       .get();
 

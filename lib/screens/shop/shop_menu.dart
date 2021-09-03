@@ -27,6 +27,7 @@ class _ShopMenuState extends State<ShopMenu> {
   int index = 0;
   final items = List.generate(10, (counter) => 'Item: $counter');
   final controller = ScrollController();
+  bool isShowBasket = false;
 
   List categories = [];
 
@@ -34,7 +35,7 @@ class _ShopMenuState extends State<ShopMenu> {
   void initState() {
     StoreNotifier storeNotifier =
         Provider.of<StoreNotifier>(context, listen: false);
-    getMenu(storeNotifier, storeNotifier.currentStore.storeId);
+    getMenu(storeNotifier);
 
     super.initState();
   }
@@ -43,6 +44,14 @@ class _ShopMenuState extends State<ShopMenu> {
   Widget build(BuildContext context) {
     StoreNotifier storeNotifier = Provider.of<StoreNotifier>(context);
     OrderNotifier orderNotifier = Provider.of<OrderNotifier>(context);
+
+    if (orderNotifier.orderList.isNotEmpty) {
+      for (int i = 0; i < orderNotifier.orderList.length; i++) {
+        String orderStoreId = orderNotifier.orderList[i].storeId;
+        String storeId = storeNotifier.currentStore.storeId;
+        if (storeId == orderStoreId) isShowBasket = true;
+      }
+    }
 
     categories.clear();
     storeNotifier.menuList.forEach((menu) {
@@ -127,7 +136,7 @@ class _ShopMenuState extends State<ShopMenu> {
             ],
           ),
         ),
-        floatingActionButton: orderNotifier.orderList.isNotEmpty
+        floatingActionButton: isShowBasket
             ? Container(
                 width: 70,
                 height: 70,
@@ -146,7 +155,6 @@ class _ShopMenuState extends State<ShopMenu> {
                   },
                   child: Icon(
                     Icons.shopping_cart,
-
                   ),
                 ),
               )
@@ -230,9 +238,8 @@ class _ShopMenuState extends State<ShopMenu> {
             Navigator.push(
                 context,
                 MaterialPageRoute(
-                  builder: (context) => MenuDetail(
-                      storeId: storeNotifier.currentStore.storeId,
-                      menuId: storeNotifier.currentMenu.menuId),
+                  builder: (context) =>
+                      MenuDetail(menuId: storeNotifier.currentMenu.menuId),
                 ));
           },
           child: Container(

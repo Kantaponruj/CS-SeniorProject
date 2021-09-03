@@ -1,4 +1,5 @@
 class OrderModel {
+  String storeId;
   String menuId;
   String menuName;
   String totalPrice;
@@ -10,6 +11,7 @@ class OrderModel {
 
   Map<String, dynamic> toMap() {
     return {
+      'storeId': storeId,
       'menuId': menuId,
       'menuName': menuName,
       'totalPrice': totalPrice,
@@ -20,6 +22,7 @@ class OrderModel {
   }
 
   OrderModel.fromMap(Map<String, dynamic> data) {
+    storeId = data['storeId'];
     menuId = data['menuId'];
     menuName = data['menuName'];
     totalPrice = data['totalPrice'];

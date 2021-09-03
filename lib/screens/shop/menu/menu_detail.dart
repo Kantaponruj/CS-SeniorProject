@@ -12,8 +12,7 @@ import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 
 class MenuDetail extends StatefulWidget {
-  MenuDetail({Key key, this.storeId, this.menuId}) : super(key: key);
-  final String storeId;
+  MenuDetail({Key key, this.menuId}) : super(key: key);
   final String menuId;
 
   static const routeName = '/history';
@@ -40,7 +39,7 @@ class _MenuDetailState extends State<MenuDetail> {
         Provider.of<StoreNotifier>(context, listen: false);
     OrderNotifier orderNotifier =
         Provider.of<OrderNotifier>(context, listen: false);
-    getTopping(storeNotifier, widget.storeId, widget.menuId);
+    getTopping(storeNotifier, widget.menuId);
 
     if (orderNotifier.orderList != null) {
       for (int i = 0; i <= orderNotifier.orderList.length - 1; i++) {
@@ -130,6 +129,7 @@ class _MenuDetailState extends State<MenuDetail> {
         print(orderNotifier.orderList.map((data) => data.totalPrice));
         print(order.topping);
       } else {
+        order.storeId = storeNotifier.currentStore.storeId;
         order.menuId = widget.menuId;
         order.menuName = storeNotifier.currentMenu.name;
         order.totalPrice = price;

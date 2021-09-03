@@ -10,6 +10,7 @@ import 'package:cs_senior_project/notifiers/order_notifier.dart';
 import 'package:cs_senior_project/notifiers/store_notifier.dart';
 import 'package:cs_senior_project/notifiers/user_notifier.dart';
 import 'package:cs_senior_project/screens/address/manage_address.dart';
+import 'package:cs_senior_project/screens/shop/menu/menu_detail.dart';
 import 'package:cs_senior_project/screens/shop/shop_detail.dart';
 import 'package:cs_senior_project/services/store_service.dart';
 import 'package:cs_senior_project/services/user_service.dart';
@@ -20,7 +21,9 @@ import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 
 class OrderDetailPage extends StatefulWidget {
-  OrderDetailPage({Key key}) : super(key: key);
+  OrderDetailPage({Key key, this.storeId}) : super(key: key);
+
+  final String storeId;
 
   @override
   _OrderDetailPageState createState() => _OrderDetailPageState();
@@ -30,6 +33,8 @@ class _OrderDetailPageState extends State<OrderDetailPage> {
   int netPrice = 0;
   String customerName, phone, address, addressDetail;
   GeoPoint geoPoint;
+  List indexMenu = [];
+  // int lengthIndexMenu;
 
   TextEditingController otherMessageController = new TextEditingController();
 
@@ -39,8 +44,13 @@ class _OrderDetailPageState extends State<OrderDetailPage> {
         Provider.of<OrderNotifier>(context, listen: false);
 
     for (int i = 0; i < orderNotifier.orderList.length; i++) {
-      netPrice += int.parse(orderNotifier.orderList[i].totalPrice);
+      if (orderNotifier.orderList[i].storeId == widget.storeId) {
+        indexMenu.add(i);
+        netPrice += int.parse(orderNotifier.orderList[i].totalPrice);
+      }
     }
+
+    // lengthIndexMenu = indexMenu.length;
 
     super.initState();
   }
@@ -209,14 +219,20 @@ class _OrderDetailPageState extends State<OrderDetailPage> {
                     child: Column(
                       children: [
                         Container(
-                          child: ListView.builder(
+                          child: ListView.separated(
                             shrinkWrap: true,
                             padding: EdgeInsets.zero,
                             physics: NeverScrollableScrollPhysics(),
-                            itemCount: orderNotifier.orderList.length,
+                            itemCount: indexMenu.length,
                             itemBuilder: (context, index) {
-                              // final item = items[index];
-                              return listOrder(orderNotifier.orderList[index]);
+                              return listOrder(
+                                orderNotifier.orderList[indexMenu[index]],
+                                indexMenu[index],
+                              );
+                            },
+                            separatorBuilder:
+                                (BuildContext context, int index) {
+                              return Divider();
                             },
                           ),
                         ),
@@ -347,126 +363,157 @@ class _OrderDetailPageState extends State<OrderDetailPage> {
     );
   }
 
-  Widget listOrder(OrderModel order) => Container(
-        padding: EdgeInsets.zero,
-        margin: EdgeInsets.zero,
-        child: Column(
-          children: [
-            Row(
-              children: [
-                Expanded(
-                  flex: 2,
-                  child: Container(
-                    alignment: Alignment.center,
-                    child: Text(
-                      order.amount.toString(),
-                      style: FontCollection.bodyBoldTextStyle,
-                    ),
+  Widget listOrder(OrderModel order, int index) {
+    StoreNotifier storeNotifier = Provider.of<StoreNotifier>(context);
+    // OrderNotifier orderNotifier = Provider.of<OrderNotifier>(context);
+
+    return Container(
+      padding: EdgeInsets.zero,
+      margin: EdgeInsets.zero,
+      child: Column(
+        children: [
+          Row(
+            children: [
+              Expanded(
+                flex: 2,
+                child: Container(
+                  alignment: Alignment.center,
+                  child: Text(
+                    order.amount.toString(),
+                    style: FontCollection.bodyBoldTextStyle,
                   ),
                 ),
-                Expanded(
-                  flex: 6,
+              ),
+              Expanded(
+                flex: 6,
+                child: Text(
+                  order.menuName,
+                  style: FontCollection.bodyTextStyle,
+                ),
+              ),
+              Expanded(
+                flex: 2,
+                child: Container(
+                  alignment: Alignment.centerRight,
                   child: Text(
-                    order.menuName,
+                    order.totalPrice,
                     style: FontCollection.bodyTextStyle,
                   ),
                 ),
-                Expanded(
-                  flex: 2,
-                  child: Container(
-                    alignment: Alignment.centerRight,
-                    child: Text(
-                      order.totalPrice,
-                      style: FontCollection.bodyTextStyle,
-                    ),
+              ),
+              Expanded(
+                flex: 2,
+                child: Container(
+                  alignment: Alignment.centerRight,
+                  child: Text(
+                    'บาท',
+                    style: FontCollection.bodyTextStyle,
                   ),
                 ),
-                Expanded(
-                  flex: 2,
-                  child: Container(
-                    alignment: Alignment.centerRight,
-                    child: Text(
-                      'บาท',
-                      style: FontCollection.bodyTextStyle,
-                    ),
-                  ),
-                ),
-              ],
-            ),
-            order.topping.isEmpty
-                ? SizedBox.shrink()
-                : Container(
-              margin: EdgeInsets.only(top: 10),
+              ),
+            ],
+          ),
+          order.topping.isEmpty
+              ? SizedBox.shrink()
+              : Container(
+                  margin: EdgeInsets.only(top: 10),
                   child: Column(
-                      children: [
-                        Row(
-                          children: [
-                            Expanded(
-                              flex: 2,
-                              child: Container(),
-                            ),
-                            Expanded(
-                              flex: 10,
-                              child: Row(
-                                children: order.topping
-                                    .map((topping) => Text(
-                                          '$topping' + ', ',
-                                          style: TextStyle(
-                                            fontWeight: FontWeight.w400,
-                                            fontSize: smallestSize,
-                                            color: Colors.black54,
-                                          ),
-                                        ))
-                                    .toList(),
-                              ),
-                            ),
-                          ],
-                        ),
-                        order.other.isEmpty
-                            ? SizedBox.shrink()
-                            : Container(
-                                alignment: Alignment.centerLeft,
-                                child: Text(
-                                  order.other,
-                                  style: FontCollection.bodyTextStyle,
-                                ),
-                              ),
-                      ],
-                    ),
-                ),
-            Row(
-              children: [
-                Expanded(
-                  flex: 2,
-                  child: Container(),
-                ),
-                Expanded(
-                  flex: 10,
-                  child: Row(
-                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
                     children: [
-                      Container(
-                        child: EditButton(
-                          editText: 'แก้ไข',
-                          onClicked: () {},
-                        ),
+                      Row(
+                        children: [
+                          Expanded(
+                            flex: 2,
+                            child: Container(),
+                          ),
+                          Expanded(
+                            flex: 10,
+                            child: Row(
+                              children: order.topping
+                                  .map((topping) => Text(
+                                        '$topping' + ', ',
+                                        style: TextStyle(
+                                          fontWeight: FontWeight.w400,
+                                          fontSize: smallestSize,
+                                          color: Colors.black54,
+                                        ),
+                                      ))
+                                  .toList(),
+                            ),
+                          ),
+                        ],
                       ),
-                      Container(
-                        child: IconButton(
-                          onPressed: () {},
-                          icon: Icon(Icons.delete, color: Colors.black54,),
-                        ),
-                      ),
+                      order.other.isEmpty
+                          ? SizedBox.shrink()
+                          : Container(
+                              alignment: Alignment.centerLeft,
+                              child: Text(
+                                order.other,
+                                style: FontCollection.bodyTextStyle,
+                              ),
+                            ),
                     ],
                   ),
                 ),
-              ],
-            ),
-            Padding(
-              padding: const EdgeInsets.only(bottom: 10),
-              child: Divider(),
-            ),
-          ],
-        ),
-      );
+          Row(
+            children: [
+              Expanded(
+                flex: 2,
+                child: Container(),
+              ),
+              Expanded(
+                flex: 10,
+                child: Row(
+                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                  children: [
+                    Container(
+                      child: EditButton(
+                        editText: 'แก้ไข',
+                        onClicked: () {
+                          for (int i = 0;
+                              i < storeNotifier.menuList.length;
+                              i++) {
+                            if (order.menuName ==
+                                storeNotifier.menuList[i].name) {
+                              storeNotifier.currentMenu =
+                                  storeNotifier.menuList[i];
+                              break;
+                            }
+                          }
+                          Navigator.push(
+                            context,
+                            MaterialPageRoute(
+                              builder: (context) => MenuDetail(
+                                storeId: storeNotifier.currentStore.storeId,
+                                menuId: storeNotifier.currentMenu.menuId,
+                              ),
+                            ),
+                          );
+                        },
+                      ),
+                    ),
+                    Container(
+                      child: IconButton(
+                        onPressed: () {
+                          // indexMenu.removeWhere((data) => data == index);
+                          // lengthIndexMenu = indexMenu.length;
+                          // orderNotifier.removeOrder(order);
+                          // print(indexMenu.length);
+                          // print(orderNotifier.orderList
+                          //     .map((data) => data.menuName));
+                        },
+                        icon: Icon(
+                          Icons.delete,
+                          color: Colors.black54,
+                        ),
+                      ),
+                    ),
+                  ],
+                ),
+              ),
+            ],
+          ),
+        ],
+      ),
+    );
+  }
 }

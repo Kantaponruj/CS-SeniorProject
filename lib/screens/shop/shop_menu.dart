@@ -35,7 +35,7 @@ class _ShopMenuState extends State<ShopMenu> {
   void initState() {
     StoreNotifier storeNotifier =
         Provider.of<StoreNotifier>(context, listen: false);
-    getMenu(storeNotifier);
+    getMenu(storeNotifier, widget.storeId);
 
     super.initState();
   }
@@ -48,7 +48,7 @@ class _ShopMenuState extends State<ShopMenu> {
     if (orderNotifier.orderList.isNotEmpty) {
       for (int i = 0; i < orderNotifier.orderList.length; i++) {
         String orderStoreId = orderNotifier.orderList[i].storeId;
-        String storeId = storeNotifier.currentStore.storeId;
+        String storeId = widget.storeId;
         if (storeId == orderStoreId) isShowBasket = true;
       }
     }
@@ -150,7 +150,9 @@ class _ShopMenuState extends State<ShopMenu> {
                     Navigator.push(
                         context,
                         MaterialPageRoute(
-                          builder: (context) => OrderDetailPage(),
+                          builder: (context) => OrderDetailPage(
+                            storeId: storeNotifier.currentStore.storeId,
+                          ),
                         ));
                   },
                   child: Icon(
@@ -236,11 +238,13 @@ class _ShopMenuState extends State<ShopMenu> {
           onTap: () {
             storeNotifier.currentMenu = storeNotifier.menuList[index];
             Navigator.push(
-                context,
-                MaterialPageRoute(
-                  builder: (context) =>
-                      MenuDetail(menuId: storeNotifier.currentMenu.menuId),
-                ));
+              context,
+              MaterialPageRoute(
+                builder: (context) => MenuDetail(
+                    storeId: storeNotifier.currentStore.storeId,
+                    menuId: storeNotifier.currentMenu.menuId),
+              ),
+            );
           },
           child: Container(
             alignment: Alignment.centerLeft,

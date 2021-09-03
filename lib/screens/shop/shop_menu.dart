@@ -35,7 +35,7 @@ class _ShopMenuState extends State<ShopMenu> {
     StoreNotifier storeNotifier =
         Provider.of<StoreNotifier>(context, listen: false);
     getMenu(storeNotifier);
-
+    
     super.initState();
   }
 
@@ -98,37 +98,50 @@ class _ShopMenuState extends State<ShopMenu> {
                   ],
                 ),
               ),
-              Expanded(
-                flex: 1,
-                child: Container(
-                  child: buildHorizontalListView(),
-                ),
-              ),
+              // Expanded(
+              //   flex: 1,
+              //   child:
+              // ),
               Expanded(
                 flex: 8,
-                child: SingleChildScrollView(
-                  child: Container(
-                    margin: EdgeInsets.symmetric(horizontal: 20, vertical: 20),
-                    child: Column(
-                      children: [
-                        BuildCard(
+                child: Container(
+                  // padding: EdgeInsets.symmetric(horizontal: 20, vertical: 20),
+                  child: Column(
+                    children: [
+                      Padding(
+                        padding: EdgeInsets.fromLTRB(20,20,20,0),
+                        child: BuildCard(
                           headerText: 'การนัดหมาย/จัดส่ง',
                           child: Container(),
                           canEdit: false,
                         ),
-                        Container(
-                          child: ListView.builder(
-                            shrinkWrap: true,
-                            physics: NeverScrollableScrollPhysics(),
-                            itemCount: 2,
-                            padding: EdgeInsets.zero,
-                            itemBuilder: (context, index) {
-                              return menuCategories();
-                            },
+                      ),
+                      Container(
+                        height: 80,
+                        padding: EdgeInsets.fromLTRB(20,10,20,0),
+                        child: buildHorizontalListView(),
+                      ),
+                      Expanded(
+                        child: SingleChildScrollView(
+                          child: Column(
+                            children: [
+                              Container(
+                                padding: EdgeInsets.symmetric(horizontal: 20, vertical: 20),
+                                child: ListView.builder(
+                                  shrinkWrap: true,
+                                  physics: NeverScrollableScrollPhysics(),
+                                  itemCount: 2,
+                                  padding: EdgeInsets.zero,
+                                  itemBuilder: (context, index) {
+                                    return menuCategories();
+                                  },
+                                ),
+                              ),
+                            ],
                           ),
                         ),
-                      ],
-                    ),
+                      ),
+                    ],
                   ),
                 ),
               ),
@@ -164,10 +177,11 @@ class _ShopMenuState extends State<ShopMenu> {
     );
   }
 
-  Widget buildHorizontalListView() => ListView.separated(
+  Widget buildHorizontalListView() => ListView.builder(
         padding: EdgeInsets.all(16),
         scrollDirection: Axis.horizontal,
-        separatorBuilder: (context, index) => Divider(),
+        physics: NeverScrollableScrollPhysics(),
+        // separatorBuilder: (context, index) => Divider(),
         itemCount: categories.length,
         itemBuilder: (context, index) {
           return Container(
@@ -330,4 +344,9 @@ class _ShopMenuState extends State<ShopMenu> {
       ],
     );
   }
+
+  Widget orderTimeAndDate() {
+    return Container();
+  }
+
 }

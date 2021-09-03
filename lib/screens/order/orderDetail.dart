@@ -18,6 +18,7 @@ import 'package:cs_senior_project/widgets/bottomOrder_widget.dart';
 import 'package:cs_senior_project/widgets/button_widget.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:intl/intl.dart';
 import 'package:provider/provider.dart';
 
 class OrderDetailPage extends StatefulWidget {
@@ -30,6 +31,10 @@ class OrderDetailPage extends StatefulWidget {
 }
 
 class _OrderDetailPageState extends State<OrderDetailPage> {
+  DateTime now = new DateTime.now();
+  DateFormat dateFormat;
+  DateFormat timeFormat;
+
   int netPrice = 0;
   String customerName, phone, address, addressDetail;
   GeoPoint geoPoint;
@@ -61,6 +66,9 @@ class _OrderDetailPageState extends State<OrderDetailPage> {
     StoreNotifier storeNotifier = Provider.of<StoreNotifier>(context);
     OrderNotifier orderNotifier = Provider.of<OrderNotifier>(context);
     LocationNotifier locationNotifier = Provider.of<LocationNotifier>(context);
+
+    dateFormat = DateFormat('d MMMM y');
+    timeFormat = DateFormat.Hm('cs');
 
     customerName = userNotifier.userModel.selectedAddress['residentName'] == ""
         ? userNotifier.userModel.displayName
@@ -306,6 +314,8 @@ class _OrderDetailPageState extends State<OrderDetailPage> {
                     geoPoint,
                     netPrice.toString(),
                     otherMessageController.text.trim() ?? "",
+                    dateFormat.format(now),
+                    timeFormat.format(now),
                   );
 
                   saveToHistory(
@@ -319,6 +329,8 @@ class _OrderDetailPageState extends State<OrderDetailPage> {
                     geoPoint,
                     netPrice.toString(),
                     otherMessageController.text.trim() ?? "",
+                    dateFormat.format(now),
+                    timeFormat.format(now),
                   );
 
                   for (int i = 0; i < orderNotifier.orderList.length; i++) {

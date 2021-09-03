@@ -87,17 +87,18 @@ addAddress(AddressModel address, String uid, Function addAddress) async {
 String orderId;
 
 saveToHistory(
-  String uid,
-  String storeId,
-  String storeName,
-  String customerName,
-  String phone,
-  String address,
-  String addressDetail,
-  GeoPoint geoPoint,
-  String netPrice,
-  String message,
-) async {
+    String uid,
+    String storeId,
+    String storeName,
+    String customerName,
+    String phone,
+    String address,
+    String addressDetail,
+    GeoPoint geoPoint,
+    String netPrice,
+    String message,
+    String dateOrdered,
+    String timeOrdered) async {
   DocumentReference orderRef = firebaseFirestore
       .collection('users')
       .doc(uid)
@@ -117,7 +118,8 @@ saveToHistory(
     'geoPoint': geoPoint,
     'netPrice': netPrice,
     'message': message,
-    'orderedAt': Timestamp.now()
+    'dateOrdered': dateOrdered,
+    'timeOrdered': timeOrdered
   });
 }
 

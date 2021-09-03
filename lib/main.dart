@@ -16,6 +16,8 @@ import 'package:cs_senior_project/screens/shop/shop_menu.dart';
 import 'package:cs_senior_project/widgets/loading_widget.dart';
 import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
+import 'package:intl/date_symbol_data_local.dart';
+import 'package:intl/intl.dart';
 import 'package:provider/provider.dart';
 
 import './component/bottomBar.dart';
@@ -23,6 +25,8 @@ import 'asset/text_style.dart';
 import 'notifiers/store_notifier.dart';
 
 void main() async {
+  Intl.defaultLocale = 'th';
+  initializeDateFormatting();
   WidgetsFlutterBinding.ensureInitialized();
   await Firebase.initializeApp();
   runApp(MultiProvider(

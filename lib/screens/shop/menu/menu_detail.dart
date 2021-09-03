@@ -94,9 +94,9 @@ class _MenuDetailState extends State<MenuDetail> {
     if (amount > 0) {
       amount -= 1;
 
-      if (selectedTopping.isNotEmpty)
+      if (selectedTopping.isNotEmpty) {
         priceTotal -= priceWithTopping;
-      else
+      } else
         priceTotal -= priceMenu;
     }
     price = priceTotal.toInt().toString();
@@ -353,20 +353,24 @@ class _MenuDetailState extends State<MenuDetail> {
             case true:
               if (amount > 1) {
                 totalPriceInt += (toppingPriceInt * amount);
+                priceWithTopping = totalPriceInt;
+                priceWithTopping = priceWithTopping / amount;
               } else {
                 totalPriceInt += toppingPriceInt;
+                priceWithTopping = totalPriceInt;
               }
               selectedTopping.insert(0, storeNotifier.toppingList[index].name);
-              priceWithTopping = totalPriceInt;
               break;
             default:
               if (amount > 1) {
                 totalPriceInt -= (toppingPriceInt * amount);
+                priceWithTopping = totalPriceInt;
+                priceWithTopping = priceWithTopping / amount;
               } else {
                 totalPriceInt -= toppingPriceInt;
+                priceWithTopping = totalPriceInt;
               }
               selectedTopping.remove(storeNotifier.toppingList[index].name);
-              priceWithTopping = totalPriceInt;
           }
           price = totalPriceInt.toInt().toString();
         });

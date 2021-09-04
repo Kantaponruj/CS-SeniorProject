@@ -343,6 +343,15 @@ class _OrderDetailPageState extends State<OrderDetailPage> {
                   activitiesNotifier.currentActivity = _activities;
                   Navigator.of(context).pushReplacementNamed('/confirmOrder');
                   // orderNotifier.orderList.clear();
+                  // indexMenu.clear();
+
+                  // for (int i in indexMenu) {
+                  //   indexMenu.remove((data) => data == indexMenu[i]);
+                  //   orderNotifier
+                  //       .removeOrder(orderNotifier.orderList[indexMenu[i]]);
+                  // }
+                  // indexMenu.clear();
+                  // print(orderNotifier.orderList.map((data) => data.menuName));
                 },
                 child: Column(
                   children: [
@@ -438,18 +447,16 @@ class _OrderDetailPageState extends State<OrderDetailPage> {
                           ),
                           Expanded(
                             flex: 10,
-                            child: Row(
-                              children: order.topping
-                                  .map((topping) => Text(
-                                        '$topping' + ', ',
-                                        style: TextStyle(
-                                          fontWeight: FontWeight.w400,
-                                          fontSize: smallestSize,
-                                          color: Colors.black54,
-                                        ),
-                                      ))
-                                  .toList(),
-                            ),
+                            child: Row(children: [
+                              Text(
+                                order.topping.join(', '),
+                                style: TextStyle(
+                                  fontWeight: FontWeight.w400,
+                                  fontSize: smallestSize,
+                                  color: Colors.black54,
+                                ),
+                              )
+                            ]),
                           ),
                         ],
                       ),
@@ -505,9 +512,12 @@ class _OrderDetailPageState extends State<OrderDetailPage> {
                     Container(
                       child: IconButton(
                         onPressed: () {
-                          // indexMenu.removeWhere((data) => data == index);
-                          // lengthIndexMenu = indexMenu.length;
-                          // orderNotifier.removeOrder(order);
+                          // setState(() {
+                          //   orderNotifier.removeOrder(order);
+                          //   indexMenu.remove((data) => data == index);
+                          //   lengthIndexMenu = indexMenu.length;
+                          // });
+
                           // print(indexMenu.length);
                           // print(orderNotifier.orderList
                           //     .map((data) => data.menuName));

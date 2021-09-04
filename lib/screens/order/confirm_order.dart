@@ -81,10 +81,19 @@ class _ConfirmedOrderMapPageState extends State<ConfirmedOrderMapPage> {
                     height: 60,
                     child: CircleAvatar(
                       radius: 60,
-                      child: Image.asset(
-                        "assets/images/shop_test.jpg",
-                        fit: BoxFit.cover,
-                      ),
+                      child: activity.storeImage.isNotEmpty
+                          ? Image.network(
+                              activity.storeImage,
+                              fit: BoxFit.cover,
+                              width: double.infinity,
+                              height: double.infinity,
+                            )
+                          : Image.asset(
+                              'assets/images/shop_test.jpg',
+                              fit: BoxFit.cover,
+                              width: double.infinity,
+                              height: double.infinity,
+                            ),
                     ),
                   ),
                 ),

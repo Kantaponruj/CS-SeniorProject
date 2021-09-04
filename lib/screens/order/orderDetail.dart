@@ -40,7 +40,7 @@ class _OrderDetailPageState extends State<OrderDetailPage> {
   Activities _activities = Activities();
   int netPrice = 0;
   List indexMenu = [];
-  // int lengthIndexMenu;
+  int lengthIndexMenu;
 
   TextEditingController otherMessageController = new TextEditingController();
 
@@ -56,7 +56,7 @@ class _OrderDetailPageState extends State<OrderDetailPage> {
       }
     }
 
-    // lengthIndexMenu = indexMenu.length;
+    lengthIndexMenu = indexMenu.length;
 
     super.initState();
   }
@@ -245,7 +245,7 @@ class _OrderDetailPageState extends State<OrderDetailPage> {
                             shrinkWrap: true,
                             padding: EdgeInsets.zero,
                             physics: NeverScrollableScrollPhysics(),
-                            itemCount: indexMenu.length,
+                            itemCount: lengthIndexMenu,
                             itemBuilder: (context, index) {
                               return listOrder(
                                 orderNotifier.orderList[indexMenu[index]],
@@ -342,16 +342,14 @@ class _OrderDetailPageState extends State<OrderDetailPage> {
                   }
                   activitiesNotifier.currentActivity = _activities;
                   Navigator.of(context).pushReplacementNamed('/confirmOrder');
-                  // orderNotifier.orderList.clear();
-                  // indexMenu.clear();
 
-                  // for (int i in indexMenu) {
-                  //   indexMenu.remove((data) => data == indexMenu[i]);
-                  //   orderNotifier
-                  //       .removeOrder(orderNotifier.orderList[indexMenu[i]]);
-                  // }
-                  // indexMenu.clear();
-                  // print(orderNotifier.orderList.map((data) => data.menuName));
+                  for (int i = 0; i < indexMenu.length; i++) {
+                    orderNotifier
+                        .removeOrder(orderNotifier.orderList[indexMenu[i]]);
+                    print(orderNotifier.orderList.map((data) => data.menuName));
+                  }
+                  indexMenu.clear();
+                  lengthIndexMenu = indexMenu.length;
                 },
                 child: Column(
                   children: [
@@ -385,7 +383,7 @@ class _OrderDetailPageState extends State<OrderDetailPage> {
 
   Widget listOrder(OrderModel order, int index) {
     StoreNotifier storeNotifier = Provider.of<StoreNotifier>(context);
-    // OrderNotifier orderNotifier = Provider.of<OrderNotifier>(context);
+    OrderNotifier orderNotifier = Provider.of<OrderNotifier>(context);
 
     return Container(
       padding: EdgeInsets.zero,
@@ -512,11 +510,9 @@ class _OrderDetailPageState extends State<OrderDetailPage> {
                     Container(
                       child: IconButton(
                         onPressed: () {
-                          // setState(() {
-                          //   orderNotifier.removeOrder(order);
-                          //   indexMenu.remove((data) => data == index);
-                          //   lengthIndexMenu = indexMenu.length;
-                          // });
+                          // orderNotifier.removeOrder(order);
+                          // indexMenu.remove(index);
+                          // lengthIndexMenu = indexMenu.length;
 
                           // print(indexMenu.length);
                           // print(orderNotifier.orderList

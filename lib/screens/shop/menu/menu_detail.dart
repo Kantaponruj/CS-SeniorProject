@@ -56,6 +56,8 @@ class _MenuDetailState extends State<MenuDetail> {
           // print(i);
         }
       }
+    } else {
+      orderNotifier.currentOrder = null;
     }
 
     if (orderNotifier.currentOrder != null) {

@@ -247,11 +247,7 @@ class _OrderDetailPageState extends State<OrderDetailPage> {
                   activitiesNotifier.currentActivity = _activities;
                   Navigator.of(context).pushReplacementNamed('/confirmOrder');
 
-                  for (int i = 0; i < indexMenu.length; i++) {
-                    orderNotifier
-                        .removeOrder(orderNotifier.orderList[indexMenu[i]]);
-                    print(orderNotifier.orderList.map((data) => data.menuName));
-                  }
+                  orderNotifier.orderList.clear();
                   indexMenu.clear();
                   lengthIndexMenu = indexMenu.length;
                 },
@@ -287,7 +283,7 @@ class _OrderDetailPageState extends State<OrderDetailPage> {
 
   Widget listOrder(OrderModel order, int index) {
     StoreNotifier storeNotifier = Provider.of<StoreNotifier>(context);
-    OrderNotifier orderNotifier = Provider.of<OrderNotifier>(context);
+    // OrderNotifier orderNotifier = Provider.of<OrderNotifier>(context);
 
     return Container(
       padding: EdgeInsets.zero,
@@ -543,9 +539,9 @@ class _OrderDetailPageState extends State<OrderDetailPage> {
   }
 
   Widget meetingTimeCard(
-      String date,
-      String time,
-      ) {
+    String date,
+    String time,
+  ) {
     return BuildCard(
       headerText: 'เวลานัดหมาย',
       child: Container(
@@ -563,13 +559,13 @@ class _OrderDetailPageState extends State<OrderDetailPage> {
   }
 
   Widget deliTimeCard(
-      String date,
-      String time,
-      ) {
+    String date,
+    String time,
+  ) {
     return BuildCard(
       headerText: 'เวลานัดหมาย',
       child: Container(
-        margin: EdgeInsets.fromLTRB(40,10,60,20),
+        margin: EdgeInsets.fromLTRB(40, 10, 60, 20),
         child: Row(
           mainAxisAlignment: MainAxisAlignment.spaceBetween,
           children: [
@@ -602,5 +598,4 @@ class _OrderDetailPageState extends State<OrderDetailPage> {
       ),
     );
   }
-
 }

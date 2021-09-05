@@ -7,11 +7,12 @@ import 'package:cs_senior_project/component/appBar.dart';
 import 'package:cs_senior_project/component/bottomBar.dart';
 import 'package:cs_senior_project/models/activities.dart';
 import 'package:cs_senior_project/notifiers/activities_notifier.dart';
+import 'package:cs_senior_project/notifiers/store_notifier.dart';
 import 'package:cs_senior_project/widgets/button_widget.dart';
-import 'package:cs_senior_project/widgets/maps_widget.dart';
 import 'package:flutter/material.dart';
 import 'package:google_maps_flutter/google_maps_flutter.dart';
 import 'package:provider/provider.dart';
+import 'package:flutter_polyline_points/flutter_polyline_points.dart';
 
 class ConfirmedOrderMapPage extends StatefulWidget {
   const ConfirmedOrderMapPage({Key key}) : super(key: key);
@@ -21,7 +22,86 @@ class ConfirmedOrderMapPage extends StatefulWidget {
 }
 
 class _ConfirmedOrderMapPageState extends State<ConfirmedOrderMapPage> {
-  final Completer<GoogleMapController> _mapController = Completer();
+  Completer<GoogleMapController> _mapController = Completer();
+
+  Set<Marker> _markers = Set<Marker>();
+  LatLng customerLocation;
+  LatLng storeLocation;
+
+  Set<Polyline> _polylines = Set<Polyline>();
+  List<LatLng> polylineCoordinates = [];
+  PolylinePoints polylinePoints;
+
+  String customerName;
+  String storeName;
+
+  @override
+  void initState() {
+    polylinePoints = PolylinePoints();
+    this.setInitialLocation();
+    super.initState();
+  }
+
+  void setInitialLocation() {
+    ActivitiesNotifier activitiesNotifier =
+        Provider.of<ActivitiesNotifier>(context, listen: false);
+    StoreNotifier storeNotifier =
+        Provider.of<StoreNotifier>(context, listen: false);
+    customerLocation = LatLng(
+      activitiesNotifier.currentActivity.geoPoint.latitude,
+      activitiesNotifier.currentActivity.geoPoint.longitude,
+    );
+    storeLocation = LatLng(
+      storeNotifier.currentStore.location.latitude,
+      storeNotifier.currentStore.location.longitude,
+    );
+
+    customerName = activitiesNotifier.currentActivity.customerName;
+    storeName = storeNotifier.currentStore.storeName;
+  }
+
+  void showMarker() {
+    setState(() {
+      _markers.add(Marker(
+        markerId: MarkerId('Customer Marker'),
+        position: customerLocation,
+        icon: BitmapDescriptor.defaultMarker,
+        infoWindow: InfoWindow(title: "Home"),
+      ));
+
+      _markers.add(Marker(
+        markerId: MarkerId('Store Marker'),
+        position: storeLocation,
+        icon: BitmapDescriptor.defaultMarkerWithHue(90),
+      ));
+    });
+  }
+
+  void setPolylines() async {
+    PolylineResult result = await polylinePoints.getRouteBetweenCoordinates(
+      GOOGLE_MAPS_API_KEY,
+      PointLatLng(customerLocation.latitude, customerLocation.longitude),
+      PointLatLng(
+        storeLocation.latitude,
+        storeLocation.longitude,
+      ),
+    );
+
+    if (result.status == 'OK') {
+      result.points.forEach((PointLatLng point) {
+        polylineCoordinates.add(LatLng(point.latitude, point.longitude));
+      });
+
+      setState(() {
+        _polylines.add(Polyline(
+          width: 5,
+          polylineId: PolylineId('polyLine'),
+          // color: Color(0xFF08A5CB),
+          points: polylineCoordinates,
+        ));
+      });
+    }
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -43,7 +123,22 @@ class _ConfirmedOrderMapPageState extends State<ConfirmedOrderMapPage> {
             children: [
               Container(
                 height: mapHeight,
-                child: MapWidget(mapController: _mapController),
+                child: GoogleMap(
+                  myLocationEnabled: true,
+                  compassEnabled: false,
+                  tiltGesturesEnabled: false,
+                  polylines: _polylines,
+                  markers: _markers,
+                  onMapCreated: (GoogleMapController controller) {
+                    _mapController.complete(controller);
+                    showMarker();
+                    setPolylines();
+                  },
+                  initialCameraPosition: CameraPosition(
+                    target: customerLocation,
+                    zoom: 13,
+                  ),
+                ),
               ),
               information(
                 orderDetailHeight,

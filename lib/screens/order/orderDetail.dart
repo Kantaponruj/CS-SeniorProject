@@ -1,3 +1,4 @@
+import 'package:auto_size_text/auto_size_text.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:cs_senior_project/asset/color.dart';
 import 'package:cs_senior_project/asset/constant.dart';
@@ -118,70 +119,11 @@ class _OrderDetailPageState extends State<OrderDetailPage> {
             child: Column(
               // mainAxisAlignment: MainAxisAlignment.center,
               children: [
-                BuildCard(
-                  headerText: 'ข้อมูลผู้สั่งซื้อ',
-                  child: Container(
-                    width: MediaQuery.of(context).size.width,
-                    padding: EdgeInsets.symmetric(horizontal: 20),
-                    margin: EdgeInsets.only(bottom: 20),
-                    child: Row(
-                      mainAxisAlignment: MainAxisAlignment.start,
-                      children: [
-                        Container(
-                          height: 40,
-                          width: 40,
-                          alignment: Alignment.topLeft,
-                          child: CircleAvatar(
-                            backgroundColor: CollectionsColors.yellow,
-                            radius: 35.0,
-                            child: Text(
-                              _activities.customerName[0],
-                              style: FontCollection.descriptionTextStyle,
-                              textAlign: TextAlign.left,
-                            ),
-                          ),
-                        ),
-                        Expanded(
-                          child: Container(
-                            width: double.maxFinite,
-                            alignment: Alignment.topLeft,
-                            margin: EdgeInsets.only(left: 30),
-                            child: Column(
-                              children: [
-                                Container(
-                                  alignment: Alignment.centerLeft,
-                                  padding: EdgeInsets.only(top: 5),
-                                  child: Text(
-                                    _activities.customerName,
-                                    style: FontCollection.bodyTextStyle,
-                                    textAlign: TextAlign.left,
-                                  ),
-                                ),
-                                Container(
-                                  alignment: Alignment.centerLeft,
-                                  padding: EdgeInsets.only(top: 5),
-                                  child: Text(
-                                    _activities.phone,
-                                    style: FontCollection.bodyTextStyle,
-                                  ),
-                                ),
-                                Container(
-                                  alignment: Alignment.centerLeft,
-                                  padding: EdgeInsets.fromLTRB(0, 5, 0, 10),
-                                  child: Text(
-                                    _activities.address ?? 'โปรดระบุที่อยู่',
-                                    style: FontCollection.bodyTextStyle,
-                                  ),
-                                ),
-                              ],
-                            ),
-                          ),
-                        ),
-                      ],
-                    ),
-                  ),
-                  canEdit: true,
-                  onClicked: () {
+                customerDeliCard(
+                  _activities.customerName,
+                  _activities.phone,
+                  _activities.address ?? 'โปรดระบุที่อยู่',
+                  () {
                     Navigator.of(context).push(
                       MaterialPageRoute(
                         builder: (context) =>
@@ -190,46 +132,8 @@ class _OrderDetailPageState extends State<OrderDetailPage> {
                     );
                   },
                 ),
-                // BuildCard(
-                //   headerText: 'เวลานัดหมาย',
-                //   child: Container(
-                //     padding: EdgeInsets.all(20),
-                //     child: Row(
-                //       mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-                //       children: [
-                //         Container(
-                //           child: Text(
-                //             'วันที่',
-                //             style: FontCollection.bodyTextStyle,
-                //             textAlign: TextAlign.left,
-                //           ),
-                //         ),
-                //         Container(
-                //           child: Text(
-                //             '21 เมษายน 2564',
-                //             style: FontCollection.bodyTextStyle,
-                //             textAlign: TextAlign.right,
-                //           ),
-                //         ),
-                //         Container(
-                //           child: Text(
-                //             'เวลา',
-                //             style: FontCollection.bodyTextStyle,
-                //             textAlign: TextAlign.right,
-                //           ),
-                //         ),
-                //         Container(
-                //           child: Text(
-                //             '12.30 น.',
-                //             style: FontCollection.bodyTextStyle,
-                //             textAlign: TextAlign.right,
-                //           ),
-                //         ),
-                //       ],
-                //     ),
-                //   ),
-                //   canEdit: false,
-                // ),
+                deliTimeCard(_activities.dateOrdered, _activities.timeOrdered),
+                // meetingTimeCard('21 เมษายน 2564', '12.30 น.'),
                 BuildCard(
                   headerText: 'สรุปการสั่งซื้อ',
                   editText: 'เพิ่มเมนู',
@@ -533,4 +437,170 @@ class _OrderDetailPageState extends State<OrderDetailPage> {
       ),
     );
   }
+
+  Widget customerDeliCard(
+    String name,
+    String phoneNumber,
+    String address,
+    VoidCallback onClickedAddress,
+  ) {
+    return BuildCard(
+      headerText: 'ข้อมูลผู้สั่งซื้อ',
+      child: Container(
+        padding: EdgeInsets.fromLTRB(0, 10, 20, 20),
+        child: Column(
+          children: [
+            ListTile(
+              leading: CircleAvatar(
+                backgroundColor: CollectionsColors.navy,
+                radius: 35.0,
+                child: Icon(
+                  Icons.person,
+                  color: CollectionsColors.white,
+                ),
+              ),
+              title: Text(
+                name,
+                style: FontCollection.bodyTextStyle,
+                textAlign: TextAlign.left,
+              ),
+              subtitle: Text(
+                phoneNumber,
+                style: FontCollection.bodyTextStyle,
+              ),
+              trailing: Icon(
+                Icons.edit,
+              ),
+              onTap: () {},
+            ),
+            Container(
+              margin: EdgeInsets.only(top: 10),
+              child: ListTile(
+                leading: CircleAvatar(
+                  backgroundColor: CollectionsColors.navy,
+                  radius: 35.0,
+                  child: Icon(
+                    Icons.location_on,
+                    color: CollectionsColors.white,
+                  ),
+                ),
+                title: AutoSizeText(
+                  address,
+                  style: FontCollection.bodyTextStyle,
+                  textAlign: TextAlign.left,
+                  maxLines: 2,
+                  overflow: TextOverflow.ellipsis,
+                ),
+                trailing: Icon(
+                  Icons.edit,
+                ),
+                onTap: onClickedAddress,
+              ),
+            ),
+          ],
+        ),
+      ),
+      canEdit: false,
+    );
+  }
+
+  Widget customerPickCard(
+    String name,
+    String phoneNumber,
+    String address,
+    VoidCallback onClicked,
+  ) {
+    return BuildCard(
+      headerText: 'ข้อมูลผู้สั่งซื้อ',
+      child: Container(
+        padding: EdgeInsets.fromLTRB(0, 10, 20, 20),
+        child: ListTile(
+          leading: CircleAvatar(
+            backgroundColor: CollectionsColors.navy,
+            radius: 35.0,
+            child: Icon(
+              Icons.person,
+              color: CollectionsColors.white,
+            ),
+          ),
+          title: Text(
+            name,
+            style: FontCollection.bodyTextStyle,
+            textAlign: TextAlign.left,
+          ),
+          subtitle: Text(
+            phoneNumber,
+            style: FontCollection.bodyTextStyle,
+          ),
+          trailing: Icon(
+            Icons.edit,
+          ),
+          onTap: onClicked,
+        ),
+      ),
+      canEdit: false,
+    );
+  }
+
+  Widget meetingTimeCard(
+      String date,
+      String time,
+      ) {
+    return BuildCard(
+      headerText: 'เวลานัดหมาย',
+      child: Container(
+        margin: EdgeInsets.symmetric(horizontal: 40, vertical: 20),
+        child: Row(
+          mainAxisAlignment: MainAxisAlignment.spaceBetween,
+          children: [
+            buildIconText(Icons.calendar_today, date),
+            buildIconText(Icons.access_time, time),
+          ],
+        ),
+      ),
+      canEdit: false,
+    );
+  }
+
+  Widget deliTimeCard(
+      String date,
+      String time,
+      ) {
+    return BuildCard(
+      headerText: 'เวลานัดหมาย',
+      child: Container(
+        margin: EdgeInsets.fromLTRB(40,10,60,20),
+        child: Row(
+          mainAxisAlignment: MainAxisAlignment.spaceBetween,
+          children: [
+            buildIconText(Icons.calendar_today, date),
+            buildIconText(Icons.access_time, time),
+          ],
+        ),
+      ),
+      canEdit: false,
+    );
+  }
+
+  Widget buildIconText(IconData icon, String text) {
+    return Container(
+      child: Row(
+        children: [
+          Container(
+            child: Icon(icon),
+          ),
+          Container(
+            margin: EdgeInsets.only(left: 10),
+            alignment: Alignment.centerLeft,
+            child: Text(
+              text,
+              style: FontCollection.bodyTextStyle,
+              textAlign: TextAlign.right,
+            ),
+          ),
+        ],
+      ),
+    );
+  }
+
 }

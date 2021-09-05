@@ -35,7 +35,7 @@ class _ShopMenuState extends State<ShopMenu> {
     StoreNotifier storeNotifier =
         Provider.of<StoreNotifier>(context, listen: false);
     getMenu(storeNotifier);
-    
+
     super.initState();
   }
 
@@ -74,78 +74,76 @@ class _ShopMenuState extends State<ShopMenu> {
           },
         ),
         body: Container(
-          child: Column(
-            children: [
-              Expanded(
-                flex: 3,
-                child: Column(
-                  // padding: EdgeInsets.only(top: 80),
-                  children: [
-                    Expanded(
-                      child: Image.network(
-                        storeNotifier.currentStore.image != null
-                            ? storeNotifier.currentStore.image
-                            : 'https://www.testingxperts.com/wp-content/uploads/2019/02/placeholder-img.jpg',
-                        errorBuilder: (BuildContext context, Object exception,
-                            StackTrace stackTrace) {
-                          return Icon(Icons.image, size: 40.0);
-                        },
-                        fit: BoxFit.cover,
-                        width: double.infinity,
-                        height: double.infinity,
-                      ),
-                    ),
-                  ],
-                ),
-              ),
-              // Expanded(
-              //   flex: 1,
-              //   child:
-              // ),
-              Expanded(
-                flex: 8,
-                child: Container(
-                  // padding: EdgeInsets.symmetric(horizontal: 20, vertical: 20),
+          margin: EdgeInsets.only(top: 60),
+          child: NestedScrollView(
+            floatHeaderSlivers: true,
+            headerSliverBuilder: (context, innerBoxIsScrolled) => [
+              SliverAppBar(
+                floating: true,
+                // snap: true,
+                toolbarHeight: 275,
+                automaticallyImplyLeading: false,
+                backgroundColor: Colors.transparent,
+                flexibleSpace: Container(
                   child: Column(
                     children: [
+                      SizedBox(
+                        height: 250,
+                        child: Image.network(
+                          storeNotifier.currentStore.image != null
+                              ? storeNotifier.currentStore.image
+                              : 'https://www.testingxperts.com/wp-content/uploads/2019/02/placeholder-img.jpg',
+                          errorBuilder: (BuildContext context, Object exception,
+                              StackTrace stackTrace) {
+                            return Icon(Icons.image, size: 40.0);
+                          },
+                          fit: BoxFit.cover,
+                          width: double.infinity,
+                          height: double.infinity,
+                        ),
+                      ),
                       Padding(
-                        padding: EdgeInsets.fromLTRB(20,20,20,0),
-                        child: BuildCard(
-                          headerText: 'การนัดหมาย/จัดส่ง',
-                          child: Container(),
-                          canEdit: false,
-                        ),
-                      ),
-                      Container(
-                        height: 80,
-                        padding: EdgeInsets.fromLTRB(20,10,20,0),
-                        child: buildHorizontalListView(),
-                      ),
-                      Expanded(
-                        child: SingleChildScrollView(
-                          child: Column(
-                            children: [
-                              Container(
-                                padding: EdgeInsets.symmetric(horizontal: 20, vertical: 20),
-                                child: ListView.builder(
-                                  shrinkWrap: true,
-                                  physics: NeverScrollableScrollPhysics(),
-                                  itemCount: 2,
-                                  padding: EdgeInsets.zero,
-                                  itemBuilder: (context, index) {
-                                    return menuCategories();
-                                  },
-                                ),
-                              ),
-                            ],
-                          ),
-                        ),
+                        padding: EdgeInsets.fromLTRB(20, 20, 20, 0),
+                        child: orderTimeAndDate(),
                       ),
                     ],
                   ),
                 ),
               ),
             ],
+            body: Container(
+              margin: EdgeInsets.only(top: 20),
+              child: Column(
+                children: [
+                  Container(
+                    height: 80,
+                    padding: EdgeInsets.fromLTRB(20, 10, 20, 0),
+                    child: buildHorizontalListView(),
+                  ),
+                  Expanded(
+                    child: SingleChildScrollView(
+                      child: Column(
+                        children: [
+                          Container(
+                            padding: EdgeInsets.symmetric(
+                                horizontal: 20, vertical: 20),
+                            child: ListView.builder(
+                              shrinkWrap: true,
+                              physics: NeverScrollableScrollPhysics(),
+                              itemCount: 2,
+                              padding: EdgeInsets.zero,
+                              itemBuilder: (context, index) {
+                                return menuCategories();
+                              },
+                            ),
+                          ),
+                        ],
+                      ),
+                    ),
+                  ),
+                ],
+              ),
+            ),
           ),
         ),
         floatingActionButton: isShowBasket
@@ -188,7 +186,7 @@ class _ShopMenuState extends State<ShopMenu> {
             margin: EdgeInsets.only(right: 16),
             child: Text(
               categories[index],
-              style: FontCollection.topicTextStyle,
+              style: FontCollection.topicBoldTextStyle,
             ),
           );
         },
@@ -226,8 +224,6 @@ class _ShopMenuState extends State<ShopMenu> {
       ),
     );
   }
-
-  // Widget catagoryCard() {}
 
   Widget menuData(StoreNotifier storeNotifier, int index) {
     OrderNotifier orderNotifier = Provider.of<OrderNotifier>(context);
@@ -346,7 +342,31 @@ class _ShopMenuState extends State<ShopMenu> {
   }
 
   Widget orderTimeAndDate() {
-    return Container();
+    return Column(
+      children: [
+        Container(
+          alignment: Alignment.centerLeft,
+          child: Text(
+            'การนัดหมาย/จัดส่ง',
+            style: FontCollection.bodyTextStyle,
+          ),
+        ),
+        ListTile(
+          leading: Icon(Icons.access_time),
+          title: Text(
+            'now',
+            style: FontCollection.bodyTextStyle,
+          ),
+        ),
+      ],
+    );
+    // return BuildCard(
+    //   headerText: 'การนัดหมาย/จัดส่ง',
+    //   child: Container(
+    //     padding: EdgeInsets.fromLTRB(20, 10, 20, 20),
+    //     child: buildIconText(Icons.access_time, 'now'),
+    //   ),
+    //   canEdit: true,
+    // );
   }
-
 }

@@ -4,7 +4,8 @@ import 'package:cs_senior_project/screens/home.dart';
 import 'package:flutter/material.dart';
 
 class ShopRoundedAppBar extends StatefulWidget implements PreferredSizeWidget {
-  ShopRoundedAppBar({Key key, this.appBarTitle, this.onClicked, this.onClicked2})
+  ShopRoundedAppBar(
+      {Key key, this.appBarTitle, this.onClicked, this.onClicked2})
       : preferredSize = Size.fromHeight(80),
         super(key: key);
 
@@ -24,12 +25,11 @@ class _ShopRoundedAppBarState extends State<ShopRoundedAppBar> {
           bottom: Radius.circular(30),
         ),
         child: AppBar(
-          title: Text(widget.appBarTitle, style: FontCollection.topicTextStyle,),
+          title: Text(
+            widget.appBarTitle,
+            style: FontCollection.topicTextStyle,
+          ),
           toolbarHeight: 100,
-          // shape: RoundedRectangleBorder(
-          //   borderRadius: BorderRadius.vertical(
-          //     bottom: Radius.circular(30),
-          //   ),
           flexibleSpace: Container(
             decoration: BoxDecoration(
               gradient: LinearGradient(
@@ -43,13 +43,12 @@ class _ShopRoundedAppBarState extends State<ShopRoundedAppBar> {
           // titleSpacing: 20,
           actions: [
             IconButton(
-              padding: EdgeInsets.only(right: 0),
-              icon: Icon(Icons.bookmark_border_outlined),
               onPressed: widget.onClicked,
+              icon: Icon(Icons.bookmark),
             ),
             IconButton(
-              icon: Icon(Icons.info_outlined),
               onPressed: widget.onClicked2,
+              icon: Icon(Icons.info),
             ),
           ],
         ),

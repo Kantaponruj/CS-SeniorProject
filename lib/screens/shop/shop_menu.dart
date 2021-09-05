@@ -10,8 +10,10 @@ import 'package:cs_senior_project/screens/order/orderDetail.dart';
 import 'package:cs_senior_project/screens/shop/menu/menu_detail.dart';
 import 'package:cs_senior_project/screens/shop/shop_detail.dart';
 import 'package:cs_senior_project/services/store_service.dart';
+import 'package:cs_senior_project/widgets/datetime_picker_widget.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:intl/intl.dart';
 import 'package:provider/provider.dart';
 
 class ShopMenu extends StatefulWidget {
@@ -357,16 +359,114 @@ class _ShopMenuState extends State<ShopMenu> {
             'now',
             style: FontCollection.bodyTextStyle,
           ),
+          trailing: IconButton(
+            onPressed: () {
+              showDialog(
+                context: context,
+                builder: (context) {
+                  return editDeliTime();
+                },
+              );
+            },
+            icon: Icon(Icons.edit),
+          ),
         ),
       ],
     );
-    // return BuildCard(
-    //   headerText: 'การนัดหมาย/จัดส่ง',
-    //   child: Container(
-    //     padding: EdgeInsets.fromLTRB(20, 10, 20, 20),
-    //     child: buildIconText(Icons.access_time, 'now'),
-    //   ),
-    //   canEdit: true,
-    // );
   }
+
+  Widget editDeliTime() {
+    return AlertDialog(
+      content: Container(
+        width: MediaQuery.of(context).size.width,
+        decoration: BoxDecoration(
+          borderRadius: BorderRadius.circular(30)
+        ),
+        child: Column(
+          children: [
+            Align(
+              alignment: Alignment.topRight,
+              child: IconButton(
+                icon: Icon(Icons.close),
+                onPressed: () {
+                  Navigator.of(context).pop();
+                },
+              ),
+            ),
+            Container(
+              child: Column(
+                children: [
+                  Align(
+                    alignment: Alignment.topLeft,
+                    child: Text(
+                      'เวลาการรับ/จัดส่ง',
+                      style: FontCollection.bodyTextStyle,
+                    ),
+                  ),
+                  Container(
+                    margin: EdgeInsets.fromLTRB(0, 20, 0, 20),
+                    child: Row(
+                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                      children: [
+                        DatePickerWidget(),
+                        TimePickerWidget(),
+                      ],
+                    ),
+                  ),
+                  Align(
+                    alignment: Alignment.topLeft,
+                    child: Text(
+                      'สถานที่การรับ/จัดส่งสินค้า',
+                      style: FontCollection.bodyTextStyle,
+                    ),
+                  ),
+                  meetingPlace(),
+                ],
+              ),
+            ),
+          ],
+        ),
+      ),
+    );
+  }
+
+  String value;
+
+  Widget meetingPlace() {
+    return Container(
+      margin: EdgeInsets.fromLTRB(0, 20, 0, 20),
+      child: Row(
+        children: [
+          Icon(Icons.location_on),
+          Container(
+            margin: EdgeInsets.symmetric(horizontal: 10),
+            padding: EdgeInsets.symmetric(horizontal: 10, vertical: 5),
+            width: MediaQuery.of(context).size.width/1.6,
+            decoration: BoxDecoration(
+              boxShadow: [
+                BoxShadow(
+                  color: Colors.grey.withOpacity(0.5),
+                  blurRadius: 5,
+                  offset: Offset(0, 2), // changes position of shadow
+                ),
+              ],
+              color: Colors.white,
+              borderRadius: BorderRadius.circular(10),
+            ),
+            child: DropdownButton<String>(
+              value: value,
+                iconSize: 30,
+                icon: Icon(Icons.keyboard_arrow_down, color: Colors.black,),
+                isExpanded: true,
+                items: items.map(buildMenuItem).toList(), onChanged: (value) => setState(() => this.value = value)),
+          ),
+        ],
+      ),
+    );
+  }
+
+  DropdownMenuItem<String> buildMenuItem(String item) => DropdownMenuItem(
+        value: item,
+        child: Text(item, style: FontCollection.bodyTextStyle,),
+      );
 }

@@ -53,6 +53,17 @@ class _ManageAddressState extends State<ManageAddress> {
                   },
                 ),
               ),
+              Divider(),
+              Padding(
+                padding: const EdgeInsets.symmetric(vertical: 20),
+                child: StadiumButtonWidget(
+                  text: 'เพิ่มที่อยู่ใหม่',
+                  onClicked: () {
+                    Navigator.push(context,
+                        MaterialPageRoute(builder: (context) => AddAddress()));
+                  },
+                ),
+              ),
               Card(
                 elevation: 0,
                 shape: RoundedRectangleBorder(
@@ -111,16 +122,6 @@ class _ManageAddressState extends State<ManageAddress> {
                       ),
                     ],
                   ),
-                ),
-              ),
-              Padding(
-                padding: const EdgeInsets.only(top: 20),
-                child: StadiumButtonWidget(
-                  text: 'เพิ่มที่อยู่ใหม่',
-                  onClicked: () {
-                    Navigator.push(context,
-                        MaterialPageRoute(builder: (context) => AddAddress()));
-                  },
                 ),
               ),
             ],

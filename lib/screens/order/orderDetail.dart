@@ -132,7 +132,7 @@ class _OrderDetailPageState extends State<OrderDetailPage> {
                     );
                   },
                 ),
-                deliTimeCard(_activities.dateOrdered, _activities.timeOrdered),
+                // deliTimeCard(_activities.dateOrdered, _activities.timeOrdered),
                 // meetingTimeCard('21 เมษายน 2564', '12.30 น.'),
                 BuildCard(
                   headerText: 'สรุปการสั่งซื้อ',
@@ -563,7 +563,7 @@ class _OrderDetailPageState extends State<OrderDetailPage> {
     String time,
   ) {
     return BuildCard(
-      headerText: 'เวลานัดหมาย',
+      headerText: 'เวลาจัดส่ง',
       child: Container(
         margin: EdgeInsets.fromLTRB(40, 10, 60, 20),
         child: Row(

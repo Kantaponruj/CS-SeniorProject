@@ -102,6 +102,8 @@ class _ManageAddressState extends State<ManageAddress> {
                                         .addressList[index].residentName,
                                     "address": addressNotifier
                                         .addressList[index].address,
+                                    "addressName": addressNotifier
+                                        .addressList[index].addressName,
                                     "addressDetail": addressNotifier
                                         .addressList[index].addressDetail,
                                     "geoPoint": addressNotifier

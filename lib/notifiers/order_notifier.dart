@@ -6,10 +6,13 @@ import 'package:flutter/material.dart';
 class OrderNotifier with ChangeNotifier {
   List<OrderModel> _orderList = [];
   OrderModel _currentOrder;
+  int _netPrice;
 
   List<OrderModel> get orderList => _orderList;
 
   OrderModel get currentOrder => _currentOrder;
+
+  int get netPrice => _netPrice;
 
   set orderList(List<OrderModel> orderList) {
     _orderList = orderList;
@@ -28,6 +31,11 @@ class OrderNotifier with ChangeNotifier {
 
   removeOrder(OrderModel order) {
     _orderList.removeWhere((_order) => _order.menuId == order.menuId);
+    notifyListeners();
+  }
+
+  getNetPrice(int totalPrice) {
+    _netPrice = totalPrice;
     notifyListeners();
   }
 }

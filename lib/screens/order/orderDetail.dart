@@ -39,7 +39,6 @@ class _OrderDetailPageState extends State<OrderDetailPage> {
   DateFormat timeFormat;
 
   Activities _activities = Activities();
-  int netPrice = 0;
   List indexMenu = [];
   int lengthIndexMenu;
 
@@ -53,7 +52,6 @@ class _OrderDetailPageState extends State<OrderDetailPage> {
     for (int i = 0; i < orderNotifier.orderList.length; i++) {
       if (orderNotifier.orderList[i].storeId == widget.storeId) {
         indexMenu.add(i);
-        netPrice += int.parse(orderNotifier.orderList[i].totalPrice);
       }
     }
 
@@ -85,6 +83,8 @@ class _OrderDetailPageState extends State<OrderDetailPage> {
         userNotifier.userModel.selectedAddress['address'] == ""
             ? locationNotifier.currentAddress
             : userNotifier.userModel.selectedAddress['address'];
+    _activities.addressName =
+        userNotifier.userModel.selectedAddress['addressName'];
     _activities.addressDetail =
         userNotifier.userModel.selectedAddress['addressDetail'];
     _activities.geoPoint =
@@ -95,7 +95,7 @@ class _OrderDetailPageState extends State<OrderDetailPage> {
     _activities.message = otherMessageController.text.trim() ?? "";
     _activities.dateOrdered = dateFormat.format(now);
     _activities.timeOrdered = timeFormat.format(now);
-    _activities.netPrice = netPrice.toString();
+    _activities.netPrice = orderNotifier.netPrice.toString();
     _activities.storeId = storeNotifier.currentStore.storeId;
     _activities.storeName = storeNotifier.currentStore.storeName;
     _activities.storeImage = storeNotifier.currentStore.image;
@@ -179,7 +179,7 @@ class _OrderDetailPageState extends State<OrderDetailPage> {
                                       child: Container(
                                         alignment: Alignment.centerRight,
                                         child: Text(
-                                          netPrice.toString(),
+                                          orderNotifier.netPrice.toString(),
                                           style: FontCollection.bodyTextStyle,
                                         ),
                                       ),
@@ -275,7 +275,7 @@ class _OrderDetailPageState extends State<OrderDetailPage> {
                     ),
                   ],
                 ),
-                netPrice: netPrice.toString(),
+                netPrice: orderNotifier.netPrice.toString(),
               ),
       ),
     );

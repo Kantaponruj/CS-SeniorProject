@@ -4,6 +4,7 @@ import 'package:cs_senior_project/models/activities.dart';
 import 'package:cs_senior_project/models/address.dart';
 import 'package:cs_senior_project/models/order.dart';
 import 'package:cs_senior_project/models/user.dart';
+import 'package:cs_senior_project/notifiers/activities_notifier.dart';
 import 'package:cs_senior_project/notifiers/address_notifier.dart';
 
 class UserService {
@@ -18,12 +19,14 @@ class UserService {
     AddressModel addressModel = AddressModel();
     String residentName = addressModel.residentName;
     String address = addressModel.address;
+    String addressName = addressModel.addressName;
     String addressDetail = addressModel.addressDetail;
     GeoPoint geoPoint = addressModel.geoPoint;
     String phone = addressModel.phone;
 
     residentName = "";
     address = "";
+    addressName = "";
     addressDetail = "";
     geoPoint = GeoPoint(0, 0);
     phone = "";
@@ -36,6 +39,7 @@ class UserService {
       'selectedAddress': {
         'residentName': residentName,
         'address': address,
+        'addressName': addressName,
         'addressDetail': addressDetail,
         'geoPoint': geoPoint,
         'phone': phone
@@ -110,4 +114,22 @@ saveOrderToHistory(String uid, OrderModel order) async {
 
   DocumentReference documentRef = await orderToppingRef.add(order.toMap());
   await documentRef.set(order.toMap(), SetOptions(merge: true));
+}
+
+Future<void> getHistoryOrder(
+    ActivitiesNotifier activitiesNotifier, String uid) async {
+  QuerySnapshot snapshot = await firebaseFirestore
+      .collection('users')
+      .doc(uid)
+      .collection('activities')
+      .get();
+
+  List<Activities> _activityList = [];
+
+  snapshot.docs.forEach((document) {
+    Activities activity = Activities.fromMap(document.data());
+    _activityList.add(activity);
+  });
+
+  activitiesNotifier.activitiesList = _activityList;
 }

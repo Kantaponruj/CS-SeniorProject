@@ -47,13 +47,9 @@ class _MenuDetailState extends State<MenuDetail> {
         if (orderNotifier.orderList[i].menuName ==
             storeNotifier.currentMenu.name) {
           orderNotifier.currentOrder = orderNotifier.orderList[i];
-          // print('this current menu: ' + orderNotifier.currentOrder.menuId);
-          // print(i);
           break;
         } else {
           orderNotifier.currentOrder = null;
-          // print('new menu in list');
-          // print(i);
         }
       }
     } else {
@@ -144,7 +140,14 @@ class _MenuDetailState extends State<MenuDetail> {
         print('order length ' + orderNotifier.orderList.length.toString());
         print(orderNotifier.orderList.map((data) => data.menuName));
         print(orderNotifier.orderList.map((data) => data.totalPrice));
-        print(orderNotifier.orderList.map((data) => data.storeId));
+      }
+
+      int totalPrice = 0;
+      for (int i = 0; i < orderNotifier.orderList.length; i++) {
+        if (orderNotifier.orderList[i].storeId == widget.storeId) {
+          totalPrice += int.parse(orderNotifier.orderList[i].totalPrice);
+          orderNotifier.getNetPrice(totalPrice);
+        }
       }
 
       orderedMenu = true;

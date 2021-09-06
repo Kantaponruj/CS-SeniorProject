@@ -5,6 +5,7 @@ class Activities {
   String customerName;
   String phone;
   String address;
+  String addressName;
   String addressDetail;
   GeoPoint geoPoint;
   String message;
@@ -24,6 +25,7 @@ class Activities {
       'customerName': customerName,
       'phone': phone,
       'address': address,
+      'addressName': addressName,
       'addressDetail': addressDetail,
       'geoPoint': geoPoint,
       'message': message,
@@ -42,6 +44,7 @@ class Activities {
     customerName = data['customerName'];
     phone = data['phone'];
     address = data['address'];
+    addressName = data['addressName'];
     addressDetail = data['addressDetail'];
     geoPoint = data['geoPoint'];
     message = data['message'];

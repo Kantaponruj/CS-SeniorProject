@@ -12,9 +12,6 @@ Future<void> getStores(StoreNotifier storeNotifier, String tapName) async {
   QuerySnapshot snapshot;
 
   switch (tapName) {
-    case "all":
-      snapshot = await firebaseFirestore.collection(collection).get();
-      break;
     case "delivery":
       snapshot = await firebaseFirestore
           .collection(collection)
@@ -28,6 +25,7 @@ Future<void> getStores(StoreNotifier storeNotifier, String tapName) async {
           .get();
       break;
     default:
+      snapshot = await firebaseFirestore.collection(collection).get();
       break;
   }
 

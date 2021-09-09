@@ -1,7 +1,6 @@
 import 'dart:async';
 
 import 'package:cs_senior_project/asset/constant.dart';
-import 'package:cs_senior_project/asset/text_style.dart';
 import 'package:cs_senior_project/notifiers/user_notifier.dart';
 import 'package:cs_senior_project/widgets/tap_widget.dart';
 import 'package:flutter/cupertino.dart';
@@ -51,13 +50,20 @@ class _HomePageState extends State<HomePage> {
     return SafeArea(
       child: Scaffold(
         // extendBodyBehindAppBar: true,
-        appBar: HomeAppBar(onclicked: () {
-          setState(() {
-            isFromHomePage = true;
-          });
-          Navigator.of(context)
-              .push(MaterialPageRoute(builder: (context) => Address(uid: userNotifier.userModel.uid)));
-        },),
+        appBar: HomeAppBar(
+          onclicked: () {
+            setState(() {
+              isFromHomePage = true;
+            });
+            Navigator.of(context).push(
+              MaterialPageRoute(
+                builder: (context) => Address(
+                  uid: userNotifier.userModel.uid,
+                ),
+              ),
+            );
+          },
+        ),
         body: Stack(
           // fit: StackFit.expand,
           children: [
@@ -134,5 +140,4 @@ class _HomePageState extends State<HomePage> {
           ),
         ),
       );
-
 }

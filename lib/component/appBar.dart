@@ -79,7 +79,8 @@ class _HomeAppBarState extends State<HomeAppBar> {
                   child: Container(
                     margin: EdgeInsets.only(left: 20),
                     child: AutoSizeText(
-                      'Deliver to : \n' + locationNotifier.currentAddress ?? 'loading...',
+                      'Deliver to : \n' +
+                          (locationNotifier.currentAddress ?? 'loading...'),
                       style: FontCollection.bodyTextStyle,
                       maxLines: 2,
                       overflow: TextOverflow.ellipsis,
@@ -106,13 +107,13 @@ class _HomeAppBarState extends State<HomeAppBar> {
                 //     child: Column(
                 //       mainAxisSize: MainAxisSize.max,
                 //       children: [
-                        // Container(
-                        //   alignment: Alignment.topLeft,
-                        //   child: Text(
-                        //     'Deliver to : ',
-                        //     style: FontCollection.bodyTextStyle,
-                        //   ),
-                        // ),
+                // Container(
+                //   alignment: Alignment.topLeft,
+                //   child: Text(
+                //     'Deliver to : ',
+                //     style: FontCollection.bodyTextStyle,
+                //   ),
+                // ),
                 //         Flexible(
                 //           child: Text(
                 //             locationNotifier.currentAddress ?? 'loading...',

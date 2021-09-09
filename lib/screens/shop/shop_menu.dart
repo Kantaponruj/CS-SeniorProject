@@ -34,10 +34,13 @@ class _ShopMenuState extends State<ShopMenu> {
 
   @override
   void initState() {
+    ActivitiesNotifier activity =
+        Provider.of<ActivitiesNotifier>(context, listen: false);
     StoreNotifier storeNotifier =
         Provider.of<StoreNotifier>(context, listen: false);
-    getMenu(storeNotifier);
 
+    getMenu(storeNotifier);
+    activity.resetDateTimeOrdered();
     super.initState();
   }
 

@@ -247,7 +247,8 @@ class _OrderDetailPageState extends State<OrderDetailPage> {
                   activitiesNotifier.currentActivity = _activities;
                   Navigator.of(context).pushReplacementNamed('/confirmOrder');
 
-                  orderNotifier.orderList.clear();
+                  orderNotifier.orderList.removeWhere((order) =>
+                      order.storeId == storeNotifier.currentStore.storeId);
                   indexMenu.clear();
                   lengthIndexMenu = indexMenu.length;
                 },

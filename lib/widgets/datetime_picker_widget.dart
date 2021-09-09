@@ -1,6 +1,9 @@
 import 'package:cs_senior_project/component/show_datetime.dart';
+import 'package:cs_senior_project/models/activities.dart';
+import 'package:cs_senior_project/notifiers/activities_notifier.dart';
 import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
+import 'package:provider/provider.dart';
 
 class DatePickerWidget extends StatefulWidget {
   DatePickerWidget({Key key}) : super(key: key);
@@ -16,7 +19,7 @@ class _DatePickerWidgetState extends State<DatePickerWidget> {
     if (date == null) {
       return 'Select Date';
     } else {
-      return DateFormat('MM/dd/yyyy').format(date);
+      return DateFormat('d MMMM y').format(date);
       // return '${date.month}/${date.day}/${date.year}';
     }
   }
@@ -32,15 +35,25 @@ class _DatePickerWidgetState extends State<DatePickerWidget> {
 
     if (newDate == null) return;
 
-    setState(() => date = newDate);
+    setState(() {
+      ActivitiesNotifier activity =
+          Provider.of<ActivitiesNotifier>(context, listen: false);
+      date = newDate;
+      activity.saveDateOrdered(getText());
+      print('date: ${activity.dateOrdered}');
+    });
   }
 
   @override
-  Widget build(BuildContext context) => ShowDateTime(
-        icon: Icons.calendar_today,
-        text: getText(),
-        onClicked: () => pickDate(context),
-      );
+  Widget build(BuildContext context) {
+    ActivitiesNotifier activity = Provider.of<ActivitiesNotifier>(context);
+
+    return ShowDateTime(
+      icon: Icons.calendar_today,
+      text: activity.dateOrdered != null ? activity.dateOrdered : getText(),
+      onClicked: () => pickDate(context),
+    );
+  }
 }
 
 class TimePickerWidget extends StatefulWidget {
@@ -71,14 +84,23 @@ class _TimePickerWidgetState extends State<TimePickerWidget> {
 
     if (newTime == null) return;
 
-    setState(() => time = newTime);
+    setState(() {
+      ActivitiesNotifier activity =
+          Provider.of<ActivitiesNotifier>(context, listen: false);
+      time = newTime;
+      activity.svaeTimeOrdered(getText());
+      print('time: ${activity.timeOrdered}');
+    });
   }
 
   @override
-  Widget build(BuildContext context) => ShowDateTime(
-    icon: Icons.access_time,
-    text: getText(),
-    onClicked: () => pickTime(context),
-  );
+  Widget build(BuildContext context) {
+    ActivitiesNotifier activity = Provider.of<ActivitiesNotifier>(context);
 
+    return ShowDateTime(
+      icon: Icons.access_time,
+      text: activity.timeOrdered != null ? activity.timeOrdered : getText(),
+      onClicked: () => pickTime(context),
+    );
+  }
 }

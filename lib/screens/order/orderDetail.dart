@@ -93,8 +93,10 @@ class _OrderDetailPageState extends State<OrderDetailPage> {
                 locationNotifier.currentPosition.longitude)
             : userNotifier.userModel.selectedAddress['geoPoint'];
     _activities.message = otherMessageController.text.trim() ?? "";
-    _activities.dateOrdered = dateFormat.format(now);
-    _activities.timeOrdered = timeFormat.format(now);
+    _activities.dateOrdered =
+        activitiesNotifier.dateOrdered ?? dateFormat.format(now);
+    _activities.timeOrdered =
+        activitiesNotifier.timeOrdered ?? timeFormat.format(now);
     _activities.netPrice = orderNotifier.netPrice.toString();
     _activities.storeId = storeNotifier.currentStore.storeId;
     _activities.storeName = storeNotifier.currentStore.storeName;
@@ -247,6 +249,7 @@ class _OrderDetailPageState extends State<OrderDetailPage> {
                   activitiesNotifier.currentActivity = _activities;
                   Navigator.of(context).pushReplacementNamed('/confirmOrder');
 
+                  activitiesNotifier.resetDateTimeOrdered();
                   orderNotifier.orderList.removeWhere((order) =>
                       order.storeId == storeNotifier.currentStore.storeId);
                   indexMenu.clear();

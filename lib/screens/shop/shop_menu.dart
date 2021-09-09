@@ -4,6 +4,7 @@ import 'package:cs_senior_project/asset/constant.dart';
 import 'package:cs_senior_project/asset/text_style.dart';
 import 'package:cs_senior_project/component/orderCard.dart';
 import 'package:cs_senior_project/component/shopAppBar.dart';
+import 'package:cs_senior_project/notifiers/activities_notifier.dart';
 import 'package:cs_senior_project/notifiers/order_notifier.dart';
 import 'package:cs_senior_project/notifiers/store_notifier.dart';
 import 'package:cs_senior_project/screens/order/orderDetail.dart';
@@ -13,7 +14,6 @@ import 'package:cs_senior_project/services/store_service.dart';
 import 'package:cs_senior_project/widgets/datetime_picker_widget.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
-import 'package:intl/intl.dart';
 import 'package:provider/provider.dart';
 
 class ShopMenu extends StatefulWidget {
@@ -344,6 +344,9 @@ class _ShopMenuState extends State<ShopMenu> {
   }
 
   Widget orderTimeAndDate() {
+    ActivitiesNotifier activity =
+        Provider.of<ActivitiesNotifier>(context, listen: false);
+
     return Column(
       children: [
         Container(
@@ -356,7 +359,9 @@ class _ShopMenuState extends State<ShopMenu> {
         ListTile(
           leading: Icon(Icons.access_time),
           title: Text(
-            'now',
+            (activity.dateOrdered != null && activity.timeOrdered != null)
+                ? '${activity.dateOrdered} ${activity.timeOrdered} น.'
+                : 'now',
             style: FontCollection.bodyTextStyle,
           ),
           trailing: IconButton(
@@ -379,9 +384,7 @@ class _ShopMenuState extends State<ShopMenu> {
     return AlertDialog(
       content: Container(
         width: MediaQuery.of(context).size.width,
-        decoration: BoxDecoration(
-          borderRadius: BorderRadius.circular(30)
-        ),
+        decoration: BoxDecoration(borderRadius: BorderRadius.circular(30)),
         child: Column(
           children: [
             Align(
@@ -441,7 +444,7 @@ class _ShopMenuState extends State<ShopMenu> {
           Container(
             margin: EdgeInsets.symmetric(horizontal: 10),
             padding: EdgeInsets.symmetric(horizontal: 10, vertical: 5),
-            width: MediaQuery.of(context).size.width/1.6,
+            width: MediaQuery.of(context).size.width / 1.6,
             decoration: BoxDecoration(
               boxShadow: [
                 BoxShadow(
@@ -454,11 +457,15 @@ class _ShopMenuState extends State<ShopMenu> {
               borderRadius: BorderRadius.circular(10),
             ),
             child: DropdownButton<String>(
-              value: value,
+                value: value,
                 iconSize: 30,
-                icon: Icon(Icons.keyboard_arrow_down, color: Colors.black,),
+                icon: Icon(
+                  Icons.keyboard_arrow_down,
+                  color: Colors.black,
+                ),
                 isExpanded: true,
-                items: items.map(buildMenuItem).toList(), onChanged: (value) => setState(() => this.value = value)),
+                items: items.map(buildMenuItem).toList(),
+                onChanged: (value) => setState(() => this.value = value)),
           ),
         ],
       ),
@@ -467,6 +474,9 @@ class _ShopMenuState extends State<ShopMenu> {
 
   DropdownMenuItem<String> buildMenuItem(String item) => DropdownMenuItem(
         value: item,
-        child: Text(item, style: FontCollection.bodyTextStyle,),
+        child: Text(
+          item,
+          style: FontCollection.bodyTextStyle,
+        ),
       );
 }

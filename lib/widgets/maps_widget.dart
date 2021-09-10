@@ -50,7 +50,7 @@ class _MapWidgetState extends State<MapWidget> {
         );
       },
     );
-    setState(() {});
+    // setState(() {});
 
     return locationNotifier.initialPosition == null
         ? LoadingWidget()

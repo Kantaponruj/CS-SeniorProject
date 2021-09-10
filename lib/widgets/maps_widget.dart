@@ -34,18 +34,23 @@ class _MapWidgetState extends State<MapWidget> {
     Iterable _markers = Iterable.generate(
       storeNotifier.storeList.length,
       (index) {
+        final store = storeNotifier.storeList[index];
         return Marker(
-          markerId: MarkerId(storeNotifier.storeList[index].storeId),
+          markerId: MarkerId(store.storeId),
           icon: BitmapDescriptor.defaultMarkerWithHue(_marker),
           position: LatLng(
-            storeNotifier.storeList[index].location.latitude,
-            storeNotifier.storeList[index].location.longitude,
+            store.realtimeLocation != null
+                ? store.realtimeLocation.latitude
+                : store.location.latitude,
+            store.realtimeLocation != null
+                ? store.realtimeLocation.longitude
+                : store.location.longitude,
           ),
-          infoWindow:
-              InfoWindow(title: storeNotifier.storeList[index].storeName),
+          infoWindow: InfoWindow(title: store.storeName),
         );
       },
     );
+    setState(() {});
 
     return locationNotifier.initialPosition == null
         ? LoadingWidget()

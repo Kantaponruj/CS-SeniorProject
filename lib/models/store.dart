@@ -13,6 +13,7 @@ class Store {
   String addressName;
   GeoPoint location;
   String description;
+  GeoPoint realtimeLocation;
 
   // Store();
 
@@ -29,6 +30,7 @@ class Store {
     addressName = data['selectedAddressName'];
     location = data['selectedLocation'];
     description = data['description'];
+    realtimeLocation = data['realtimeLocation'];
   }
 }
 

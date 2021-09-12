@@ -35,8 +35,8 @@ class OrderDetailPage extends StatefulWidget {
 
 class _OrderDetailPageState extends State<OrderDetailPage> {
   DateTime now = new DateTime.now();
-  DateFormat dateFormat;
-  DateFormat timeFormat;
+  DateFormat dateFormat = DateFormat('d MMMM y');
+  DateFormat timeFormat = DateFormat.Hm('cs');
 
   Activities _activities = Activities();
   List indexMenu = [];
@@ -68,9 +68,6 @@ class _OrderDetailPageState extends State<OrderDetailPage> {
     LocationNotifier locationNotifier = Provider.of<LocationNotifier>(context);
     ActivitiesNotifier activitiesNotifier =
         Provider.of<ActivitiesNotifier>(context);
-
-    dateFormat = DateFormat('d MMMM y');
-    timeFormat = DateFormat.Hm('cs');
 
     _activities.customerName =
         userNotifier.userModel.selectedAddress['residentName'] == ""

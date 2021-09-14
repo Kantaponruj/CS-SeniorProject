@@ -219,10 +219,10 @@ class _OrderDetailPageState extends State<OrderDetailPage> {
                     _activities,
                   );
 
-                  // saveToHistory(
-                  //   userNotifier.userModel.uid,
-                  //   _activities,
-                  // );
+                  saveActivityToHistory(
+                    userNotifier.userModel.uid,
+                    _activities,
+                  );
 
                   for (int i = 0; i < orderNotifier.orderList.length; i++) {
                     if ((orderNotifier.orderList[i].storeId ==
@@ -231,12 +231,12 @@ class _OrderDetailPageState extends State<OrderDetailPage> {
                         storeNotifier.currentStore.storeId,
                         orderNotifier.orderList[i],
                       );
-                    }
 
-                    // saveOrderToHistory(
-                    //   userNotifier.userModel.uid,
-                    //   orderNotifier.orderList[i],
-                    // );
+                      saveEachOrderToHistory(
+                        userNotifier.userModel.uid,
+                        orderNotifier.orderList[i],
+                      );
+                    }
                   }
                   activitiesNotifier.currentActivity = _activities;
                   Navigator.of(context).pushReplacementNamed('/confirmOrder');

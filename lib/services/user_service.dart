@@ -91,7 +91,7 @@ addAddress(AddressModel address, String uid, Function addAddress) async {
 
 String orderId;
 
-saveToHistory(String uid, Activities activity) async {
+saveActivityToHistory(String uid, Activities activity) async {
   DocumentReference orderRef = firebaseFirestore
       .collection('users')
       .doc(uid)
@@ -104,7 +104,7 @@ saveToHistory(String uid, Activities activity) async {
   orderRef.set(activity.toMap(), SetOptions(merge: true));
 }
 
-saveOrderToHistory(String uid, OrderModel order) async {
+saveEachOrderToHistory(String uid, OrderModel order) async {
   CollectionReference orderToppingRef = firebaseFirestore
       .collection('users')
       .doc(uid)

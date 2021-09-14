@@ -59,12 +59,9 @@ class _ShopDetailState extends State<ShopDetail> {
                 style: FontCollection.bodyTextStyle,
               )
             : Row(
-                children: daysArr
-                    .map(
-                      (day) =>
-                          Text("$day ", style: FontCollection.bodyTextStyle),
-                    )
-                    .toList(),
+                children: [
+                  Text(daysArr.join(', '), style: FontCollection.bodyTextStyle)
+                ],
               ),
       );
     } else {

@@ -108,7 +108,7 @@ saveDeliveryOrder(String storeId, Activities activity) async {
   orderRefStore.set(activity.toMap(), SetOptions(merge: true));
 }
 
-saveOrder(String storeId, OrderModel order) async {
+saveEachOrder(String storeId, OrderModel order) async {
   CollectionReference orderToppingRef = firebaseFirestore
       .collection('stores')
       .doc(storeId)

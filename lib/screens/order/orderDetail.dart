@@ -219,21 +219,24 @@ class _OrderDetailPageState extends State<OrderDetailPage> {
                     _activities,
                   );
 
-                  saveToHistory(
-                    userNotifier.userModel.uid,
-                    _activities,
-                  );
+                  // saveToHistory(
+                  //   userNotifier.userModel.uid,
+                  //   _activities,
+                  // );
 
                   for (int i = 0; i < orderNotifier.orderList.length; i++) {
-                    saveOrder(
-                      storeNotifier.currentStore.storeId,
-                      orderNotifier.orderList[i],
-                    );
+                    if ((orderNotifier.orderList[i].storeId ==
+                        widget.storeId)) {
+                      saveEachOrder(
+                        storeNotifier.currentStore.storeId,
+                        orderNotifier.orderList[i],
+                      );
+                    }
 
-                    saveOrderToHistory(
-                      userNotifier.userModel.uid,
-                      orderNotifier.orderList[i],
-                    );
+                    // saveOrderToHistory(
+                    //   userNotifier.userModel.uid,
+                    //   orderNotifier.orderList[i],
+                    // );
                   }
                   activitiesNotifier.currentActivity = _activities;
                   Navigator.of(context).pushReplacementNamed('/confirmOrder');

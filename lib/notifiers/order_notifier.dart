@@ -30,6 +30,7 @@ class OrderNotifier with ChangeNotifier {
   }
 
   removeOrder(OrderModel order) {
+    _netPrice = _netPrice - int.parse(order.totalPrice);
     _orderList.removeWhere((_order) => _order.menuId == order.menuId);
     notifyListeners();
   }

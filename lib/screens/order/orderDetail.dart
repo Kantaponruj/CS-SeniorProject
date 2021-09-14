@@ -34,13 +34,12 @@ class OrderDetailPage extends StatefulWidget {
 }
 
 class _OrderDetailPageState extends State<OrderDetailPage> {
+  int totalPrice = 0;
   DateTime now = new DateTime.now();
   DateFormat dateFormat = DateFormat('d MMMM y');
   DateFormat timeFormat = DateFormat.Hm('cs');
 
   Activities _activities = Activities();
-  List indexMenu = [];
-  int lengthIndexMenu;
 
   TextEditingController otherMessageController = new TextEditingController();
 
@@ -48,15 +47,12 @@ class _OrderDetailPageState extends State<OrderDetailPage> {
   void initState() {
     OrderNotifier orderNotifier =
         Provider.of<OrderNotifier>(context, listen: false);
-
     for (int i = 0; i < orderNotifier.orderList.length; i++) {
       if (orderNotifier.orderList[i].storeId == widget.storeId) {
-        indexMenu.add(i);
+        totalPrice += int.parse(orderNotifier.orderList[i].totalPrice);
+        orderNotifier.getNetPrice(totalPrice);
       }
     }
-
-    lengthIndexMenu = indexMenu.length;
-
     super.initState();
   }
 
@@ -144,20 +140,16 @@ class _OrderDetailPageState extends State<OrderDetailPage> {
                     child: Column(
                       children: [
                         Container(
-                          child: ListView.separated(
+                          child: ListView.builder(
                             shrinkWrap: true,
                             padding: EdgeInsets.zero,
                             physics: NeverScrollableScrollPhysics(),
-                            itemCount: lengthIndexMenu,
+                            itemCount: orderNotifier.orderList.length,
                             itemBuilder: (context, index) {
-                              return listOrder(
-                                orderNotifier.orderList[indexMenu[index]],
-                                indexMenu[index],
-                              );
-                            },
-                            separatorBuilder:
-                                (BuildContext context, int index) {
-                              return Divider();
+                              return (orderNotifier.orderList[index].storeId ==
+                                      widget.storeId)
+                                  ? listOrder(orderNotifier.orderList[index])
+                                  : Container();
                             },
                           ),
                         ),
@@ -249,8 +241,6 @@ class _OrderDetailPageState extends State<OrderDetailPage> {
                   activitiesNotifier.resetDateTimeOrdered();
                   orderNotifier.orderList.removeWhere((order) =>
                       order.storeId == storeNotifier.currentStore.storeId);
-                  indexMenu.clear();
-                  lengthIndexMenu = indexMenu.length;
                 },
                 child: Column(
                   children: [
@@ -282,9 +272,9 @@ class _OrderDetailPageState extends State<OrderDetailPage> {
     );
   }
 
-  Widget listOrder(OrderModel order, int index) {
+  Widget listOrder(OrderModel order) {
     StoreNotifier storeNotifier = Provider.of<StoreNotifier>(context);
-    // OrderNotifier orderNotifier = Provider.of<OrderNotifier>(context);
+    OrderNotifier orderNotifier = Provider.of<OrderNotifier>(context);
 
     return Container(
       padding: EdgeInsets.zero,
@@ -411,13 +401,7 @@ class _OrderDetailPageState extends State<OrderDetailPage> {
                     Container(
                       child: IconButton(
                         onPressed: () {
-                          // orderNotifier.removeOrder(order);
-                          // indexMenu.remove(index);
-                          // lengthIndexMenu = indexMenu.length;
-
-                          // print(indexMenu.length);
-                          // print(orderNotifier.orderList
-                          //     .map((data) => data.menuName));
+                          orderNotifier.removeOrder(order);
                         },
                         icon: Icon(
                           Icons.delete,

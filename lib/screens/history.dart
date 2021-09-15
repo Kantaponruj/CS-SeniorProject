@@ -47,64 +47,69 @@ class _HistoryPageState extends State<HistoryPage> {
             margin: EdgeInsets.symmetric(horizontal: 20, vertical: 20),
             child: Column(
               children: [
-                BuildCard(
-                    headerText: 'การสั่งซื้อปัจจุบัน',
-                    child: Container(
-                      margin: EdgeInsets.only(top: 10),
-                      child: ListTile(
-                        leading: Container(
-                          height: 80,
-                          width: 80,
-                          alignment: Alignment.topLeft,
-                          child: CircleAvatar(
-                            backgroundColor: CollectionsColors.yellow,
-                            radius: 100.0,
-                            child: Text(
-                              '1',
-                              style: FontCollection.descriptionTextStyle,
-                              textAlign: TextAlign.left,
+                activities.currentActivity == null
+                    ? Container()
+                    : BuildCard(
+                        headerText: 'การสั่งซื้อปัจจุบัน',
+                        child: Container(
+                          margin: EdgeInsets.only(top: 10),
+                          child: ListTile(
+                            leading: Container(
+                              height: 80,
+                              width: 80,
+                              alignment: Alignment.topLeft,
+                              child: CircleAvatar(
+                                backgroundColor: CollectionsColors.yellow,
+                                radius: 100.0,
+                                child: Text(
+                                  '1',
+                                  style: FontCollection.descriptionTextStyle,
+                                  textAlign: TextAlign.left,
+                                ),
+                              ),
+                            ),
+                            title: Text(
+                              'กำลังดำเนินการ',
+                              style: FontCollection.bodyTextStyle,
+                            ),
+                            subtitle: Container(
+                              width: MediaQuery.of(context).size.width,
+                              child: Column(
+                                children: [
+                                  buildListTitle(Icons.fastfood_outlined,
+                                      activities.currentActivity.storeName),
+                                  buildListTitle(Icons.location_on,
+                                      activities.currentActivity.addressName),
+                                ],
+                              ),
+                            ),
+                            trailing: Container(
+                              height: MediaQuery.of(context).size.height,
+                              child: Column(
+                                mainAxisAlignment:
+                                    MainAxisAlignment.spaceBetween,
+                                children: [
+                                  Container(
+                                    // alignment: Alignment.topRight,
+                                    child: Text(
+                                      activities.currentActivity.dateOrdered,
+                                      style: FontCollection.bodyTextStyle,
+                                    ),
+                                  ),
+                                  Container(
+                                    // alignment: Alignment.bottomRight,
+                                    child: Text(
+                                      activities.currentActivity.netPrice,
+                                      style: FontCollection.bodyTextStyle,
+                                    ),
+                                  ),
+                                ],
+                              ),
                             ),
                           ),
                         ),
-                        title: Text(
-                          'กำลังดำเนินการ',
-                          style: FontCollection.bodyTextStyle,
-                        ),
-                        subtitle: Container(
-                          width: MediaQuery.of(context).size.width,
-                          child: Column(
-                            children: [
-                              buildListTitle(
-                                  Icons.fastfood_outlined, 'ร้านโตเกียวเจ๊หยี'),
-                              buildListTitle(Icons.location_on, 'บ้าน'),
-                            ],
-                          ),
-                        ),
-                        trailing: Container(
-                          height: MediaQuery.of(context).size.height,
-                          child: Column(
-                            mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                            children: [
-                              Container(
-                                // alignment: Alignment.topRight,
-                                child: Text(
-                                  '15 เม.ย. 2021',
-                                  style: FontCollection.bodyTextStyle,
-                                ),
-                              ),
-                              Container(
-                                // alignment: Alignment.bottomRight,
-                                child: Text(
-                                  '95 บาท',
-                                  style: FontCollection.bodyTextStyle,
-                                ),
-                              ),
-                            ],
-                          ),
-                        ),
+                        canEdit: false,
                       ),
-                    ),
-                    canEdit: false),
                 BuildCard(
                   headerText: 'ประวัติการสั่งซื้อ',
                   child: Container(

@@ -93,7 +93,7 @@ Future<void> getDateAndTime(StoreNotifier storeNotifier, String storeId) async {
   storeNotifier.dateTimeList = _dateTime;
 }
 
-String orderId;
+String documentId;
 
 saveDeliveryOrder(String storeId, Activities activity) async {
   DocumentReference orderRefStore = firebaseFirestore
@@ -102,9 +102,11 @@ saveDeliveryOrder(String storeId, Activities activity) async {
       .collection('delivery-orders')
       .doc();
 
-  orderId = orderRefStore.id;
+  documentId = orderRefStore.id;
 
-  orderRefStore.set(activity.toMap(), SetOptions(merge: true));
+  orderRefStore
+      .set(activity.toMap(), SetOptions(merge: true))
+      .then((value) => orderRefStore.update({'documentId': documentId}));
 }
 
 saveEachOrder(String storeId, OrderModel order) async {
@@ -112,7 +114,7 @@ saveEachOrder(String storeId, OrderModel order) async {
       .collection('stores')
       .doc(storeId)
       .collection('delivery-orders')
-      .doc(orderId)
+      .doc(documentId)
       .collection('orders');
 
   DocumentReference documentRef = await orderToppingRef.add(order.toMap());

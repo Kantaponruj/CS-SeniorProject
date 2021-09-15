@@ -103,7 +103,6 @@ saveDeliveryOrder(String storeId, Activities activity) async {
       .doc();
 
   orderId = orderRefStore.id;
-  activity.orderId = orderId;
 
   orderRefStore.set(activity.toMap(), SetOptions(merge: true));
 }

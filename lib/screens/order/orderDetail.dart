@@ -215,26 +215,18 @@ class _OrderDetailPageState extends State<OrderDetailPage> {
             ? SizedBox.shrink()
             : BottomOrderDetail(
                 onClicked: () {
-                  saveDeliveryOrder(
-                    storeNotifier.currentStore.storeId,
-                    _activities,
-                  );
-
                   saveActivityToHistory(
                     userNotifier.userModel.uid,
+                    storeNotifier.currentStore.storeId,
                     _activities,
                   );
 
                   for (int i = 0; i < orderNotifier.orderList.length; i++) {
                     if ((orderNotifier.orderList[i].storeId ==
                         widget.storeId)) {
-                      saveEachOrder(
-                        storeNotifier.currentStore.storeId,
-                        orderNotifier.orderList[i],
-                      );
-
                       saveEachOrderToHistory(
                         userNotifier.userModel.uid,
+                        storeNotifier.currentStore.storeId,
                         orderNotifier.orderList[i],
                       );
                     }

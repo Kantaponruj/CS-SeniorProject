@@ -6,6 +6,7 @@ import 'package:cs_senior_project/models/order.dart';
 import 'package:cs_senior_project/models/user.dart';
 import 'package:cs_senior_project/notifiers/activities_notifier.dart';
 import 'package:cs_senior_project/notifiers/address_notifier.dart';
+import 'package:cs_senior_project/services/store_service.dart';
 
 class UserService {
   String collection = "users";
@@ -91,7 +92,7 @@ addAddress(AddressModel address, String uid, Function addAddress) async {
 
 String orderId;
 
-saveActivityToHistory(String uid, Activities activity) async {
+saveActivityToHistory(String uid, String storeId, Activities activity) async {
   DocumentReference orderRef = firebaseFirestore
       .collection('users')
       .doc(uid)
@@ -102,9 +103,11 @@ saveActivityToHistory(String uid, Activities activity) async {
   activity.orderId = orderId;
 
   orderRef.set(activity.toMap(), SetOptions(merge: true));
+
+  saveDeliveryOrder(storeId, activity);
 }
 
-saveEachOrderToHistory(String uid, OrderModel order) async {
+saveEachOrderToHistory(String uid, String storeId, OrderModel order) async {
   CollectionReference orderToppingRef = firebaseFirestore
       .collection('users')
       .doc(uid)
@@ -114,6 +117,8 @@ saveEachOrderToHistory(String uid, OrderModel order) async {
 
   DocumentReference documentRef = await orderToppingRef.add(order.toMap());
   await documentRef.set(order.toMap(), SetOptions(merge: true));
+
+  saveEachOrder(storeId, order);
 }
 
 Future<void> getHistoryOrder(

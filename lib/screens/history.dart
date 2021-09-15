@@ -116,7 +116,6 @@ class _HistoryPageState extends State<HistoryPage> {
                                 if (activities.currentActivity.storeId ==
                                     stores.storeList[i].storeId) {
                                   stores.currentStore = stores.storeList[i];
-                                  break;
                                 }
                               }
 
@@ -208,7 +207,6 @@ class _HistoryPageState extends State<HistoryPage> {
                                 if (activities.activitiesList[index].storeId ==
                                     stores.storeList[i].storeId) {
                                   stores.currentStore = stores.storeList[i];
-                                  break;
                                 }
                               }
 

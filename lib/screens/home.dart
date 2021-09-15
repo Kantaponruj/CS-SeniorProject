@@ -14,6 +14,7 @@ import 'package:cs_senior_project/component/appBar.dart';
 import 'package:cs_senior_project/widgets/maps_widget.dart';
 
 import 'address/address.dart';
+import 'address/manage_address.dart';
 
 class HomePage extends StatefulWidget {
   static const routeName = '/home';
@@ -56,7 +57,7 @@ class _HomePageState extends State<HomePage> {
           });
           Navigator.of(context).push(
             MaterialPageRoute(
-              builder: (context) => Address(
+              builder: (context) => ManageAddress(
                 uid: userNotifier.userModel.uid,
               ),
             ),

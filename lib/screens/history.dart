@@ -2,6 +2,7 @@ import 'package:cs_senior_project/asset/color.dart';
 import 'package:cs_senior_project/asset/text_style.dart';
 import 'package:cs_senior_project/component/appBar.dart';
 import 'package:cs_senior_project/component/orderCard.dart';
+import 'package:cs_senior_project/models/store.dart';
 import 'package:cs_senior_project/notifiers/activities_notifier.dart';
 import 'package:cs_senior_project/notifiers/store_notifier.dart';
 import 'package:cs_senior_project/notifiers/user_notifier.dart';
@@ -72,7 +73,8 @@ class _HistoryPageState extends State<HistoryPage> {
                               ),
                             ),
                             title: Text(
-                              'กำลังดำเนินการ',
+                              activities.currentActivity.orderStatus
+                                  .toString(),
                               style: FontCollection.bodyTextStyle,
                             ),
                             subtitle: Container(
@@ -132,10 +134,11 @@ class _HistoryPageState extends State<HistoryPage> {
                 BuildCard(
                   headerText: 'ประวัติการสั่งซื้อ',
                   child: Container(
-                      margin: EdgeInsets.only(top: 10),
+                      margin: EdgeInsets.fromLTRB(0, 10, 0, 20),
                       child: ListView.separated(
                         shrinkWrap: true,
                         itemCount: activities.activitiesList.length,
+                        physics: NeverScrollableScrollPhysics(),
                         itemBuilder: (context, index) {
                           return ListTile(
                             leading: Container(
@@ -154,7 +157,8 @@ class _HistoryPageState extends State<HistoryPage> {
                               ),
                             ),
                             title: Text(
-                              'การสั่งซื้อสำเร็จ',
+                              activities.activitiesList[index].orderStatus
+                                  .toString(),
                               style: FontCollection.bodyTextStyle,
                             ),
                             subtitle: Container(
@@ -199,11 +203,11 @@ class _HistoryPageState extends State<HistoryPage> {
                             ),
                             onTap: () {
                               activities.currentActivity =
-                                  activities.activitiesList[index];
+                              activities.activitiesList[index];
 
                               for (int i = 0;
-                                  i < stores.storeList.length;
-                                  i++) {
+                              i < stores.storeList.length;
+                              i++) {
                                 if (activities.activitiesList[index].storeId ==
                                     stores.storeList[i].storeId) {
                                   stores.currentStore = stores.storeList[i];
@@ -215,6 +219,13 @@ class _HistoryPageState extends State<HistoryPage> {
                                   builder: (context) => ConfirmedOrderMapPage(),
                                 ),
                               );
+                              if (activities
+                                  .activitiesList[index].orderStatus ==
+                                  'ยืนยันการจัดส่ง') {
+                                Navigator.of(context).push(MaterialPageRoute(
+                                  builder: (context) =>
+                                      ConfirmedOrderMapPage(),),);
+                              }
                             },
                           );
                         },

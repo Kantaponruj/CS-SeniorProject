@@ -302,10 +302,9 @@ class _ConfirmedOrderMapPageState extends State<ConfirmedOrderMapPage> {
             text: activity.orderStatus == 'จัดส่งเรียบร้อยแล้ว' ? 'กลับหน้าโฮม' : 'โทร',
             onClicked: () {
               if(activity.orderStatus == 'จัดส่งเรียบร้อยแล้ว') {
-                Navigator.of(context).pushReplacement(
-                    MaterialPageRoute(builder: (context) => bottomBar()));
+                  Navigator.of(context).pushReplacement(
+                      MaterialPageRoute(builder: (context) => bottomBar()));
               }
-
             },
           ),
         ],
@@ -313,5 +312,6 @@ class _ConfirmedOrderMapPageState extends State<ConfirmedOrderMapPage> {
     );
   }
 
+  bool orderStatus = false;
 
 }

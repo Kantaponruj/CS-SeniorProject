@@ -2,8 +2,6 @@ import 'package:auto_size_text/auto_size_text.dart';
 import 'package:cs_senior_project/asset/text_style.dart';
 import 'package:cs_senior_project/notifiers/address_notifier.dart';
 import 'package:cs_senior_project/notifiers/location_notifer.dart';
-import 'package:cs_senior_project/notifiers/user_notifier.dart';
-import 'package:cs_senior_project/screens/address/address.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';

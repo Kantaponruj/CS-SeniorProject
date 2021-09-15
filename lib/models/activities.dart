@@ -2,6 +2,7 @@ import 'package:cloud_firestore/cloud_firestore.dart';
 
 class Activities {
   String orderId;
+  String customerId;
   String customerName;
   String phone;
   String address;
@@ -22,6 +23,7 @@ class Activities {
   Map<String, dynamic> toMap() {
     return {
       'orderId': orderId,
+      'customerId': customerId,
       'customerName': customerName,
       'phone': phone,
       'address': address,
@@ -41,6 +43,7 @@ class Activities {
 
   Activities.fromMap(Map<String, dynamic> data) {
     orderId = data['orderId'];
+    customerId = data['customerId'];
     customerName = data['customerName'];
     phone = data['phone'];
     address = data['address'];

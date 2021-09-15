@@ -65,6 +65,7 @@ class _OrderDetailPageState extends State<OrderDetailPage> {
     ActivitiesNotifier activitiesNotifier =
         Provider.of<ActivitiesNotifier>(context);
 
+    _activities.customerId = userNotifier.userModel.uid;
     _activities.customerName =
         userNotifier.userModel.selectedAddress['residentName'] == ""
             ? userNotifier.userModel.displayName

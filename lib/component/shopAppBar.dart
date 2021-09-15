@@ -13,6 +13,7 @@ class ShopRoundedAppBar extends StatefulWidget implements PreferredSizeWidget {
   final String appBarTitle;
   final VoidCallback onClicked;
   final VoidCallback onClicked2;
+  double appbarHeight = 80.0;
 
   @override
   _ShopRoundedAppBarState createState() => _ShopRoundedAppBarState();
@@ -29,7 +30,7 @@ class _ShopRoundedAppBarState extends State<ShopRoundedAppBar> {
             widget.appBarTitle,
             style: FontCollection.topicTextStyle,
           ),
-          toolbarHeight: 100,
+          toolbarHeight: widget.appbarHeight,
           flexibleSpace: Container(
             decoration: BoxDecoration(
               gradient: LinearGradient(

@@ -15,7 +15,7 @@ class ShowDateTime extends StatelessWidget {
         children: [
           Icon(icon),
           Container(
-            margin: EdgeInsets.only(left: 20),
+            margin: EdgeInsets.only(left: 5),
             child: ElevatedButton(
               onPressed: onClicked,
               style: ElevatedButton.styleFrom(

@@ -299,14 +299,19 @@ class _ConfirmedOrderMapPageState extends State<ConfirmedOrderMapPage> {
             ),
           ),
           StadiumButtonWidget(
-            text: 'โทร',
+            text: activity.orderStatus == 'จัดส่งเรียบร้อยแล้ว' ? 'กลับหน้าโฮม' : 'โทร',
             onClicked: () {
-              Navigator.of(context).pushReplacement(
-                  MaterialPageRoute(builder: (context) => bottomBar()));
+              if(activity.orderStatus == 'จัดส่งเรียบร้อยแล้ว') {
+                Navigator.of(context).pushReplacement(
+                    MaterialPageRoute(builder: (context) => bottomBar()));
+              }
+
             },
           ),
         ],
       ),
     );
   }
+
+
 }

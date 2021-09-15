@@ -47,42 +47,43 @@ class _HomePageState extends State<HomePage> {
     //     ;
     UserNotifier userNotifier = Provider.of<UserNotifier>(context);
 
-    return SafeArea(
-      child: Scaffold(
-        // extendBodyBehindAppBar: true,
-        appBar: HomeAppBar(
-          onclicked: () {
-            setState(() {
-              isFromHomePage = true;
-            });
-            Navigator.of(context).push(
-              MaterialPageRoute(
-                builder: (context) => Address(
-                  uid: userNotifier.userModel.uid,
-                ),
+    return Scaffold(
+      // extendBodyBehindAppBar: true,
+      appBar: HomeAppBar(
+        onclicked: () {
+          setState(() {
+            isFromHomePage = true;
+          });
+          Navigator.of(context).push(
+            MaterialPageRoute(
+              builder: (context) => Address(
+                uid: userNotifier.userModel.uid,
               ),
-            );
-          },
-        ),
-        body: Stack(
-          // fit: StackFit.expand,
-          children: [
-            SlidingUpPanel(
-              color: Theme.of(context).backgroundColor,
-              controller: panelController,
-              borderRadius: BorderRadius.vertical(top: Radius.circular(30)),
-              // maxHeight: MediaQuery.of(context).size.height,
-              panelBuilder: (scrollController) => ClipRRect(
-                borderRadius: BorderRadius.vertical(top: Radius.circular(30)),
-                child: buildSlidingPanel(
-                  scrollController: scrollController,
-                  panelController: panelController,
-                ),
-              ),
-              body: MapWidget(mapController: _mapController),
             ),
-          ],
-        ),
+          );
+        },
+      ),
+      body: Stack(
+        // fit: StackFit.expand,
+        children: [
+          SlidingUpPanel(
+            color: Theme.of(context).backgroundColor,
+            controller: panelController,
+            borderRadius: BorderRadius.vertical(top: Radius.circular(30)),
+            // maxHeight: MediaQuery.of(context).size.height,
+            panelBuilder: (scrollController) => ClipRRect(
+              borderRadius: BorderRadius.vertical(top: Radius.circular(30)),
+              child: buildSlidingPanel(
+                scrollController: scrollController,
+                panelController: panelController,
+              ),
+            ),
+            body: Padding(
+              padding: EdgeInsets.fromLTRB(0,0,0,80),
+              child: MapWidget(mapController: _mapController),
+            ),
+          ),
+        ],
       ),
     );
   }

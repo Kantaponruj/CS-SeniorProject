@@ -86,7 +86,7 @@ class _ShopMenuState extends State<ShopMenu> {
               SliverAppBar(
                 floating: true,
                 // snap: true,
-                toolbarHeight: 275,
+                toolbarHeight: 320,
                 automaticallyImplyLeading: false,
                 backgroundColor: Colors.transparent,
                 flexibleSpace: Container(
@@ -117,7 +117,7 @@ class _ShopMenuState extends State<ShopMenu> {
               ),
             ],
             body: Container(
-              margin: EdgeInsets.only(top: 20),
+              margin: EdgeInsets.only(top: 10),
               child: Column(
                 children: [
                   Container(
@@ -198,7 +198,7 @@ class _ShopMenuState extends State<ShopMenu> {
       );
 
   Widget menuCategories() => BuildCard(
-        headerText: items[index],
+        headerText: categories[index],
         child: Container(
           margin: EdgeInsets.symmetric(horizontal: 20, vertical: 20),
           child: gridView(),
@@ -350,36 +350,47 @@ class _ShopMenuState extends State<ShopMenu> {
     ActivitiesNotifier activity =
         Provider.of<ActivitiesNotifier>(context, listen: false);
 
-    return Column(
-      children: [
-        Container(
-          alignment: Alignment.centerLeft,
-          child: Text(
-            'การนัดหมาย/จัดส่ง',
-            style: FontCollection.bodyTextStyle,
+    return Container(
+      height: 130,
+      child: Card(
+        shape: RoundedRectangleBorder(
+          borderRadius: BorderRadius.circular(20),
+        ),
+        child: Container(
+          margin: EdgeInsets.symmetric(horizontal: 20, vertical: 20),
+          child: Column(
+            children: [
+              Container(
+                alignment: Alignment.centerLeft,
+                child: Text(
+                  'การนัดหมาย/จัดส่ง',
+                  style: FontCollection.bodyTextStyle,
+                ),
+              ),
+              ListTile(
+                leading: Icon(Icons.access_time),
+                title: Text(
+                  (activity.dateOrdered != null && activity.timeOrdered != null)
+                      ? '${activity.dateOrdered} ${activity.timeOrdered} น.'
+                      : 'now',
+                  style: FontCollection.bodyTextStyle,
+                ),
+                trailing: IconButton(
+                  onPressed: () {
+                    showDialog(
+                      context: context,
+                      builder: (context) {
+                        return editDeliTime();
+                      },
+                    );
+                  },
+                  icon: Icon(Icons.edit),
+                ),
+              ),
+            ],
           ),
         ),
-        ListTile(
-          leading: Icon(Icons.access_time),
-          title: Text(
-            (activity.dateOrdered != null && activity.timeOrdered != null)
-                ? '${activity.dateOrdered} ${activity.timeOrdered} น.'
-                : 'now',
-            style: FontCollection.bodyTextStyle,
-          ),
-          trailing: IconButton(
-            onPressed: () {
-              showDialog(
-                context: context,
-                builder: (context) {
-                  return editDeliTime();
-                },
-              );
-            },
-            icon: Icon(Icons.edit),
-          ),
-        ),
-      ],
+      ),
     );
   }
 
@@ -399,35 +410,37 @@ class _ShopMenuState extends State<ShopMenu> {
                 },
               ),
             ),
-            Container(
-              child: Column(
-                children: [
-                  Align(
-                    alignment: Alignment.topLeft,
-                    child: Text(
-                      'เวลาการรับ/จัดส่ง',
-                      style: FontCollection.bodyTextStyle,
+            Expanded(
+              child: Container(
+                child: Column(
+                  children: [
+                    Align(
+                      alignment: Alignment.topLeft,
+                      child: Text(
+                        'เวลาการรับ/จัดส่ง',
+                        style: FontCollection.bodyTextStyle,
+                      ),
                     ),
-                  ),
-                  Container(
-                    margin: EdgeInsets.fromLTRB(0, 20, 0, 20),
-                    child: Row(
-                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                      children: [
-                        DatePickerWidget(),
-                        TimePickerWidget(),
-                      ],
+                    Container(
+                      margin: EdgeInsets.fromLTRB(0, 20, 0, 20),
+                      child: Row(
+                        mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                        children: [
+                          DatePickerWidget(),
+                          TimePickerWidget(),
+                        ],
+                      ),
                     ),
-                  ),
-                  Align(
-                    alignment: Alignment.topLeft,
-                    child: Text(
-                      'สถานที่การรับ/จัดส่งสินค้า',
-                      style: FontCollection.bodyTextStyle,
+                    Align(
+                      alignment: Alignment.topLeft,
+                      child: Text(
+                        'สถานที่การรับ/จัดส่งสินค้า',
+                        style: FontCollection.bodyTextStyle,
+                      ),
                     ),
-                  ),
-                  meetingPlace(),
-                ],
+                    meetingPlace(),
+                  ],
+                ),
               ),
             ),
           ],

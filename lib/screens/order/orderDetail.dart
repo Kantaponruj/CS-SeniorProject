@@ -5,6 +5,7 @@ import 'package:cs_senior_project/asset/constant.dart';
 import 'package:cs_senior_project/asset/text_style.dart';
 import 'package:cs_senior_project/component/orderCard.dart';
 import 'package:cs_senior_project/component/shopAppBar.dart';
+import 'package:cs_senior_project/component/textformfiled.dart';
 import 'package:cs_senior_project/models/activities.dart';
 import 'package:cs_senior_project/models/order.dart';
 import 'package:cs_senior_project/notifiers/activities_notifier.dart';
@@ -195,6 +196,7 @@ class _OrderDetailPageState extends State<OrderDetailPage> {
                   ),
                   canEdit: true,
                 ),
+                // orderFinish ? SizedBox.shrink() : BuildTextFiled(textEditingController: textEditingController, hintText: hintText),
                 orderFinish
                     ? Container(
                         margin: EdgeInsets.only(top: 20),
@@ -206,7 +208,7 @@ class _OrderDetailPageState extends State<OrderDetailPage> {
                           ),
                         ),
                       )
-                    : SizedBox.shrink()
+                    : SizedBox.shrink(),
               ],
             ),
           ),
@@ -248,18 +250,9 @@ class _OrderDetailPageState extends State<OrderDetailPage> {
                         style: FontCollection.bodyTextStyle,
                       ),
                     ),
-                    TextFormField(
-                      controller: otherMessageController,
-                      decoration: InputDecoration(
-                        // errorText: 'Error message',
-                        hintText: 'ใส่ข้อความตรงนี้',
-                        border: OutlineInputBorder(
-                            borderRadius: BorderRadius.circular(10)),
-                        // suffixIcon: Icon(
-                        //   Icons.error,
-                        // ),
-                      ),
-                    ),
+                    BuildTextField(
+                        textEditingController: otherMessageController,
+                        hintText: 'ใส่ข้อความตรงนี้'),
                   ],
                 ),
                 netPrice: orderNotifier.netPrice.toString(),

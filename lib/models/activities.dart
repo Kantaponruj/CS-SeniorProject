@@ -17,6 +17,7 @@ class Activities {
   String storeName;
   String storeImage;
   String kindOfFood;
+  String orderStatus;
 
   Activities();
 
@@ -37,7 +38,7 @@ class Activities {
       'storeId': storeId,
       'storeName': storeName,
       'storeImage': storeImage,
-      'kindOfFood': kindOfFood
+      'kindOfFood': kindOfFood,
     };
   }
 
@@ -58,5 +59,6 @@ class Activities {
     storeName = data['storeName'];
     storeImage = data['storeImage'];
     kindOfFood = data['kindOfFood'];
+    orderStatus = data['orderStatus'];
   }
 }

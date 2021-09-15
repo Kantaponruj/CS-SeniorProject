@@ -1,6 +1,8 @@
 import 'package:auto_size_text/auto_size_text.dart';
 import 'package:cs_senior_project/asset/text_style.dart';
+import 'package:cs_senior_project/notifiers/address_notifier.dart';
 import 'package:cs_senior_project/notifiers/location_notifer.dart';
+import 'package:cs_senior_project/notifiers/user_notifier.dart';
 import 'package:cs_senior_project/screens/address/address.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
@@ -62,7 +64,8 @@ class HomeAppBar extends StatefulWidget implements PreferredSizeWidget {
 class _HomeAppBarState extends State<HomeAppBar> {
   @override
   Widget build(BuildContext context) {
-    LocationNotifier locationNotifier = Provider.of<LocationNotifier>(context);
+    LocationNotifier location = Provider.of<LocationNotifier>(context);
+    AddressNotifier address = Provider.of<AddressNotifier>(context);
 
     return ClipRRect(
       borderRadius: BorderRadius.vertical(
@@ -80,7 +83,9 @@ class _HomeAppBarState extends State<HomeAppBar> {
                     margin: EdgeInsets.only(left: 20),
                     child: AutoSizeText(
                       'Deliver to : \n' +
-                          (locationNotifier.currentAddress ?? 'loading...'),
+                          (address.selectedAddress != null
+                              ? address.selectedAddress
+                              : location.currentAddress ?? 'loading...'),
                       style: FontCollection.bodyTextStyle,
                       maxLines: 2,
                       overflow: TextOverflow.ellipsis,

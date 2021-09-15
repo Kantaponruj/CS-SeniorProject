@@ -1,6 +1,7 @@
 import 'dart:async';
 
 import 'package:cs_senior_project/component/appBar.dart';
+import 'package:cs_senior_project/notifiers/address_notifier.dart';
 import 'package:cs_senior_project/notifiers/location_notifer.dart';
 import 'package:cs_senior_project/notifiers/user_notifier.dart';
 import 'package:cs_senior_project/widgets/button_widget.dart';
@@ -31,6 +32,7 @@ class _SelectAddressState extends State<SelectAddress> {
   Widget build(BuildContext context) {
     // UserNotifier userNotifier = Provider.of<UserNotifier>(context);
     LocationNotifier locationNotifier = Provider.of<LocationNotifier>(context);
+    AddressNotifier addressNotifier = Provider.of<AddressNotifier>(context);
 
     return SafeArea(
       child: Scaffold(
@@ -79,11 +81,8 @@ class _SelectAddressState extends State<SelectAddress> {
               StadiumButtonWidget(
                 text: 'เลือกตำแหน่ง',
                 onClicked: () {
+                  addressNotifier.setSelectedAddress(null);
                   Navigator.pop(context);
-                  // userNotifier.saveUserLocation(
-                  //     userNotifier.userModel.uid,
-                  //     locationNotifier.currentAddress,
-                  //     locationNotifier.currentPosition);
                 },
               ),
             ],

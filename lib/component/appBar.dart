@@ -60,10 +60,46 @@ class HomeAppBar extends StatefulWidget implements PreferredSizeWidget {
 }
 
 class _HomeAppBarState extends State<HomeAppBar> {
+  String selectedAddress;
+
+  @override
+  void initState() {
+    AddressNotifier address =
+        Provider.of<AddressNotifier>(context, listen: false);
+    LocationNotifier location =
+        Provider.of<LocationNotifier>(context, listen: false);
+
+    for (int i = 0; i < address.addressList.length; i++) {
+      if (address.addressList[i].address == location.currentAddress) {
+        selectedAddress = address.addressList[i].addressName;
+        print(selectedAddress);
+        // address.setSelectedAddress(address.addressList[i].addressName);
+        break;
+      } else {
+        selectedAddress = location.currentAddress;
+        print(selectedAddress);
+        // address.setSelectedAddress(location.currentAddress);
+        break;
+      }
+    }
+
+    super.initState();
+  }
+
   @override
   Widget build(BuildContext context) {
     LocationNotifier location = Provider.of<LocationNotifier>(context);
     AddressNotifier address = Provider.of<AddressNotifier>(context);
+
+    // for (int i = 0; i < address.addressList.length; i++) {
+    //   if (address.addressList[i].address == location.currentAddress) {
+    //     selectedAddress = address.addressList[i].addressName;
+    //     // address.setSelectedAddress(address.addressList[i].addressName);
+    //     break;
+    //   } else {
+    //     selectedAddress = location.currentAddress;
+    //   }
+    // }
 
     return ClipRRect(
       borderRadius: BorderRadius.vertical(
@@ -81,9 +117,9 @@ class _HomeAppBarState extends State<HomeAppBar> {
                     margin: EdgeInsets.only(left: 20),
                     child: AutoSizeText(
                       'Deliver to : \n' +
-                          (address.selectedAddress != null
-                              ? address.selectedAddress
-                              : location.currentAddress ?? 'loading...'),
+                          (selectedAddress != null
+                              ? selectedAddress
+                              : 'loading...'),
                       style: FontCollection.bodyTextStyle,
                       maxLines: 2,
                       overflow: TextOverflow.ellipsis,

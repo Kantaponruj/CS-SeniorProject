@@ -2,7 +2,6 @@ import 'package:auto_size_text/auto_size_text.dart';
 import 'package:cs_senior_project/asset/text_style.dart';
 import 'package:cs_senior_project/component/appBar.dart';
 import 'package:cs_senior_project/notifiers/address_notifier.dart';
-import 'package:cs_senior_project/notifiers/location_notifer.dart';
 import 'package:cs_senior_project/notifiers/user_notifier.dart';
 import 'package:cs_senior_project/screens/address/add_address.dart';
 import 'package:cs_senior_project/screens/address/select_address.dart';
@@ -115,7 +114,8 @@ class _ManageAddressState extends State<ManageAddress> {
                                 });
 
                                 addressNotifier.setSelectedAddress(
-                                  addressNotifier.addressList[index].address,
+                                  addressNotifier
+                                      .addressList[index].addressName,
                                 );
                                 userNotifier.reloadUserModel();
                                 Navigator.pop(context);

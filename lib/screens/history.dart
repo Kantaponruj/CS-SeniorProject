@@ -3,7 +3,9 @@ import 'package:cs_senior_project/asset/text_style.dart';
 import 'package:cs_senior_project/component/appBar.dart';
 import 'package:cs_senior_project/component/orderCard.dart';
 import 'package:cs_senior_project/notifiers/activities_notifier.dart';
+import 'package:cs_senior_project/notifiers/store_notifier.dart';
 import 'package:cs_senior_project/notifiers/user_notifier.dart';
+import 'package:cs_senior_project/screens/order/confirm_order.dart';
 import 'package:cs_senior_project/services/user_service.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
@@ -30,6 +32,7 @@ class _HistoryPageState extends State<HistoryPage> {
   @override
   Widget build(BuildContext context) {
     ActivitiesNotifier activities = Provider.of<ActivitiesNotifier>(context);
+    StoreNotifier stores = Provider.of<StoreNotifier>(context);
 
     return SafeArea(
       child: Scaffold(
@@ -106,6 +109,23 @@ class _HistoryPageState extends State<HistoryPage> {
                                 ],
                               ),
                             ),
+                            onTap: () {
+                              for (int i = 0;
+                                  i < stores.storeList.length;
+                                  i++) {
+                                if (activities.currentActivity.storeId ==
+                                    stores.storeList[i].storeId) {
+                                  stores.currentStore = stores.storeList[i];
+                                  break;
+                                }
+                              }
+
+                              Navigator.of(context).push(
+                                MaterialPageRoute(
+                                  builder: (context) => ConfirmedOrderMapPage(),
+                                ),
+                              );
+                            },
                           ),
                         ),
                         canEdit: false,
@@ -135,7 +155,7 @@ class _HistoryPageState extends State<HistoryPage> {
                               ),
                             ),
                             title: Text(
-                              'กำลังดำเนินการ',
+                              'การสั่งซื้อสำเร็จ',
                               style: FontCollection.bodyTextStyle,
                             ),
                             subtitle: Container(
@@ -143,13 +163,14 @@ class _HistoryPageState extends State<HistoryPage> {
                               child: Column(
                                 children: [
                                   buildListTitle(
-                                      Icons.fastfood_outlined,
-                                      activities
-                                          .activitiesList[index].storeName),
+                                    Icons.fastfood_outlined,
+                                    activities.activitiesList[index].storeName,
+                                  ),
                                   buildListTitle(
-                                      Icons.location_on,
-                                      activities
-                                          .activitiesList[index].addressName),
+                                    Icons.location_on,
+                                    activities
+                                        .activitiesList[index].addressName,
+                                  ),
                                 ],
                               ),
                             ),
@@ -177,6 +198,26 @@ class _HistoryPageState extends State<HistoryPage> {
                                 ],
                               ),
                             ),
+                            onTap: () {
+                              activities.currentActivity =
+                                  activities.activitiesList[index];
+
+                              for (int i = 0;
+                                  i < stores.storeList.length;
+                                  i++) {
+                                if (activities.activitiesList[index].storeId ==
+                                    stores.storeList[i].storeId) {
+                                  stores.currentStore = stores.storeList[i];
+                                  break;
+                                }
+                              }
+
+                              Navigator.of(context).push(
+                                MaterialPageRoute(
+                                  builder: (context) => ConfirmedOrderMapPage(),
+                                ),
+                              );
+                            },
                           );
                         },
                         separatorBuilder: (BuildContext context, int index) {

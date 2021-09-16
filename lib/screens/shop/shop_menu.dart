@@ -67,116 +67,114 @@ class _ShopMenuState extends State<ShopMenu> {
 
     // print(categories);
 
-    return SafeArea(
-      child: Scaffold(
-        extendBodyBehindAppBar: true,
-        appBar: ShopRoundedAppBar(
-          appBarTitle: storeNotifier.currentStore.storeName,
-          onClicked2: () {
-            Navigator.of(context).push(MaterialPageRoute(
-              builder: (context) => ShopDetail(),
-            ));
-          },
-        ),
-        body: Container(
-          margin: EdgeInsets.only(top: 60),
-          child: NestedScrollView(
-            floatHeaderSlivers: true,
-            headerSliverBuilder: (context, innerBoxIsScrolled) => [
-              SliverAppBar(
-                floating: true,
-                // snap: true,
-                toolbarHeight: 320,
-                automaticallyImplyLeading: false,
-                backgroundColor: Colors.transparent,
-                flexibleSpace: Container(
-                  child: Column(
-                    children: [
-                      SizedBox(
-                        height: 250,
-                        child: Image.network(
-                          storeNotifier.currentStore.image != null
-                              ? storeNotifier.currentStore.image
-                              : 'https://www.testingxperts.com/wp-content/uploads/2019/02/placeholder-img.jpg',
-                          errorBuilder: (BuildContext context, Object exception,
-                              StackTrace stackTrace) {
-                            return Icon(Icons.image, size: 40.0);
-                          },
-                          fit: BoxFit.cover,
-                          width: double.infinity,
-                          height: double.infinity,
-                        ),
-                      ),
-                      Padding(
-                        padding: EdgeInsets.fromLTRB(20, 20, 20, 0),
-                        child: orderTimeAndDate(),
-                      ),
-                    ],
-                  ),
-                ),
-              ),
-            ],
-            body: Container(
-              margin: EdgeInsets.only(top: 10),
-              child: Column(
-                children: [
-                  Container(
-                    height: 80,
-                    padding: EdgeInsets.fromLTRB(20, 10, 20, 0),
-                    child: buildHorizontalListView(),
-                  ),
-                  Expanded(
-                    child: SingleChildScrollView(
-                      child: Column(
-                        children: [
-                          Container(
-                            padding: EdgeInsets.symmetric(
-                                horizontal: 20, vertical: 20),
-                            child: ListView.builder(
-                              shrinkWrap: true,
-                              physics: NeverScrollableScrollPhysics(),
-                              itemCount: 2,
-                              padding: EdgeInsets.zero,
-                              itemBuilder: (context, index) {
-                                return menuCategories();
-                              },
-                            ),
-                          ),
-                        ],
+    return Scaffold(
+      extendBodyBehindAppBar: true,
+      appBar: ShopRoundedAppBar(
+        appBarTitle: storeNotifier.currentStore.storeName,
+        onClicked2: () {
+          Navigator.of(context).push(MaterialPageRoute(
+            builder: (context) => ShopDetail(),
+          ));
+        },
+      ),
+      body: Container(
+        margin: EdgeInsets.only(top: 60),
+        child: NestedScrollView(
+          floatHeaderSlivers: true,
+          headerSliverBuilder: (context, innerBoxIsScrolled) => [
+            SliverAppBar(
+              floating: true,
+              // snap: true,
+              toolbarHeight: 320,
+              automaticallyImplyLeading: false,
+              backgroundColor: Colors.transparent,
+              flexibleSpace: Container(
+                child: Column(
+                  children: [
+                    SizedBox(
+                      height: 250,
+                      child: Image.network(
+                        storeNotifier.currentStore.image != null
+                            ? storeNotifier.currentStore.image
+                            : 'https://www.testingxperts.com/wp-content/uploads/2019/02/placeholder-img.jpg',
+                        errorBuilder: (BuildContext context, Object exception,
+                            StackTrace stackTrace) {
+                          return Icon(Icons.image, size: 40.0);
+                        },
+                        fit: BoxFit.cover,
+                        width: double.infinity,
+                        height: double.infinity,
                       ),
                     ),
-                  ),
-                ],
+                    Padding(
+                      padding: EdgeInsets.fromLTRB(20, 20, 20, 0),
+                      child: orderTimeAndDate(),
+                    ),
+                  ],
+                ),
               ),
+            ),
+          ],
+          body: Container(
+            margin: EdgeInsets.only(top: 10),
+            child: Column(
+              children: [
+                Container(
+                  height: 80,
+                  padding: EdgeInsets.fromLTRB(20, 10, 20, 0),
+                  child: buildHorizontalListView(),
+                ),
+                Expanded(
+                  child: SingleChildScrollView(
+                    child: Column(
+                      children: [
+                        Container(
+                          padding: EdgeInsets.symmetric(
+                              horizontal: 20, vertical: 20),
+                          child: ListView.builder(
+                            shrinkWrap: true,
+                            physics: NeverScrollableScrollPhysics(),
+                            itemCount: 2,
+                            padding: EdgeInsets.zero,
+                            itemBuilder: (context, index) {
+                              return menuCategories();
+                            },
+                          ),
+                        ),
+                      ],
+                    ),
+                  ),
+                ),
+              ],
             ),
           ),
         ),
-        floatingActionButton: isShowBasket
-            ? Container(
-                width: 70,
-                height: 70,
-                child: FloatingActionButton(
-                  backgroundColor: CollectionsColors.orange,
-                  mini: false,
-                  onPressed: () {
-                    setState(() {
-                      orderFinish = false;
-                    });
-                    Navigator.push(
-                        context,
-                        MaterialPageRoute(
-                          builder: (context) => OrderDetailPage(
-                            storeId: storeNotifier.currentStore.storeId,
-                          ),
-                        ));
-                  },
-                  child: Icon(
-                    Icons.shopping_cart,
-                  ),
-                ),
-              )
-            : Container(),
       ),
+      floatingActionButton: isShowBasket
+          ? Container(
+              width: 70,
+              height: 70,
+              child: FloatingActionButton(
+                backgroundColor: CollectionsColors.orange,
+                mini: false,
+                onPressed: () {
+                  setState(() {
+                    orderFinish = false;
+                  });
+                  Navigator.push(
+                      context,
+                      MaterialPageRoute(
+                        builder: (context) => OrderDetailPage(
+                          storeId: storeNotifier.currentStore.storeId,
+                        ),
+                      ));
+                },
+                child: Icon(
+                  Icons.shopping_cart,
+                ),
+              ),
+            )
+          : Container(),
     );
   }
 

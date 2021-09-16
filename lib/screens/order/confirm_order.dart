@@ -39,6 +39,7 @@ class _ConfirmedOrderMapPageState extends State<ConfirmedOrderMapPage> {
   void initState() {
     polylinePoints = PolylinePoints();
     this.setInitialLocation();
+    orderStatus = false;
     super.initState();
   }
 
@@ -301,10 +302,14 @@ class _ConfirmedOrderMapPageState extends State<ConfirmedOrderMapPage> {
           StadiumButtonWidget(
             text: activity.orderStatus == 'จัดส่งเรียบร้อยแล้ว' ? 'กลับหน้าโฮม' : 'โทร',
             onClicked: () {
-              if(activity.orderStatus == 'จัดส่งเรียบร้อยแล้ว') {
+              setState(() {
+                if(activity.orderStatus == 'จัดส่งเรียบร้อยแล้ว') {
+                  orderStatus = true;
                   Navigator.of(context).pushReplacement(
                       MaterialPageRoute(builder: (context) => bottomBar()));
-              }
+                }
+              });
+
             },
           ),
         ],

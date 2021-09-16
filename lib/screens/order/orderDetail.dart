@@ -98,166 +98,164 @@ class _OrderDetailPageState extends State<OrderDetailPage> {
     _activities.storeImage = storeNotifier.currentStore.image;
     _activities.kindOfFood = storeNotifier.currentStore.kindOfFood;
 
-    return SafeArea(
-      child: Scaffold(
-        extendBodyBehindAppBar: true,
-        backgroundColor: CollectionsColors.grey,
-        appBar: ShopRoundedAppBar(
-          appBarTitle: storeNotifier.currentStore.storeName,
-          onClicked2: () {
-            Navigator.of(context).push(MaterialPageRoute(
-              builder: (context) => ShopDetail(),
-            ));
-          },
-        ),
-        body: SingleChildScrollView(
-          child: Container(
-            margin: EdgeInsets.fromLTRB(20, 100, 20, 20),
-            child: Column(
-              // mainAxisAlignment: MainAxisAlignment.center,
-              children: [
-                customerDeliCard(
-                  _activities.customerName,
-                  _activities.phone,
-                  _activities.address ?? 'โปรดระบุที่อยู่',
-                  () {
-                    Navigator.of(context).push(
-                      MaterialPageRoute(
-                        builder: (context) =>
-                            ManageAddress(uid: userNotifier.userModel.uid),
-                      ),
-                    );
-                  },
-                ),
-                // deliTimeCard(_activities.dateOrdered, _activities.timeOrdered),
-                // meetingTimeCard('21 เมษายน 2564', '12.30 น.'),
-                BuildCard(
-                  headerText: 'สรุปการสั่งซื้อ',
-                  editText: 'เพิ่มเมนู',
-                  onClicked: () {
-                    Navigator.of(context).pop();
-                  },
-                  child: Container(
-                    margin: EdgeInsets.symmetric(horizontal: 20, vertical: 20),
-                    child: Column(
-                      children: [
-                        Container(
-                          child: ListView.builder(
-                            shrinkWrap: true,
-                            padding: EdgeInsets.zero,
-                            physics: NeverScrollableScrollPhysics(),
-                            itemCount: orderNotifier.orderList.length,
-                            itemBuilder: (context, index) {
-                              return (orderNotifier.orderList[index].storeId ==
-                                      widget.storeId)
-                                  ? listOrder(orderNotifier.orderList[index])
-                                  : Container();
-                            },
-                          ),
+    return Scaffold(
+      extendBodyBehindAppBar: true,
+      backgroundColor: CollectionsColors.grey,
+      appBar: ShopRoundedAppBar(
+        appBarTitle: storeNotifier.currentStore.storeName,
+        onClicked2: () {
+          Navigator.of(context).push(MaterialPageRoute(
+            builder: (context) => ShopDetail(),
+          ));
+        },
+      ),
+      body: SingleChildScrollView(
+        child: Container(
+          margin: EdgeInsets.fromLTRB(20, 100, 20, 20),
+          child: Column(
+            // mainAxisAlignment: MainAxisAlignment.center,
+            children: [
+              customerDeliCard(
+                _activities.customerName,
+                _activities.phone,
+                _activities.address ?? 'โปรดระบุที่อยู่',
+                () {
+                  Navigator.of(context).push(
+                    MaterialPageRoute(
+                      builder: (context) =>
+                          ManageAddress(uid: userNotifier.userModel.uid),
+                    ),
+                  );
+                },
+              ),
+              // deliTimeCard(_activities.dateOrdered, _activities.timeOrdered),
+              // meetingTimeCard('21 เมษายน 2564', '12.30 น.'),
+              BuildCard(
+                headerText: 'สรุปการสั่งซื้อ',
+                editText: 'เพิ่มเมนู',
+                onClicked: () {
+                  Navigator.of(context).pop();
+                },
+                child: Container(
+                  margin: EdgeInsets.symmetric(horizontal: 20, vertical: 20),
+                  child: Column(
+                    children: [
+                      Container(
+                        child: ListView.builder(
+                          shrinkWrap: true,
+                          padding: EdgeInsets.zero,
+                          physics: NeverScrollableScrollPhysics(),
+                          itemCount: orderNotifier.orderList.length,
+                          itemBuilder: (context, index) {
+                            return (orderNotifier.orderList[index].storeId ==
+                                    widget.storeId)
+                                ? listOrder(orderNotifier.orderList[index])
+                                : Container();
+                          },
                         ),
-                        orderFinish
-                            ? Container(
-                                margin: EdgeInsets.only(top: 20),
-                                child: Row(
-                                  children: [
-                                    Expanded(
-                                      flex: 8,
+                      ),
+                      orderFinish
+                          ? Container(
+                              margin: EdgeInsets.only(top: 20),
+                              child: Row(
+                                children: [
+                                  Expanded(
+                                    flex: 8,
+                                    child: Text(
+                                      'ราคาสุทธิ',
+                                      style: FontCollection.bodyTextStyle,
+                                    ),
+                                  ),
+                                  Expanded(
+                                    flex: 3,
+                                    child: Container(
+                                      alignment: Alignment.centerRight,
                                       child: Text(
-                                        'ราคาสุทธิ',
+                                        orderNotifier.netPrice.toString(),
                                         style: FontCollection.bodyTextStyle,
                                       ),
                                     ),
-                                    Expanded(
-                                      flex: 3,
-                                      child: Container(
-                                        alignment: Alignment.centerRight,
-                                        child: Text(
-                                          orderNotifier.netPrice.toString(),
-                                          style: FontCollection.bodyTextStyle,
-                                        ),
+                                  ),
+                                  Expanded(
+                                    flex: 1,
+                                    child: Container(
+                                      alignment: Alignment.centerRight,
+                                      child: Text(
+                                        'บาท',
+                                        style: FontCollection.bodyTextStyle,
                                       ),
                                     ),
-                                    Expanded(
-                                      flex: 1,
-                                      child: Container(
-                                        alignment: Alignment.centerRight,
-                                        child: Text(
-                                          'บาท',
-                                          style: FontCollection.bodyTextStyle,
-                                        ),
-                                      ),
-                                    ),
-                                  ],
-                                ),
-                              )
-                            : SizedBox.shrink(),
-                      ],
-                    ),
+                                  ),
+                                ],
+                              ),
+                            )
+                          : SizedBox.shrink(),
+                    ],
                   ),
-                  canEdit: true,
                 ),
-                // orderFinish ? SizedBox.shrink() : BuildTextFiled(textEditingController: textEditingController, hintText: hintText),
-                orderFinish
-                    ? Container(
-                        margin: EdgeInsets.only(top: 20),
-                        child: TextButton(
-                          onPressed: () {},
-                          child: Text(
-                            'ยกเลิกคำสั่งซื้อ',
-                            style: FontCollection.underlineButtonTextStyle,
-                          ),
+                canEdit: true,
+              ),
+              // orderFinish ? SizedBox.shrink() : BuildTextFiled(textEditingController: textEditingController, hintText: hintText),
+              orderFinish
+                  ? Container(
+                      margin: EdgeInsets.only(top: 20),
+                      child: TextButton(
+                        onPressed: () {},
+                        child: Text(
+                          'ยกเลิกคำสั่งซื้อ',
+                          style: FontCollection.underlineButtonTextStyle,
                         ),
-                      )
-                    : SizedBox.shrink(),
-              ],
-            ),
+                      ),
+                    )
+                  : SizedBox.shrink(),
+            ],
           ),
         ),
-        bottomNavigationBar: orderFinish
-            ? SizedBox.shrink()
-            : BottomOrderDetail(
-                onClicked: () {
-                  saveActivityToHistory(
-                    userNotifier.userModel.uid,
-                    storeNotifier.currentStore.storeId,
-                    _activities,
-                  );
-
-                  for (int i = 0; i < orderNotifier.orderList.length; i++) {
-                    if ((orderNotifier.orderList[i].storeId ==
-                        widget.storeId)) {
-                      saveEachOrderToHistory(
-                        userNotifier.userModel.uid,
-                        storeNotifier.currentStore.storeId,
-                        orderNotifier.orderList[i],
-                      );
-                    }
-                  }
-                  activitiesNotifier.currentActivity = _activities;
-                  Navigator.of(context).pushReplacementNamed('/confirmOrder');
-
-                  activitiesNotifier.resetDateTimeOrdered();
-                  orderNotifier.orderList.removeWhere((order) =>
-                      order.storeId == storeNotifier.currentStore.storeId);
-                },
-                child: Column(
-                  children: [
-                    Container(
-                      alignment: Alignment.centerLeft,
-                      margin: EdgeInsets.only(bottom: 10),
-                      child: Text(
-                        'ข้อความเพิ่มเติม',
-                        style: FontCollection.bodyTextStyle,
-                      ),
-                    ),
-                    BuildTextField(
-                        textEditingController: otherMessageController,
-                        hintText: 'ใส่ข้อความตรงนี้'),
-                  ],
-                ),
-                netPrice: orderNotifier.netPrice.toString(),
-              ),
       ),
+      bottomNavigationBar: orderFinish
+          ? SizedBox.shrink()
+          : BottomOrderDetail(
+              onClicked: () {
+                saveActivityToHistory(
+                  userNotifier.userModel.uid,
+                  storeNotifier.currentStore.storeId,
+                  _activities,
+                );
+
+                for (int i = 0; i < orderNotifier.orderList.length; i++) {
+                  if ((orderNotifier.orderList[i].storeId ==
+                      widget.storeId)) {
+                    saveEachOrderToHistory(
+                      userNotifier.userModel.uid,
+                      storeNotifier.currentStore.storeId,
+                      orderNotifier.orderList[i],
+                    );
+                  }
+                }
+                activitiesNotifier.currentActivity = _activities;
+                Navigator.of(context).pushReplacementNamed('/confirmOrder');
+
+                activitiesNotifier.resetDateTimeOrdered();
+                orderNotifier.orderList.removeWhere((order) =>
+                    order.storeId == storeNotifier.currentStore.storeId);
+              },
+              child: Column(
+                children: [
+                  Container(
+                    alignment: Alignment.centerLeft,
+                    margin: EdgeInsets.only(bottom: 10),
+                    child: Text(
+                      'ข้อความเพิ่มเติม',
+                      style: FontCollection.bodyTextStyle,
+                    ),
+                  ),
+                  BuildTextField(
+                      textEditingController: otherMessageController,
+                      hintText: 'ใส่ข้อความตรงนี้'),
+                ],
+              ),
+              netPrice: orderNotifier.netPrice.toString(),
+            ),
     );
   }
 

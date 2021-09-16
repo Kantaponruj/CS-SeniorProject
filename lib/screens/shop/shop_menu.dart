@@ -65,27 +65,58 @@ class _ShopMenuState extends State<ShopMenu> {
       }
     });
 
+    final appBarHeight = 135.0;
+
     // print(categories);
 
     return Scaffold(
       extendBodyBehindAppBar: true,
-      appBar: ShopRoundedAppBar(
+      appBar: ShopRoundedFavAppBar(
         appBarTitle: storeNotifier.currentStore.storeName,
+        subTitle: 'ของหวาน',
         onClicked2: () {
           Navigator.of(context).push(MaterialPageRoute(
             builder: (context) => ShopDetail(),
           ));
         },
+        child: Container(
+          height: MediaQuery.of(context).size.height,
+          // margin: EdgeInsets.only(top: appBarHeight),
+          padding: EdgeInsets.fromLTRB(70, 110, 0, 30),
+          child: Row(
+            children: [
+              chipIconInfo(
+                Icons.directions_car,
+                '0.2 กม.',
+                Color(0xFFC4C4C4),
+                Colors.black,
+              ),
+              Padding(
+                padding: const EdgeInsets.only(left: 10),
+                child: chipInfo('จัดส่ง'),
+              ),
+              Padding(
+                padding: const EdgeInsets.only(left: 10),
+                child: chipIconInfo(
+                  Icons.attach_money,
+                  '10 บาท',
+                  Color(0xFF219653),
+                  Colors.white,
+                ),
+              ),
+            ],
+          ),
+        ),
       ),
       body: Container(
-        margin: EdgeInsets.only(top: 60),
+        margin: EdgeInsets.only(top: appBarHeight + 15),
         child: NestedScrollView(
           floatHeaderSlivers: true,
           headerSliverBuilder: (context, innerBoxIsScrolled) => [
             SliverAppBar(
               floating: true,
               // snap: true,
-              toolbarHeight: 320,
+              toolbarHeight: 220,
               automaticallyImplyLeading: false,
               backgroundColor: Colors.transparent,
               flexibleSpace: Container(
@@ -119,11 +150,11 @@ class _ShopMenuState extends State<ShopMenu> {
             margin: EdgeInsets.only(top: 10),
             child: Column(
               children: [
-                Container(
-                  height: 80,
-                  padding: EdgeInsets.fromLTRB(20, 10, 20, 0),
-                  child: buildHorizontalListView(),
-                ),
+                // Container(
+                //   height: 80,
+                //   padding: EdgeInsets.fromLTRB(20, 10, 20, 0),
+                //   child: buildHorizontalListView(),
+                // ),
                 Expanded(
                   child: SingleChildScrollView(
                     child: Column(
@@ -493,4 +524,60 @@ class _ShopMenuState extends State<ShopMenu> {
           style: FontCollection.bodyTextStyle,
         ),
       );
+
+  Widget chipInfo(
+    String text,
+  ) {
+    return Container(
+      padding: EdgeInsets.fromLTRB(20, 5, 20, 5),
+      decoration: BoxDecoration(
+        borderRadius: BorderRadius.circular(50),
+        color: CollectionsColors.yellow,
+          boxShadow: [
+            BoxShadow(
+              color: Colors.black.withOpacity(0.25),
+              blurRadius: 4,
+              offset: Offset(4, 4), // changes position of shadow
+            ),
+          ]
+      ),
+      child: Text(
+        text,
+        style: FontCollection.descriptionTextStyle,
+      ),
+    );
+  }
+
+  Widget chipIconInfo(IconData icon, String text, Color color, Color textColor) {
+    return Container(
+      padding: EdgeInsets.fromLTRB(10, 5, 10, 5),
+      decoration: BoxDecoration(
+        borderRadius: BorderRadius.circular(50),
+        color: color,
+        boxShadow: [
+          BoxShadow(
+            color: Colors.black.withOpacity(0.25),
+            blurRadius: 4,
+            offset: Offset(4, 4), // changes position of shadow
+          ),
+        ]
+      ),
+      child: Row(
+        mainAxisAlignment: MainAxisAlignment.center,
+        children: [
+          Icon(icon, size: 20,color: textColor,),
+          Padding(
+            padding: const EdgeInsets.only(left: 5),
+            child: Text(
+              text,
+              style: TextStyle(
+                fontSize: 12,
+                color: textColor,
+              ),
+            ),
+          ),
+        ],
+      ),
+    );
+  }
 }

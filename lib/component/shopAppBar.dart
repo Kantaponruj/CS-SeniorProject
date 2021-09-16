@@ -5,14 +5,21 @@ import 'package:flutter/material.dart';
 
 class ShopRoundedAppBar extends StatefulWidget implements PreferredSizeWidget {
   ShopRoundedAppBar(
-      {Key key, this.appBarTitle, this.onClicked, this.onClicked2})
-      : preferredSize = Size.fromHeight(80),
+      {Key key,
+      this.appBarTitle,
+      this.subTitle,
+      this.onClicked,
+      this.onClicked2,
+      this.child})
+      : preferredSize = child == null ? Size.fromHeight(80) : Size.fromHeight(140),
         super(key: key);
 
   final Size preferredSize;
   final String appBarTitle;
+  final String subTitle;
   final VoidCallback onClicked;
   final VoidCallback onClicked2;
+  final Widget child;
   double appbarHeight = 80.0;
 
   @override
@@ -26,10 +33,35 @@ class _ShopRoundedAppBarState extends State<ShopRoundedAppBar> {
           bottom: Radius.circular(30),
         ),
         child: AppBar(
-          title: Text(
-            widget.appBarTitle,
-            style: FontCollection.topicTextStyle,
-          ),
+          title: widget.subTitle == null
+              ? Text(
+                  widget.appBarTitle,
+                  style: FontCollection.topicTextStyle,
+                )
+              : Container(
+            padding: EdgeInsets.only(top: 20),
+                  child: Column(
+                    children: [
+                      Align(
+                        alignment: Alignment.topLeft,
+                        child: Text(
+                          widget.appBarTitle,
+                          style: FontCollection.topicTextStyle,
+                        ),
+                      ),
+                      Align(
+                        alignment: Alignment.topLeft,
+                        child: Text(
+                          widget.subTitle,
+                          style: TextStyle(
+                            fontSize: 14,
+                            color: Colors.black.withOpacity(0.6),
+                          ),
+                        ),
+                      )
+                    ],
+                  ),
+                ),
           toolbarHeight: widget.appbarHeight,
           flexibleSpace: Container(
             decoration: BoxDecoration(
@@ -39,14 +71,11 @@ class _ShopRoundedAppBarState extends State<ShopRoundedAppBar> {
                 end: Alignment.bottomRight,
               ),
             ),
+            child: widget.child,
           ),
           // elevation: 10,
           // titleSpacing: 20,
           actions: [
-            IconButton(
-              onPressed: widget.onClicked,
-              icon: Icon(Icons.bookmark),
-            ),
             IconButton(
               onPressed: widget.onClicked2,
               icon: Icon(Icons.info),
@@ -54,4 +83,90 @@ class _ShopRoundedAppBarState extends State<ShopRoundedAppBar> {
           ],
         ),
       );
+}
+
+class ShopRoundedFavAppBar extends StatefulWidget implements PreferredSizeWidget {
+  ShopRoundedFavAppBar(
+      {Key key,
+        this.appBarTitle,
+        this.subTitle,
+        this.onClicked,
+        this.onClicked2,
+        this.child})
+      : preferredSize = Size.fromHeight(160),
+        super(key: key);
+
+  final Size preferredSize;
+  final String appBarTitle;
+  final String subTitle;
+  final VoidCallback onClicked;
+  final VoidCallback onClicked2;
+  final Widget child;
+  double appbarHeight = 80.0;
+
+  @override
+  _ShopRoundedFavAppBarState createState() => _ShopRoundedFavAppBarState();
+}
+
+class _ShopRoundedFavAppBarState extends State<ShopRoundedFavAppBar> {
+  @override
+  Widget build(BuildContext context) => ClipRRect(
+    borderRadius: BorderRadius.vertical(
+      bottom: Radius.circular(30),
+    ),
+    child: AppBar(
+      title: widget.subTitle == null
+          ? Text(
+        widget.appBarTitle,
+        style: FontCollection.topicBoldTextStyle,
+      )
+          : Container(
+        padding: EdgeInsets.only(top: 20),
+        child: Column(
+          children: [
+            Align(
+              alignment: Alignment.topLeft,
+              child: Text(
+                widget.appBarTitle,
+                style: FontCollection.topicBoldTextStyle,
+              ),
+            ),
+            Align(
+              alignment: Alignment.topLeft,
+              child: Text(
+                widget.subTitle,
+                style: TextStyle(
+                  fontSize: 14,
+                  color: Colors.black.withOpacity(0.6),
+                ),
+              ),
+            )
+          ],
+        ),
+      ),
+      toolbarHeight: widget.appbarHeight,
+      flexibleSpace: Container(
+        decoration: BoxDecoration(
+          gradient: LinearGradient(
+            colors: [Color(0xFFF2954E), Color(0xFFFAD161)],
+            begin: Alignment.topLeft,
+            end: Alignment.bottomRight,
+          ),
+        ),
+        child: widget.child,
+      ),
+      // elevation: 10,
+      // titleSpacing: 20,
+      actions: [
+        IconButton(
+          onPressed: widget.onClicked,
+          icon: Icon(Icons.bookmark),
+        ),
+        IconButton(
+          onPressed: widget.onClicked2,
+          icon: Icon(Icons.info),
+        ),
+      ],
+    ),
+  );
 }

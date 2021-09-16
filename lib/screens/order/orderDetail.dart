@@ -111,22 +111,25 @@ class _OrderDetailPageState extends State<OrderDetailPage> {
       ),
       body: SingleChildScrollView(
         child: Container(
-          margin: EdgeInsets.fromLTRB(20, 100, 20, 20),
+          margin: EdgeInsets.fromLTRB(20, 120, 20, 20),
           child: Column(
             // mainAxisAlignment: MainAxisAlignment.center,
             children: [
-              customerDeliCard(
-                _activities.customerName,
-                _activities.phone,
-                _activities.address ?? 'โปรดระบุที่อยู่',
-                () {
-                  Navigator.of(context).push(
-                    MaterialPageRoute(
-                      builder: (context) =>
-                          ManageAddress(uid: userNotifier.userModel.uid),
-                    ),
-                  );
-                },
+              Container(
+                margin: EdgeInsets.only(),
+                child: customerDeliCard(
+                  _activities.customerName,
+                  _activities.phone,
+                  _activities.address ?? 'โปรดระบุที่อยู่',
+                  () {
+                    Navigator.of(context).push(
+                      MaterialPageRoute(
+                        builder: (context) =>
+                            ManageAddress(uid: userNotifier.userModel.uid),
+                      ),
+                    );
+                  },
+                ),
               ),
               // deliTimeCard(_activities.dateOrdered, _activities.timeOrdered),
               // meetingTimeCard('21 เมษายน 2564', '12.30 น.'),

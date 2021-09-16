@@ -82,7 +82,7 @@ class _ShopMenuState extends State<ShopMenu> {
         child: Container(
           height: MediaQuery.of(context).size.height,
           // margin: EdgeInsets.only(top: appBarHeight),
-          padding: EdgeInsets.fromLTRB(70, 110, 0, 30),
+          padding: EdgeInsets.fromLTRB(40, 110, 0, 40),
           child: Row(
             children: [
               chipIconInfo(
@@ -93,7 +93,7 @@ class _ShopMenuState extends State<ShopMenu> {
               ),
               Padding(
                 padding: const EdgeInsets.only(left: 10),
-                child: chipInfo('จัดส่ง'),
+                child: chipInfo('จัดส่ง', CollectionsColors.yellow, Colors.black),
               ),
               Padding(
                 padding: const EdgeInsets.only(left: 10),
@@ -527,12 +527,14 @@ class _ShopMenuState extends State<ShopMenu> {
 
   Widget chipInfo(
     String text,
+      Color color,
+      Color textColor,
   ) {
     return Container(
       padding: EdgeInsets.fromLTRB(20, 5, 20, 5),
       decoration: BoxDecoration(
         borderRadius: BorderRadius.circular(50),
-        color: CollectionsColors.yellow,
+        color: color,
           boxShadow: [
             BoxShadow(
               color: Colors.black.withOpacity(0.25),
@@ -543,7 +545,10 @@ class _ShopMenuState extends State<ShopMenu> {
       ),
       child: Text(
         text,
-        style: FontCollection.descriptionTextStyle,
+        style: TextStyle(
+          fontSize: 12,
+          color: textColor,
+        ),
       ),
     );
   }

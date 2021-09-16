@@ -56,60 +56,28 @@ class _HistoryPageState extends State<HistoryPage> {
                     : BuildCard(
                         headerText: 'การสั่งซื้อปัจจุบัน',
                         child: Container(
-                          margin: EdgeInsets.only(top: 10),
+                          margin: EdgeInsets.fromLTRB(10, 20, 20, 20),
                           child: ListTile(
                             leading: Container(
-                              height: 80,
-                              width: 80,
+                              height: 50,
+                              width: 50,
                               alignment: Alignment.topLeft,
                               child: CircleAvatar(
-                                backgroundColor: CollectionsColors.yellow,
-                                radius: 100.0,
-                                child: Text(
-                                  '1',
-                                  style: FontCollection.descriptionTextStyle,
-                                  textAlign: TextAlign.left,
-                                ),
-                              ),
+                                  backgroundColor: CollectionsColors.orange,
+                                  foregroundColor: Colors.white,
+                                  radius: 50.0,
+                                  child: Icon(Icons.local_shipping)),
                             ),
-                            title: Text(
+                            title: buildText(
+                              activities.currentActivity.orderStatus.toString(),
+                              activities.currentActivity.dateOrdered,
+                              '${activities.currentActivity.netPrice} บาท',
+                              buildListTitle(Icons.fastfood_outlined,
+                                  activities.currentActivity.storeName),
+                              buildListTitle(Icons.location_on,
+                                  activities.currentActivity.addressName),
                               activities.currentActivity.orderStatus
-                                  .toString(),
-                              style: FontCollection.bodyTextStyle,
-                            ),
-                            subtitle: Container(
-                              width: MediaQuery.of(context).size.width,
-                              child: Column(
-                                children: [
-                                  buildListTitle(Icons.fastfood_outlined,
-                                      activities.currentActivity.storeName),
-                                  buildListTitle(Icons.location_on,
-                                      activities.currentActivity.addressName),
-                                ],
-                              ),
-                            ),
-                            trailing: Container(
-                              height: MediaQuery.of(context).size.height,
-                              child: Column(
-                                mainAxisAlignment:
-                                    MainAxisAlignment.spaceBetween,
-                                children: [
-                                  Container(
-                                    // alignment: Alignment.topRight,
-                                    child: Text(
-                                      activities.currentActivity.dateOrdered,
-                                      style: FontCollection.bodyTextStyle,
-                                    ),
-                                  ),
-                                  Container(
-                                    // alignment: Alignment.bottomRight,
-                                    child: Text(
-                                      activities.currentActivity.netPrice,
-                                      style: FontCollection.bodyTextStyle,
-                                    ),
-                                  ),
-                                ],
-                              ),
+                                  .toString() != 'ยกเลิกคำสั่งซื้อ',
                             ),
                             onTap: () {
                               for (int i = 0;
@@ -134,7 +102,7 @@ class _HistoryPageState extends State<HistoryPage> {
                 BuildCard(
                   headerText: 'ประวัติการสั่งซื้อ',
                   child: Container(
-                      margin: EdgeInsets.fromLTRB(0, 10, 0, 20),
+                      margin: EdgeInsets.fromLTRB(10, 20, 20, 20),
                       child: ListView.separated(
                         shrinkWrap: true,
                         itemCount: activities.activitiesList.length,
@@ -142,72 +110,38 @@ class _HistoryPageState extends State<HistoryPage> {
                         itemBuilder: (context, index) {
                           return ListTile(
                             leading: Container(
-                              height: 80,
-                              width: 80,
+                              height: 50,
+                              width: 50,
                               alignment: Alignment.topLeft,
                               child: CircleAvatar(
-                                backgroundColor: CollectionsColors.yellow,
-                                radius: 100.0,
-                                child: Text(
-                                  activities
-                                      .activitiesList[index].customerName[0],
-                                  style: FontCollection.descriptionTextStyle,
-                                  textAlign: TextAlign.left,
-                                ),
-                              ),
+                                  backgroundColor: CollectionsColors.orange,
+                                  foregroundColor: Colors.white,
+                                  radius: 50.0,
+                                  child: Icon(Icons.local_shipping)),
                             ),
-                            title: Text(
+                            title: buildText(
                               activities.activitiesList[index].orderStatus
                                   .toString(),
-                              style: FontCollection.bodyTextStyle,
-                            ),
-                            subtitle: Container(
-                              width: MediaQuery.of(context).size.width,
-                              child: Column(
-                                children: [
-                                  buildListTitle(
-                                    Icons.fastfood_outlined,
-                                    activities.activitiesList[index].storeName,
-                                  ),
-                                  buildListTitle(
-                                    Icons.location_on,
-                                    activities
-                                        .activitiesList[index].addressName,
-                                  ),
-                                ],
+                              activities.activitiesList[index].dateOrdered,
+                              '${activities.activitiesList[index].netPrice} บาท',
+                              buildListTitle(
+                                Icons.fastfood_outlined,
+                                activities.activitiesList[index].storeName,
                               ),
-                            ),
-                            trailing: Container(
-                              height: MediaQuery.of(context).size.height,
-                              child: Column(
-                                mainAxisAlignment:
-                                    MainAxisAlignment.spaceBetween,
-                                children: [
-                                  Container(
-                                    // alignment: Alignment.topRight,
-                                    child: Text(
-                                      activities
-                                          .activitiesList[index].dateOrdered,
-                                      style: FontCollection.bodyTextStyle,
-                                    ),
-                                  ),
-                                  Container(
-                                    // alignment: Alignment.bottomRight,
-                                    child: Text(
-                                      '${activities.activitiesList[index].netPrice} บาท',
-                                      style: FontCollection.bodyTextStyle,
-                                    ),
-                                  ),
-                                ],
+                              buildListTitle(
+                                Icons.location_on,
+                                activities.activitiesList[index].addressName,
                               ),
+                                activities.activitiesList[index].orderStatus
+                                    .toString() != 'ยกเลิกคำสั่งซื้อ',
                             ),
                             onTap: () {
                               activities.currentActivity =
-                              activities.activitiesList[index];
+                                  activities.activitiesList[index];
 
                               for (int i = 0;
-                              i < stores.storeList.length;
-                              i++) {
+                                  i < stores.storeList.length;
+                                  i++) {
                                 if (activities.activitiesList[index].storeId ==
                                     stores.storeList[i].storeId) {
                                   stores.currentStore = stores.storeList[i];
@@ -220,11 +154,14 @@ class _HistoryPageState extends State<HistoryPage> {
                                 ),
                               );
                               if (activities
-                                  .activitiesList[index].orderStatus ==
+                                      .activitiesList[index].orderStatus ==
                                   'ยืนยันการจัดส่ง') {
-                                Navigator.of(context).push(MaterialPageRoute(
-                                  builder: (context) =>
-                                      ConfirmedOrderMapPage(),),);
+                                Navigator.of(context).push(
+                                  MaterialPageRoute(
+                                    builder: (context) =>
+                                        ConfirmedOrderMapPage(),
+                                  ),
+                                );
                               }
                             },
                           );
@@ -257,6 +194,60 @@ class _HistoryPageState extends State<HistoryPage> {
             child: Text(
               text,
               style: FontCollection.bodyTextStyle,
+            ),
+          ),
+        ],
+      ),
+    );
+  }
+
+  Widget buildText(
+    String orderStatus,
+    String date,
+    String price,
+    Widget childStore,
+    Widget childAddress,
+    bool check,
+  ) {
+    return Container(
+      child: Column(
+        children: [
+          Container(
+            child: Row(
+              mainAxisAlignment: MainAxisAlignment.spaceBetween,
+              children: [
+                Container(
+                  child: Text(
+                    orderStatus,
+                    style: check
+                        ? FontCollection.bodyTextStyle
+                        : TextStyle(fontSize: 16, color: CollectionsColors.red,),
+                  ),
+                ),
+                Container(
+                  // alignment: Alignment.topRight,
+                  child: Text(
+                    date,
+                    style: FontCollection.bodyTextStyle,
+                  ),
+                ),
+              ],
+            ),
+          ),
+          Container(child: childStore),
+          Container(
+            child: Row(
+              mainAxisAlignment: MainAxisAlignment.spaceBetween,
+              children: [
+                childAddress,
+                Container(
+                  // alignment: Alignment.bottomRight,
+                  child: Text(
+                    price,
+                    style: FontCollection.bodyTextStyle,
+                  ),
+                ),
+              ],
             ),
           ),
         ],

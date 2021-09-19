@@ -16,7 +16,6 @@ import 'package:cs_senior_project/notifiers/user_notifier.dart';
 import 'package:cs_senior_project/screens/address/manage_address.dart';
 import 'package:cs_senior_project/screens/shop/menu/menu_detail.dart';
 import 'package:cs_senior_project/screens/shop/shop_detail.dart';
-import 'package:cs_senior_project/services/store_service.dart';
 import 'package:cs_senior_project/services/user_service.dart';
 import 'package:cs_senior_project/widgets/bottomOrder_widget.dart';
 import 'package:cs_senior_project/widgets/button_widget.dart';
@@ -46,14 +45,19 @@ class _OrderDetailPageState extends State<OrderDetailPage> {
 
   @override
   void initState() {
+    UserNotifier userNotifier =
+        Provider.of<UserNotifier>(context, listen: false);
     OrderNotifier orderNotifier =
         Provider.of<OrderNotifier>(context, listen: false);
+
     for (int i = 0; i < orderNotifier.orderList.length; i++) {
       if (orderNotifier.orderList[i].storeId == widget.storeId) {
         totalPrice += int.parse(orderNotifier.orderList[i].totalPrice);
         orderNotifier.getNetPrice(totalPrice);
       }
     }
+
+    userNotifier.reloadUserModel();
     super.initState();
   }
 
@@ -226,8 +230,7 @@ class _OrderDetailPageState extends State<OrderDetailPage> {
                 );
 
                 for (int i = 0; i < orderNotifier.orderList.length; i++) {
-                  if ((orderNotifier.orderList[i].storeId ==
-                      widget.storeId)) {
+                  if ((orderNotifier.orderList[i].storeId == widget.storeId)) {
                     saveEachOrderToHistory(
                       userNotifier.userModel.uid,
                       storeNotifier.currentStore.storeId,
@@ -241,6 +244,17 @@ class _OrderDetailPageState extends State<OrderDetailPage> {
                 activitiesNotifier.resetDateTimeOrdered();
                 orderNotifier.orderList.removeWhere((order) =>
                     order.storeId == storeNotifier.currentStore.storeId);
+
+                userNotifier.updateUserData({
+                  "selectedAddress": {
+                    "residentName": "",
+                    "address": "",
+                    "addressName": "",
+                    "addressDetail": "",
+                    "geoPoint": GeoPoint(0, 0),
+                    "phone": ""
+                  }
+                });
               },
               child: Column(
                 children: [

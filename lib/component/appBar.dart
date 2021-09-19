@@ -60,8 +60,6 @@ class HomeAppBar extends StatefulWidget implements PreferredSizeWidget {
 }
 
 class _HomeAppBarState extends State<HomeAppBar> {
-  String selectedAddress;
-
   @override
   Widget build(BuildContext context) {
     LocationNotifier location = Provider.of<LocationNotifier>(context);

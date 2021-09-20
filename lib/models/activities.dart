@@ -39,6 +39,7 @@ class Activities {
       'storeName': storeName,
       'storeImage': storeImage,
       'kindOfFood': kindOfFood,
+      'orderStatus': orderStatus
     };
   }
 

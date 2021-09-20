@@ -101,6 +101,7 @@ class _OrderDetailPageState extends State<OrderDetailPage> {
     _activities.storeName = storeNotifier.currentStore.storeName;
     _activities.storeImage = storeNotifier.currentStore.image;
     _activities.kindOfFood = storeNotifier.currentStore.kindOfFood;
+    _activities.orderStatus = "";
 
     return Scaffold(
       extendBodyBehindAppBar: true,

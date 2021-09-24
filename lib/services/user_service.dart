@@ -1,9 +1,11 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:cs_senior_project/asset/constant.dart';
 import 'package:cs_senior_project/models/address.dart';
+import 'package:cs_senior_project/models/favorite.dart';
 import 'package:cs_senior_project/models/order.dart';
 import 'package:cs_senior_project/models/user.dart';
 import 'package:cs_senior_project/notifiers/address_notifier.dart';
+import 'package:cs_senior_project/notifiers/favorite_notifier.dart';
 
 class UserService {
   String collection = "users";
@@ -57,6 +59,7 @@ class UserService {
       .then((doc) => UserModel.fromSnapshot(doc));
 }
 
+// Address
 Future<void> getAddress(AddressNotifier addressNotifier, String uid) async {
   QuerySnapshot snapshot = await firebaseFirestore
       .collection('users')
@@ -84,6 +87,7 @@ addAddress(AddressModel address, String uid, Function addAddress) async {
   addAddress(address);
 }
 
+// History
 String orderId;
 
 saveToHistory(
@@ -131,4 +135,44 @@ saveOrderToHistory(String uid, OrderModel order) async {
 
   DocumentReference documentRef = await orderToppingRef.add(order.toMap());
   await documentRef.set(order.toMap(), SetOptions(merge: true));
+}
+
+// Favorite Stores
+saveFavoriteStore(Favorite favorite, String uid, Function saveFavorite) async {
+  CollectionReference favRef =
+      firebaseFirestore.collection('users').doc(uid).collection('favorites');
+
+  DocumentReference docRef = await favRef.add(favorite.toMap());
+  favorite.favId = docRef.id;
+  await docRef.set(favorite.toMap(), SetOptions(merge: true));
+
+  saveFavorite(favorite);
+}
+
+deleteFavoriteStore(Favorite favorite, Function deleteFav, String uid) async {
+  await FirebaseFirestore.instance
+      .collection('users')
+      .doc(uid)
+      .collection('favorites')
+      .doc(favorite.favId)
+      .delete();
+
+  deleteFav(favorite);
+}
+
+Future<void> getFavoriteStores(FavoriteNotifier favNotifier, String uid) async {
+  QuerySnapshot snapshot = await firebaseFirestore
+      .collection('users')
+      .doc(uid)
+      .collection('favorites')
+      .get();
+
+  List<Favorite> _favoriteList = [];
+
+  snapshot.docs.forEach((document) {
+    Favorite favorite = Favorite.fromMap(document.data());
+    _favoriteList.add(favorite);
+  });
+
+  favNotifier.favoriteList = _favoriteList;
 }

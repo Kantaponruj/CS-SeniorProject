@@ -74,7 +74,7 @@ class _OrderDetailPageState extends State<OrderDetailPage> {
         backgroundColor: CollectionsColors.grey,
         appBar: ShopRoundedAppBar(
           appBarTitle: storeNotifier.currentStore.storeName,
-          onClicked2: () {
+          onClicked: () {
             Navigator.of(context).push(MaterialPageRoute(
               builder: (context) => ShopDetail(),
             ));
@@ -396,8 +396,8 @@ class _OrderDetailPageState extends State<OrderDetailPage> {
             order.topping.isEmpty
                 ? SizedBox.shrink()
                 : Container(
-              margin: EdgeInsets.only(top: 10),
-                  child: Column(
+                    margin: EdgeInsets.only(top: 10),
+                    child: Column(
                       children: [
                         Row(
                           children: [
@@ -433,7 +433,7 @@ class _OrderDetailPageState extends State<OrderDetailPage> {
                               ),
                       ],
                     ),
-                ),
+                  ),
             Row(
               children: [
                 Expanded(
@@ -454,7 +454,10 @@ class _OrderDetailPageState extends State<OrderDetailPage> {
                       Container(
                         child: IconButton(
                           onPressed: () {},
-                          icon: Icon(Icons.delete, color: Colors.black54,),
+                          icon: Icon(
+                            Icons.delete,
+                            color: Colors.black54,
+                          ),
                         ),
                       ),
                     ],

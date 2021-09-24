@@ -4,20 +4,22 @@ import 'package:cs_senior_project/asset/constant.dart';
 import 'package:cs_senior_project/asset/text_style.dart';
 import 'package:cs_senior_project/component/orderCard.dart';
 import 'package:cs_senior_project/component/shopAppBar.dart';
+import 'package:cs_senior_project/models/favorite.dart';
+import 'package:cs_senior_project/notifiers/favorite_notifier.dart';
 import 'package:cs_senior_project/notifiers/order_notifier.dart';
 import 'package:cs_senior_project/notifiers/store_notifier.dart';
+import 'package:cs_senior_project/notifiers/user_notifier.dart';
 import 'package:cs_senior_project/screens/order/orderDetail.dart';
 import 'package:cs_senior_project/screens/shop/menu/menu_detail.dart';
 import 'package:cs_senior_project/screens/shop/shop_detail.dart';
 import 'package:cs_senior_project/services/store_service.dart';
+import 'package:cs_senior_project/services/user_service.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 
 class ShopMenu extends StatefulWidget {
-  ShopMenu({Key key, this.storeId, this.storeIndex}) : super(key: key);
-  final String storeId;
-  final int storeIndex;
+  ShopMenu({Key key}) : super(key: key);
 
   @override
   _ShopMenuState createState() => _ShopMenuState();
@@ -30,11 +32,31 @@ class _ShopMenuState extends State<ShopMenu> {
 
   List categories = [];
 
+  Favorite _favorite = Favorite();
+  int _favIndex;
+  bool _isFavorite = false;
+
   @override
   void initState() {
+    FavoriteNotifier favNotifier =
+        Provider.of<FavoriteNotifier>(context, listen: false);
     StoreNotifier storeNotifier =
         Provider.of<StoreNotifier>(context, listen: false);
+    UserNotifier userNotifier =
+        Provider.of<UserNotifier>(context, listen: false);
     getMenu(storeNotifier, storeNotifier.currentStore.storeId);
+    getFavoriteStores(favNotifier, userNotifier.user.uid);
+
+    if (favNotifier.favoriteList != null) {
+      for (int i = 0; i < favNotifier.favoriteList.length; i++) {
+        if (favNotifier.favoriteList[i].storeId ==
+            storeNotifier.currentStore.storeId) {
+          _isFavorite = true;
+          _favIndex = i;
+          break;
+        }
+      }
+    }
 
     super.initState();
   }
@@ -43,6 +65,8 @@ class _ShopMenuState extends State<ShopMenu> {
   Widget build(BuildContext context) {
     StoreNotifier storeNotifier = Provider.of<StoreNotifier>(context);
     OrderNotifier orderNotifier = Provider.of<OrderNotifier>(context);
+    UserNotifier userNotifier = Provider.of<UserNotifier>(context);
+    FavoriteNotifier favNotifier = Provider.of<FavoriteNotifier>(context);
 
     categories.clear();
     storeNotifier.menuList.forEach((menu) {
@@ -52,18 +76,41 @@ class _ShopMenuState extends State<ShopMenu> {
       }
     });
 
-    // print(categories);
+    _onSaveFavorite(Favorite favorite) {
+      _isFavorite = true;
+      favNotifier.addFavorite(favorite);
+    }
+
+    _onDeleteFavorite(Favorite favorite) {
+      _isFavorite = false;
+      favNotifier.deleteFavorite(favorite);
+    }
 
     return SafeArea(
       child: Scaffold(
         extendBodyBehindAppBar: true,
         appBar: ShopRoundedAppBar(
           appBarTitle: storeNotifier.currentStore.storeName,
-          onClicked2: () {
+          onClicked: () {
             Navigator.of(context).push(MaterialPageRoute(
               builder: (context) => ShopDetail(),
             ));
           },
+          onSaved: () {
+            _favorite.storeId = storeNotifier.currentStore.storeId;
+            _isFavorite
+                ? deleteFavoriteStore(
+                    favNotifier.favoriteList[_favIndex],
+                    _onDeleteFavorite,
+                    userNotifier.user.uid,
+                  )
+                : saveFavoriteStore(
+                    _favorite,
+                    userNotifier.user.uid,
+                    _onSaveFavorite,
+                  );
+          },
+          isFavorite: _isFavorite,
         ),
         body: Container(
           child: Column(
@@ -146,7 +193,6 @@ class _ShopMenuState extends State<ShopMenu> {
                   },
                   child: Icon(
                     Icons.shopping_cart,
-
                   ),
                 ),
               )

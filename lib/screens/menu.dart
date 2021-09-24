@@ -61,8 +61,10 @@ class _MenuPageState extends State<MenuPage> {
                 Icons.bookmark_border,
                 'บันทึก',
                 () {
-                  Navigator.of(context).push(
-                      MaterialPageRoute(builder: (context) => FavoritePage()));
+                  Navigator.of(context).push(MaterialPageRoute(
+                    builder: (context) =>
+                        FavoritePage(uid: userNotifier.user.uid),
+                  ));
                 },
               ),
               menuCard(

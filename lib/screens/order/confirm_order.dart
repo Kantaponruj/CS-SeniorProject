@@ -40,6 +40,7 @@ class _ConfirmedOrderMapPageState extends State<ConfirmedOrderMapPage> {
     polylinePoints = PolylinePoints();
     this.setInitialLocation();
     orderStatus = false;
+    checkStatus();
     super.initState();
   }
 
@@ -104,12 +105,25 @@ class _ConfirmedOrderMapPageState extends State<ConfirmedOrderMapPage> {
     }
   }
 
+  Future<void> checkStatus() async {
+    ActivitiesNotifier activitiesNotifier =
+    Provider.of<ActivitiesNotifier>(context, listen: false);
+    if(activitiesNotifier.currentActivity.orderStatus == 'จัดส่งเรียบร้อยแล้ว') {
+      Navigator.of(context).pushReplacement(
+          MaterialPageRoute(builder: (context) => bottomBar()));
+    }
+    Future.delayed(Duration(seconds: 2), () {
+      checkStatus();
+      print('check');
+    });
+  }
+
   @override
   Widget build(BuildContext context) {
     ActivitiesNotifier activitiesNotifier =
         Provider.of<ActivitiesNotifier>(context);
 
-    final orderDetailHeight = MediaQuery.of(context).size.height / 2.7;
+    final orderDetailHeight = MediaQuery.of(context).size.height / 3;
     final mapHeight = MediaQuery.of(context).size.height - (orderDetailHeight);
 
     return SafeArea(
@@ -163,153 +177,188 @@ class _ConfirmedOrderMapPageState extends State<ConfirmedOrderMapPage> {
         color: Colors.white,
       ),
       margin: EdgeInsets.only(top: mapHeight - 20),
-      padding: EdgeInsets.symmetric(horizontal: 20, vertical: 20),
+      padding: EdgeInsets.symmetric(horizontal: 30, vertical: 30),
       child: Column(
         mainAxisAlignment: MainAxisAlignment.spaceBetween,
         children: [
           Container(
             child: Row(
+              mainAxisAlignment: MainAxisAlignment.spaceBetween,
               children: [
-                Expanded(
-                  flex: 3,
-                  child: Container(
-                    width: 60,
-                    height: 60,
+                Container(
+                  child: Text(
+                    'ยืนยันคำสั่งซื้อ',
+                    style: FontCollection.bodyTextStyle,
+                  ),
+                ),
+                Container(
+                  child: Text(
+                    'จะได้รับในเวลา 16.30',
+                    style: FontCollection.topicTextStyle,
+                  ),
+                ),
+              ],
+            ),
+          ),
+          Container(
+            child: Row(
+              children: [
+                Padding(
+                  padding: const EdgeInsets.only(right: 20),
+                  child: SizedBox(
+                    width: 80,
+                    height: 80,
                     child: CircleAvatar(
-                      radius: 60,
-                      child: activity.storeImage.isNotEmpty
-                          ? Image.network(
+                      backgroundImage: activity.storeImage.isNotEmpty
+                          ? NetworkImage(
                               activity.storeImage,
-                              fit: BoxFit.cover,
-                              width: double.infinity,
-                              height: double.infinity,
+                              // fit: BoxFit.cover,
+                              // width: double.infinity,
+                              // height: double.infinity,
                             )
-                          : Image.asset(
+                          : AssetImage(
                               'assets/images/shop_test.jpg',
-                              fit: BoxFit.cover,
-                              width: double.infinity,
-                              height: double.infinity,
+                              // fit: BoxFit.cover,
+                              // width: double.infinity,
+                              // height: double.infinity,
                             ),
+                      radius: 60,
                     ),
                   ),
                 ),
                 Expanded(
-                  flex: 6,
-                  child: Container(
-                    margin: EdgeInsets.only(left: 10),
-                    child: Column(
-                      children: [
-                        Container(
-                          alignment: Alignment.centerLeft,
-                          child: Text(
-                            activity.storeName,
-                            style: FontCollection.bodyTextStyle,
-                          ),
+                  child: Column(
+                    children: [
+                      Container(
+                        child: Row(
+                          mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                          children: [
+                            Container(
+                              alignment: Alignment.centerLeft,
+                              child: Text(
+                                activity.storeName,
+                                style: FontCollection.bodyTextStyle,
+                              ),
+                            ),
+                            Container(
+                              alignment: Alignment.topRight,
+                              child: TextButton(
+                                onPressed: () {
+                                  setState(() {
+                                    orderFinish = true;
+                                    orderedMenu = false;
+                                  });
+                                  Navigator.of(context)
+                                      .pushNamed('/orderDetail');
+                                },
+                                child: Text(
+                                  'รายละเอียด',
+                                  style: FontCollection.underlineButtonTextStyle,
+                                ),
+                              ),
+                            ),
+                          ],
                         ),
-                        Container(
-                          alignment: Alignment.centerLeft,
-                          child: Text(
-                            activity.kindOfFood,
-                            style: FontCollection.descriptionTextStyle,
-                          ),
-                        ),
-                      ],
-                    ),
-                  ),
-                ),
-                Expanded(
-                  flex: 3,
-                  child: Container(
-                    alignment: Alignment.topRight,
-                    child: TextButton(
-                      onPressed: () {
-                        setState(() {
-                          orderFinish = true;
-                          orderedMenu = false;
-                        });
-                        Navigator.of(context).pushNamed('/orderDetail');
-                      },
-                      child: Text(
-                        'รายละเอียด',
-                        style: FontCollection.bodyTextStyle,
                       ),
-                    ),
+                      Container(
+                        child: Row(
+                          mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                          children: [
+                            Container(
+                              alignment: Alignment.centerLeft,
+                              child: Text(
+                                activity.kindOfFood,
+                                style: FontCollection.descriptionTextStyle,
+                              ),
+                            ),
+                            Container(
+                              alignment: Alignment.centerLeft,
+                              child: Text(
+                                '${activity.netPrice} บาท',
+                                style: FontCollection.bodyTextStyle,
+                              ),
+                            ),
+                          ],
+                        ),
+                      ),
+                    ],
                   ),
                 ),
               ],
             ),
           ),
-          Container(
-            child: Row(
-              children: [
-                Expanded(
-                  flex: 3,
-                  child: Container(
-                    child: Text(
-                      'เวลาสั่งซื้อ',
-                      style: FontCollection.bodyTextStyle,
-                    ),
-                  ),
-                ),
-                Expanded(
-                  flex: 6,
-                  child: Container(
-                    margin: EdgeInsets.only(left: 10),
-                    child: Text(
-                      activity.dateOrdered,
-                      style: FontCollection.bodyTextStyle,
-                    ),
-                  ),
-                ),
-                Expanded(
-                  flex: 3,
-                  child: Container(
-                    child: Text(
-                      '${activity.timeOrdered} น.',
-                      style: FontCollection.bodyTextStyle,
-                    ),
-                  ),
-                ),
-              ],
-            ),
-          ),
-          Container(
-            child: Row(
-              children: [
-                Expanded(
-                  flex: 3,
-                  child: Container(
-                    child: Text(
-                      'สถานที่',
-                      style: FontCollection.bodyTextStyle,
-                    ),
-                  ),
-                ),
-                Expanded(
-                  flex: 9,
-                  child: Container(
-                    margin: EdgeInsets.only(left: 10),
-                    child: AutoSizeText(
-                      activity.address,
-                      style: FontCollection.bodyTextStyle,
-                      maxLines: 2,
-                    ),
-                  ),
-                ),
-              ],
-            ),
-          ),
+          // Container(
+          //   child: Row(
+          //     children: [
+          //       Expanded(
+          //         flex: 3,
+          //         child: Container(
+          //           child: Text(
+          //             'เวลาสั่งซื้อ',
+          //             style: FontCollection.bodyTextStyle,
+          //           ),
+          //         ),
+          //       ),
+          //       Expanded(
+          //         flex: 6,
+          //         child: Container(
+          //           margin: EdgeInsets.only(left: 10),
+          //           child: Text(
+          //             activity.dateOrdered,
+          //             style: FontCollection.bodyTextStyle,
+          //           ),
+          //         ),
+          //       ),
+          //       Expanded(
+          //         flex: 3,
+          //         child: Container(
+          //           child: Text(
+          //             '${activity.timeOrdered} น.',
+          //             style: FontCollection.bodyTextStyle,
+          //           ),
+          //         ),
+          //       ),
+          //     ],
+          //   ),
+          // ),
+          // Container(
+          //   child: Row(
+          //     children: [
+          //       Expanded(
+          //         flex: 3,
+          //         child: Container(
+          //           child: Text(
+          //             'สถานที่',
+          //             style: FontCollection.bodyTextStyle,
+          //           ),
+          //         ),
+          //       ),
+          //       Expanded(
+          //         flex: 9,
+          //         child: Container(
+          //           margin: EdgeInsets.only(left: 10),
+          //           child: AutoSizeText(
+          //             activity.address,
+          //             style: FontCollection.bodyTextStyle,
+          //             maxLines: 2,
+          //           ),
+          //         ),
+          //       ),
+          //     ],
+          //   ),
+          // ),
           StadiumButtonWidget(
-            text: activity.orderStatus == 'จัดส่งเรียบร้อยแล้ว' ? 'กลับหน้าโฮม' : 'โทร',
+            text: activity.orderStatus == 'จัดส่งเรียบร้อยแล้ว'
+                ? 'กลับหน้าโฮม'
+                : 'โทร',
             onClicked: () {
               setState(() {
-                if(activity.orderStatus == 'จัดส่งเรียบร้อยแล้ว') {
+                if (activity.orderStatus == 'จัดส่งเรียบร้อยแล้ว') {
                   orderStatus = true;
                   Navigator.of(context).pushReplacement(
                       MaterialPageRoute(builder: (context) => bottomBar()));
                 }
               });
-
             },
           ),
         ],
@@ -318,5 +367,4 @@ class _ConfirmedOrderMapPageState extends State<ConfirmedOrderMapPage> {
   }
 
   bool orderStatus = false;
-
 }

@@ -34,7 +34,10 @@ class _ConfirmedOrderMapPageState extends State<ConfirmedOrderMapPage> {
     ActivitiesNotifier activity =
         Provider.of<ActivitiesNotifier>(context, listen: false);
     UserNotifier user = Provider.of<UserNotifier>(context, listen: false);
-    activity.reloadActivityModel(user.userModel.uid);
+    activity.reloadActivityModel(
+      user.userModel.uid,
+      activity.currentActivity.orderId,
+    );
     if (activity.currentActivity.orderStatus == 'จัดส่งเรียบร้อยแล้ว') {
       Navigator.of(context).pushReplacement(
           MaterialPageRoute(builder: (context) => bottomBar()));

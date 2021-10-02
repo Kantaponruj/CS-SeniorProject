@@ -142,10 +142,11 @@ Future<void> getHistoryOrder(
   activitiesNotifier.activitiesList = _activityList;
 }
 
-Future<Activity> getActivityById(String uid) => firebaseFirestore
-    .collection('users')
-    .doc(uid)
-    .collection('activities')
-    .doc(orderId)
-    .get()
-    .then((doc) => Activity.fromMap(doc.data()));
+Future<Activity> getActivityById(String uid, String activityId) =>
+    firebaseFirestore
+        .collection('users')
+        .doc(uid)
+        .collection('activities')
+        .doc(orderId ?? activityId)
+        .get()
+        .then((doc) => Activity.fromMap(doc.data()));

@@ -44,8 +44,8 @@ class ActivitiesNotifier with ChangeNotifier {
     _timeOrdered = null;
   }
 
-  reloadActivityModel(String uid) async {
-    _currentActivity = await getActivityById(uid);
+  reloadActivityModel(String uid, String activityId) async {
+    _currentActivity = await getActivityById(uid, activityId);
     notifyListeners();
   }
 
@@ -57,9 +57,11 @@ class ActivitiesNotifier with ChangeNotifier {
     int arrivableTime;
     arrivableTime = estimateTime + timeOrdered;
 
-    if (arrivableTime == 60)
+    if (arrivableTime == 60) {
       arrivableTime = 00;
-    else if (arrivableTime > 60) arrivableTime = estimateTime;
+    } else if (arrivableTime > 60) {
+      arrivableTime = estimateTime;
+    }
 
     _arrivableTime = arrivableTime.toString();
   }

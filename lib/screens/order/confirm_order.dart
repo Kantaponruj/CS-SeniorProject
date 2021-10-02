@@ -20,6 +20,9 @@ class ConfirmedOrderMapPage extends StatefulWidget {
 }
 
 class _ConfirmedOrderMapPageState extends State<ConfirmedOrderMapPage> {
+  int arrivableTime;
+  bool orderStatus;
+
   @override
   void initState() {
     orderStatus = false;
@@ -40,6 +43,14 @@ class _ConfirmedOrderMapPageState extends State<ConfirmedOrderMapPage> {
       checkStatus();
       // print('check');
     });
+  }
+
+  void calculateEstimateTime(int estimateTime, int timeOrdered) {
+    arrivableTime = estimateTime + timeOrdered;
+
+    if (arrivableTime >= 60) {
+      arrivableTime = 00;
+    }
   }
 
   @override
@@ -63,11 +74,8 @@ class _ConfirmedOrderMapPageState extends State<ConfirmedOrderMapPage> {
                 height: mapHeight,
                 child: MapConfirmedWidet(),
               ),
-              information(
-                orderDetailHeight,
-                mapHeight,
-                activity.currentActivity,
-              ),
+              information(orderDetailHeight, mapHeight,
+                  activity.currentActivity, activity.arrivableTime),
             ],
           ),
         ),
@@ -75,8 +83,8 @@ class _ConfirmedOrderMapPageState extends State<ConfirmedOrderMapPage> {
     );
   }
 
-  Widget information(
-      double orderDetailHeight, double mapHeight, Activity activity) {
+  Widget information(double orderDetailHeight, double mapHeight,
+      Activity activity, String arrivableTime) {
     return Container(
       height: orderDetailHeight,
       width: MediaQuery.of(context).size.width,
@@ -101,7 +109,10 @@ class _ConfirmedOrderMapPageState extends State<ConfirmedOrderMapPage> {
                 ),
                 Container(
                   child: Text(
-                    'จะได้รับในเวลา 16.30',
+                    arrivableTime != null
+                        ? 'จะได้รับในเวลา ${activity.timeOrdered.substring(0, 3)}' +
+                            arrivableTime
+                        : '',
                     style: FontCollection.topicTextStyle,
                   ),
                 ),
@@ -274,6 +285,4 @@ class _ConfirmedOrderMapPageState extends State<ConfirmedOrderMapPage> {
       ),
     );
   }
-
-  bool orderStatus = false;
 }

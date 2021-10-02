@@ -10,6 +10,7 @@ class ActivitiesNotifier with ChangeNotifier {
 
   String _dateOrdered;
   String _timeOrdered;
+  String _arrivableTime;
 
   UnmodifiableListView<Activity> get activitiesList =>
       UnmodifiableListView(_activitiesList);
@@ -18,6 +19,7 @@ class ActivitiesNotifier with ChangeNotifier {
 
   String get dateOrdered => _dateOrdered;
   String get timeOrdered => _timeOrdered;
+  String get arrivableTime => _arrivableTime;
 
   set activitiesList(List<Activity> activity) {
     _activitiesList = activity;
@@ -45,5 +47,20 @@ class ActivitiesNotifier with ChangeNotifier {
   reloadActivityModel(String uid) async {
     _currentActivity = await getActivityById(uid);
     notifyListeners();
+  }
+
+  getArrivableTime(String time) {
+    _arrivableTime = time;
+  }
+
+  calculateEstimateTime(int estimateTime, int timeOrdered) {
+    int arrivableTime;
+    arrivableTime = estimateTime + timeOrdered;
+
+    if (arrivableTime == 60)
+      arrivableTime = 00;
+    else if (arrivableTime > 60) arrivableTime = estimateTime;
+
+    _arrivableTime = arrivableTime.toString();
   }
 }

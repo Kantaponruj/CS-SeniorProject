@@ -14,6 +14,8 @@ class MapConfirmedWidet extends StatelessWidget {
     ActivitiesNotifier activity = Provider.of<ActivitiesNotifier>(context);
     StoreNotifier store = Provider.of<StoreNotifier>(context);
 
+    String timeOrdered = activity.currentActivity.timeOrdered;
+
     final routeColor = CollectionsColors.navy;
     final routeWidth = 5;
     final storeName = "จุดเริ่มต้น";
@@ -57,7 +59,14 @@ class MapConfirmedWidet extends StatelessWidget {
       sourceName: storeName,
       destinationName: customerName,
       driverName: driverName,
-      totalTimeCallback: (time) => print(time),
+      totalTimeCallback: (time) {
+        String estimateTime = time.substring(0, 2);
+        String orderTime = timeOrdered.substring(timeOrdered.length - 2);
+        activity.calculateEstimateTime(
+          int.parse(estimateTime),
+          int.parse(orderTime),
+        );
+      },
       totalDistanceCallback: (distance) => print(distance),
     );
   }

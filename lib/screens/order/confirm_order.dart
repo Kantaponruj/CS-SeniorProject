@@ -1,17 +1,15 @@
 import 'dart:async';
 
-import 'package:cs_senior_project/asset/color.dart';
 import 'package:cs_senior_project/asset/constant.dart';
 import 'package:cs_senior_project/asset/text_style.dart';
 import 'package:cs_senior_project/component/appBar.dart';
 import 'package:cs_senior_project/component/bottomBar.dart';
 import 'package:cs_senior_project/models/activities.dart';
 import 'package:cs_senior_project/notifiers/activities_notifier.dart';
-import 'package:cs_senior_project/notifiers/store_notifier.dart';
 import 'package:cs_senior_project/notifiers/user_notifier.dart';
 import 'package:cs_senior_project/widgets/button_widget.dart';
+import 'package:cs_senior_project/widgets/map_confirmed_widget.dart';
 import 'package:flutter/material.dart';
-import 'package:google_maps_widget/google_maps_widget.dart';
 import 'package:provider/provider.dart';
 
 class ConfirmedOrderMapPage extends StatefulWidget {
@@ -47,19 +45,9 @@ class _ConfirmedOrderMapPageState extends State<ConfirmedOrderMapPage> {
   @override
   Widget build(BuildContext context) {
     ActivitiesNotifier activity = Provider.of<ActivitiesNotifier>(context);
-    StoreNotifier store = Provider.of<StoreNotifier>(context);
 
     final orderDetailHeight = MediaQuery.of(context).size.height / 3;
     final mapHeight = MediaQuery.of(context).size.height - (orderDetailHeight);
-
-    final routeColor = CollectionsColors.navy;
-    final routeWidth = 5;
-    final storeName = "จุดเริ่มต้น";
-    final customerName = "ฉัน";
-    final driverName = "ร้านค้า";
-    final storeIcon = "assets/images/restaurant-marker-icon.png";
-    final customerIcon = "assets/images/house-marker-icon.png";
-    final driverIcon = "assets/images/driver-marker-icon.png";
 
     return SafeArea(
       child: Scaffold(
@@ -73,43 +61,7 @@ class _ConfirmedOrderMapPageState extends State<ConfirmedOrderMapPage> {
             children: [
               Container(
                 height: mapHeight,
-                child: GoogleMapsWidget(
-                  apiKey: GOOGLE_MAPS_API_KEY,
-                  sourceLatLng: LatLng(
-                    store.currentStore.realtimeLocation.latitude,
-                    store.currentStore.realtimeLocation.longitude,
-                  ),
-                  destinationLatLng: LatLng(
-                    activity.currentActivity.geoPoint.latitude,
-                    activity.currentActivity.geoPoint.longitude,
-                  ),
-                  routeWidth: routeWidth,
-                  routeColor: routeColor,
-                  sourceMarkerIconInfo: MarkerIconInfo(
-                    assetPath: storeIcon,
-                    assetMarkerSize: Size.square(125),
-                  ),
-                  destinationMarkerIconInfo: MarkerIconInfo(
-                    assetPath: customerIcon,
-                  ),
-                  driverMarkerIconInfo: MarkerIconInfo(
-                    assetPath: driverIcon,
-                  ),
-                  driverCoordinatesStream: Stream.periodic(
-                    Duration(milliseconds: 500),
-                    (i) {
-                      return LatLng(
-                        store.currentStore.realtimeLocation.latitude,
-                        store.currentStore.realtimeLocation.longitude,
-                      );
-                    },
-                  ),
-                  sourceName: storeName,
-                  destinationName: customerName,
-                  driverName: driverName,
-                  totalTimeCallback: (time) => print(time),
-                  totalDistanceCallback: (distance) => print(distance),
-                ),
+                child: MapConfirmedWidet(),
               ),
               information(
                 orderDetailHeight,

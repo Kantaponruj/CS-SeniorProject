@@ -1,6 +1,6 @@
 import 'dart:async';
 
-import 'package:auto_size_text/auto_size_text.dart';
+import 'package:cs_senior_project/asset/color.dart';
 import 'package:cs_senior_project/asset/constant.dart';
 import 'package:cs_senior_project/asset/text_style.dart';
 import 'package:cs_senior_project/component/appBar.dart';
@@ -8,11 +8,11 @@ import 'package:cs_senior_project/component/bottomBar.dart';
 import 'package:cs_senior_project/models/activities.dart';
 import 'package:cs_senior_project/notifiers/activities_notifier.dart';
 import 'package:cs_senior_project/notifiers/store_notifier.dart';
+import 'package:cs_senior_project/notifiers/user_notifier.dart';
 import 'package:cs_senior_project/widgets/button_widget.dart';
 import 'package:flutter/material.dart';
-import 'package:google_maps_flutter/google_maps_flutter.dart';
+import 'package:google_maps_widget/google_maps_widget.dart';
 import 'package:provider/provider.dart';
-import 'package:flutter_polyline_points/flutter_polyline_points.dart';
 
 class ConfirmedOrderMapPage extends StatefulWidget {
   const ConfirmedOrderMapPage({Key key}) : super(key: key);
@@ -22,109 +22,44 @@ class ConfirmedOrderMapPage extends StatefulWidget {
 }
 
 class _ConfirmedOrderMapPageState extends State<ConfirmedOrderMapPage> {
-  Completer<GoogleMapController> _mapController = Completer();
-
-  Set<Marker> _markers = Set<Marker>();
-  LatLng customerLocation;
-  LatLng storeLocation;
-
-  Set<Polyline> _polylines = Set<Polyline>();
-  List<LatLng> polylineCoordinates = [];
-  PolylinePoints polylinePoints;
-
-  String customerName;
-  String storeName;
-
   @override
   void initState() {
-    polylinePoints = PolylinePoints();
-    this.setInitialLocation();
     orderStatus = false;
     checkStatus();
     super.initState();
   }
 
-  void setInitialLocation() {
-    ActivitiesNotifier activitiesNotifier =
-        Provider.of<ActivitiesNotifier>(context, listen: false);
-    StoreNotifier storeNotifier =
-        Provider.of<StoreNotifier>(context, listen: false);
-    customerLocation = LatLng(
-      activitiesNotifier.currentActivity.geoPoint.latitude,
-      activitiesNotifier.currentActivity.geoPoint.longitude,
-    );
-    storeLocation = LatLng(
-      storeNotifier.currentStore.location.latitude,
-      storeNotifier.currentStore.location.longitude,
-    );
-
-    customerName = activitiesNotifier.currentActivity.customerName;
-    storeName = storeNotifier.currentStore.storeName;
-  }
-
-  void showMarker() {
-    setState(() {
-      _markers.add(Marker(
-        markerId: MarkerId('Customer Marker'),
-        position: customerLocation,
-        icon: BitmapDescriptor.defaultMarker,
-        infoWindow: InfoWindow(title: "Home"),
-      ));
-
-      _markers.add(Marker(
-        markerId: MarkerId('Store Marker'),
-        position: storeLocation,
-        icon: BitmapDescriptor.defaultMarkerWithHue(90),
-      ));
-    });
-  }
-
-  void setPolylines() async {
-    PolylineResult result = await polylinePoints.getRouteBetweenCoordinates(
-      GOOGLE_MAPS_API_KEY,
-      PointLatLng(customerLocation.latitude, customerLocation.longitude),
-      PointLatLng(
-        storeLocation.latitude,
-        storeLocation.longitude,
-      ),
-    );
-
-    if (result.status == 'OK') {
-      result.points.forEach((PointLatLng point) {
-        polylineCoordinates.add(LatLng(point.latitude, point.longitude));
-      });
-
-      setState(() {
-        _polylines.add(Polyline(
-          width: 5,
-          polylineId: PolylineId('polyLine'),
-          // color: Color(0xFF08A5CB),
-          points: polylineCoordinates,
-        ));
-      });
-    }
-  }
-
   Future<void> checkStatus() async {
-    ActivitiesNotifier activitiesNotifier =
-    Provider.of<ActivitiesNotifier>(context, listen: false);
-    if(activitiesNotifier.currentActivity.orderStatus == 'จัดส่งเรียบร้อยแล้ว') {
+    ActivitiesNotifier activity =
+        Provider.of<ActivitiesNotifier>(context, listen: false);
+    UserNotifier user = Provider.of<UserNotifier>(context, listen: false);
+    activity.reloadActivityModel(user.userModel.uid);
+    if (activity.currentActivity.orderStatus == 'จัดส่งเรียบร้อยแล้ว') {
       Navigator.of(context).pushReplacement(
           MaterialPageRoute(builder: (context) => bottomBar()));
     }
     Future.delayed(Duration(seconds: 2), () {
       checkStatus();
-      print('check');
+      // print('check');
     });
   }
 
   @override
   Widget build(BuildContext context) {
-    ActivitiesNotifier activitiesNotifier =
-        Provider.of<ActivitiesNotifier>(context);
+    ActivitiesNotifier activity = Provider.of<ActivitiesNotifier>(context);
+    StoreNotifier store = Provider.of<StoreNotifier>(context);
 
     final orderDetailHeight = MediaQuery.of(context).size.height / 3;
     final mapHeight = MediaQuery.of(context).size.height - (orderDetailHeight);
+
+    final routeColor = CollectionsColors.navy;
+    final routeWidth = 5;
+    final storeName = "จุดเริ่มต้น";
+    final customerName = "ฉัน";
+    final driverName = "ร้านค้า";
+    final storeIcon = "assets/images/restaurant-marker-icon.png";
+    final customerIcon = "assets/images/house-marker-icon.png";
+    final driverIcon = "assets/images/driver-marker-icon.png";
 
     return SafeArea(
       child: Scaffold(
@@ -138,27 +73,48 @@ class _ConfirmedOrderMapPageState extends State<ConfirmedOrderMapPage> {
             children: [
               Container(
                 height: mapHeight,
-                child: GoogleMap(
-                  myLocationEnabled: true,
-                  compassEnabled: false,
-                  tiltGesturesEnabled: false,
-                  polylines: _polylines,
-                  markers: _markers,
-                  onMapCreated: (GoogleMapController controller) {
-                    _mapController.complete(controller);
-                    showMarker();
-                    setPolylines();
-                  },
-                  initialCameraPosition: CameraPosition(
-                    target: customerLocation,
-                    zoom: 13,
+                child: GoogleMapsWidget(
+                  apiKey: GOOGLE_MAPS_API_KEY,
+                  sourceLatLng: LatLng(
+                    store.currentStore.realtimeLocation.latitude,
+                    store.currentStore.realtimeLocation.longitude,
                   ),
+                  destinationLatLng: LatLng(
+                    activity.currentActivity.geoPoint.latitude,
+                    activity.currentActivity.geoPoint.longitude,
+                  ),
+                  routeWidth: routeWidth,
+                  routeColor: routeColor,
+                  sourceMarkerIconInfo: MarkerIconInfo(
+                    assetPath: storeIcon,
+                    assetMarkerSize: Size.square(125),
+                  ),
+                  destinationMarkerIconInfo: MarkerIconInfo(
+                    assetPath: customerIcon,
+                  ),
+                  driverMarkerIconInfo: MarkerIconInfo(
+                    assetPath: driverIcon,
+                  ),
+                  driverCoordinatesStream: Stream.periodic(
+                    Duration(milliseconds: 500),
+                    (i) {
+                      return LatLng(
+                        store.currentStore.realtimeLocation.latitude,
+                        store.currentStore.realtimeLocation.longitude,
+                      );
+                    },
+                  ),
+                  sourceName: storeName,
+                  destinationName: customerName,
+                  driverName: driverName,
+                  totalTimeCallback: (time) => print(time),
+                  totalDistanceCallback: (distance) => print(distance),
                 ),
               ),
               information(
                 orderDetailHeight,
                 mapHeight,
-                activitiesNotifier.currentActivity,
+                activity.currentActivity,
               ),
             ],
           ),
@@ -168,7 +124,7 @@ class _ConfirmedOrderMapPageState extends State<ConfirmedOrderMapPage> {
   }
 
   Widget information(
-      double orderDetailHeight, double mapHeight, Activities activity) {
+      double orderDetailHeight, double mapHeight, Activity activity) {
     return Container(
       height: orderDetailHeight,
       width: MediaQuery.of(context).size.width,
@@ -187,7 +143,7 @@ class _ConfirmedOrderMapPageState extends State<ConfirmedOrderMapPage> {
               children: [
                 Container(
                   child: Text(
-                    'ยืนยันคำสั่งซื้อ',
+                    activity.orderStatus,
                     style: FontCollection.bodyTextStyle,
                   ),
                 ),
@@ -253,7 +209,8 @@ class _ConfirmedOrderMapPageState extends State<ConfirmedOrderMapPage> {
                                 },
                                 child: Text(
                                   'รายละเอียด',
-                                  style: FontCollection.underlineButtonTextStyle,
+                                  style:
+                                      FontCollection.underlineButtonTextStyle,
                                 ),
                               ),
                             ),

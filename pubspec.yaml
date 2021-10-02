@@ -66,6 +66,9 @@ flutter:
   assets:
     - assets/images/shop_test.jpg
     - assets/images/test.jpg
+    - assets/images/restaurant-marker-icon.png
+    - assets/images/house-marker-icon.png
+    - assets/images/driver-marker-icon.png
   #   - images/a_dot_ham.jpeg
 
   # An image asset can refer to one or more resolution-specific "variants", see

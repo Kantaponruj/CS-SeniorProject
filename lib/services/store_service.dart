@@ -95,7 +95,7 @@ Future<void> getDateAndTime(StoreNotifier storeNotifier, String storeId) async {
 
 String documentId;
 
-saveDeliveryOrder(String storeId, Activities activity) async {
+saveDeliveryOrder(String storeId, Activity activity) async {
   DocumentReference orderRefStore = firebaseFirestore
       .collection('stores')
       .doc(storeId)

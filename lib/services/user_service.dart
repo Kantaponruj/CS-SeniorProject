@@ -63,6 +63,7 @@ class UserService {
       .then((doc) => UserModel.fromSnapshot(doc));
 }
 
+// address
 Future<void> getAddress(AddressNotifier addressNotifier, String uid) async {
   QuerySnapshot snapshot = await firebaseFirestore
       .collection('users')
@@ -90,9 +91,11 @@ addAddress(AddressModel address, String uid, Function addAddress) async {
   addAddress(address);
 }
 
+// activities & histoy
+
 String orderId;
 
-saveActivityToHistory(String uid, String storeId, Activities activity) async {
+saveActivityToHistory(String uid, String storeId, Activity activity) async {
   DocumentReference orderRef = firebaseFirestore
       .collection('users')
       .doc(uid)
@@ -129,12 +132,20 @@ Future<void> getHistoryOrder(
       .collection('activities')
       .get();
 
-  List<Activities> _activityList = [];
+  List<Activity> _activityList = [];
 
   snapshot.docs.forEach((document) {
-    Activities activity = Activities.fromMap(document.data());
+    Activity activity = Activity.fromMap(document.data());
     _activityList.add(activity);
   });
 
   activitiesNotifier.activitiesList = _activityList;
 }
+
+Future<Activity> getActivityById(String uid) => firebaseFirestore
+    .collection('users')
+    .doc(uid)
+    .collection('activities')
+    .doc(orderId)
+    .get()
+    .then((doc) => Activity.fromMap(doc.data()));

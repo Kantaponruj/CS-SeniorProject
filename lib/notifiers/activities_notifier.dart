@@ -1,29 +1,30 @@
 import 'dart:collection';
 
+import 'package:cs_senior_project/services/user_service.dart';
 import 'package:cs_senior_project/models/activities.dart';
 import 'package:flutter/material.dart';
 
 class ActivitiesNotifier with ChangeNotifier {
-  List<Activities> _activitiesList = [];
-  Activities _currentActivity;
+  List<Activity> _activitiesList = [];
+  Activity _currentActivity;
 
   String _dateOrdered;
   String _timeOrdered;
 
-  UnmodifiableListView<Activities> get activitiesList =>
+  UnmodifiableListView<Activity> get activitiesList =>
       UnmodifiableListView(_activitiesList);
 
-  Activities get currentActivity => _currentActivity;
+  Activity get currentActivity => _currentActivity;
 
   String get dateOrdered => _dateOrdered;
   String get timeOrdered => _timeOrdered;
 
-  set activitiesList(List<Activities> activity) {
+  set activitiesList(List<Activity> activity) {
     _activitiesList = activity;
     notifyListeners();
   }
 
-  set currentActivity(Activities activity) {
+  set currentActivity(Activity activity) {
     _currentActivity = activity;
     notifyListeners();
   }
@@ -41,8 +42,8 @@ class ActivitiesNotifier with ChangeNotifier {
     _timeOrdered = null;
   }
 
-  // addActivity(Activities activity) {
-  //   _activitiesList.insert(0, activity);
-  //   notifyListeners();
-  // }
+  reloadActivityModel(String uid) async {
+    _currentActivity = await getActivityById(uid);
+    notifyListeners();
+  }
 }

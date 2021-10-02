@@ -93,7 +93,8 @@ class _ShopMenuState extends State<ShopMenu> {
               ),
               Padding(
                 padding: const EdgeInsets.only(left: 10),
-                child: chipInfo('จัดส่ง', CollectionsColors.yellow, Colors.black),
+                child:
+                    chipInfo('จัดส่ง', CollectionsColors.yellow, Colors.black),
               ),
               Padding(
                 padding: const EdgeInsets.only(left: 10),
@@ -527,22 +528,21 @@ class _ShopMenuState extends State<ShopMenu> {
 
   Widget chipInfo(
     String text,
-      Color color,
-      Color textColor,
+    Color color,
+    Color textColor,
   ) {
     return Container(
       padding: EdgeInsets.fromLTRB(20, 5, 20, 5),
       decoration: BoxDecoration(
-        borderRadius: BorderRadius.circular(50),
-        color: color,
+          borderRadius: BorderRadius.circular(50),
+          color: color,
           boxShadow: [
             BoxShadow(
               color: Colors.black.withOpacity(0.25),
               blurRadius: 4,
               offset: Offset(4, 4), // changes position of shadow
             ),
-          ]
-      ),
+          ]),
       child: Text(
         text,
         style: TextStyle(
@@ -553,24 +553,28 @@ class _ShopMenuState extends State<ShopMenu> {
     );
   }
 
-  Widget chipIconInfo(IconData icon, String text, Color color, Color textColor) {
+  Widget chipIconInfo(
+      IconData icon, String text, Color color, Color textColor) {
     return Container(
       padding: EdgeInsets.fromLTRB(10, 5, 10, 5),
       decoration: BoxDecoration(
-        borderRadius: BorderRadius.circular(50),
-        color: color,
-        boxShadow: [
-          BoxShadow(
-            color: Colors.black.withOpacity(0.25),
-            blurRadius: 4,
-            offset: Offset(4, 4), // changes position of shadow
-          ),
-        ]
-      ),
+          borderRadius: BorderRadius.circular(50),
+          color: color,
+          boxShadow: [
+            BoxShadow(
+              color: Colors.black.withOpacity(0.25),
+              blurRadius: 4,
+              offset: Offset(4, 4), // changes position of shadow
+            ),
+          ]),
       child: Row(
         mainAxisAlignment: MainAxisAlignment.center,
         children: [
-          Icon(icon, size: 20,color: textColor,),
+          Icon(
+            icon,
+            size: 20,
+            color: textColor,
+          ),
           Padding(
             padding: const EdgeInsets.only(left: 5),
             child: Text(

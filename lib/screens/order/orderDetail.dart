@@ -39,7 +39,7 @@ class _OrderDetailPageState extends State<OrderDetailPage> {
   DateFormat dateFormat = DateFormat('d MMMM y');
   DateFormat timeFormat = DateFormat.Hm('cs');
 
-  Activities _activities = Activities();
+  Activity _activities = Activity();
 
   TextEditingController otherMessageController = new TextEditingController();
 

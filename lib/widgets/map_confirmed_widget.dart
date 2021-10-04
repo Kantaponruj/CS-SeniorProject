@@ -14,7 +14,7 @@ class MapConfirmedWidet extends StatelessWidget {
     ActivitiesNotifier activity = Provider.of<ActivitiesNotifier>(context);
     StoreNotifier store = Provider.of<StoreNotifier>(context);
 
-    String timeOrdered = activity.currentActivity.timeOrdered;
+    // String timeOrdered = activity.currentActivity.timeOrdered;
 
     final routeColor = CollectionsColors.navy;
     final routeWidth = 5;
@@ -50,6 +50,7 @@ class MapConfirmedWidet extends StatelessWidget {
       driverCoordinatesStream: Stream.periodic(
         Duration(milliseconds: 500),
         (i) {
+          store.reloadStoreModel(store.currentStore.storeId);
           return LatLng(
             store.currentStore.realtimeLocation.latitude,
             store.currentStore.realtimeLocation.longitude,

@@ -8,6 +8,12 @@ import 'package:cs_senior_project/notifiers/store_notifier.dart';
 
 String collection = 'stores';
 
+Future<Store> getStoreById(String storeId) => firebaseFirestore
+    .collection(collection)
+    .doc(storeId)
+    .get()
+    .then((doc) => Store.fromMap(doc.data()));
+
 Future<void> getStores(StoreNotifier storeNotifier, String tapName) async {
   QuerySnapshot snapshot;
 

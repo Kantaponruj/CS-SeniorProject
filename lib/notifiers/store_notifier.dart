@@ -2,6 +2,7 @@ import 'dart:collection';
 
 import 'package:cs_senior_project/models/menu.dart';
 import 'package:cs_senior_project/models/store.dart';
+import 'package:cs_senior_project/services/store_service.dart';
 import 'package:flutter/material.dart';
 
 class StoreNotifier with ChangeNotifier {
@@ -57,6 +58,11 @@ class StoreNotifier with ChangeNotifier {
 
   set dateTimeList(List<StoreOpenDateTime> dateTime) {
     _dateTimeList = dateTime;
+    notifyListeners();
+  }
+
+  reloadStoreModel(String storeId) async {
+    _currentStore = await getStoreById(storeId);
     notifyListeners();
   }
 }

@@ -6,6 +6,7 @@ import 'package:cs_senior_project/notifiers/activities_notifier.dart';
 import 'package:cs_senior_project/notifiers/store_notifier.dart';
 import 'package:cs_senior_project/notifiers/user_notifier.dart';
 import 'package:cs_senior_project/screens/order/confirm_order.dart';
+import 'package:cs_senior_project/screens/order/confirm_order_detail.dart';
 import 'package:cs_senior_project/services/user_service.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
@@ -85,21 +86,22 @@ class _HistoryPageState extends State<HistoryPage> {
                                         'ยกเลิกคำสั่งซื้อ',
                                   ),
                                   onTap: () {
-                                    for (int i = 0;
-                                        i < stores.storeList.length;
-                                        i++) {
-                                      if (activity.storeId ==
-                                          stores.storeList[i].storeId) {
-                                        stores.currentStore =
-                                            stores.storeList[i];
-                                      }
-                                    }
                                     activities.currentActivity = activity;
+
+                                    if (activity.orderStatus ==
+                                        'ยืนยันการจัดส่ง') {
+                                      Navigator.of(context).push(
+                                        MaterialPageRoute(
+                                          builder: (context) =>
+                                              ConfirmedOrderMapPage(),
+                                        ),
+                                      );
+                                    }
+
                                     Navigator.of(context).push(
                                       MaterialPageRoute(
-                                        builder: (context) =>
-                                            ConfirmedOrderMapPage(),
-                                      ),
+                                          builder: (context) =>
+                                              ConfirmOrderDetail()),
                                     );
                                   },
                                 )
@@ -147,33 +149,17 @@ class _HistoryPageState extends State<HistoryPage> {
                                         'ยกเลิกคำสั่งซื้อ',
                                   ),
                                   onTap: () {
-                                    // activities.currentActivity =
-                                    //     activities.activitiesList[index];
+                                    activities.currentActivity = activity;
 
-                                    // for (int i = 0;
-                                    //     i < stores.storeList.length;
-                                    //     i++) {
-                                    //   if (activities.activitiesList[index].storeId ==
-                                    //       stores.storeList[i].storeId) {
-                                    //     stores.currentStore = stores.storeList[i];
-                                    //   }
-                                    // }
-
-                                    // Navigator.of(context).push(
-                                    //   MaterialPageRoute(
-                                    //     builder: (context) => ConfirmedOrderMapPage(),
-                                    //   ),
-                                    // );
-                                    // if (activities
-                                    //         .activitiesList[index].orderStatus ==
-                                    //     'ยืนยันการจัดส่ง') {
-                                    //   Navigator.of(context).push(
-                                    //     MaterialPageRoute(
-                                    //       builder: (context) =>
-                                    //           ConfirmedOrderMapPage(),
-                                    //     ),
-                                    //   );
-                                    // }
+                                    if (activity.orderStatus ==
+                                        'จัดส่งเรียบร้อยแล้ว') {
+                                      Navigator.of(context).push(
+                                        MaterialPageRoute(
+                                          builder: (context) =>
+                                              ConfirmOrderDetail(),
+                                        ),
+                                      );
+                                    }
                                   },
                                 )
                               : Container();

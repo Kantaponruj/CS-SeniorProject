@@ -76,22 +76,6 @@ class _BottomOrderDetailState extends State<BottomOrderDetail> {
             child: widget.child,
           ),
           Container(
-            margin: EdgeInsets.fromLTRB(0, 10, 0, 0),
-            child: Row(
-              mainAxisAlignment: MainAxisAlignment.spaceBetween,
-              children: [
-                Text(
-                  'ราคาสุทธิ',
-                  style: FontCollection.topicBoldTextStyle,
-                ),
-                Text(
-                  widget.netPrice + ' บาท',
-                  style: FontCollection.topicBoldTextStyle,
-                ),
-              ],
-            ),
-          ),
-          Container(
             margin: EdgeInsets.only(top: 20),
             child: StadiumButtonWidget(
                 text: 'ยืนยันการสั่งซื้อ', onClicked: widget.onClicked),

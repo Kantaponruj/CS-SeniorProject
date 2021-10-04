@@ -1,9 +1,9 @@
 import 'package:auto_size_text/auto_size_text.dart';
 import 'package:cs_senior_project/asset/color.dart';
 import 'package:cs_senior_project/asset/text_style.dart';
+import 'package:cs_senior_project/component/bottomBar.dart';
 import 'package:cs_senior_project/component/orderCard.dart';
 import 'package:cs_senior_project/component/shopAppBar.dart';
-import 'package:cs_senior_project/component/textformfiled.dart';
 import 'package:cs_senior_project/models/activities.dart';
 import 'package:cs_senior_project/models/order.dart';
 import 'package:cs_senior_project/notifiers/activities_notifier.dart';
@@ -64,7 +64,12 @@ class _ConfirmOrderDetailState extends State<ConfirmOrderDetail> {
       backgroundColor: CollectionsColors.grey,
       appBar: ShopRoundedAppBar(
         appBarTitle: activity.currentActivity.storeName,
-        onClicked2: () {
+        automaticallyImplyLeading: false,
+        leading: IconButton(icon: Icon(Icons.arrow_back), onPressed: () {
+          Navigator.of(context).pushReplacement(
+              MaterialPageRoute(builder: (context) => bottomBar()));
+        },),
+        onClicked: () {
           Navigator.of(context).push(MaterialPageRoute(
             builder: (context) => ShopDetail(),
           ));
@@ -80,7 +85,7 @@ class _ConfirmOrderDetailState extends State<ConfirmOrderDetail> {
                 margin: EdgeInsets.only(),
                 child: customerDeliCard(
                   activity.currentActivity.customerName,
-                  activity.currentActivity.customerName,
+                  activity.currentActivity.phone,
                   activity.currentActivity.address,
                 ),
               ),

@@ -62,24 +62,22 @@ class _ConfirmedOrderMapPageState extends State<ConfirmedOrderMapPage> {
     final orderDetailHeight = MediaQuery.of(context).size.height / 3;
     final mapHeight = MediaQuery.of(context).size.height - (orderDetailHeight);
 
-    return SafeArea(
-      child: Scaffold(
-        extendBodyBehindAppBar: true,
-        appBar: RoundedAppBar(
-          appBarTitle: 'สถานะการจัดส่ง',
-        ),
-        body: Container(
-          margin: EdgeInsets.fromLTRB(0, 60, 0, 0),
-          child: Stack(
-            children: [
-              Container(
-                height: mapHeight,
-                child: MapConfirmedWidet(),
-              ),
-              information(orderDetailHeight, mapHeight,
-                  activity.currentActivity, activity.arrivableTime),
-            ],
-          ),
+    return Scaffold(
+      extendBodyBehindAppBar: true,
+      appBar: RoundedAppBar(
+        appBarTitle: 'สถานะการจัดส่ง',
+      ),
+      body: Container(
+        margin: EdgeInsets.fromLTRB(0, 60, 0, 0),
+        child: Stack(
+          children: [
+            Container(
+              height: mapHeight,
+              child: MapConfirmedWidet(),
+            ),
+            information(orderDetailHeight, mapHeight,
+                activity.currentActivity, activity.arrivableTime),
+          ],
         ),
       ),
     );
@@ -213,17 +211,8 @@ class _ConfirmedOrderMapPageState extends State<ConfirmedOrderMapPage> {
             ),
           ),
           StadiumButtonWidget(
-            text: activity.orderStatus == 'จัดส่งเรียบร้อยแล้ว'
-                ? 'กลับหน้าโฮม'
-                : 'โทร',
+            text: 'โทร',
             onClicked: () {
-              setState(() {
-                if (activity.orderStatus == 'จัดส่งเรียบร้อยแล้ว') {
-                  orderStatus = true;
-                  Navigator.of(context).pushReplacement(
-                      MaterialPageRoute(builder: (context) => bottomBar()));
-                }
-              });
             },
           ),
         ],

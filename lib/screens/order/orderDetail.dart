@@ -109,7 +109,7 @@ class _OrderDetailPageState extends State<OrderDetailPage> {
       backgroundColor: CollectionsColors.grey,
       appBar: ShopRoundedAppBar(
         appBarTitle: storeNotifier.currentStore.storeName,
-        onClicked2: () {
+        onClicked: () {
           Navigator.of(context).push(MaterialPageRoute(
             builder: (context) => ShopDetail(),
           ));

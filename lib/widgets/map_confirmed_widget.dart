@@ -61,11 +61,12 @@ class MapConfirmedWidet extends StatelessWidget {
       driverName: driverName,
       totalTimeCallback: (time) {
         String estimateTime = time.substring(0, 2);
-        String orderTime = timeOrdered.substring(timeOrdered.length - 2);
-        activity.calculateEstimateTime(
-          int.parse(estimateTime),
-          int.parse(orderTime),
-        );
+        activity.getArrivableTime(estimateTime);
+        // String orderTime = timeOrdered.substring(timeOrdered.length - 2);
+        // activity.calculateEstimateTime(
+        //   int.parse(estimateTime),
+        //   int.parse(orderTime),
+        // );
       },
       totalDistanceCallback: (distance) => print(distance),
     );

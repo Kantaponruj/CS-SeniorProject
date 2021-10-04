@@ -62,16 +62,16 @@ class ActivitiesNotifier with ChangeNotifier {
     _arrivableTime = time;
   }
 
-  calculateEstimateTime(int estimateTime, int timeOrdered) {
-    int arrivableTime;
-    arrivableTime = estimateTime + timeOrdered;
+  // calculateEstimateTime(int estimateTime, int timeOrdered) {
+  //   int arrivableTime;
+  //   arrivableTime = estimateTime + timeOrdered;
 
-    if (arrivableTime == 60) {
-      arrivableTime = 00;
-    } else if (arrivableTime > 60) {
-      arrivableTime = estimateTime;
-    }
+  //   if (arrivableTime == 60) {
+  //     arrivableTime = 00;
+  //   } else if (arrivableTime > 60) {
+  //     arrivableTime = estimateTime;
+  //   }
 
-    _arrivableTime = arrivableTime.toString();
-  }
+  //   _arrivableTime = arrivableTime.toString();
+  // }
 }

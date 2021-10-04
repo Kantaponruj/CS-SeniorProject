@@ -20,7 +20,7 @@ class ConfirmedOrderMapPage extends StatefulWidget {
 }
 
 class _ConfirmedOrderMapPageState extends State<ConfirmedOrderMapPage> {
-  int arrivableTime;
+  // int arrivableTime;
   bool orderStatus;
 
   @override
@@ -47,13 +47,13 @@ class _ConfirmedOrderMapPageState extends State<ConfirmedOrderMapPage> {
     });
   }
 
-  void calculateEstimateTime(int estimateTime, int timeOrdered) {
-    arrivableTime = estimateTime + timeOrdered;
+  // void calculateEstimateTime(int estimateTime, int timeOrdered) {
+  //   arrivableTime = estimateTime + timeOrdered;
 
-    if (arrivableTime >= 60) {
-      arrivableTime = 00;
-    }
-  }
+  //   if (arrivableTime >= 60) {
+  //     arrivableTime = 00;
+  //   }
+  // }
 
   @override
   Widget build(BuildContext context) {
@@ -111,10 +111,11 @@ class _ConfirmedOrderMapPageState extends State<ConfirmedOrderMapPage> {
                 ),
                 Container(
                   child: Text(
-                    arrivableTime != null
-                        ? 'จะได้รับในเวลา ${activity.timeOrdered.substring(0, 3)}' +
-                            arrivableTime
-                        : '',
+                    'จะได้รับภายใน ${arrivableTime} นาที',
+                    // arrivableTime != null
+                    //     ? 'จะได้รับในเวลา ${activity.timeOrdered.substring(0, 3)}' +
+                    //         arrivableTime
+                    //     : '',
                     style: FontCollection.topicTextStyle,
                   ),
                 ),

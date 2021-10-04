@@ -8,6 +8,7 @@ import 'package:cs_senior_project/notifiers/user_notifier.dart';
 import 'package:cs_senior_project/screens/address/add_address.dart';
 import 'package:cs_senior_project/screens/login.dart';
 import 'package:cs_senior_project/screens/order/confirm_order.dart';
+import 'package:cs_senior_project/screens/order/confirm_order_detail.dart';
 import 'package:cs_senior_project/screens/order/orderDetail.dart';
 import 'package:cs_senior_project/screens/shop/menu/menu_detail.dart';
 import 'package:cs_senior_project/screens/shop/shop_detail.dart';
@@ -56,6 +57,7 @@ void main() async {
           // '/manageAddress': (context) => ManageAddress(),
           '/addAddress': (context) => AddAddress(),
           // '/setAddress': (context) => Address(),
+          '/confirmOrderDetail': (context) => ConfirmOrderDetail(),
         },
       )));
 }

@@ -86,6 +86,15 @@ class _HistoryPageState extends State<HistoryPage> {
                                         'ยกเลิกคำสั่งซื้อ',
                                   ),
                                   onTap: () {
+                                    for (int i = 0;
+                                        i < stores.storeList.length;
+                                        i++) {
+                                      if (activity.storeId ==
+                                          stores.storeList[i].storeId) {
+                                        stores.currentStore =
+                                            stores.storeList[i];
+                                      }
+                                    }
                                     activities.currentActivity = activity;
 
                                     if (activity.orderStatus ==

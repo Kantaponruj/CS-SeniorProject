@@ -18,6 +18,7 @@ class Activity {
   String storeImage;
   String kindOfFood;
   String orderStatus;
+  String amountOfMenu;
 
   Activity();
 
@@ -39,7 +40,8 @@ class Activity {
       'storeName': storeName,
       'storeImage': storeImage,
       'kindOfFood': kindOfFood,
-      'orderStatus': orderStatus
+      'orderStatus': orderStatus,
+      'amountOfMenu': amountOfMenu
     };
   }
 

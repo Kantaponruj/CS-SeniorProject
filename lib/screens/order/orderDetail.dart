@@ -102,6 +102,7 @@ class _OrderDetailPageState extends State<OrderDetailPage> {
     _activities.storeImage = storeNotifier.currentStore.image;
     _activities.kindOfFood = storeNotifier.currentStore.kindOfFood;
     _activities.orderStatus = "กำลังดำเนินการ";
+    _activities.amountOfMenu = orderNotifier.orderList.length.toString();
 
     return Scaffold(
       extendBodyBehindAppBar: true,

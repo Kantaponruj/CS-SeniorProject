@@ -44,7 +44,6 @@ class _ConfirmedOrderMapPageState extends State<ConfirmedOrderMapPage> {
     }
     Future.delayed(Duration(seconds: 2), () {
       checkStatus();
-      // print('check');
     });
   }
 
@@ -210,66 +209,6 @@ class _ConfirmedOrderMapPageState extends State<ConfirmedOrderMapPage> {
               ],
             ),
           ),
-          // Container(
-          //   child: Row(
-          //     children: [
-          //       Expanded(
-          //         flex: 3,
-          //         child: Container(
-          //           child: Text(
-          //             'เวลาสั่งซื้อ',
-          //             style: FontCollection.bodyTextStyle,
-          //           ),
-          //         ),
-          //       ),
-          //       Expanded(
-          //         flex: 6,
-          //         child: Container(
-          //           margin: EdgeInsets.only(left: 10),
-          //           child: Text(
-          //             activity.dateOrdered,
-          //             style: FontCollection.bodyTextStyle,
-          //           ),
-          //         ),
-          //       ),
-          //       Expanded(
-          //         flex: 3,
-          //         child: Container(
-          //           child: Text(
-          //             '${activity.timeOrdered} น.',
-          //             style: FontCollection.bodyTextStyle,
-          //           ),
-          //         ),
-          //       ),
-          //     ],
-          //   ),
-          // ),
-          // Container(
-          //   child: Row(
-          //     children: [
-          //       Expanded(
-          //         flex: 3,
-          //         child: Container(
-          //           child: Text(
-          //             'สถานที่',
-          //             style: FontCollection.bodyTextStyle,
-          //           ),
-          //         ),
-          //       ),
-          //       Expanded(
-          //         flex: 9,
-          //         child: Container(
-          //           margin: EdgeInsets.only(left: 10),
-          //           child: AutoSizeText(
-          //             activity.address,
-          //             style: FontCollection.bodyTextStyle,
-          //             maxLines: 2,
-          //           ),
-          //         ),
-          //       ),
-          //     ],
-          //   ),
-          // ),
           StadiumButtonWidget(
             text: activity.orderStatus == 'จัดส่งเรียบร้อยแล้ว'
                 ? 'กลับหน้าโฮม'

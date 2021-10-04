@@ -1,11 +1,13 @@
 import 'dart:collection';
 
+import 'package:cs_senior_project/models/order.dart';
 import 'package:cs_senior_project/services/user_service.dart';
 import 'package:cs_senior_project/models/activities.dart';
 import 'package:flutter/material.dart';
 
 class ActivitiesNotifier with ChangeNotifier {
   List<Activity> _activitiesList = [];
+  List<OrderModel> _orderMenuList = [];
   Activity _currentActivity;
 
   String _dateOrdered;
@@ -14,6 +16,8 @@ class ActivitiesNotifier with ChangeNotifier {
 
   UnmodifiableListView<Activity> get activitiesList =>
       UnmodifiableListView(_activitiesList);
+
+  List<OrderModel> get orderMenuList => _orderMenuList;
 
   Activity get currentActivity => _currentActivity;
 
@@ -28,6 +32,11 @@ class ActivitiesNotifier with ChangeNotifier {
 
   set currentActivity(Activity activity) {
     _currentActivity = activity;
+    notifyListeners();
+  }
+
+  set orderMenuList(List<OrderModel> orderMenuList) {
+    _orderMenuList = orderMenuList;
     notifyListeners();
   }
 

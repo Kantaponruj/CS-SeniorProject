@@ -91,7 +91,7 @@ class _OrderDetailPageState extends State<OrderDetailPage> {
             ? GeoPoint(locationNotifier.currentPosition.latitude,
                 locationNotifier.currentPosition.longitude)
             : userNotifier.userModel.selectedAddress['geoPoint'];
-    _activities.message = otherMessageController.text.trim() ?? "";
+    _activities.message = otherMessageController.text ?? "";
     _activities.dateOrdered =
         activitiesNotifier.dateOrdered ?? dateFormat.format(now);
     _activities.timeOrdered =
@@ -268,8 +268,9 @@ class _OrderDetailPageState extends State<OrderDetailPage> {
                     ),
                   ),
                   BuildTextField(
-                      textEditingController: otherMessageController,
-                      hintText: 'ใส่ข้อความตรงนี้'),
+                    textEditingController: otherMessageController,
+                    hintText: 'ใส่ข้อความตรงนี้',
+                  ),
                 ],
               ),
               netPrice: orderNotifier.netPrice.toString(),

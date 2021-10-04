@@ -3,13 +3,14 @@ import 'package:cs_senior_project/asset/color.dart';
 import 'package:cs_senior_project/asset/text_style.dart';
 import 'package:cs_senior_project/component/orderCard.dart';
 import 'package:cs_senior_project/component/shopAppBar.dart';
+import 'package:cs_senior_project/component/textformfiled.dart';
 import 'package:cs_senior_project/models/activities.dart';
-import 'package:cs_senior_project/notifiers/order_notifier.dart';
-import 'package:cs_senior_project/notifiers/store_notifier.dart';
+import 'package:cs_senior_project/models/order.dart';
+import 'package:cs_senior_project/notifiers/activities_notifier.dart';
 import 'package:cs_senior_project/notifiers/user_notifier.dart';
 import 'package:cs_senior_project/screens/shop/shop_detail.dart';
+import 'package:cs_senior_project/services/user_service.dart';
 import 'package:flutter/material.dart';
-import 'package:intl/intl.dart';
 import 'package:provider/provider.dart';
 
 class ConfirmOrderDetail extends StatefulWidget {
@@ -23,58 +24,46 @@ class ConfirmOrderDetail extends StatefulWidget {
 
 class _ConfirmOrderDetailState extends State<ConfirmOrderDetail> {
   int totalPrice = 0;
-  DateTime now = new DateTime.now();
-  DateFormat dateFormat = DateFormat('d MMMM y');
-  DateFormat timeFormat = DateFormat.Hm('cs');
-
-  Activity _activities = Activity();
 
   TextEditingController otherMessageController = new TextEditingController();
 
   @override
   void initState() {
-    UserNotifier userNotifier =
-        Provider.of<UserNotifier>(context, listen: false);
-    OrderNotifier orderNotifier =
-        Provider.of<OrderNotifier>(context, listen: false);
-
-    for (int i = 0; i < orderNotifier.orderList.length; i++) {
-      if (orderNotifier.orderList[i].storeId == widget.storeId) {
-        totalPrice += int.parse(orderNotifier.orderList[i].totalPrice);
-        orderNotifier.getNetPrice(totalPrice);
-      }
-    }
-
-    userNotifier.reloadUserModel();
+    UserNotifier user = Provider.of<UserNotifier>(context, listen: false);
+    ActivitiesNotifier activity =
+        Provider.of<ActivitiesNotifier>(context, listen: false);
+    getOrderMenu(
+        activity, user.userModel.uid, activity.currentActivity.orderId);
+    user.reloadUserModel();
     checkStatus();
     super.initState();
   }
 
   Future<void> checkStatus() async {
-
-    // if (activity.currentActivity.orderStatus == 'จัดส่งเรียบร้อยแล้ว') {
-    //   Navigator.of(context).pushReplacementNamed('/confirmOrder');
-    // }
+    ActivitiesNotifier activity =
+        Provider.of<ActivitiesNotifier>(context, listen: false);
+    UserNotifier user = Provider.of<UserNotifier>(context, listen: false);
+    activity.reloadActivityModel(
+      user.userModel.uid,
+      activity.currentActivity.orderId,
+    );
+    if (activity.currentActivity.orderStatus == 'ยืนยันการจัดส่ง') {
+      Navigator.of(context).pushReplacementNamed('/confirmOrder');
+    }
     Future.delayed(Duration(seconds: 2), () {
       checkStatus();
     });
   }
 
-  bool check = true;
-
   @override
   Widget build(BuildContext context) {
-    UserNotifier userNotifier = Provider.of<UserNotifier>(context);
-    StoreNotifier storeNotifier = Provider.of<StoreNotifier>(context);
-    OrderNotifier orderNotifier = Provider.of<OrderNotifier>(context);
+    ActivitiesNotifier activity = Provider.of<ActivitiesNotifier>(context);
 
     return Scaffold(
       extendBodyBehindAppBar: true,
       backgroundColor: CollectionsColors.grey,
       appBar: ShopRoundedAppBar(
-        appBarTitle:
-            // storeNotifier.currentStore.storeName,
-            '200',
+        appBarTitle: activity.currentActivity.storeName,
         onClicked2: () {
           Navigator.of(context).push(MaterialPageRoute(
             builder: (context) => ShopDetail(),
@@ -90,12 +79,9 @@ class _ConfirmOrderDetailState extends State<ConfirmOrderDetail> {
               Container(
                 margin: EdgeInsets.only(),
                 child: customerDeliCard(
-                  // _activities.customerName,
-                  // _activities.phone,
-                  // _activities.address
-                  '200',
-                  '200',
-                  '200' ?? 'โปรดระบุที่อยู่',
+                  activity.currentActivity.customerName,
+                  activity.currentActivity.customerName,
+                  activity.currentActivity.address,
                 ),
               ),
               // deliTimeCard(_activities.dateOrdered, _activities.timeOrdered),
@@ -112,9 +98,12 @@ class _ConfirmOrderDetailState extends State<ConfirmOrderDetail> {
                           shrinkWrap: true,
                           padding: EdgeInsets.zero,
                           physics: NeverScrollableScrollPhysics(),
-                          itemCount: 2,
+                          itemCount: activity.orderMenuList.length,
                           itemBuilder: (context, index) {
-                            return (check) ? listOrder() : Container();
+                            return listOrder(
+                              activity.orderMenuList[index],
+                              activity.currentActivity,
+                            );
                           },
                         ),
                       ),
@@ -134,8 +123,7 @@ class _ConfirmOrderDetailState extends State<ConfirmOrderDetail> {
                               child: Container(
                                 alignment: Alignment.centerRight,
                                 child: Text(
-                                  // orderNotifier.netPrice.toString(),
-                                  '200',
+                                  activity.currentActivity.netPrice,
                                   style: FontCollection.bodyBoldTextStyle,
                                 ),
                               ),
@@ -158,6 +146,22 @@ class _ConfirmOrderDetailState extends State<ConfirmOrderDetail> {
                 ),
                 canEdit: false,
               ),
+              BuildCard(
+                headerText: 'ข้อความเพิ่มเติม',
+                onClicked: () {},
+                child: Container(
+                  alignment: Alignment.centerLeft,
+                  margin: EdgeInsets.symmetric(horizontal: 20, vertical: 20),
+                  child: Expanded(
+                    flex: 6,
+                    child: Text(
+                      activity.currentActivity.message,
+                      style: FontCollection.bodyTextStyle,
+                    ),
+                  ),
+                ),
+                canEdit: false,
+              ),
               // orderFinish ? SizedBox.shrink() : BuildTextFiled(textEditingController: textEditingController, hintText: hintText),
               Container(
                 margin: EdgeInsets.only(top: 20),
@@ -176,10 +180,7 @@ class _ConfirmOrderDetailState extends State<ConfirmOrderDetail> {
     );
   }
 
-  Widget listOrder() {
-    StoreNotifier storeNotifier = Provider.of<StoreNotifier>(context);
-    OrderNotifier orderNotifier = Provider.of<OrderNotifier>(context);
-
+  Widget listOrder(OrderModel order, Activity activity) {
     return Container(
       padding: EdgeInsets.zero,
       margin: EdgeInsets.zero,
@@ -192,8 +193,7 @@ class _ConfirmOrderDetailState extends State<ConfirmOrderDetail> {
                 child: Container(
                   alignment: Alignment.center,
                   child: Text(
-                    // order.amount.toString(),
-                    '200',
+                    order.amount.toString(),
                     style: FontCollection.bodyBoldTextStyle,
                   ),
                 ),
@@ -201,8 +201,7 @@ class _ConfirmOrderDetailState extends State<ConfirmOrderDetail> {
               Expanded(
                 flex: 6,
                 child: Text(
-                  // order.menuName,
-                  'sdasd',
+                  order.menuName,
                   style: FontCollection.bodyTextStyle,
                 ),
               ),
@@ -211,8 +210,7 @@ class _ConfirmOrderDetailState extends State<ConfirmOrderDetail> {
                 child: Container(
                   alignment: Alignment.centerRight,
                   child: Text(
-                    // order.totalPrice,
-                    '200',
+                    order.totalPrice,
                     style: FontCollection.bodyTextStyle,
                   ),
                 ),
@@ -229,8 +227,7 @@ class _ConfirmOrderDetailState extends State<ConfirmOrderDetail> {
               ),
             ],
           ),
-          check
-              // order.topping.isEmpty
+          order.topping.isEmpty
               ? SizedBox.shrink()
               : Container(
                   margin: EdgeInsets.only(top: 10),
@@ -246,8 +243,7 @@ class _ConfirmOrderDetailState extends State<ConfirmOrderDetail> {
                             flex: 10,
                             child: Row(children: [
                               Text(
-                                // order.topping.join(', '),
-                                '200',
+                                order.topping.join(', '),
                                 style: TextStyle(
                                   fontWeight: FontWeight.w400,
                                   fontSize: smallestSize,
@@ -258,17 +254,6 @@ class _ConfirmOrderDetailState extends State<ConfirmOrderDetail> {
                           ),
                         ],
                       ),
-                      // order.other.isEmpty
-                      check
-                          ? SizedBox.shrink()
-                          : Container(
-                              alignment: Alignment.centerLeft,
-                              child: Text(
-                                // order.other,
-                                '200',
-                                style: FontCollection.bodyTextStyle,
-                              ),
-                            ),
                     ],
                   ),
                 ),

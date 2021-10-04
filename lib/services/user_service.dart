@@ -6,6 +6,7 @@ import 'package:cs_senior_project/models/order.dart';
 import 'package:cs_senior_project/models/user.dart';
 import 'package:cs_senior_project/notifiers/activities_notifier.dart';
 import 'package:cs_senior_project/notifiers/address_notifier.dart';
+import 'package:cs_senior_project/notifiers/order_notifier.dart';
 import 'package:cs_senior_project/services/store_service.dart';
 
 class UserService {
@@ -92,7 +93,6 @@ addAddress(AddressModel address, String uid, Function addAddress) async {
 }
 
 // activities & histoy
-
 String orderId;
 
 saveActivityToHistory(String uid, String storeId, Activity activity) async {
@@ -140,6 +140,29 @@ Future<void> getHistoryOrder(
   });
 
   activitiesNotifier.activitiesList = _activityList;
+}
+
+Future<void> getOrderMenu(
+  ActivitiesNotifier activitiesNotifier,
+  String uid,
+  String activityId,
+) async {
+  QuerySnapshot snapshot = await firebaseFirestore
+      .collection('users')
+      .doc(uid)
+      .collection('activities')
+      .doc(activityId)
+      .collection('orders')
+      .get();
+
+  List<OrderModel> _orderMenuList = [];
+
+  snapshot.docs.forEach((document) {
+    OrderModel order = OrderModel.fromMap(document.data());
+    _orderMenuList.add(order);
+  });
+
+  activitiesNotifier.orderMenuList = _orderMenuList;
 }
 
 Future<Activity> getActivityById(String uid, String activityId) =>

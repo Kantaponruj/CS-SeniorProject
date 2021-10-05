@@ -36,7 +36,6 @@ class _ShopMenuState extends State<ShopMenu> {
   List categories = [];
 
   Favorite _favorite = Favorite();
-  int _favIndex;
   bool _isFavorite = false;
 
   @override
@@ -57,12 +56,10 @@ class _ShopMenuState extends State<ShopMenu> {
         if (favNotifier.favoriteList[i].storeId ==
             storeNotifier.currentStore.storeId) {
           _isFavorite = true;
-          _favIndex = i;
           break;
         }
       }
     }
-    print(_favIndex);
     activity.resetDateTimeOrdered();
     super.initState();
   }
@@ -70,17 +67,40 @@ class _ShopMenuState extends State<ShopMenu> {
   _onSaveFavorite(Favorite favorite) {
     FavoriteNotifier favNotifier =
         Provider.of<FavoriteNotifier>(context, listen: false);
-    _isFavorite = true;
     favNotifier.addFavorite(favorite);
-    print(_isFavorite);
   }
 
   _onDeleteFavorite(Favorite favorite) {
     FavoriteNotifier favNotifier =
         Provider.of<FavoriteNotifier>(context, listen: false);
-    _isFavorite = false;
     favNotifier.deleteFavorite(favorite);
-    print(_isFavorite);
+  }
+
+  handleSaveFav(StoreNotifier store, UserNotifier user) {
+    _isFavorite = !_isFavorite;
+    _favorite.storeId = store.currentStore.storeId;
+    saveFavoriteStore(
+      _favorite,
+      user.user.uid,
+      _onSaveFavorite,
+    );
+  }
+
+  handleDeleteFav(
+    StoreNotifier store,
+    UserNotifier user,
+    FavoriteNotifier fav,
+  ) {
+    _isFavorite = !_isFavorite;
+    for (int i = 0; i < fav.favoriteList.length; i++) {
+      if (fav.favoriteList[i].storeId == store.currentStore.storeId) {
+        deleteFavoriteStore(
+          fav.favoriteList[i],
+          _onDeleteFavorite,
+          user.user.uid,
+        );
+      }
+    }
   }
 
   @override
@@ -118,21 +138,10 @@ class _ShopMenuState extends State<ShopMenu> {
             builder: (context) => ShopDetail(),
           ));
         },
+        onSaved: () => _isFavorite
+            ? handleDeleteFav(storeNotifier, userNotifier, favNotifier)
+            : handleSaveFav(storeNotifier, userNotifier),
         isFavorite: _isFavorite,
-        onSaved: () {
-          _favorite.storeId = storeNotifier.currentStore.storeId;
-          _isFavorite
-              ? deleteFavoriteStore(
-                  favNotifier.favoriteList[_favIndex],
-                  _onDeleteFavorite,
-                  userNotifier.user.uid,
-                )
-              : saveFavoriteStore(
-                  _favorite,
-                  userNotifier.user.uid,
-                  _onSaveFavorite,
-                );
-        },
         child: Container(
           height: MediaQuery.of(context).size.height,
           // margin: EdgeInsets.only(top: appBarHeight),

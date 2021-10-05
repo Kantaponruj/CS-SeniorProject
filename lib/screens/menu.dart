@@ -6,6 +6,7 @@ import 'package:cs_senior_project/asset/text_style.dart';
 import 'package:cs_senior_project/notifiers/order_notifier.dart';
 import 'package:cs_senior_project/notifiers/user_notifier.dart';
 import 'package:cs_senior_project/screens/login.dart';
+import 'package:cs_senior_project/screens/menu/favorite.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 
@@ -59,7 +60,12 @@ class _MenuPageState extends State<MenuPage> {
               menuCard(
                 Icons.bookmark_border,
                 'บันทึก',
-                () {},
+                () {
+                  Navigator.of(context).push(MaterialPageRoute(
+                    builder: (context) =>
+                        FavoritePage(uid: userNotifier.user.uid),
+                  ));
+                },
               ),
               menuCard(
                 Icons.calendar_today,

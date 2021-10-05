@@ -37,7 +37,7 @@ class TapWidget extends StatelessWidget {
           children: [
             Padding(
               padding: const EdgeInsets.only(bottom: 10),
-              child: buildStore(store, context, storeNotifier, index),
+              child: buildStore(store, context, storeNotifier),
             )
           ],
         );
@@ -45,8 +45,7 @@ class TapWidget extends StatelessWidget {
     );
   }
 
-  Widget buildStore(
-          Store store, context, StoreNotifier storeNotifier, int index) =>
+  Widget buildStore(Store store, context, StoreNotifier storeNotifier) =>
       ListTile(
           leading: Container(
             width: 60,
@@ -82,7 +81,7 @@ class TapWidget extends StatelessWidget {
           onTap: () {
             storeNotifier.currentStore = store;
             Navigator.of(context).push(MaterialPageRoute(
-              builder: (context) => ShopMenu(storeIndex: index),
+              builder: (context) => ShopMenu(),
             ));
           });
 }

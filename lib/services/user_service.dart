@@ -2,10 +2,12 @@ import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:cs_senior_project/asset/constant.dart';
 import 'package:cs_senior_project/models/activities.dart';
 import 'package:cs_senior_project/models/address.dart';
+import 'package:cs_senior_project/models/favorite.dart';
 import 'package:cs_senior_project/models/order.dart';
 import 'package:cs_senior_project/models/user.dart';
 import 'package:cs_senior_project/notifiers/activities_notifier.dart';
 import 'package:cs_senior_project/notifiers/address_notifier.dart';
+import 'package:cs_senior_project/notifiers/favorite_notifier.dart';
 import 'package:cs_senior_project/notifiers/order_notifier.dart';
 import 'package:cs_senior_project/services/store_service.dart';
 
@@ -173,3 +175,43 @@ Future<Activity> getActivityById(String uid, String activityId) =>
         .doc(orderId ?? activityId)
         .get()
         .then((doc) => Activity.fromMap(doc.data()));
+
+// favorite store
+saveFavoriteStore(Favorite favorite, String uid, Function saveFavorite) async {
+  CollectionReference favRef =
+      firebaseFirestore.collection('users').doc(uid).collection('favorites');
+
+  DocumentReference docRef = await favRef.add(favorite.toMap());
+  favorite.favId = docRef.id;
+  await docRef.set(favorite.toMap(), SetOptions(merge: true));
+
+  saveFavorite(favorite);
+}
+
+deleteFavoriteStore(Favorite favorite, Function deleteFav, String uid) async {
+  await FirebaseFirestore.instance
+      .collection('users')
+      .doc(uid)
+      .collection('favorites')
+      .doc(favorite.favId)
+      .delete();
+
+  deleteFav(favorite);
+}
+
+Future<void> getFavoriteStores(FavoriteNotifier favNotifier, String uid) async {
+  QuerySnapshot snapshot = await firebaseFirestore
+      .collection('users')
+      .doc(uid)
+      .collection('favorites')
+      .get();
+
+  List<Favorite> _favoriteList = [];
+
+  snapshot.docs.forEach((document) {
+    Favorite favorite = Favorite.fromMap(document.data());
+    _favoriteList.add(favorite);
+  });
+
+  favNotifier.favoriteList = _favoriteList;
+}

@@ -22,7 +22,7 @@ class FavoriteNotifier with ChangeNotifier {
   // }
 
   addFavorite(Favorite favorite) {
-    _favoriteList.add(favorite);
+    _favoriteList.insert(_favoriteList.length, favorite);
     notifyListeners();
   }
 

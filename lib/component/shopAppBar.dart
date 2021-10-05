@@ -1,17 +1,16 @@
 import 'package:cs_senior_project/asset/text_style.dart';
-import 'package:cs_senior_project/main.dart';
-import 'package:cs_senior_project/screens/home.dart';
 import 'package:flutter/material.dart';
 
 class ShopRoundedAppBar extends StatefulWidget implements PreferredSizeWidget {
-  ShopRoundedAppBar(
-      {Key key,
-      this.appBarTitle,
-      this.subTitle,
-      this.leading,
-      this.onClicked,
-      this.child,this.automaticallyImplyLeading = true,})
-      : preferredSize =
+  ShopRoundedAppBar({
+    Key key,
+    this.appBarTitle,
+    this.subTitle,
+    this.leading,
+    this.onClicked,
+    this.child,
+    this.automaticallyImplyLeading = true,
+  })  : preferredSize =
             child == null ? Size.fromHeight(80) : Size.fromHeight(140),
         super(key: key);
 
@@ -91,21 +90,23 @@ class _ShopRoundedAppBarState extends State<ShopRoundedAppBar> {
 
 class ShopRoundedFavAppBar extends StatefulWidget
     implements PreferredSizeWidget {
-  ShopRoundedFavAppBar(
-      {Key key,
-      this.appBarTitle,
-      this.subTitle,
-      this.onClicked,
-      this.onClicked2,
-      this.child})
-      : preferredSize = Size.fromHeight(160),
+  ShopRoundedFavAppBar({
+    Key key,
+    this.appBarTitle,
+    this.subTitle,
+    this.onSaved,
+    this.onClicked,
+    this.isFavorite,
+    this.child,
+  })  : preferredSize = Size.fromHeight(160),
         super(key: key);
 
   final Size preferredSize;
   final String appBarTitle;
   final String subTitle;
+  final VoidCallback onSaved;
   final VoidCallback onClicked;
-  final VoidCallback onClicked2;
+  final bool isFavorite;
   final Widget child;
   double appbarHeight = 80.0;
 
@@ -164,11 +165,14 @@ class _ShopRoundedFavAppBarState extends State<ShopRoundedFavAppBar> {
           // titleSpacing: 20,
           actions: [
             IconButton(
-              onPressed: widget.onClicked,
-              icon: Icon(Icons.bookmark),
+              padding: EdgeInsets.only(right: 0),
+              icon: widget.isFavorite
+                  ? Icon(Icons.book_online)
+                  : Icon(Icons.bookmark_border_outlined),
+              onPressed: widget.onSaved,
             ),
             IconButton(
-              onPressed: widget.onClicked2,
+              onPressed: widget.onClicked,
               icon: Icon(Icons.info),
             ),
           ],

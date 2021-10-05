@@ -4,21 +4,24 @@ import 'package:cs_senior_project/asset/constant.dart';
 import 'package:cs_senior_project/asset/text_style.dart';
 import 'package:cs_senior_project/component/orderCard.dart';
 import 'package:cs_senior_project/component/shopAppBar.dart';
+import 'package:cs_senior_project/models/favorite.dart';
 import 'package:cs_senior_project/notifiers/activities_notifier.dart';
+import 'package:cs_senior_project/notifiers/favorite_notifier.dart';
 import 'package:cs_senior_project/notifiers/order_notifier.dart';
 import 'package:cs_senior_project/notifiers/store_notifier.dart';
+import 'package:cs_senior_project/notifiers/user_notifier.dart';
 import 'package:cs_senior_project/screens/order/orderDetail.dart';
 import 'package:cs_senior_project/screens/shop/menu/menu_detail.dart';
 import 'package:cs_senior_project/screens/shop/shop_detail.dart';
 import 'package:cs_senior_project/services/store_service.dart';
+import 'package:cs_senior_project/services/user_service.dart';
 import 'package:cs_senior_project/widgets/datetime_picker_widget.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 
 class ShopMenu extends StatefulWidget {
-  ShopMenu({Key key, this.storeIndex}) : super(key: key);
-  final int storeIndex;
+  ShopMenu({Key key}) : super(key: key);
 
   @override
   _ShopMenuState createState() => _ShopMenuState();
@@ -32,22 +35,60 @@ class _ShopMenuState extends State<ShopMenu> {
 
   List categories = [];
 
+  Favorite _favorite = Favorite();
+  int _favIndex;
+  bool _isFavorite = false;
+
   @override
   void initState() {
     ActivitiesNotifier activity =
         Provider.of<ActivitiesNotifier>(context, listen: false);
     StoreNotifier storeNotifier =
         Provider.of<StoreNotifier>(context, listen: false);
+    FavoriteNotifier favNotifier =
+        Provider.of<FavoriteNotifier>(context, listen: false);
+    UserNotifier userNotifier =
+        Provider.of<UserNotifier>(context, listen: false);
 
     getMenu(storeNotifier);
+    getFavoriteStores(favNotifier, userNotifier.user.uid);
+    if (favNotifier.favoriteList != null) {
+      for (int i = 0; i < favNotifier.favoriteList.length; i++) {
+        if (favNotifier.favoriteList[i].storeId ==
+            storeNotifier.currentStore.storeId) {
+          _isFavorite = true;
+          _favIndex = i;
+          break;
+        }
+      }
+    }
+    print(_favIndex);
     activity.resetDateTimeOrdered();
     super.initState();
+  }
+
+  _onSaveFavorite(Favorite favorite) {
+    FavoriteNotifier favNotifier =
+        Provider.of<FavoriteNotifier>(context, listen: false);
+    _isFavorite = true;
+    favNotifier.addFavorite(favorite);
+    print(_isFavorite);
+  }
+
+  _onDeleteFavorite(Favorite favorite) {
+    FavoriteNotifier favNotifier =
+        Provider.of<FavoriteNotifier>(context, listen: false);
+    _isFavorite = false;
+    favNotifier.deleteFavorite(favorite);
+    print(_isFavorite);
   }
 
   @override
   Widget build(BuildContext context) {
     StoreNotifier storeNotifier = Provider.of<StoreNotifier>(context);
     OrderNotifier orderNotifier = Provider.of<OrderNotifier>(context);
+    UserNotifier userNotifier = Provider.of<UserNotifier>(context);
+    FavoriteNotifier favNotifier = Provider.of<FavoriteNotifier>(context);
 
     if (orderNotifier.orderList.isNotEmpty) {
       for (int i = 0; i < orderNotifier.orderList.length; i++) {
@@ -67,17 +108,30 @@ class _ShopMenuState extends State<ShopMenu> {
 
     final appBarHeight = 135.0;
 
-    // print(categories);
-
     return Scaffold(
       extendBodyBehindAppBar: true,
       appBar: ShopRoundedFavAppBar(
         appBarTitle: storeNotifier.currentStore.storeName,
         subTitle: 'ของหวาน',
-        onClicked2: () {
+        onClicked: () {
           Navigator.of(context).push(MaterialPageRoute(
             builder: (context) => ShopDetail(),
           ));
+        },
+        isFavorite: _isFavorite,
+        onSaved: () {
+          _favorite.storeId = storeNotifier.currentStore.storeId;
+          _isFavorite
+              ? deleteFavoriteStore(
+                  favNotifier.favoriteList[_favIndex],
+                  _onDeleteFavorite,
+                  userNotifier.user.uid,
+                )
+              : saveFavoriteStore(
+                  _favorite,
+                  userNotifier.user.uid,
+                  _onSaveFavorite,
+                );
         },
         child: Container(
           height: MediaQuery.of(context).size.height,

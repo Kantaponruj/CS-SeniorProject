@@ -2,7 +2,12 @@ import 'package:cs_senior_project/asset/text_style.dart';
 import 'package:flutter/material.dart';
 
 class ShowDateTime extends StatelessWidget {
-  ShowDateTime({Key key,@required this.icon,@required this.text, @required this.onClicked}) : super(key: key);
+  ShowDateTime(
+      {Key key,
+      @required this.icon,
+      @required this.text,
+      @required this.onClicked})
+      : super(key: key);
 
   final IconData icon;
   final String text;

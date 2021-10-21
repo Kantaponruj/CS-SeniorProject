@@ -5,6 +5,7 @@ import 'package:cs_senior_project/asset/constant.dart';
 import 'package:cs_senior_project/asset/text_style.dart';
 import 'package:cs_senior_project/component/orderCard.dart';
 import 'package:cs_senior_project/component/shopAppBar.dart';
+import 'package:cs_senior_project/component/textformfiled.dart';
 import 'package:cs_senior_project/models/activities.dart';
 import 'package:cs_senior_project/models/order.dart';
 import 'package:cs_senior_project/notifiers/activities_notifier.dart';
@@ -126,6 +127,13 @@ class _OrderDetailPageState extends State<OrderDetailPage> {
                   _activities.customerName,
                   _activities.phone,
                   _activities.address ?? 'โปรดระบุที่อยู่',
+                  () {
+                    showDialog(
+                        context: context,
+                        builder: (BuildContext context) {
+                          return editContactInfo();
+                        });
+                  },
                   () {
                     Navigator.of(context).push(
                       MaterialPageRoute(
@@ -430,6 +438,7 @@ class _OrderDetailPageState extends State<OrderDetailPage> {
     String name,
     String phoneNumber,
     String address,
+    VoidCallback onClickedContact,
     VoidCallback onClickedAddress,
   ) {
     return BuildCard(
@@ -459,7 +468,7 @@ class _OrderDetailPageState extends State<OrderDetailPage> {
               trailing: Icon(
                 Icons.edit,
               ),
-              onTap: () {},
+              onTap: onClickedContact,
             ),
             Container(
               margin: EdgeInsets.only(top: 10),
@@ -587,6 +596,65 @@ class _OrderDetailPageState extends State<OrderDetailPage> {
             ),
           ),
         ],
+      ),
+    );
+  }
+
+  TextEditingController controller;
+
+  Widget editContactInfo() {
+    return AlertDialog(
+      shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(20)),
+      content: Container(
+        width: MediaQuery.of(context).size.width,
+        child: Column(
+          mainAxisSize: MainAxisSize.min,
+          children: [
+            Container(
+              alignment: Alignment.topRight,
+              child: GestureDetector(
+                onTap: () {
+                  Navigator.of(context).pop();
+                },
+                child: Icon(
+                  Icons.close,
+                  color: Colors.black,
+                ),
+              ),
+            ),
+            Container(
+              alignment: Alignment.topLeft,
+              child: Text(
+                'แก้ไขข้อมูลการติดต่อ',
+                style: FontCollection.topicTextStyle,
+              ),
+            ),
+            Container(
+              padding: EdgeInsets.only(top: 20),
+              child: BuildTextField(
+                labelText: 'ชื่อผู้ใช้',
+                textEditingController: controller,
+                hintText: 'กรุณากรอกชื่อผู้ใช้',
+              ),
+            ),
+            Container(
+              padding: EdgeInsets.only(top: 20),
+              child: BuildTextField(
+                labelText: 'เบอร์โทรศัพท์',
+                textEditingController: controller,
+                hintText: 'กรุณากรอกเบอร์โทรศัพท์',
+              ),
+            ),
+            Container(
+              alignment: Alignment.topRight,
+              padding: EdgeInsets.only(top: 20),
+              child: NoShapeButton(
+                onClicked: () {},
+                text: 'บันทึก',
+              ),
+            ),
+          ],
+        ),
       ),
     );
   }

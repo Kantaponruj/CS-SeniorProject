@@ -462,11 +462,27 @@ class _ShopMenuState extends State<ShopMenu> {
               ),
               ListTile(
                 leading: Icon(Icons.access_time),
-                title: Text(
-                  (activity.dateOrdered != null && activity.timeOrdered != null)
-                      ? '${activity.dateOrdered} ${activity.timeOrdered} น.'
-                      : 'now',
-                  style: FontCollection.bodyTextStyle,
+                title: Row(
+                  children: [
+                    Text(
+                      (activity.dateOrdered != null &&
+                              activity.timeOrdered != null)
+                          ? '${activity.dateOrdered} ${activity.timeOrdered} น.'
+                          : 'now',
+                      style: FontCollection.bodyTextStyle,
+                    ),
+                    Container(
+                      padding: EdgeInsets.symmetric(horizontal: 10),
+                      child: Text(
+                        'จนถึง',
+                        style: FontCollection.bodyTextStyle,
+                      ),
+                    ),
+                    Text(
+                      '12.00',
+                      style: FontCollection.bodyTextStyle,
+                    ),
+                  ],
                 ),
                 trailing: IconButton(
                   onPressed: () {
@@ -515,11 +531,21 @@ class _ShopMenuState extends State<ShopMenu> {
                       ),
                     ),
                     Container(
-                      margin: EdgeInsets.fromLTRB(0, 20, 0, 20),
+                      margin: EdgeInsets.fromLTRB(0, 20, 0, 5),
+                      child: DatePickerWidget(),
+                    ),
+                    Container(
+                      margin: EdgeInsets.fromLTRB(0, 5, 0, 20),
                       child: Row(
-                        mainAxisAlignment: MainAxisAlignment.spaceBetween,
                         children: [
-                          DatePickerWidget(),
+                          TimePickerWidget(),
+                          Container(
+                            padding: EdgeInsets.symmetric(horizontal: 10),
+                            child: Text(
+                              'จนถึง',
+                              style: FontCollection.bodyTextStyle,
+                            ),
+                          ),
                           TimePickerWidget(),
                         ],
                       ),

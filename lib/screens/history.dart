@@ -1,3 +1,4 @@
+import 'package:auto_size_text/auto_size_text.dart';
 import 'package:cs_senior_project/asset/color.dart';
 import 'package:cs_senior_project/asset/text_style.dart';
 import 'package:cs_senior_project/component/appBar.dart';
@@ -195,7 +196,7 @@ class _HistoryPageState extends State<HistoryPage> {
           ),
           Padding(
             padding: const EdgeInsets.only(left: 10),
-            child: Text(
+            child: AutoSizeText(
               text,
               style: FontCollection.bodyTextStyle,
             ),
@@ -220,9 +221,10 @@ class _HistoryPageState extends State<HistoryPage> {
             child: Row(
               mainAxisAlignment: MainAxisAlignment.spaceBetween,
               children: [
-                Container(
-                  child: Text(
+                Expanded(
+                  child: AutoSizeText(
                     orderStatus,
+                    maxLines: 1,
                     style: check
                         ? FontCollection.bodyTextStyle
                         : TextStyle(
@@ -249,7 +251,7 @@ class _HistoryPageState extends State<HistoryPage> {
                 childAddress,
                 Container(
                   // alignment: Alignment.bottomRight,
-                  child: Text(
+                  child: AutoSizeText(
                     price,
                     style: FontCollection.bodyTextStyle,
                   ),

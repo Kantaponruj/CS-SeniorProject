@@ -165,32 +165,30 @@ class _OrderDetailPageState extends State<OrderDetailPage> {
                       Container(
                         margin: EdgeInsets.only(top: 20),
                         child: Row(
+                          mainAxisAlignment: MainAxisAlignment.spaceBetween,
                           children: [
-                            Expanded(
-                              flex: 8,
-                              child: Text(
+                            Container(
+                              child: AutoSizeText(
                                 'ราคาสุทธิ',
                                 style: FontCollection.bodyBoldTextStyle,
                               ),
                             ),
-                            Expanded(
-                              flex: 3,
-                              child: Container(
-                                alignment: Alignment.centerRight,
-                                child: Text(
-                                  orderNotifier.netPrice.toString(),
-                                  style: FontCollection.bodyBoldTextStyle,
-                                ),
-                              ),
-                            ),
-                            Expanded(
-                              flex: 1,
-                              child: Container(
-                                alignment: Alignment.bottomRight,
-                                child: Text(
-                                  'บาท',
-                                  style: FontCollection.bodyBoldTextStyle,
-                                ),
+                            Container(
+                              child: Row(
+                                children: [
+                                  AutoSizeText(
+                                    orderNotifier.netPrice.toString(),
+                                    style: FontCollection.bodyBoldTextStyle,
+                                  ),
+                                  Container(
+                                    padding: EdgeInsets.only(left: 20),
+                                    child: AutoSizeText(
+                                      'บาท',
+                                      maxLines: 1,
+                                      style: FontCollection.bodyBoldTextStyle,
+                                    ),
+                                  ),
+                                ],
                               ),
                             ),
                           ],

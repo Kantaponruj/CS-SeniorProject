@@ -115,32 +115,30 @@ class _ConfirmOrderDetailState extends State<ConfirmOrderDetail> {
                       Container(
                         margin: EdgeInsets.only(top: 20),
                         child: Row(
+                          mainAxisAlignment: MainAxisAlignment.spaceBetween,
                           children: [
                             Expanded(
-                              flex: 8,
-                              child: Text(
+                              child: AutoSizeText(
                                 'ราคาสุทธิ',
                                 style: FontCollection.bodyBoldTextStyle,
                               ),
                             ),
-                            Expanded(
-                              flex: 3,
-                              child: Container(
-                                alignment: Alignment.centerRight,
-                                child: Text(
-                                  activity.currentActivity.netPrice,
-                                  style: FontCollection.bodyBoldTextStyle,
-                                ),
-                              ),
-                            ),
-                            Expanded(
-                              flex: 1,
-                              child: Container(
-                                alignment: Alignment.centerRight,
-                                child: Text(
-                                  'บาท',
-                                  style: FontCollection.bodyBoldTextStyle,
-                                ),
+                            Container(
+                              child: Row(
+                                children: [
+                                  AutoSizeText(
+                                    activity.currentActivity.netPrice,
+                                    style: FontCollection.bodyBoldTextStyle,
+                                  ),
+                                  Container(
+                                    padding: EdgeInsets.only(left: 20),
+                                    child: AutoSizeText(
+                                      'บาท',
+                                      maxLines: 1,
+                                      style: FontCollection.bodyBoldTextStyle,
+                                    ),
+                                  ),
+                                ],
                               ),
                             ),
                           ],
@@ -157,12 +155,9 @@ class _ConfirmOrderDetailState extends State<ConfirmOrderDetail> {
                 child: Container(
                   alignment: Alignment.centerLeft,
                   margin: EdgeInsets.symmetric(horizontal: 20, vertical: 20),
-                  child: Expanded(
-                    flex: 6,
-                    child: Text(
-                      activity.currentActivity.message,
-                      style: FontCollection.bodyTextStyle,
-                    ),
+                  child: Text(
+                    activity.currentActivity.message,
+                    style: FontCollection.bodyTextStyle,
                   ),
                 ),
                 canEdit: false,

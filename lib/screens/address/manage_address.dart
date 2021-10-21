@@ -33,106 +33,105 @@ class _ManageAddressState extends State<ManageAddress> {
     UserNotifier userNotifier = Provider.of<UserNotifier>(context);
     AddressNotifier addressNotifier = Provider.of<AddressNotifier>(context);
 
-    return SafeArea(
-      child: Scaffold(
-        appBar: RoundedAppBar(
-          appBarTitle: 'เลือกที่อยู่',
-        ),
-        body: Container(
-          padding: EdgeInsets.symmetric(horizontal: 20, vertical: 20),
-          child: Column(
-            children: [
-              Padding(
-                padding: const EdgeInsets.only(bottom: 20),
-                child: StadiumButtonWidget(
-                  text: 'เลือกบนแผนที่',
-                  onClicked: () {
-                    Navigator.of(context).push(MaterialPageRoute(
-                      builder: (context) => SelectAddress(),
-                    ));
-                  },
-                ),
+    return Scaffold(
+      appBar: RoundedAppBar(
+        appBarTitle: 'เลือกที่อยู่',
+      ),
+      body: Container(
+        padding: EdgeInsets.symmetric(horizontal: 20, vertical: 20),
+        child: Column(
+          children: [
+            Padding(
+              padding: const EdgeInsets.only(bottom: 20),
+              child: StadiumButtonWidget(
+                text: 'เลือกบนแผนที่',
+                onClicked: () {
+                  Navigator.of(context).push(MaterialPageRoute(
+                    builder: (context) => SelectAddress(),
+                  ));
+                },
               ),
-              Divider(),
-              Padding(
-                padding: const EdgeInsets.symmetric(vertical: 20),
-                child: StadiumButtonWidget(
-                  text: 'เพิ่มที่อยู่ใหม่',
-                  onClicked: () {
-                    Navigator.push(context,
-                        MaterialPageRoute(builder: (context) => AddAddress()));
-                  },
-                ),
+            ),
+            Divider(),
+            Padding(
+              padding: const EdgeInsets.symmetric(vertical: 20),
+              child: StadiumButtonWidget(
+                text: 'เพิ่มที่อยู่ใหม่',
+                onClicked: () {
+                  Navigator.push(context,
+                      MaterialPageRoute(builder: (context) => AddAddress()));
+                },
               ),
-              Card(
-                elevation: 0,
-                shape: RoundedRectangleBorder(
-                  borderRadius: BorderRadius.circular(20),
-                ),
-                child: Container(
-                  padding: EdgeInsets.symmetric(horizontal: 20, vertical: 20),
-                  child: Column(
-                    children: [
-                      Container(
-                        width: MediaQuery.of(context).size.width,
-                        margin: EdgeInsets.only(bottom: 10),
-                        child: Text(
-                          'ที่อยู่ของคุณ',
-                          style: FontCollection.topicTextStyle,
-                        ),
+            ),
+            Card(
+              elevation: 0,
+              shape: RoundedRectangleBorder(
+                borderRadius: BorderRadius.circular(20),
+              ),
+              child: Container(
+                padding: EdgeInsets.symmetric(horizontal: 20, vertical: 20),
+                child: Column(
+                  children: [
+                    Container(
+                      width: MediaQuery.of(context).size.width,
+                      margin: EdgeInsets.only(bottom: 10),
+                      child: Text(
+                        'ที่อยู่ของคุณ',
+                        style: FontCollection.topicTextStyle,
                       ),
-                      Container(
-                        child: ListView.separated(
-                          shrinkWrap: true,
-                          itemCount: addressNotifier.addressList.length,
-                          itemBuilder: (BuildContext context, int index) {
-                            return ListTile(
-                              title: Text(
-                                  addressNotifier
+                    ),
+                    Container(
+                      child: ListView.separated(
+                        shrinkWrap: true,
+                        physics: NeverScrollableScrollPhysics(),
+                        itemCount: addressNotifier.addressList.length,
+                        itemBuilder: (BuildContext context, int index) {
+                          return ListTile(
+                            title: Text(
+                                addressNotifier
+                                    .addressList[index].addressName,
+                                style: FontCollection.bodyTextStyle),
+                            subtitle: AutoSizeText(
+                              addressNotifier.addressList[index].address,
+                              maxLines: 2,
+                            ),
+                            onTap: () {
+                              userNotifier.updateUserData({
+                                "selectedAddress": {
+                                  "residentName": addressNotifier
+                                      .addressList[index].residentName,
+                                  "address": addressNotifier
+                                      .addressList[index].address,
+                                  "addressName": addressNotifier
                                       .addressList[index].addressName,
-                                  style: FontCollection.bodyTextStyle),
-                              subtitle: AutoSizeText(
-                                addressNotifier.addressList[index].address,
-                                maxLines: 2,
-                              ),
-                              onTap: () {
-                                userNotifier.updateUserData({
-                                  "selectedAddress": {
-                                    "residentName": addressNotifier
-                                        .addressList[index].residentName,
-                                    "address": addressNotifier
-                                        .addressList[index].address,
-                                    "addressName": addressNotifier
-                                        .addressList[index].addressName,
-                                    "addressDetail": addressNotifier
-                                        .addressList[index].addressDetail,
-                                    "geoPoint": addressNotifier
-                                        .addressList[index].geoPoint,
-                                    "phone":
-                                        addressNotifier.addressList[index].phone
-                                  }
-                                });
+                                  "addressDetail": addressNotifier
+                                      .addressList[index].addressDetail,
+                                  "geoPoint": addressNotifier
+                                      .addressList[index].geoPoint,
+                                  "phone":
+                                      addressNotifier.addressList[index].phone
+                                }
+                              });
 
-                                addressNotifier.setSelectedAddress(
-                                  addressNotifier
-                                      .addressList[index].addressName,
-                                );
-                                userNotifier.reloadUserModel();
-                                Navigator.pop(context);
-                              },
-                            );
-                          },
-                          separatorBuilder: (BuildContext context, int index) {
-                            return Divider();
-                          },
-                        ),
+                              addressNotifier.setSelectedAddress(
+                                addressNotifier
+                                    .addressList[index].addressName,
+                              );
+                              userNotifier.reloadUserModel();
+                              Navigator.pop(context);
+                            },
+                          );
+                        },
+                        separatorBuilder: (BuildContext context, int index) {
+                          return Divider();
+                        },
                       ),
-                    ],
-                  ),
+                    ),
+                  ],
                 ),
               ),
-            ],
-          ),
+            ),
+          ],
         ),
       ),
     );

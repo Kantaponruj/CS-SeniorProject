@@ -167,7 +167,7 @@ class _ShopRoundedFavAppBarState extends State<ShopRoundedFavAppBar> {
             IconButton(
               padding: EdgeInsets.only(right: 0),
               icon: widget.isFavorite
-                  ? Icon(Icons.book_online)
+                  ? Icon(Icons.bookmark)
                   : Icon(Icons.bookmark_border_outlined),
               onPressed: widget.onSaved,
             ),

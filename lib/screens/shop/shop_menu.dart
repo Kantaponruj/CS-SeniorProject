@@ -5,6 +5,7 @@ import 'package:cs_senior_project/asset/text_style.dart';
 import 'package:cs_senior_project/component/orderCard.dart';
 import 'package:cs_senior_project/component/shopAppBar.dart';
 import 'package:cs_senior_project/models/favorite.dart';
+import 'package:cs_senior_project/models/menu.dart';
 import 'package:cs_senior_project/notifiers/activities_notifier.dart';
 import 'package:cs_senior_project/notifiers/favorite_notifier.dart';
 import 'package:cs_senior_project/notifiers/order_notifier.dart';
@@ -229,10 +230,10 @@ class _ShopMenuState extends State<ShopMenu> {
                           child: ListView.builder(
                             shrinkWrap: true,
                             physics: NeverScrollableScrollPhysics(),
-                            itemCount: 2,
+                            itemCount: categories.length,
                             padding: EdgeInsets.zero,
                             itemBuilder: (context, index) {
-                              return menuCategories();
+                              return menuCategories(categories[index]);
                             },
                           ),
                         ),
@@ -290,17 +291,24 @@ class _ShopMenuState extends State<ShopMenu> {
         },
       );
 
-  Widget menuCategories() => BuildCard(
-        headerText: categories[index],
+  Widget menuCategories(String categoryName) => BuildCard(
+        headerText: categoryName,
         child: Container(
           margin: EdgeInsets.symmetric(horizontal: 20, vertical: 20),
-          child: gridView(),
+          child: gridView(categoryName),
         ),
         canEdit: false,
       );
 
-  Widget gridView() {
+  Widget gridView(String categoryName) {
     StoreNotifier storeNotifier = Provider.of<StoreNotifier>(context);
+    List<dynamic> menuCategory = [];
+
+    storeNotifier.menuList.forEach((menu) {
+      if (menu.categoryFood == categoryName) {
+        menuCategory.add(menu);
+      }
+    });
 
     return Container(
       child: GridView.builder(
@@ -314,24 +322,24 @@ class _ShopMenuState extends State<ShopMenu> {
         ),
         padding: EdgeInsets.fromLTRB(20, 20, 20, 0),
         controller: controller,
-        itemCount: storeNotifier.menuList.length,
+        itemCount: menuCategory.length,
         itemBuilder: (context, index) {
           // final item = items[index];
-          return menuData(storeNotifier, index);
+          MenuModel menu = menuCategory[index];
+          return menuData(storeNotifier, menu);
         },
       ),
     );
   }
 
-  Widget menuData(StoreNotifier storeNotifier, int index) {
+  Widget menuData(StoreNotifier storeNotifier, MenuModel menu) {
     OrderNotifier orderNotifier = Provider.of<OrderNotifier>(context);
     int amount = 0;
     bool isOrdered = false;
 
     if (orderNotifier.orderList != null) {
       for (int i = 0; i <= orderNotifier.orderList.length - 1; i++) {
-        if (orderNotifier.orderList[i].menuName ==
-            storeNotifier.menuList[index].name) {
+        if (orderNotifier.orderList[i].menuName == menu.name) {
           amount = orderNotifier.orderList[i].amount;
           isOrdered = true;
           // print(orderNotifier.orderList[i].menuName);
@@ -343,7 +351,7 @@ class _ShopMenuState extends State<ShopMenu> {
       children: [
         InkWell(
           onTap: () {
-            storeNotifier.currentMenu = storeNotifier.menuList[index];
+            storeNotifier.currentMenu = menu;
             Navigator.push(
               context,
               MaterialPageRoute(
@@ -364,8 +372,8 @@ class _ShopMenuState extends State<ShopMenu> {
                   margin: EdgeInsets.only(top: 15),
                   child: SizedBox(
                     child: Image.network(
-                      storeNotifier.menuList[index].image != null
-                          ? storeNotifier.menuList[index].image
+                      menu.image != null
+                          ? menu.image
                           : 'https://www.testingxperts.com/wp-content/uploads/2019/02/placeholder-img.jpg',
                       // errorBuilder: (BuildContext context, Object exception,
                       //     StackTrace stackTrace) {
@@ -379,7 +387,7 @@ class _ShopMenuState extends State<ShopMenu> {
                   alignment: Alignment.centerLeft,
                   margin: EdgeInsets.only(top: 10),
                   child: Text(
-                    storeNotifier.menuList[index].name,
+                    menu.name,
                     textAlign: TextAlign.left,
                     style: //orderedMenu
                         (isOrdered)
@@ -395,7 +403,7 @@ class _ShopMenuState extends State<ShopMenu> {
                 Container(
                   alignment: Alignment.centerLeft,
                   child: Text(
-                    storeNotifier.menuList[index].price + ' บาท',
+                    menu.price + ' บาท',
                     textAlign: TextAlign.left,
                     style: //orderedMenu
                         (isOrdered)

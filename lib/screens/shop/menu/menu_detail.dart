@@ -30,6 +30,8 @@ class _MenuDetailState extends State<MenuDetail> {
   String price;
   List isSelectedTopping = [];
   List selectedTopping = [];
+  List<Map<String, dynamic>> subToppingList = [];
+  int totalSubTopping = 0;
 
   OrderModel order;
 
@@ -79,7 +81,7 @@ class _MenuDetailState extends State<MenuDetail> {
     if (amount < 20) {
       amount += 1;
 
-      if (selectedTopping.isNotEmpty)
+      if (selectedTopping != null)
         priceTotal += priceWithTopping;
       else
         priceTotal += priceMenu;
@@ -93,7 +95,7 @@ class _MenuDetailState extends State<MenuDetail> {
     if (amount > 0) {
       amount -= 1;
 
-      if (selectedTopping.isNotEmpty) {
+      if (selectedTopping != null) {
         priceTotal -= priceWithTopping;
       } else
         priceTotal -= priceMenu;
@@ -108,9 +110,12 @@ class _MenuDetailState extends State<MenuDetail> {
 
     final double imgHeight = MediaQuery.of(context).size.height / 4;
 
-    for (int i = 0; i <= storeNotifier.toppingList.length - 1; i++) {
-      isSelectedTopping.add(false);
-    }
+    // for (int i = 0; i <= storeNotifier.toppingList.length - 1; i++) {
+    //   for (int j = 0; j < storeNotifier.toppingList[i].subTopping.length; j++) {
+    //     isSelectedTopping.add(false);
+    //   }
+    // }
+    // print(isSelectedTopping);
 
     handleClick() {
       if (orderNotifier.currentOrder != null) {
@@ -175,7 +180,7 @@ class _MenuDetailState extends State<MenuDetail> {
                       bottom: Radius.circular(20),
                     ),
                     child: Image.network(
-                      storeNotifier.currentMenu.image.isNotEmpty
+                      storeNotifier.currentMenu.image != null
                           ? storeNotifier.currentMenu.image
                           : 'https://www.testingxperts.com/wp-content/uploads/2019/02/placeholder-img.jpg',
                       fit: BoxFit.cover,
@@ -192,7 +197,24 @@ class _MenuDetailState extends State<MenuDetail> {
                         menuDetailCard(storeNotifier),
                         storeNotifier.toppingList.isEmpty
                             ? SizedBox.shrink()
-                            : moreCard(storeNotifier),
+                            : ListView.builder(
+                                shrinkWrap: true,
+                                padding: EdgeInsets.all(0),
+                                physics: NeverScrollableScrollPhysics(),
+                                itemCount: storeNotifier.toppingList.length,
+                                itemBuilder: (context, index) {
+                                  storeNotifier.toppingList[index].subTopping
+                                      .forEach((element) {
+                                    if (isSelectedTopping.length !=
+                                        storeNotifier.toppingList[index]
+                                            .subTopping.length) {
+                                      isSelectedTopping.add(false);
+                                    }
+                                  });
+                                  // print(isSelectedTopping);
+                                  return moreCard(storeNotifier, index);
+                                },
+                              ),
                       ],
                     ),
                   ),
@@ -291,7 +313,7 @@ class _MenuDetailState extends State<MenuDetail> {
     );
   }
 
-  Widget moreCard(StoreNotifier storeNotifier) {
+  Widget moreCard(StoreNotifier storeNotifier, int index) {
     return Container(
       margin: EdgeInsets.only(top: 20),
       child: Card(
@@ -320,15 +342,7 @@ class _MenuDetailState extends State<MenuDetail> {
                 ),
               ),
               Divider(),
-              ListView.builder(
-                shrinkWrap: true,
-                padding: EdgeInsets.all(0),
-                physics: NeverScrollableScrollPhysics(),
-                itemCount: storeNotifier.toppingList.length,
-                itemBuilder: (context, index) {
-                  return listAddOn(storeNotifier, index);
-                },
-              ),
+              listAddOn(storeNotifier, index),
             ],
           ),
         ),
@@ -338,55 +352,66 @@ class _MenuDetailState extends State<MenuDetail> {
 
   Widget listAddOn(StoreNotifier storeNotifier, int index) {
     double totalPriceInt = double.parse(price);
-    int toppingPriceInt = int.parse(storeNotifier.toppingList[index].price);
+    int toppingPriceInt;
 
     if (order.topping != null) {
       selectedTopping = order.topping;
 
       for (int i = 0; i <= order.topping.length - 1; i++) {
-        if (order.topping[i] == storeNotifier.toppingList[index].name) {
-          isSelectedTopping[index] = true;
+        if (order.topping[i] ==
+            storeNotifier.toppingList[index].subTopping[i]['name']) {
+          isSelectedTopping[i] = true;
         }
       }
     }
 
-    return CheckboxListTile(
-      title: Text(storeNotifier.toppingList[index].name),
-      secondary: Text('+' + storeNotifier.toppingList[index].price),
-      controlAffinity: ListTileControlAffinity.leading,
-      value: isSelectedTopping[index],
-      onChanged: (bool value) {
-        setState(() {
-          isSelectedTopping[index] = value;
+    return ListView.builder(
+        shrinkWrap: true,
+        padding: EdgeInsets.all(0),
+        physics: NeverScrollableScrollPhysics(),
+        itemCount: storeNotifier.toppingList[index].subTopping.length,
+        itemBuilder: (context, i) {
+          final subtopping = storeNotifier.toppingList[index].subTopping[i];
+          toppingPriceInt = int.parse(subtopping['price']);
 
-          switch (isSelectedTopping[index]) {
-            case true:
-              if (amount > 1) {
-                totalPriceInt += (toppingPriceInt * amount);
-                priceWithTopping = totalPriceInt;
-                priceWithTopping = priceWithTopping / amount;
-              } else {
-                totalPriceInt += toppingPriceInt;
-                priceWithTopping = totalPriceInt;
-              }
-              selectedTopping.insert(0, storeNotifier.toppingList[index].name);
-              break;
-            default:
-              if (amount > 1) {
-                totalPriceInt -= (toppingPriceInt * amount);
-                priceWithTopping = totalPriceInt;
-                priceWithTopping = priceWithTopping / amount;
-              } else {
-                totalPriceInt -= toppingPriceInt;
-                priceWithTopping = totalPriceInt;
-              }
-              selectedTopping.remove(storeNotifier.toppingList[index].name);
-          }
-          price = totalPriceInt.toInt().toString();
+          return CheckboxListTile(
+            title: Text(subtopping['name']),
+            secondary: Text('+' + subtopping['price']),
+            controlAffinity: ListTileControlAffinity.leading,
+            value: isSelectedTopping[i],
+            onChanged: (bool value) {
+              setState(() {
+                isSelectedTopping[i] = value;
+
+                switch (isSelectedTopping[i]) {
+                  case true:
+                    if (amount > 1) {
+                      totalPriceInt += (toppingPriceInt * amount);
+                      priceWithTopping = totalPriceInt;
+                      priceWithTopping = priceWithTopping / amount;
+                    } else {
+                      totalPriceInt += toppingPriceInt;
+                      priceWithTopping = totalPriceInt;
+                    }
+                    selectedTopping.insert(0, subtopping['name']);
+                    break;
+                  default:
+                    if (amount > 1) {
+                      totalPriceInt -= (toppingPriceInt * amount);
+                      priceWithTopping = totalPriceInt;
+                      priceWithTopping = priceWithTopping / amount;
+                    } else {
+                      totalPriceInt -= toppingPriceInt;
+                      priceWithTopping = totalPriceInt;
+                    }
+                    selectedTopping.remove(subtopping['name']);
+                }
+                price = totalPriceInt.toInt().toString();
+              });
+            },
+            activeColor: CollectionsColors.yellow,
+            checkColor: CollectionsColors.white,
+          );
         });
-      },
-      activeColor: CollectionsColors.yellow,
-      checkColor: CollectionsColors.white,
-    );
   }
 }

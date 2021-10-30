@@ -19,13 +19,21 @@ class MenuModel {
 }
 
 class ToppingModel {
-  String name;
-  String price;
+  String toppingId;
+  String type;
+  String selectedNumberTopping;
+  String topic;
+  String detail;
+  List<dynamic> subTopping = [];
 
   // ToppingModel();
 
   ToppingModel.fromMap(Map<String, dynamic> data) {
-    name = data["name"];
-    price = data["price"];
+    toppingId = data['toppingId'];
+    type = data['type'];
+    selectedNumberTopping = data['selectedNumberTopping'];
+    topic = data['topic'];
+    detail = data['detail'];
+    subTopping = data['subTopping'];
   }
 }

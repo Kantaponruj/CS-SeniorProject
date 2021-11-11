@@ -1,7 +1,9 @@
 import 'dart:async';
 
 import 'package:cs_senior_project/asset/constant.dart';
+import 'package:cs_senior_project/notifiers/address_notifier.dart';
 import 'package:cs_senior_project/notifiers/user_notifier.dart';
+import 'package:cs_senior_project/services/user_service.dart';
 import 'package:cs_senior_project/widgets/tap_widget.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
@@ -13,7 +15,6 @@ import '../asset/color.dart';
 import 'package:cs_senior_project/component/appBar.dart';
 import 'package:cs_senior_project/widgets/maps_widget.dart';
 
-import 'address/address.dart';
 import 'address/manage_address.dart';
 
 class HomePage extends StatefulWidget {
@@ -37,6 +38,10 @@ class _HomePageState extends State<HomePage> {
 
   @override
   void initState() {
+    AddressNotifier address =
+        Provider.of<AddressNotifier>(context, listen: false);
+    UserNotifier user = Provider.of<UserNotifier>(context, listen: false);
+    getAddress(address, user.user.uid);
     isFromHomePage = false;
     super.initState();
   }
@@ -80,7 +85,7 @@ class _HomePageState extends State<HomePage> {
               ),
             ),
             body: Padding(
-              padding: EdgeInsets.fromLTRB(0,0,0,80),
+              padding: EdgeInsets.fromLTRB(0, 0, 0, 80),
               child: MapWidget(mapController: _mapController),
             ),
           ),

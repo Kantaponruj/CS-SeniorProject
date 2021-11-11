@@ -7,6 +7,7 @@ import 'package:cs_senior_project/component/shopAppBar.dart';
 import 'package:cs_senior_project/models/favorite.dart';
 import 'package:cs_senior_project/models/menu.dart';
 import 'package:cs_senior_project/notifiers/activities_notifier.dart';
+import 'package:cs_senior_project/notifiers/address_notifier.dart';
 import 'package:cs_senior_project/notifiers/favorite_notifier.dart';
 import 'package:cs_senior_project/notifiers/order_notifier.dart';
 import 'package:cs_senior_project/notifiers/store_notifier.dart';
@@ -33,6 +34,7 @@ class _ShopMenuState extends State<ShopMenu> {
   final items = List.generate(10, (counter) => 'Item: $counter');
   final controller = ScrollController();
   bool isShowBasket = false;
+  String selectedAddress;
 
   List categories = [];
 
@@ -41,25 +43,28 @@ class _ShopMenuState extends State<ShopMenu> {
 
   @override
   void initState() {
+    AddressNotifier address =
+        Provider.of<AddressNotifier>(context, listen: false);
     ActivitiesNotifier activity =
         Provider.of<ActivitiesNotifier>(context, listen: false);
-    StoreNotifier storeNotifier =
-        Provider.of<StoreNotifier>(context, listen: false);
-    FavoriteNotifier favNotifier =
+    StoreNotifier store = Provider.of<StoreNotifier>(context, listen: false);
+    FavoriteNotifier favorite =
         Provider.of<FavoriteNotifier>(context, listen: false);
-    UserNotifier userNotifier =
-        Provider.of<UserNotifier>(context, listen: false);
+    UserNotifier user = Provider.of<UserNotifier>(context, listen: false);
 
-    getMenu(storeNotifier);
-    getFavoriteStores(favNotifier, userNotifier.user.uid);
-    if (favNotifier.favoriteList != null) {
-      for (int i = 0; i < favNotifier.favoriteList.length; i++) {
-        if (favNotifier.favoriteList[i].storeId ==
-            storeNotifier.currentStore.storeId) {
+    getMenu(store);
+    // getAddress(address, user.userModel.uid);
+    getFavoriteStores(favorite, user.user.uid);
+    if (favorite.favoriteList != null) {
+      for (int i = 0; i < favorite.favoriteList.length; i++) {
+        if (favorite.favoriteList[i].storeId == store.currentStore.storeId) {
           _isFavorite = true;
           break;
         }
       }
+    }
+    if (address.addressList != null) {
+      selectedAddress = address.addressList[0].addressName;
     }
     activity.resetDateTimeOrdered();
     super.initState();
@@ -576,9 +581,10 @@ class _ShopMenuState extends State<ShopMenu> {
     );
   }
 
-  String value;
-
   Widget meetingPlace() {
+    AddressNotifier address = Provider.of<AddressNotifier>(context);
+    UserNotifier user = Provider.of<UserNotifier>(context);
+
     return Container(
       margin: EdgeInsets.fromLTRB(0, 20, 0, 20),
       child: Row(
@@ -599,29 +605,48 @@ class _ShopMenuState extends State<ShopMenu> {
               color: Colors.white,
               borderRadius: BorderRadius.circular(10),
             ),
-            child: DropdownButton<String>(
-                value: value,
+            child: DropdownButton(
+                value: selectedAddress,
                 iconSize: 30,
                 icon: Icon(
                   Icons.keyboard_arrow_down,
                   color: Colors.black,
                 ),
                 isExpanded: true,
-                items: items.map(buildMenuItem).toList(),
-                onChanged: (value) => setState(() => this.value = value)),
+                items: address.addressList
+                    .map((value) => DropdownMenuItem(
+                          value: value.addressName,
+                          child: Text(
+                            value.addressName ?? value.address,
+                            style: FontCollection.bodyTextStyle,
+                          ),
+                        ))
+                    .toList(),
+                onChanged: (String value) {
+                  setState(() {
+                    selectedAddress = value;
+                    address.addressList.forEach((element) {
+                      if (value == element.addressName) {
+                        user.updateUserData({
+                          "selectedAddress": {
+                            "residentName": element.residentName,
+                            "address": element.address,
+                            "addressName": element.addressName,
+                            "addressDetail": element.addressDetail,
+                            "geoPoint": element.geoPoint,
+                            "phone": element.phone
+                          }
+                        });
+                      }
+                    });
+                  });
+                  print(user.userModel.selectedAddress);
+                }),
           ),
         ],
       ),
     );
   }
-
-  DropdownMenuItem<String> buildMenuItem(String item) => DropdownMenuItem(
-        value: item,
-        child: Text(
-          item,
-          style: FontCollection.bodyTextStyle,
-        ),
-      );
 
   Widget chipInfo(
     String text,

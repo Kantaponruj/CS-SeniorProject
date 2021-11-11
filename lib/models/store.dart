@@ -4,7 +4,6 @@ class Store {
   String storeId;
   bool isDelivery;
   bool isPickUp;
-  String storeCategory;
   String storeName;
   String kindOfFood;
   String image;
@@ -21,7 +20,6 @@ class Store {
     storeId = data['storeId'];
     isDelivery = data['isDelivery'];
     isPickUp = data['isPickUp'];
-    storeCategory = data['storeCategory'];
     storeName = data['storeName'];
     kindOfFood = data['kindOfFood'];
     image = data['image'];

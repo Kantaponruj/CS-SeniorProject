@@ -1,4 +1,5 @@
 import 'dart:async';
+import 'dart:math' show cos, sqrt, asin;
 
 import 'package:cs_senior_project/asset/constant.dart';
 import 'package:cs_senior_project/asset/text_style.dart';
@@ -75,8 +76,8 @@ class _ConfirmedOrderMapPageState extends State<ConfirmedOrderMapPage> {
               height: mapHeight,
               child: MapConfirmedWidet(),
             ),
-            information(orderDetailHeight, mapHeight,
-                activity.currentActivity, activity.arrivableTime),
+            information(orderDetailHeight, mapHeight, activity.currentActivity,
+                activity.arrivableTime),
           ],
         ),
       ),
@@ -190,7 +191,7 @@ class _ConfirmedOrderMapPageState extends State<ConfirmedOrderMapPage> {
                             Container(
                               alignment: Alignment.centerLeft,
                               child: Text(
-                                activity.kindOfFood,
+                                activity.kindOfFood.join(', '),
                                 style: FontCollection.descriptionTextStyle,
                               ),
                             ),
@@ -212,8 +213,7 @@ class _ConfirmedOrderMapPageState extends State<ConfirmedOrderMapPage> {
           ),
           StadiumButtonWidget(
             text: 'โทร',
-            onClicked: () {
-            },
+            onClicked: () {},
           ),
         ],
       ),

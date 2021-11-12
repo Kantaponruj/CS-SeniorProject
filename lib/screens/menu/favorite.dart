@@ -95,7 +95,7 @@ class _FavoritePageState extends State<FavoritePage> {
                   Container(
                     alignment: Alignment.topLeft,
                     child: Text(
-                      store.kindOfFood,
+                      store.kindOfFood.join(', '),
                       style: FontCollection.smallBodyTextStyle,
                     ),
                   ),

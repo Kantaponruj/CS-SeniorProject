@@ -16,7 +16,7 @@ class Activity {
   String storeId;
   String storeName;
   String storeImage;
-  String kindOfFood;
+  List kindOfFood;
   String orderStatus;
   String amountOfMenu;
 

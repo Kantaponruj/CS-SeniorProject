@@ -5,7 +5,7 @@ class Store {
   bool isDelivery;
   bool isPickUp;
   String storeName;
-  String kindOfFood;
+  List kindOfFood;
   String image;
   String phone;
   String address;

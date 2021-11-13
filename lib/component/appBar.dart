@@ -1,7 +1,7 @@
 import 'package:auto_size_text/auto_size_text.dart';
 import 'package:cs_senior_project/asset/text_style.dart';
-import 'package:cs_senior_project/notifiers/address_notifier.dart';
 import 'package:cs_senior_project/notifiers/location_notifer.dart';
+import 'package:cs_senior_project/notifiers/user_notifier.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
@@ -63,7 +63,7 @@ class _HomeAppBarState extends State<HomeAppBar> {
   @override
   Widget build(BuildContext context) {
     LocationNotifier location = Provider.of<LocationNotifier>(context);
-    AddressNotifier address = Provider.of<AddressNotifier>(context);
+    UserNotifier user = Provider.of<UserNotifier>(context);
 
     return ClipRRect(
       borderRadius: BorderRadius.vertical(
@@ -81,8 +81,8 @@ class _HomeAppBarState extends State<HomeAppBar> {
                     margin: EdgeInsets.only(left: 20),
                     child: AutoSizeText(
                       'Deliver to : \n' +
-                          (address.selectedAddress != null
-                              ? address.selectedAddress
+                          (user.userModel.selectedAddress['address'] != null
+                              ? user.userModel.selectedAddress['address']
                               : location.currentAddress ?? 'loading...'),
                       style: FontCollection.bodyTextStyle,
                       maxLines: 2,
@@ -90,45 +90,6 @@ class _HomeAppBarState extends State<HomeAppBar> {
                     ),
                   ),
                 ),
-                // Container(
-                //   height: 18,
-                //   margin: EdgeInsets.only(left: 20),
-                //   alignment: Alignment.centerLeft,
-                //   child: FittedBox(
-                //     child: AutoSizeText(
-                //       locationNotifier.currentAddress ?? 'loading...',
-                //       style: FontCollection.bodyTextStyle,
-                //       maxLines: 2,
-                //       overflow: TextOverflow.ellipsis,
-                //     ),
-                //   ),
-                // ),
-                // Expanded(
-                //   child: Container(
-                //     margin: EdgeInsets.only(left: 20),
-                //     alignment: Alignment.centerLeft,
-                //     child: Column(
-                //       mainAxisSize: MainAxisSize.max,
-                //       children: [
-                // Container(
-                //   alignment: Alignment.topLeft,
-                //   child: Text(
-                //     'Deliver to : ',
-                //     style: FontCollection.bodyTextStyle,
-                //   ),
-                // ),
-                //         Flexible(
-                //           child: Text(
-                //             locationNotifier.currentAddress ?? 'loading...',
-                //             style: FontCollection.bodyTextStyle,
-                //             overflow: TextOverflow.ellipsis,
-                //             maxLines: 1,
-                //           ),
-                //         ),
-                //       ],
-                //     ),
-                //   ),
-                // ),
               ],
             ),
           ),

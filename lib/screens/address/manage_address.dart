@@ -88,8 +88,7 @@ class _ManageAddressState extends State<ManageAddress> {
                         itemBuilder: (BuildContext context, int index) {
                           return ListTile(
                             title: Text(
-                                addressNotifier
-                                    .addressList[index].addressName,
+                                addressNotifier.addressList[index].addressName,
                                 style: FontCollection.bodyTextStyle),
                             subtitle: AutoSizeText(
                               addressNotifier.addressList[index].address,
@@ -113,10 +112,6 @@ class _ManageAddressState extends State<ManageAddress> {
                                 }
                               });
 
-                              addressNotifier.setSelectedAddress(
-                                addressNotifier
-                                    .addressList[index].addressName,
-                              );
                               userNotifier.reloadUserModel();
                               Navigator.pop(context);
                             },

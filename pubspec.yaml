@@ -30,6 +30,7 @@ dependencies:
   provider: ^5.0.0
   http: ^0.13.0
   intl: ^0.17.0
+  tuple: ^2.0.0
 
   #firebase
   cloud_firestore: ^1.0.7
@@ -45,6 +46,8 @@ dependencies:
   geocoding: ^2.0.0
   flutter_polyline_points: ^1.0.0
   google_maps_widget: ^0.0.8
+  google_maps_webservice: ^0.0.19
+  google_maps_place_picker: ^2.1.0-nullsafety.3
 
 dev_dependencies:
   flutter_test:

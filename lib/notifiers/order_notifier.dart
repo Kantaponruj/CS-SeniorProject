@@ -7,12 +7,16 @@ class OrderNotifier with ChangeNotifier {
   List<OrderModel> _orderList = [];
   OrderModel _currentOrder;
   int _netPrice;
+  String _distance;
+  String _shippingFee;
 
   List<OrderModel> get orderList => _orderList;
 
   OrderModel get currentOrder => _currentOrder;
 
   int get netPrice => _netPrice;
+  String get distance => _distance;
+  String get shippingFee => _shippingFee;
 
   set orderList(List<OrderModel> orderList) {
     _orderList = orderList;
@@ -36,7 +40,12 @@ class OrderNotifier with ChangeNotifier {
   }
 
   getNetPrice(int totalPrice) {
-    _netPrice = totalPrice;
+    _netPrice = totalPrice + int.parse(_shippingFee);
     notifyListeners();
+  }
+
+  getDistanceAndShippingFee(String distance, String shippingFee) {
+    _distance = distance;
+    _shippingFee = shippingFee;
   }
 }

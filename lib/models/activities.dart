@@ -19,6 +19,9 @@ class Activity {
   List kindOfFood;
   String orderStatus;
   String amountOfMenu;
+  String distance;
+  String shippingFee;
+  String subTotal;
 
   Activity();
 
@@ -41,7 +44,10 @@ class Activity {
       'storeImage': storeImage,
       'kindOfFood': kindOfFood,
       'orderStatus': orderStatus,
-      'amountOfMenu': amountOfMenu
+      'amountOfMenu': amountOfMenu,
+      'distance': distance,
+      'shippingFee': shippingFee,
+      'subTotal': subTotal
     };
   }
 
@@ -63,5 +69,8 @@ class Activity {
     storeImage = data['storeImage'];
     kindOfFood = data['kindOfFood'];
     orderStatus = data['orderStatus'];
+    distance = data['distance'];
+    shippingFee = data['shippingFee'];
+    subTotal = data['subTotal'];
   }
 }

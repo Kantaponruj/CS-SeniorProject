@@ -1,4 +1,7 @@
+import 'dart:math';
+
 import 'package:auto_size_text/auto_size_text.dart';
+import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:cs_senior_project/asset/color.dart';
 import 'package:cs_senior_project/asset/constant.dart';
 import 'package:cs_senior_project/asset/text_style.dart';
@@ -9,6 +12,7 @@ import 'package:cs_senior_project/models/menu.dart';
 import 'package:cs_senior_project/notifiers/activities_notifier.dart';
 import 'package:cs_senior_project/notifiers/address_notifier.dart';
 import 'package:cs_senior_project/notifiers/favorite_notifier.dart';
+import 'package:cs_senior_project/notifiers/location_notifer.dart';
 import 'package:cs_senior_project/notifiers/order_notifier.dart';
 import 'package:cs_senior_project/notifiers/store_notifier.dart';
 import 'package:cs_senior_project/notifiers/user_notifier.dart';
@@ -20,6 +24,8 @@ import 'package:cs_senior_project/services/user_service.dart';
 import 'package:cs_senior_project/widgets/datetime_picker_widget.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_polyline_points/flutter_polyline_points.dart';
+import 'package:google_maps_flutter/google_maps_flutter.dart';
 import 'package:provider/provider.dart';
 
 class ShopMenu extends StatefulWidget {
@@ -35,11 +41,24 @@ class _ShopMenuState extends State<ShopMenu> {
   final controller = ScrollController();
   bool isShowBasket = false;
   String selectedAddress;
-
   List categories = [];
 
   Favorite _favorite = Favorite();
   bool _isFavorite = false;
+
+  List<LatLng> polylineCoordinates = [];
+  PolylinePoints polylinePoints;
+  String _placeDistance;
+  double _shippingFee = 0;
+
+  double _coordinateDistance(lat1, lon1, lat2, lon2) {
+    var p = 0.017453292519943295;
+    var c = cos;
+    var a = 0.5 -
+        c((lat2 - lat1) * p) / 2 +
+        c(lat1 * p) * c(lat2 * p) * (1 - c((lon2 - lon1) * p)) / 2;
+    return 12742 * asin(sqrt(a));
+  }
 
   @override
   void initState() {
@@ -52,8 +71,11 @@ class _ShopMenuState extends State<ShopMenu> {
         Provider.of<FavoriteNotifier>(context, listen: false);
     UserNotifier user = Provider.of<UserNotifier>(context, listen: false);
 
+    polylinePoints = PolylinePoints();
+    setPolylines(store, user);
+
     getMenu(store);
-    // getAddress(address, user.userModel.uid);
+
     getFavoriteStores(favorite, user.user.uid);
     if (favorite.favoriteList != null) {
       for (int i = 0; i < favorite.favoriteList.length; i++) {
@@ -68,6 +90,67 @@ class _ShopMenuState extends State<ShopMenu> {
     }
     activity.resetDateTimeOrdered();
     super.initState();
+  }
+
+  void setPolylines(StoreNotifier store, UserNotifier user) async {
+    LocationNotifier location =
+        Provider.of<LocationNotifier>(context, listen: false);
+
+    PolylineResult result = await polylinePoints.getRouteBetweenCoordinates(
+      GOOGLE_MAPS_API_KEY,
+      PointLatLng(
+        user.userModel.selectedAddress['geoPoint'] != GeoPoint(0, 0)
+            ? user.userModel.selectedAddress['geoPoint'].latitude
+            : location.currentPosition.latitude,
+        user.userModel.selectedAddress['geoPoint'] != GeoPoint(0, 0)
+            ? user.userModel.selectedAddress['geoPoint'].longitude
+            : location.currentPosition.longitude,
+      ),
+      PointLatLng(
+        store.currentStore.realtimeLocation.latitude,
+        store.currentStore.realtimeLocation.longitude,
+      ),
+    );
+
+    if (result.status == 'OK') {
+      result.points.forEach((PointLatLng point) {
+        polylineCoordinates.add(LatLng(point.latitude, point.longitude));
+      });
+
+      setState(() {
+        calculateDistance();
+      });
+    }
+  }
+
+  void calculateDistance() {
+    OrderNotifier order = Provider.of<OrderNotifier>(context, listen: false);
+    double totalDistance = 0.0;
+    double distance;
+
+    for (int i = 0; i < polylineCoordinates.length - 1; i++) {
+      totalDistance += _coordinateDistance(
+        polylineCoordinates[i].latitude,
+        polylineCoordinates[i].longitude,
+        polylineCoordinates[i + 1].latitude,
+        polylineCoordinates[i + 1].longitude,
+      );
+    }
+
+    setState(() {
+      _placeDistance = totalDistance.toStringAsFixed(2);
+      print('DISTANCE: $_placeDistance km');
+
+      if (double.parse(_placeDistance) > 1) {
+        distance = double.parse(_placeDistance) - 1;
+        _shippingFee = distance * 5;
+      }
+
+      order.getDistanceAndShippingFee(
+        _placeDistance,
+        _shippingFee.toInt().toString(),
+      );
+    });
   }
 
   _onSaveFavorite(Favorite favorite) {
@@ -156,7 +239,7 @@ class _ShopMenuState extends State<ShopMenu> {
             children: [
               chipIconInfo(
                 Icons.directions_car,
-                '0.2 กม.',
+                '${_placeDistance ?? ''} กม.',
                 Color(0xFFC4C4C4),
                 Colors.black,
               ),
@@ -169,7 +252,7 @@ class _ShopMenuState extends State<ShopMenu> {
                 padding: const EdgeInsets.only(left: 10),
                 child: chipIconInfo(
                   Icons.attach_money,
-                  '10 บาท',
+                  '${_shippingFee.toInt().toString()} บาท',
                   Color(0xFF219653),
                   Colors.white,
                 ),

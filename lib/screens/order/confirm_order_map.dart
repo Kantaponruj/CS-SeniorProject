@@ -1,7 +1,5 @@
 import 'dart:async';
-import 'dart:math' show cos, sqrt, asin;
 
-import 'package:cs_senior_project/asset/constant.dart';
 import 'package:cs_senior_project/asset/text_style.dart';
 import 'package:cs_senior_project/component/appBar.dart';
 import 'package:cs_senior_project/component/bottomBar.dart';
@@ -167,12 +165,12 @@ class _ConfirmedOrderMapPageState extends State<ConfirmedOrderMapPage> {
                               alignment: Alignment.topRight,
                               child: TextButton(
                                 onPressed: () {
-                                  setState(() {
-                                    orderFinish = true;
-                                    orderedMenu = false;
-                                  });
+                                  // setState(() {
+                                  //   orderFinish = true;
+                                  //   orderedMenu = false;
+                                  // });
                                   Navigator.of(context)
-                                      .pushNamed('/orderDetail');
+                                      .pushNamed('/confirmOrderDetail');
                                 },
                                 child: Text(
                                   'รายละเอียด',

@@ -6,7 +6,7 @@ import 'package:cs_senior_project/component/orderCard.dart';
 import 'package:cs_senior_project/notifiers/activities_notifier.dart';
 import 'package:cs_senior_project/notifiers/store_notifier.dart';
 import 'package:cs_senior_project/notifiers/user_notifier.dart';
-import 'package:cs_senior_project/screens/order/confirm_order.dart';
+import 'package:cs_senior_project/screens/order/confirm_order_map.dart';
 import 'package:cs_senior_project/screens/order/confirm_order_detail.dart';
 import 'package:cs_senior_project/services/user_service.dart';
 import 'package:flutter/cupertino.dart';
@@ -106,13 +106,13 @@ class _HistoryPageState extends State<HistoryPage> {
                                               ConfirmedOrderMapPage(),
                                         ),
                                       );
+                                    } else {
+                                      Navigator.of(context).push(
+                                        MaterialPageRoute(
+                                            builder: (context) =>
+                                                ConfirmOrderDetail()),
+                                      );
                                     }
-
-                                    Navigator.of(context).push(
-                                      MaterialPageRoute(
-                                          builder: (context) =>
-                                              ConfirmOrderDetail()),
-                                    );
                                   },
                                 )
                               : Container();

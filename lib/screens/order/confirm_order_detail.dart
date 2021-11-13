@@ -4,7 +4,6 @@ import 'package:cs_senior_project/asset/text_style.dart';
 import 'package:cs_senior_project/component/bottomBar.dart';
 import 'package:cs_senior_project/component/orderCard.dart';
 import 'package:cs_senior_project/component/shopAppBar.dart';
-import 'package:cs_senior_project/models/activities.dart';
 import 'package:cs_senior_project/models/order.dart';
 import 'package:cs_senior_project/notifiers/activities_notifier.dart';
 import 'package:cs_senior_project/notifiers/user_notifier.dart';
@@ -14,9 +13,7 @@ import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 
 class ConfirmOrderDetail extends StatefulWidget {
-  ConfirmOrderDetail({Key key, this.storeId}) : super(key: key);
-
-  final String storeId;
+  ConfirmOrderDetail({Key key}) : super(key: key);
 
   @override
   _ConfirmOrderDetailState createState() => _ConfirmOrderDetailState();
@@ -48,7 +45,7 @@ class _ConfirmOrderDetailState extends State<ConfirmOrderDetail> {
       activity.currentActivity.orderId,
     );
     if (activity.currentActivity.orderStatus == 'ยืนยันการจัดส่ง') {
-      Navigator.of(context).pushReplacementNamed('/confirmOrder');
+      Navigator.of(context).pushReplacementNamed('/confirmOrderMap');
     }
     Future.delayed(Duration(seconds: 2), () {
       checkStatus();
@@ -65,10 +62,13 @@ class _ConfirmOrderDetailState extends State<ConfirmOrderDetail> {
       appBar: ShopRoundedAppBar(
         appBarTitle: activity.currentActivity.storeName,
         automaticallyImplyLeading: false,
-        leading: IconButton(icon: Icon(Icons.arrow_back), onPressed: () {
-          Navigator.of(context).pushReplacement(
-              MaterialPageRoute(builder: (context) => bottomBar()));
-        },),
+        leading: IconButton(
+          icon: Icon(Icons.arrow_back),
+          onPressed: () {
+            Navigator.of(context).pushReplacement(
+                MaterialPageRoute(builder: (context) => bottomBar()));
+          },
+        ),
         onClicked: () {
           Navigator.of(context).push(MaterialPageRoute(
             builder: (context) => ShopDetail(),
@@ -105,45 +105,92 @@ class _ConfirmOrderDetailState extends State<ConfirmOrderDetail> {
                           physics: NeverScrollableScrollPhysics(),
                           itemCount: activity.orderMenuList.length,
                           itemBuilder: (context, index) {
-                            return listOrder(
-                              activity.orderMenuList[index],
-                              activity.currentActivity,
-                            );
+                            return listOrder(activity.orderMenuList[index]);
                           },
                         ),
                       ),
                       Container(
-                        margin: EdgeInsets.only(top: 20),
-                        child: Row(
-                          mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                          children: [
-                            Expanded(
-                              child: AutoSizeText(
-                                'ราคาสุทธิ',
-                                style: FontCollection.bodyBoldTextStyle,
-                              ),
-                            ),
-                            Container(
-                              child: Row(
+                          margin: EdgeInsets.only(top: 20),
+                          child: Column(
+                            children: [
+                              Row(
+                                mainAxisAlignment:
+                                    MainAxisAlignment.spaceBetween,
                                 children: [
-                                  AutoSizeText(
-                                    activity.currentActivity.netPrice,
-                                    style: FontCollection.bodyBoldTextStyle,
+                                  Container(
+                                    child: AutoSizeText('ค่าอาหารทั้งหมด'),
                                   ),
                                   Container(
-                                    padding: EdgeInsets.only(left: 20),
-                                    child: AutoSizeText(
-                                      'บาท',
-                                      maxLines: 1,
-                                      style: FontCollection.bodyBoldTextStyle,
+                                    child: Row(
+                                      children: [
+                                        AutoSizeText(
+                                            activity.currentActivity.subTotal),
+                                        Container(
+                                          padding: EdgeInsets.only(left: 20),
+                                          child:
+                                              AutoSizeText('บาท', maxLines: 1),
+                                        ),
+                                      ],
                                     ),
                                   ),
                                 ],
                               ),
-                            ),
-                          ],
-                        ),
-                      ),
+                              Row(
+                                mainAxisAlignment:
+                                    MainAxisAlignment.spaceBetween,
+                                children: [
+                                  Container(
+                                    child: AutoSizeText('ค่าส่ง'),
+                                  ),
+                                  Container(
+                                    child: Row(
+                                      children: [
+                                        AutoSizeText(activity
+                                            .currentActivity.shippingFee),
+                                        Container(
+                                          padding: EdgeInsets.only(left: 20),
+                                          child:
+                                              AutoSizeText('บาท', maxLines: 1),
+                                        ),
+                                      ],
+                                    ),
+                                  ),
+                                ],
+                              ),
+                              Row(
+                                mainAxisAlignment:
+                                    MainAxisAlignment.spaceBetween,
+                                children: [
+                                  Container(
+                                    child: AutoSizeText(
+                                      'ราคาสุทธิ',
+                                      style: FontCollection.bodyBoldTextStyle,
+                                    ),
+                                  ),
+                                  Container(
+                                    child: Row(
+                                      children: [
+                                        AutoSizeText(
+                                          activity.currentActivity.netPrice,
+                                          style:
+                                              FontCollection.bodyBoldTextStyle,
+                                        ),
+                                        Container(
+                                          padding: EdgeInsets.only(left: 20),
+                                          child: AutoSizeText(
+                                            'บาท',
+                                            maxLines: 1,
+                                            style: FontCollection
+                                                .bodyBoldTextStyle,
+                                          ),
+                                        ),
+                                      ],
+                                    ),
+                                  ),
+                                ],
+                              ),
+                            ],
+                          )),
                     ],
                   ),
                 ),
@@ -180,7 +227,7 @@ class _ConfirmOrderDetailState extends State<ConfirmOrderDetail> {
     );
   }
 
-  Widget listOrder(OrderModel order, Activity activity) {
+  Widget listOrder(OrderModel order) {
     return Container(
       padding: EdgeInsets.zero,
       margin: EdgeInsets.zero,

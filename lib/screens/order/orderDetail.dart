@@ -103,6 +103,9 @@ class _OrderDetailPageState extends State<OrderDetailPage> {
     _activities.kindOfFood = storeNotifier.currentStore.kindOfFood;
     _activities.orderStatus = "กำลังดำเนินการ";
     _activities.amountOfMenu = orderNotifier.orderList.length.toString();
+    _activities.distance = orderNotifier.distance;
+    _activities.shippingFee = orderNotifier.shippingFee;
+    _activities.subTotal = totalPrice.toString();
 
     return Scaffold(
       extendBodyBehindAppBar: true,
@@ -172,32 +175,75 @@ class _OrderDetailPageState extends State<OrderDetailPage> {
                       ),
                       Container(
                         margin: EdgeInsets.only(top: 20),
-                        child: Row(
-                          mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                        child: Column(
                           children: [
-                            Container(
-                              child: AutoSizeText(
-                                'ราคาสุทธิ',
-                                style: FontCollection.bodyBoldTextStyle,
-                              ),
+                            Row(
+                              mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                              children: [
+                                Container(
+                                  child: AutoSizeText('ค่าอาหารทั้งหมด'),
+                                ),
+                                Container(
+                                  child: Row(
+                                    children: [
+                                      AutoSizeText(totalPrice.toString()),
+                                      Container(
+                                        padding: EdgeInsets.only(left: 20),
+                                        child: AutoSizeText('บาท', maxLines: 1),
+                                      ),
+                                    ],
+                                  ),
+                                ),
+                              ],
                             ),
-                            Container(
-                              child: Row(
-                                children: [
-                                  AutoSizeText(
-                                    orderNotifier.netPrice.toString(),
+                            Row(
+                              mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                              children: [
+                                Container(
+                                  child: AutoSizeText('ค่าส่ง'),
+                                ),
+                                Container(
+                                  child: Row(
+                                    children: [
+                                      AutoSizeText(orderNotifier.shippingFee),
+                                      Container(
+                                        padding: EdgeInsets.only(left: 20),
+                                        child: AutoSizeText('บาท', maxLines: 1),
+                                      ),
+                                    ],
+                                  ),
+                                ),
+                              ],
+                            ),
+                            Row(
+                              mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                              children: [
+                                Container(
+                                  child: AutoSizeText(
+                                    'ราคาสุทธิ',
                                     style: FontCollection.bodyBoldTextStyle,
                                   ),
-                                  Container(
-                                    padding: EdgeInsets.only(left: 20),
-                                    child: AutoSizeText(
-                                      'บาท',
-                                      maxLines: 1,
-                                      style: FontCollection.bodyBoldTextStyle,
-                                    ),
+                                ),
+                                Container(
+                                  child: Row(
+                                    children: [
+                                      AutoSizeText(
+                                        orderNotifier.netPrice.toString(),
+                                        style: FontCollection.bodyBoldTextStyle,
+                                      ),
+                                      Container(
+                                        padding: EdgeInsets.only(left: 20),
+                                        child: AutoSizeText(
+                                          'บาท',
+                                          maxLines: 1,
+                                          style:
+                                              FontCollection.bodyBoldTextStyle,
+                                        ),
+                                      ),
+                                    ],
                                   ),
-                                ],
-                              ),
+                                ),
+                              ],
                             ),
                           ],
                         ),

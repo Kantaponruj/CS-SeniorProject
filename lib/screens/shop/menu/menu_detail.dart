@@ -63,7 +63,7 @@ class _MenuDetailState extends State<MenuDetail> {
       order = orderNotifier.currentOrder;
       price = order.totalPrice;
       amount = order.amount;
-      priceWithTopping = int.parse(order.totalPrice) / amount;
+      priceWithTopping = double.parse(order.totalPrice) / amount;
       otherController.text = order.other;
     } else {
       order = OrderModel();
@@ -81,7 +81,7 @@ class _MenuDetailState extends State<MenuDetail> {
     if (amount < 20) {
       amount += 1;
 
-      if (selectedTopping != null)
+      if (selectedTopping.isNotEmpty)
         priceTotal += priceWithTopping;
       else
         priceTotal += priceMenu;
@@ -95,7 +95,7 @@ class _MenuDetailState extends State<MenuDetail> {
     if (amount > 0) {
       amount -= 1;
 
-      if (selectedTopping != null) {
+      if (selectedTopping.isNotEmpty) {
         priceTotal -= priceWithTopping;
       } else
         priceTotal -= priceMenu;
@@ -352,7 +352,6 @@ class _MenuDetailState extends State<MenuDetail> {
 
   Widget listAddOn(StoreNotifier storeNotifier, int index) {
     double totalPriceInt = double.parse(price);
-    int toppingPriceInt;
 
     if (order.topping != null) {
       selectedTopping = order.topping;
@@ -372,7 +371,6 @@ class _MenuDetailState extends State<MenuDetail> {
         itemCount: storeNotifier.toppingList[index].subTopping.length,
         itemBuilder: (context, i) {
           final subtopping = storeNotifier.toppingList[index].subTopping[i];
-          toppingPriceInt = int.parse(subtopping['price']);
 
           return CheckboxListTile(
             title: Text(subtopping['name']),
@@ -386,22 +384,24 @@ class _MenuDetailState extends State<MenuDetail> {
                 switch (isSelectedTopping[i]) {
                   case true:
                     if (amount > 1) {
-                      totalPriceInt += (toppingPriceInt * amount);
+                      totalPriceInt +=
+                          (int.parse(subtopping['price']) * amount);
                       priceWithTopping = totalPriceInt;
                       priceWithTopping = priceWithTopping / amount;
                     } else {
-                      totalPriceInt += toppingPriceInt;
+                      totalPriceInt += int.parse(subtopping['price']);
                       priceWithTopping = totalPriceInt;
                     }
                     selectedTopping.insert(0, subtopping['name']);
                     break;
                   default:
                     if (amount > 1) {
-                      totalPriceInt -= (toppingPriceInt * amount);
+                      totalPriceInt -=
+                          (int.parse(subtopping['price']) * amount);
                       priceWithTopping = totalPriceInt;
                       priceWithTopping = priceWithTopping / amount;
                     } else {
-                      totalPriceInt -= toppingPriceInt;
+                      totalPriceInt -= int.parse(subtopping['price']);
                       priceWithTopping = totalPriceInt;
                     }
                     selectedTopping.remove(subtopping['name']);

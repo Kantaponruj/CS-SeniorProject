@@ -81,7 +81,7 @@ class _HomeAppBarState extends State<HomeAppBar> {
                     margin: EdgeInsets.only(left: 20),
                     child: AutoSizeText(
                       'Deliver to : \n' +
-                          (user.userModel.selectedAddress['address'] != null
+                          (user.userModel.selectedAddress['address'] != ''
                               ? user.userModel.selectedAddress['address']
                               : location.currentAddress ?? 'loading...'),
                       style: FontCollection.bodyTextStyle,

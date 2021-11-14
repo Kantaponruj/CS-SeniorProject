@@ -34,7 +34,6 @@ class OrderDetailPage extends StatefulWidget {
 }
 
 class _OrderDetailPageState extends State<OrderDetailPage> {
-  int totalPrice = 0;
   DateTime now = new DateTime.now();
   DateFormat dateFormat = DateFormat('d MMMM y');
   DateFormat timeFormat = DateFormat.Hm('cs');
@@ -47,16 +46,6 @@ class _OrderDetailPageState extends State<OrderDetailPage> {
   void initState() {
     UserNotifier userNotifier =
         Provider.of<UserNotifier>(context, listen: false);
-    OrderNotifier orderNotifier =
-        Provider.of<OrderNotifier>(context, listen: false);
-
-    for (int i = 0; i < orderNotifier.orderList.length; i++) {
-      if (orderNotifier.orderList[i].storeId == widget.storeId) {
-        totalPrice += int.parse(orderNotifier.orderList[i].totalPrice);
-        orderNotifier.getNetPrice(totalPrice);
-      }
-    }
-
     userNotifier.reloadUserModel();
     super.initState();
   }
@@ -105,7 +94,7 @@ class _OrderDetailPageState extends State<OrderDetailPage> {
     _activities.amountOfMenu = orderNotifier.orderList.length.toString();
     _activities.distance = orderNotifier.distance;
     _activities.shippingFee = orderNotifier.shippingFee;
-    _activities.subTotal = totalPrice.toString();
+    _activities.subTotal = orderNotifier.totalFoodPrice.toString();
 
     return Scaffold(
       extendBodyBehindAppBar: true,
@@ -186,7 +175,8 @@ class _OrderDetailPageState extends State<OrderDetailPage> {
                                 Container(
                                   child: Row(
                                     children: [
-                                      AutoSizeText(totalPrice.toString()),
+                                      AutoSizeText(orderNotifier.totalFoodPrice
+                                          .toString()),
                                       Container(
                                         padding: EdgeInsets.only(left: 20),
                                         child: AutoSizeText('บาท', maxLines: 1),

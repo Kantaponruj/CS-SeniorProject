@@ -1,26 +1,25 @@
-import 'dart:async';
-
+import 'package:flutter/material.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:cs_senior_project/asset/constant.dart';
 import 'package:cs_senior_project/component/appBar.dart';
 import 'package:cs_senior_project/notifiers/location_notifer.dart';
+import 'package:cs_senior_project/notifiers/order_notifier.dart';
 import 'package:cs_senior_project/notifiers/user_notifier.dart';
 import 'package:cs_senior_project/widgets/loading_widget.dart';
-import 'package:flutter/material.dart';
 import 'package:google_maps_flutter/google_maps_flutter.dart';
 import 'package:google_maps_place_picker/google_maps_place_picker.dart';
 import 'package:provider/provider.dart';
 
 class SelectAddress extends StatefulWidget {
-  const SelectAddress({Key key}) : super(key: key);
+  const SelectAddress({Key key, this.storePoint}) : super(key: key);
+
+  final LatLng storePoint;
 
   @override
   _SelectAddressState createState() => _SelectAddressState();
 }
 
 class _SelectAddressState extends State<SelectAddress> {
-  // final Completer<GoogleMapController> _mapController = Completer();
-
   @override
   void initState() {
     LocationNotifier locationNotifier =
@@ -33,6 +32,7 @@ class _SelectAddressState extends State<SelectAddress> {
   Widget build(BuildContext context) {
     LocationNotifier location = Provider.of<LocationNotifier>(context);
     UserNotifier userNotifier = Provider.of<UserNotifier>(context);
+    OrderNotifier orderNotifier = Provider.of<OrderNotifier>(context);
 
     return SafeArea(
       child: Scaffold(
@@ -54,6 +54,19 @@ class _SelectAddressState extends State<SelectAddress> {
                         selectInitialPosition: true,
                         usePlaceDetailSearch: true,
                         onPlacePicked: (selectedPlace) {
+                          if (widget.storePoint != null) {
+                            orderNotifier.setPolylines(
+                              LatLng(
+                                selectedPlace.geometry.location.lat,
+                                selectedPlace.geometry.location.lng,
+                              ),
+                              LatLng(
+                                widget.storePoint.latitude,
+                                widget.storePoint.longitude,
+                              ),
+                            );
+                          }
+
                           Navigator.of(context).pop();
                           setState(() {
                             userNotifier.updateUserData({

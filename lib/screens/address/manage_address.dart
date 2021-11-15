@@ -2,18 +2,22 @@ import 'package:auto_size_text/auto_size_text.dart';
 import 'package:cs_senior_project/asset/text_style.dart';
 import 'package:cs_senior_project/component/appBar.dart';
 import 'package:cs_senior_project/notifiers/address_notifier.dart';
+import 'package:cs_senior_project/notifiers/order_notifier.dart';
 import 'package:cs_senior_project/notifiers/user_notifier.dart';
 import 'package:cs_senior_project/screens/address/add_address.dart';
 import 'package:cs_senior_project/screens/address/select_address.dart';
 import 'package:cs_senior_project/services/user_service.dart';
 import 'package:cs_senior_project/widgets/button_widget.dart';
 import 'package:flutter/material.dart';
+import 'package:google_maps_flutter/google_maps_flutter.dart';
 import 'package:provider/provider.dart';
 
 class ManageAddress extends StatefulWidget {
-  const ManageAddress({Key key, @required this.uid}) : super(key: key);
+  const ManageAddress({Key key, @required this.uid, this.storePoint})
+      : super(key: key);
 
   final String uid;
+  final LatLng storePoint;
 
   @override
   _ManageAddressState createState() => _ManageAddressState();
@@ -32,6 +36,7 @@ class _ManageAddressState extends State<ManageAddress> {
   Widget build(BuildContext context) {
     UserNotifier userNotifier = Provider.of<UserNotifier>(context);
     AddressNotifier addressNotifier = Provider.of<AddressNotifier>(context);
+    OrderNotifier orderNotifier = Provider.of<OrderNotifier>(context);
 
     return Scaffold(
       appBar: RoundedAppBar(
@@ -46,9 +51,16 @@ class _ManageAddressState extends State<ManageAddress> {
               child: StadiumButtonWidget(
                 text: 'เลือกบนแผนที่',
                 onClicked: () {
-                  Navigator.of(context).push(MaterialPageRoute(
-                    builder: (context) => SelectAddress(),
-                  ));
+                  if (widget.storePoint != null) {
+                    Navigator.of(context).push(MaterialPageRoute(
+                      builder: (context) =>
+                          SelectAddress(storePoint: widget.storePoint),
+                    ));
+                  } else {
+                    Navigator.of(context).push(MaterialPageRoute(
+                      builder: (context) => SelectAddress(),
+                    ));
+                  }
                 },
               ),
             ),
@@ -88,13 +100,29 @@ class _ManageAddressState extends State<ManageAddress> {
                         itemBuilder: (BuildContext context, int index) {
                           return ListTile(
                             title: Text(
-                                addressNotifier.addressList[index].addressName,
-                                style: FontCollection.bodyTextStyle),
+                              addressNotifier.addressList[index].addressName,
+                              style: FontCollection.bodyTextStyle,
+                            ),
                             subtitle: AutoSizeText(
                               addressNotifier.addressList[index].address,
                               maxLines: 2,
                             ),
                             onTap: () {
+                              if (widget.storePoint != null) {
+                                orderNotifier.setPolylines(
+                                  LatLng(
+                                    addressNotifier
+                                        .addressList[index].geoPoint.latitude,
+                                    addressNotifier
+                                        .addressList[index].geoPoint.longitude,
+                                  ),
+                                  LatLng(
+                                    widget.storePoint.latitude,
+                                    widget.storePoint.longitude,
+                                  ),
+                                );
+                              }
+
                               userNotifier.updateUserData({
                                 "selectedAddress": {
                                   "residentName": addressNotifier
@@ -111,7 +139,6 @@ class _ManageAddressState extends State<ManageAddress> {
                                       addressNotifier.addressList[index].phone
                                 }
                               });
-
                               userNotifier.reloadUserModel();
                               Navigator.pop(context);
                             },

@@ -21,6 +21,7 @@ import 'package:cs_senior_project/widgets/bottomOrder_widget.dart';
 import 'package:cs_senior_project/widgets/button_widget.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:google_maps_widget/google_maps_widget.dart';
 import 'package:intl/intl.dart';
 import 'package:provider/provider.dart';
 
@@ -44,9 +45,22 @@ class _OrderDetailPageState extends State<OrderDetailPage> {
 
   @override
   void initState() {
-    UserNotifier userNotifier =
-        Provider.of<UserNotifier>(context, listen: false);
-    userNotifier.reloadUserModel();
+    // StoreNotifier store = Provider.of<StoreNotifier>(context, listen: false);
+    UserNotifier user = Provider.of<UserNotifier>(context, listen: false);
+    // OrderNotifier order = Provider.of<OrderNotifier>(context, listen: false);
+    user.reloadUserModel();
+
+    // order.setPolylines(
+    //   LatLng(
+    //     user.userModel.selectedAddress['geoPoint'].latitude,
+    //     user.userModel.selectedAddress['geoPoint'].longitude,
+    //   ),
+    // LatLng(
+    //   store.currentStore.realtimeLocation.latitude,
+    //   store.currentStore.realtimeLocation.longitude,
+    // ),
+    // );
+    // print('This page');
     super.initState();
   }
 
@@ -129,8 +143,15 @@ class _OrderDetailPageState extends State<OrderDetailPage> {
                   () {
                     Navigator.of(context).push(
                       MaterialPageRoute(
-                        builder: (context) =>
-                            ManageAddress(uid: userNotifier.userModel.uid),
+                        builder: (context) => ManageAddress(
+                          uid: userNotifier.userModel.uid,
+                          storePoint: LatLng(
+                            storeNotifier
+                                .currentStore.realtimeLocation.latitude,
+                            storeNotifier
+                                .currentStore.realtimeLocation.longitude,
+                          ),
+                        ),
                       ),
                     );
                   },

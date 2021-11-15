@@ -12,6 +12,8 @@ class Activity {
   String message;
   String dateOrdered;
   String timeOrdered;
+  String startWaitingTime;
+  String endWaitingTime;
   String netPrice;
   String storeId;
   String storeName;
@@ -38,6 +40,8 @@ class Activity {
       'message': message,
       'dateOrdered': dateOrdered,
       'timeOrdered': timeOrdered,
+      'startWaitingTime': startWaitingTime,
+      'endWaitingTime': endWaitingTime,
       'netPrice': netPrice,
       'storeId': storeId,
       'storeName': storeName,
@@ -63,6 +67,8 @@ class Activity {
     message = data['message'];
     dateOrdered = data['dateOrdered'];
     timeOrdered = data['timeOrdered'];
+    startWaitingTime = data['startWaitingTime'];
+    endWaitingTime = data['endWaitingTime'];
     netPrice = data['netPrice'];
     storeId = data['storeId'];
     storeName = data['storeName'];

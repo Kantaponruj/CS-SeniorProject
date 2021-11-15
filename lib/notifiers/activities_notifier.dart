@@ -11,7 +11,9 @@ class ActivitiesNotifier with ChangeNotifier {
   Activity _currentActivity;
 
   String _dateOrdered;
-  String _timeOrdered;
+  // String _timeOrdered;
+  String _startWaitingTime;
+  String _endWaitingTime;
   String _arrivableTime;
 
   UnmodifiableListView<Activity> get activitiesList =>
@@ -22,7 +24,9 @@ class ActivitiesNotifier with ChangeNotifier {
   Activity get currentActivity => _currentActivity;
 
   String get dateOrdered => _dateOrdered;
-  String get timeOrdered => _timeOrdered;
+  // String get timeOrdered => _timeOrdered;
+  String get startWaitingTime => _startWaitingTime;
+  String get endWaitingTime => _endWaitingTime;
   String get arrivableTime => _arrivableTime;
 
   set activitiesList(List<Activity> activity) {
@@ -44,13 +48,18 @@ class ActivitiesNotifier with ChangeNotifier {
     _dateOrdered = date;
   }
 
-  svaeTimeOrdered(String time) {
-    _timeOrdered = time;
+  saveStartWaitingTime(String startT) {
+    _startWaitingTime = startT;
+  }
+
+  saveEndWaitingTime(String endT) {
+    _endWaitingTime = endT;
   }
 
   resetDateTimeOrdered() {
     _dateOrdered = null;
-    _timeOrdered = null;
+    _startWaitingTime = null;
+    _endWaitingTime = null;
   }
 
   reloadActivityModel(String uid, String activityId) async {

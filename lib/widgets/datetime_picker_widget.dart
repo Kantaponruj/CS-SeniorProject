@@ -1,5 +1,4 @@
 import 'package:cs_senior_project/component/show_datetime.dart';
-import 'package:cs_senior_project/models/activities.dart';
 import 'package:cs_senior_project/notifiers/activities_notifier.dart';
 import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
@@ -40,7 +39,7 @@ class _DatePickerWidgetState extends State<DatePickerWidget> {
           Provider.of<ActivitiesNotifier>(context, listen: false);
       date = newDate;
       activity.saveDateOrdered(getText());
-      print('date: ${activity.dateOrdered}');
+      // print('date: ${activity.dateOrdered}');
     });
   }
 
@@ -57,12 +56,16 @@ class _DatePickerWidgetState extends State<DatePickerWidget> {
 }
 
 class TimePickerWidget extends StatefulWidget {
+  TimePickerWidget({Key key, this.isStartWaitingTime}) : super(key: key);
+  final bool isStartWaitingTime;
+
   @override
   _TimePickerWidgetState createState() => _TimePickerWidgetState();
 }
 
 class _TimePickerWidgetState extends State<TimePickerWidget> {
   TimeOfDay time;
+  String timeStr;
 
   String getText() {
     if (time == null) {
@@ -88,18 +91,22 @@ class _TimePickerWidgetState extends State<TimePickerWidget> {
       ActivitiesNotifier activity =
           Provider.of<ActivitiesNotifier>(context, listen: false);
       time = newTime;
-      activity.svaeTimeOrdered(getText());
-      print('time: ${activity.timeOrdered}');
+      widget.isStartWaitingTime
+          ? activity.saveStartWaitingTime(getText())
+          : activity.saveEndWaitingTime(getText());
     });
   }
 
   @override
   Widget build(BuildContext context) {
     ActivitiesNotifier activity = Provider.of<ActivitiesNotifier>(context);
+    timeStr = widget.isStartWaitingTime
+        ? activity.startWaitingTime
+        : activity.endWaitingTime;
 
     return ShowDateTime(
       icon: Icons.access_time,
-      text: activity.timeOrdered != null ? activity.timeOrdered : getText(),
+      text: timeStr != null ? timeStr : getText(),
       onClicked: () => pickTime(context),
     );
   }

@@ -14,6 +14,7 @@ class OrderNotifier with ChangeNotifier {
   int _oldShippingFee;
   String _distance;
   String _shippingFee = '0';
+  String _storeId;
 
   List<OrderModel> get orderList => _orderList;
 
@@ -57,7 +58,17 @@ class OrderNotifier with ChangeNotifier {
     notifyListeners();
   }
 
-  getNetPrice(int totalPrice) {
+  getNetPrice(String storeId) {
+    int totalPrice = 0;
+    _totalFoodPrice = 0;
+    _netPrice = 0;
+    _storeId = storeId;
+
+    for (int i = 0; i < _orderList.length; i++) {
+      if (_orderList[i].storeId == storeId) {
+        totalPrice += int.parse(_orderList[i].totalPrice);
+      }
+    }
     _totalFoodPrice = totalPrice;
     _netPrice = totalPrice + int.parse(_shippingFee);
     notifyListeners();
@@ -77,7 +88,9 @@ class OrderNotifier with ChangeNotifier {
       result.points.forEach((PointLatLng point) {
         _polylineCoordinates.add(LatLng(point.latitude, point.longitude));
       });
-
+      if (_orderList.isNotEmpty) {
+        getNetPrice(_storeId);
+      }
       calculateDistance();
     }
   }
@@ -101,8 +114,6 @@ class OrderNotifier with ChangeNotifier {
       distance = double.parse(_distance) - 1;
       _shippingFee = (distance * 5).toInt().toString();
       _netPrice += int.parse(_shippingFee);
-    } else {
-      _netPrice -= _oldShippingFee;
     }
 
     _polylineCoordinates.clear();

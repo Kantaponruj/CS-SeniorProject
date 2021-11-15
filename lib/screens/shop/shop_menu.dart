@@ -71,6 +71,7 @@ class _ShopMenuState extends State<ShopMenu> {
         store.currentStore.realtimeLocation.longitude,
       ),
     );
+    order.getNetPrice(store.currentStore.storeId);
 
     getMenu(store);
 
@@ -500,22 +501,30 @@ class _ShopMenuState extends State<ShopMenu> {
                   children: [
                     Text(
                       (activity.dateOrdered != null &&
-                              activity.timeOrdered != null)
-                          ? '${activity.dateOrdered} ${activity.timeOrdered} น.'
+                              activity.startWaitingTime != null)
+                          ? '${activity.dateOrdered} ${activity.startWaitingTime} น.'
                           : 'now',
                       style: FontCollection.bodyTextStyle,
                     ),
-                    Container(
-                      padding: EdgeInsets.symmetric(horizontal: 10),
-                      child: Text(
-                        'จนถึง',
-                        style: FontCollection.bodyTextStyle,
-                      ),
-                    ),
-                    Text(
-                      '12.00',
-                      style: FontCollection.bodyTextStyle,
-                    ),
+                    activity.endWaitingTime != null
+                        ? Container(
+                            child: Row(
+                              children: [
+                                Container(
+                                  padding: EdgeInsets.symmetric(horizontal: 10),
+                                  child: Text(
+                                    'จนถึง',
+                                    style: FontCollection.bodyTextStyle,
+                                  ),
+                                ),
+                                Text(
+                                  '${activity.endWaitingTime} น.',
+                                  style: FontCollection.bodyTextStyle,
+                                ),
+                              ],
+                            ),
+                          )
+                        : SizedBox()
                   ],
                 ),
                 trailing: IconButton(
@@ -572,7 +581,7 @@ class _ShopMenuState extends State<ShopMenu> {
                       margin: EdgeInsets.fromLTRB(0, 5, 0, 20),
                       child: Row(
                         children: [
-                          TimePickerWidget(),
+                          TimePickerWidget(isStartWaitingTime: true),
                           Container(
                             padding: EdgeInsets.symmetric(horizontal: 10),
                             child: Text(
@@ -580,7 +589,7 @@ class _ShopMenuState extends State<ShopMenu> {
                               style: FontCollection.bodyTextStyle,
                             ),
                           ),
-                          TimePickerWidget(),
+                          TimePickerWidget(isStartWaitingTime: false),
                         ],
                       ),
                     ),

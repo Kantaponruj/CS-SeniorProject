@@ -121,7 +121,6 @@ class _MenuDetailState extends State<MenuDetail> {
       if (orderNotifier.currentOrder != null) {
         if (amount < 1) {
           orderNotifier.removeOrder(orderNotifier.currentOrder);
-          orderNotifier.getNetPrice(0);
           orderNotifier.currentOrder = null;
         } else {
           order.totalPrice = price;
@@ -129,11 +128,6 @@ class _MenuDetailState extends State<MenuDetail> {
           order.amount = amount;
           order.other = otherController.text.trim();
         }
-
-        // print('order length ' + orderNotifier.orderList.length.toString());
-        // print(orderNotifier.orderList.map((data) => data.menuName));
-        // print(orderNotifier.orderList.map((data) => data.totalPrice));
-        // print(order.topping);
       } else {
         order.storeId = widget.storeId;
         order.menuId = widget.menuId;
@@ -144,17 +138,9 @@ class _MenuDetailState extends State<MenuDetail> {
         order.other = otherController.text.trim();
 
         orderNotifier.addOrder(order);
-        // print('order length ' + orderNotifier.orderList.length.toString());
-        // print(orderNotifier.orderList.map((data) => data.menuName));
-        // print(orderNotifier.orderList.map((data) => data.totalPrice));
       }
 
-      for (int i = 0; i < orderNotifier.orderList.length; i++) {
-        if (orderNotifier.orderList[i].storeId == widget.storeId) {
-          totalPrice += int.parse(orderNotifier.orderList[i].totalPrice);
-          orderNotifier.getNetPrice(totalPrice);
-        }
-      }
+      orderNotifier.getNetPrice(storeNotifier.currentStore.storeId);
 
       orderedMenu = true;
       Navigator.of(context).pop();

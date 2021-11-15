@@ -45,76 +45,60 @@ class _OrderDetailPageState extends State<OrderDetailPage> {
 
   @override
   void initState() {
-    // StoreNotifier store = Provider.of<StoreNotifier>(context, listen: false);
     UserNotifier user = Provider.of<UserNotifier>(context, listen: false);
-    // OrderNotifier order = Provider.of<OrderNotifier>(context, listen: false);
     user.reloadUserModel();
-
-    // order.setPolylines(
-    //   LatLng(
-    //     user.userModel.selectedAddress['geoPoint'].latitude,
-    //     user.userModel.selectedAddress['geoPoint'].longitude,
-    //   ),
-    // LatLng(
-    //   store.currentStore.realtimeLocation.latitude,
-    //   store.currentStore.realtimeLocation.longitude,
-    // ),
-    // );
-    // print('This page');
     super.initState();
   }
 
   @override
   Widget build(BuildContext context) {
-    UserNotifier userNotifier = Provider.of<UserNotifier>(context);
-    StoreNotifier storeNotifier = Provider.of<StoreNotifier>(context);
-    OrderNotifier orderNotifier = Provider.of<OrderNotifier>(context);
-    LocationNotifier locationNotifier = Provider.of<LocationNotifier>(context);
-    ActivitiesNotifier activitiesNotifier =
-        Provider.of<ActivitiesNotifier>(context);
+    UserNotifier user = Provider.of<UserNotifier>(context);
+    StoreNotifier store = Provider.of<StoreNotifier>(context);
+    OrderNotifier order = Provider.of<OrderNotifier>(context);
+    LocationNotifier location = Provider.of<LocationNotifier>(context);
+    ActivitiesNotifier activity = Provider.of<ActivitiesNotifier>(context);
 
-    _activities.customerId = userNotifier.userModel.uid;
+    _activities.customerId = user.userModel.uid;
     _activities.customerName =
-        userNotifier.userModel.selectedAddress['residentName'] == ""
-            ? userNotifier.userModel.displayName
-            : userNotifier.userModel.selectedAddress['residentName'];
-    _activities.phone = userNotifier.userModel.selectedAddress['phone'] == ""
-        ? userNotifier.userModel.phone
-        : userNotifier.userModel.selectedAddress['phone'];
-    _activities.address =
-        userNotifier.userModel.selectedAddress['address'] == ""
-            ? locationNotifier.currentAddress
-            : userNotifier.userModel.selectedAddress['address'];
-    _activities.addressName =
-        userNotifier.userModel.selectedAddress['addressName'];
-    _activities.addressDetail =
-        userNotifier.userModel.selectedAddress['addressDetail'];
+        user.userModel.selectedAddress['residentName'] == ""
+            ? user.userModel.displayName
+            : user.userModel.selectedAddress['residentName'];
+    _activities.phone = user.userModel.selectedAddress['phone'] == ""
+        ? user.userModel.phone
+        : user.userModel.selectedAddress['phone'];
+    _activities.address = user.userModel.selectedAddress['address'] == ""
+        ? location.currentAddress
+        : user.userModel.selectedAddress['address'];
+    _activities.addressName = user.userModel.selectedAddress['addressName'];
+    _activities.addressDetail = user.userModel.selectedAddress['addressDetail'];
     _activities.geoPoint =
-        userNotifier.userModel.selectedAddress['geoPoint'] == GeoPoint(0, 0)
-            ? GeoPoint(locationNotifier.currentPosition.latitude,
-                locationNotifier.currentPosition.longitude)
-            : userNotifier.userModel.selectedAddress['geoPoint'];
+        user.userModel.selectedAddress['geoPoint'] == GeoPoint(0, 0)
+            ? GeoPoint(location.currentPosition.latitude,
+                location.currentPosition.longitude)
+            : user.userModel.selectedAddress['geoPoint'];
     _activities.message = otherMessageController.text.trim() ?? '';
-    _activities.dateOrdered =
-        activitiesNotifier.dateOrdered ?? dateFormat.format(now);
-    _activities.timeOrdered =
-        activitiesNotifier.timeOrdered ?? timeFormat.format(now);
-    _activities.netPrice = orderNotifier.netPrice.toString();
-    _activities.storeId = storeNotifier.currentStore.storeId;
-    _activities.storeName = storeNotifier.currentStore.storeName;
-    _activities.storeImage = storeNotifier.currentStore.image;
-    _activities.kindOfFood = storeNotifier.currentStore.kindOfFood;
+    _activities.dateOrdered = activity.dateOrdered ?? dateFormat.format(now);
+    _activities.timeOrdered = timeFormat.format(now);
+    _activities.startWaitingTime = activity.startWaitingTime != null
+        ? activity.startWaitingTime
+        : timeFormat.format(now);
+    _activities.endWaitingTime = activity.endWaitingTime;
+    _activities.netPrice = order.netPrice.toString();
+    _activities.storeId = store.currentStore.storeId;
+    _activities.storeName = store.currentStore.storeName;
+    _activities.storeImage = store.currentStore.image;
+    _activities.kindOfFood = store.currentStore.kindOfFood;
     _activities.orderStatus = "กำลังดำเนินการ";
-    _activities.amountOfMenu = orderNotifier.orderList.length.toString();
-    _activities.distance = orderNotifier.distance;
-    _activities.shippingFee = orderNotifier.shippingFee;
-    _activities.subTotal = orderNotifier.totalFoodPrice.toString();
+    _activities.amountOfMenu = order.orderList.length.toString();
+    _activities.distance = order.distance;
+    _activities.shippingFee = order.shippingFee;
+    _activities.subTotal = order.totalFoodPrice.toString();
 
     return Scaffold(
       extendBodyBehindAppBar: true,
       backgroundColor: CollectionsColors.grey,
       appBar: ShopRoundedAppBar(
-        appBarTitle: storeNotifier.currentStore.storeName,
+        appBarTitle: store.currentStore.storeName,
         onClicked: () {
           Navigator.of(context).push(MaterialPageRoute(
             builder: (context) => ShopDetail(),
@@ -144,12 +128,10 @@ class _OrderDetailPageState extends State<OrderDetailPage> {
                     Navigator.of(context).push(
                       MaterialPageRoute(
                         builder: (context) => ManageAddress(
-                          uid: userNotifier.userModel.uid,
+                          uid: user.userModel.uid,
                           storePoint: LatLng(
-                            storeNotifier
-                                .currentStore.realtimeLocation.latitude,
-                            storeNotifier
-                                .currentStore.realtimeLocation.longitude,
+                            store.currentStore.realtimeLocation.latitude,
+                            store.currentStore.realtimeLocation.longitude,
                           ),
                         ),
                       ),
@@ -174,11 +156,11 @@ class _OrderDetailPageState extends State<OrderDetailPage> {
                           shrinkWrap: true,
                           padding: EdgeInsets.zero,
                           physics: NeverScrollableScrollPhysics(),
-                          itemCount: orderNotifier.orderList.length,
+                          itemCount: order.orderList.length,
                           itemBuilder: (context, index) {
-                            return (orderNotifier.orderList[index].storeId ==
+                            return (order.orderList[index].storeId ==
                                     widget.storeId)
-                                ? listOrder(orderNotifier.orderList[index])
+                                ? listOrder(order.orderList[index])
                                 : Container();
                           },
                         ),
@@ -196,8 +178,8 @@ class _OrderDetailPageState extends State<OrderDetailPage> {
                                 Container(
                                   child: Row(
                                     children: [
-                                      AutoSizeText(orderNotifier.totalFoodPrice
-                                          .toString()),
+                                      AutoSizeText(
+                                          order.totalFoodPrice.toString()),
                                       Container(
                                         padding: EdgeInsets.only(left: 20),
                                         child: AutoSizeText('บาท', maxLines: 1),
@@ -216,7 +198,7 @@ class _OrderDetailPageState extends State<OrderDetailPage> {
                                 Container(
                                   child: Row(
                                     children: [
-                                      AutoSizeText(orderNotifier.shippingFee),
+                                      AutoSizeText(order.shippingFee),
                                       Container(
                                         padding: EdgeInsets.only(left: 20),
                                         child: AutoSizeText('บาท', maxLines: 1),
@@ -239,7 +221,7 @@ class _OrderDetailPageState extends State<OrderDetailPage> {
                                   child: Row(
                                     children: [
                                       AutoSizeText(
-                                        orderNotifier.netPrice.toString(),
+                                        order.netPrice.toString(),
                                         style: FontCollection.bodyBoldTextStyle,
                                       ),
                                       Container(
@@ -286,29 +268,29 @@ class _OrderDetailPageState extends State<OrderDetailPage> {
           : BottomOrderDetail(
               onClicked: () {
                 saveActivityToHistory(
-                  userNotifier.userModel.uid,
-                  storeNotifier.currentStore.storeId,
+                  user.userModel.uid,
+                  store.currentStore.storeId,
                   _activities,
                 );
 
-                for (int i = 0; i < orderNotifier.orderList.length; i++) {
-                  if ((orderNotifier.orderList[i].storeId == widget.storeId)) {
+                for (int i = 0; i < order.orderList.length; i++) {
+                  if ((order.orderList[i].storeId == widget.storeId)) {
                     saveEachOrderToHistory(
-                      userNotifier.userModel.uid,
-                      storeNotifier.currentStore.storeId,
-                      orderNotifier.orderList[i],
+                      user.userModel.uid,
+                      store.currentStore.storeId,
+                      order.orderList[i],
                     );
                   }
                 }
-                activitiesNotifier.currentActivity = _activities;
+                activity.currentActivity = _activities;
                 Navigator.of(context)
                     .pushReplacementNamed('/confirmOrderDetail');
 
-                activitiesNotifier.resetDateTimeOrdered();
-                orderNotifier.orderList.removeWhere((order) =>
-                    order.storeId == storeNotifier.currentStore.storeId);
+                activity.resetDateTimeOrdered();
+                order.orderList.removeWhere(
+                    (order) => order.storeId == store.currentStore.storeId);
 
-                userNotifier.updateUserData({
+                user.updateUserData({
                   "selectedAddress": {
                     "residentName": "",
                     "address": "",
@@ -339,7 +321,7 @@ class _OrderDetailPageState extends State<OrderDetailPage> {
                   ),
                 ],
               ),
-              netPrice: orderNotifier.netPrice.toString(),
+              netPrice: order.netPrice.toString(),
             ),
     );
   }

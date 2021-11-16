@@ -140,6 +140,8 @@ Future<void> getHistoryOrder(
       .collection('users')
       .doc(uid)
       .collection('activities')
+      .orderBy('dateOrdered')
+      .limit(14)
       .get();
 
   List<Activity> _activityList = [];

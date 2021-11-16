@@ -140,7 +140,10 @@ class _MenuDetailState extends State<MenuDetail> {
         orderNotifier.addOrder(order);
       }
 
-      orderNotifier.getNetPrice(storeNotifier.currentStore.storeId);
+      orderNotifier.getNetPrice(
+        storeNotifier.currentStore.storeId,
+        storeNotifier.currentStore.isDelivery,
+      );
 
       orderedMenu = true;
       Navigator.of(context).pop();

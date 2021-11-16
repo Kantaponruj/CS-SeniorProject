@@ -11,7 +11,6 @@ class OrderNotifier with ChangeNotifier {
   OrderModel _currentOrder;
   int _netPrice = 0;
   int _totalFoodPrice = 0;
-  int _oldShippingFee;
   String _distance;
   String _shippingFee = '0';
   String _storeId;
@@ -58,7 +57,7 @@ class OrderNotifier with ChangeNotifier {
     notifyListeners();
   }
 
-  getNetPrice(String storeId) {
+  getNetPrice(String storeId, bool isDelivery) {
     int totalPrice = 0;
     _totalFoodPrice = 0;
     _netPrice = 0;
@@ -70,12 +69,18 @@ class OrderNotifier with ChangeNotifier {
       }
     }
     _totalFoodPrice = totalPrice;
-    _netPrice = totalPrice + int.parse(_shippingFee);
+
+    switch (isDelivery) {
+      case true:
+        _netPrice = totalPrice + int.parse(_shippingFee);
+        break;
+      default:
+        _netPrice = _totalFoodPrice;
+    }
     notifyListeners();
   }
 
-  setPolylines(LatLng customerP, LatLng storeP) async {
-    _oldShippingFee = int.parse(_shippingFee);
+  setPolylines(LatLng customerP, LatLng storeP, bool isDelivery) async {
     _shippingFee = '0';
 
     PolylineResult result = await _polylinePoints.getRouteBetweenCoordinates(
@@ -89,13 +94,13 @@ class OrderNotifier with ChangeNotifier {
         _polylineCoordinates.add(LatLng(point.latitude, point.longitude));
       });
       if (_orderList.isNotEmpty) {
-        getNetPrice(_storeId);
+        getNetPrice(_storeId, isDelivery);
       }
-      calculateDistance();
+      calculateDistance(isDelivery);
     }
   }
 
-  void calculateDistance() {
+  void calculateDistance(bool isDelivery) {
     double totalDistance = 0.0;
     double distance;
 
@@ -110,10 +115,12 @@ class OrderNotifier with ChangeNotifier {
 
     _distance = totalDistance.toStringAsFixed(2);
 
-    if (double.parse(_distance) > 1) {
-      distance = double.parse(_distance) - 1;
-      _shippingFee = (distance * 5).toInt().toString();
-      _netPrice += int.parse(_shippingFee);
+    if (isDelivery) {
+      if (double.parse(_distance) > 1) {
+        distance = double.parse(_distance) - 1;
+        _shippingFee = (distance * 5).toInt().toString();
+        _netPrice += int.parse(_shippingFee);
+      }
     }
 
     _polylineCoordinates.clear();

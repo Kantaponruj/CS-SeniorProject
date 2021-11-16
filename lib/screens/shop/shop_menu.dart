@@ -70,8 +70,12 @@ class _ShopMenuState extends State<ShopMenu> {
         store.currentStore.realtimeLocation.latitude,
         store.currentStore.realtimeLocation.longitude,
       ),
+      store.currentStore.isDelivery,
     );
-    order.getNetPrice(store.currentStore.storeId);
+    order.getNetPrice(
+      store.currentStore.storeId,
+      store.currentStore.isDelivery,
+    );
 
     getMenu(store);
 
@@ -184,8 +188,15 @@ class _ShopMenuState extends State<ShopMenu> {
               ),
               Padding(
                 padding: const EdgeInsets.only(left: 10),
-                child:
-                    chipInfo('จัดส่ง', CollectionsColors.yellow, Colors.black),
+                child: chipInfo(
+                  storeNotifier.currentStore.isDelivery ? 'จัดส่ง' : 'รับเอง',
+                  storeNotifier.currentStore.isDelivery
+                      ? CollectionsColors.yellow
+                      : CollectionsColors.navy,
+                  storeNotifier.currentStore.isDelivery
+                      ? Colors.black
+                      : Colors.white,
+                ),
               ),
               Padding(
                 padding: const EdgeInsets.only(left: 10),

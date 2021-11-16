@@ -133,6 +133,7 @@ class _OrderDetailPageState extends State<OrderDetailPage> {
                             store.currentStore.realtimeLocation.latitude,
                             store.currentStore.realtimeLocation.longitude,
                           ),
+                          isDelivery: store.currentStore.isDelivery,
                         ),
                       ),
                     );
@@ -271,6 +272,7 @@ class _OrderDetailPageState extends State<OrderDetailPage> {
                   user.userModel.uid,
                   store.currentStore.storeId,
                   _activities,
+                  store.currentStore.isDelivery,
                 );
 
                 for (int i = 0; i < order.orderList.length; i++) {
@@ -279,6 +281,7 @@ class _OrderDetailPageState extends State<OrderDetailPage> {
                       user.userModel.uid,
                       store.currentStore.storeId,
                       order.orderList[i],
+                      store.currentStore.isDelivery,
                     );
                   }
                 }

@@ -13,11 +13,13 @@ import 'package:google_maps_flutter/google_maps_flutter.dart';
 import 'package:provider/provider.dart';
 
 class ManageAddress extends StatefulWidget {
-  const ManageAddress({Key key, @required this.uid, this.storePoint})
+  const ManageAddress(
+      {Key key, @required this.uid, this.storePoint, this.isDelivery})
       : super(key: key);
 
   final String uid;
   final LatLng storePoint;
+  final bool isDelivery;
 
   @override
   _ManageAddressState createState() => _ManageAddressState();
@@ -53,8 +55,9 @@ class _ManageAddressState extends State<ManageAddress> {
                 onClicked: () {
                   if (widget.storePoint != null) {
                     Navigator.of(context).push(MaterialPageRoute(
-                      builder: (context) =>
-                          SelectAddress(storePoint: widget.storePoint),
+                      builder: (context) => SelectAddress(
+                          storePoint: widget.storePoint,
+                          isDelivery: widget.isDelivery),
                     ));
                   } else {
                     Navigator.of(context).push(MaterialPageRoute(
@@ -120,6 +123,7 @@ class _ManageAddressState extends State<ManageAddress> {
                                     widget.storePoint.latitude,
                                     widget.storePoint.longitude,
                                   ),
+                                  widget.isDelivery,
                                 );
                               }
 

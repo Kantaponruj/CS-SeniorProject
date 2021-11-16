@@ -27,7 +27,8 @@ Future<void> getStores(StoreNotifier storeNotifier, String tapName) async {
     case "pickup":
       snapshot = snapshot = await firebaseFirestore
           .collection(collection)
-          .where('isPickUp', isEqualTo: true)
+          // .where('isPickUp', isEqualTo: true)
+          .where('isDelivery', isEqualTo: false)
           .get();
       break;
     default:
@@ -115,11 +116,25 @@ saveDeliveryOrder(String storeId, Activity activity) async {
       .then((value) => orderRefStore.update({'documentId': documentId}));
 }
 
-saveEachOrder(String storeId, OrderModel order) async {
+savePickUpOrder(String storeId, Activity activity) async {
+  DocumentReference orderRefStore = firebaseFirestore
+      .collection('stores')
+      .doc(storeId)
+      .collection('pickup-orders')
+      .doc();
+
+  documentId = orderRefStore.id;
+
+  orderRefStore
+      .set(activity.toMap(), SetOptions(merge: true))
+      .then((value) => orderRefStore.update({'documentId': documentId}));
+}
+
+saveEachOrder(String storeId, OrderModel order, bool isDelivery) async {
   CollectionReference orderToppingRef = firebaseFirestore
       .collection('stores')
       .doc(storeId)
-      .collection('delivery-orders')
+      .collection(isDelivery ? 'delivery-orders' : 'pickup-orders')
       .doc(documentId)
       .collection('orders');
 

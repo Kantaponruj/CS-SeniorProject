@@ -11,9 +11,11 @@ import 'package:google_maps_place_picker/google_maps_place_picker.dart';
 import 'package:provider/provider.dart';
 
 class SelectAddress extends StatefulWidget {
-  const SelectAddress({Key key, this.storePoint}) : super(key: key);
+  const SelectAddress({Key key, this.storePoint, this.isDelivery})
+      : super(key: key);
 
   final LatLng storePoint;
+  final bool isDelivery;
 
   @override
   _SelectAddressState createState() => _SelectAddressState();
@@ -64,6 +66,7 @@ class _SelectAddressState extends State<SelectAddress> {
                                 widget.storePoint.latitude,
                                 widget.storePoint.longitude,
                               ),
+                              widget.isDelivery,
                             );
                           }
 

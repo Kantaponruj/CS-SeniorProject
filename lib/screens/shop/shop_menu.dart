@@ -511,10 +511,13 @@ class _ShopMenuState extends State<ShopMenu> {
                 title: Row(
                   children: [
                     Text(
-                      (activity.dateOrdered != null &&
-                              activity.startWaitingTime != null)
-                          ? '${activity.dateOrdered} ${activity.startWaitingTime} น.'
-                          : 'now',
+                      activity.dateOrdered != null ? activity.dateOrdered : '',
+                      style: FontCollection.bodyTextStyle,
+                    ),
+                    Text(
+                      activity.startWaitingTime != null
+                          ? '${activity.startWaitingTime} น.'
+                          : 'ตอนนี้',
                       style: FontCollection.bodyTextStyle,
                     ),
                     activity.endWaitingTime != null

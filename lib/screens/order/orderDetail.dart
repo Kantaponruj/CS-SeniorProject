@@ -81,7 +81,7 @@ class _OrderDetailPageState extends State<OrderDetailPage> {
     _activities.timeOrdered = timeFormat.format(now);
     _activities.startWaitingTime = activity.startWaitingTime != null
         ? activity.startWaitingTime
-        : timeFormat.format(now);
+        : 'ตอนนี้';
     _activities.endWaitingTime = activity.endWaitingTime;
     _activities.netPrice = order.netPrice.toString();
     _activities.storeId = store.currentStore.storeId;

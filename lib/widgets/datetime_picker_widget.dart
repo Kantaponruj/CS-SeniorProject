@@ -16,10 +16,9 @@ class _DatePickerWidgetState extends State<DatePickerWidget> {
 
   String getText() {
     if (date == null) {
-      return 'Select Date';
+      return DateFormat('d MMMM y').format(DateTime.now());
     } else {
       return DateFormat('d MMMM y').format(date);
-      // return '${date.month}/${date.day}/${date.year}';
     }
   }
 
@@ -39,7 +38,6 @@ class _DatePickerWidgetState extends State<DatePickerWidget> {
           Provider.of<ActivitiesNotifier>(context, listen: false);
       date = newDate;
       activity.saveDateOrdered(getText());
-      // print('date: ${activity.dateOrdered}');
     });
   }
 
@@ -69,7 +67,7 @@ class _TimePickerWidgetState extends State<TimePickerWidget> {
 
   String getText() {
     if (time == null) {
-      return 'Select Time';
+      return widget.isStartWaitingTime ? 'ตอนนี้' : 'ระบุเวลา';
     } else {
       final hours = time.hour.toString().padLeft(2, '0');
       final minutes = time.minute.toString().padLeft(2, '0');

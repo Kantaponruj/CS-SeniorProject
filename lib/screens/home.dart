@@ -129,9 +129,7 @@ class _HomePageState extends State<HomePage> {
               indicatorColor: CollectionsColors.orange,
               indicatorWeight: 3,
               tabs: [
-                Tab(
-                  child: Text('ทั้งหมด'),
-                ),
+                Tab(child: Text('ทั้งหมด')),
                 Tab(child: Text('จัดส่ง')),
                 Tab(child: Text('รับเอง')),
               ],

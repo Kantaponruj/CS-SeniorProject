@@ -14,27 +14,11 @@ Future<Store> getStoreById(String storeId) => firebaseFirestore
     .get()
     .then((doc) => Store.fromMap(doc.data()));
 
-Future<void> getStores(StoreNotifier storeNotifier, String tapName) async {
-  QuerySnapshot snapshot;
-
-  switch (tapName) {
-    case "delivery":
-      snapshot = await firebaseFirestore
-          .collection(collection)
-          .where('isDelivery', isEqualTo: true)
-          .get();
-      break;
-    case "pickup":
-      snapshot = snapshot = await firebaseFirestore
-          .collection(collection)
-          // .where('isPickUp', isEqualTo: true)
-          .where('isDelivery', isEqualTo: false)
-          .get();
-      break;
-    default:
-      snapshot = await firebaseFirestore.collection(collection).get();
-      break;
-  }
+Future<void> getStores(StoreNotifier storeNotifier, {bool isDelivery}) async {
+  QuerySnapshot snapshot = await firebaseFirestore
+      .collection(collection)
+      .where('isDelivery', isEqualTo: isDelivery)
+      .get();
 
   List<Store> _storeList = [];
 

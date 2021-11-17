@@ -155,7 +155,7 @@ class _OrderDetailPageState extends State<OrderDetailPage> {
                   child: Column(
                     children: [
                       Container(
-                        child: ListView.builder(
+                        child: ListView.separated(
                           shrinkWrap: true,
                           padding: EdgeInsets.zero,
                           physics: NeverScrollableScrollPhysics(),
@@ -166,7 +166,13 @@ class _OrderDetailPageState extends State<OrderDetailPage> {
                                 ? listOrder(order.orderList[index])
                                 : Container();
                           },
+                          separatorBuilder: (context, index) => Divider(
+                            color: Colors.grey,
+                          ),
                         ),
+                      ),
+                      Divider(
+                        color: Colors.grey,
                       ),
                       Container(
                         margin: EdgeInsets.only(top: 20),

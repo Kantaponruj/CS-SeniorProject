@@ -99,7 +99,7 @@ class _ConfirmOrderDetailState extends State<ConfirmOrderDetail> {
                   child: Column(
                     children: [
                       Container(
-                        child: ListView.builder(
+                        child: ListView.separated(
                           shrinkWrap: true,
                           padding: EdgeInsets.zero,
                           physics: NeverScrollableScrollPhysics(),
@@ -107,7 +107,13 @@ class _ConfirmOrderDetailState extends State<ConfirmOrderDetail> {
                           itemBuilder: (context, index) {
                             return listOrder(activity.orderMenuList[index]);
                           },
+                          separatorBuilder: (context, index) => Divider(
+                            color: Colors.grey,
+                          ),
                         ),
+                      ),
+                      Divider(
+                        color: Colors.grey,
                       ),
                       Container(
                           margin: EdgeInsets.only(top: 20),

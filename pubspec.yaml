@@ -48,10 +48,16 @@ dependencies:
   google_maps_widget: ^0.0.8
   google_maps_webservice: ^0.0.19
   google_maps_place_picker: ^2.1.0-nullsafety.3
+  flutter_launcher_icons: ^0.9.2
 
 dev_dependencies:
   flutter_test:
     sdk: flutter
+
+flutter_icons:
+  android: true
+  ios: true
+  image_path: "assets/images/stalltruckr_logo_merchant_tran.png"
     
 
 # For information on the generic Dart part of this file, see the
@@ -72,6 +78,9 @@ flutter:
     - assets/images/restaurant-marker-icon.png
     - assets/images/house-marker-icon.png
     - assets/images/driver-marker-icon.png
+    - assets/images/marker_foodstall.png
+    - assets/images/marker_foodtruck.png
+    - assets/images/stalltruckr_logo_merchant_tran.png
   #   - images/a_dot_ham.jpeg
 
   # An image asset can refer to one or more resolution-specific "variants", see

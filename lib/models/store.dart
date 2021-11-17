@@ -16,7 +16,7 @@ class Store {
   GeoPoint realtimeLocation;
   // bool deliveryStatus;
   // bool storeStatus;
-  // String typeOfStore;
+  String typeOfStore;
 
   // Store();
 
@@ -33,6 +33,7 @@ class Store {
     location = data['selectedLocation'];
     description = data['description'];
     realtimeLocation = data['realtimeLocation'];
+    typeOfStore = data['typeOfStore'];
   }
 
   Map<String, dynamic> toMap() {
@@ -48,7 +49,8 @@ class Store {
       'selectedAddressName': addressName,
       'selectedLocation': location,
       'description': description,
-      'realtimeLocation': realtimeLocation
+      'realtimeLocation': realtimeLocation,
+      'typeOfStore': typeOfStore,
     };
   }
 }

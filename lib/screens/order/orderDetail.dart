@@ -260,7 +260,13 @@ class _OrderDetailPageState extends State<OrderDetailPage> {
                   ? Container(
                       margin: EdgeInsets.only(top: 20),
                       child: TextButton(
-                        onPressed: () {},
+                        onPressed: () {
+                          showDialog(
+                              context: context,
+                              builder: (BuildContext context) {
+                                return cancelOrder();
+                              });
+                        },
                         child: Text(
                           'ยกเลิกคำสั่งซื้อ',
                           style: FontCollection.underlineButtonTextStyle,
@@ -710,4 +716,52 @@ class _OrderDetailPageState extends State<OrderDetailPage> {
       ),
     );
   }
+
+  Widget cancelOrder() {
+    return AlertDialog(
+      shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(20)),
+      title: Container(
+        alignment: Alignment.topRight,
+        child: GestureDetector(
+          onTap: () {
+            Navigator.of(context).pop();
+          },
+          child: Icon(
+            Icons.close,
+            color: Colors.black,
+          ),
+        ),
+      ),
+      content: Container(
+        child: Center(
+          child: Column(
+            mainAxisAlignment: MainAxisAlignment.center,
+            children: [
+              Container(
+                child: Text(
+                  'ยกเลิกสินค้า',
+                  style: FontCollection.topicTextStyle,
+                ),
+              ),
+              Container(
+                padding: EdgeInsets.only(top: 20),
+                child: Text(
+                  'กรุณาติดต่อผู้ขายที่เบอร์ 08123456789',
+                  style: FontCollection.bodyTextStyle,
+                ),
+              ),
+              Container(
+                padding: EdgeInsets.only(top: 20),
+                child: StadiumButtonWidget(
+                  text: 'โทรติดต่อผู้ขาย',
+                  onClicked: () {},
+                ),
+              ),
+            ],
+          ),
+        ),
+      ),
+    );
+  }
+
 }

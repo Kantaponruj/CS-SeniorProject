@@ -51,8 +51,8 @@ class _MenuPageState extends State<MenuPage> {
                     height: MediaQuery.of(context).size.height / 6,
                     padding: EdgeInsets.symmetric(horizontal: 20, vertical: 20),
                     child: profile(
-                      userNotifier.userModel.displayName[0].toUpperCase(),
-                      userNotifier.userModel.displayName,
+                      userNotifier.userModel.displayName[0].toUpperCase() ?? '',
+                      userNotifier.userModel.displayName ?? 'Unknown',
                     ),
                   ),
                 ),

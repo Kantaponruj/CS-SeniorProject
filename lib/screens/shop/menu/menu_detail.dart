@@ -1,5 +1,4 @@
 import 'package:cs_senior_project/asset/color.dart';
-import 'package:cs_senior_project/asset/constant.dart';
 import 'package:cs_senior_project/asset/text_style.dart';
 import 'package:cs_senior_project/models/order.dart';
 import 'package:cs_senior_project/notifiers/order_notifier.dart';
@@ -45,7 +44,7 @@ class _MenuDetailState extends State<MenuDetail> {
         Provider.of<OrderNotifier>(context, listen: false);
     getTopping(storeNotifier, widget.storeId, widget.menuId);
 
-    if (orderNotifier.orderList != null) {
+    if (orderNotifier.orderList.isNotEmpty) {
       for (int i = 0; i <= orderNotifier.orderList.length - 1; i++) {
         if (orderNotifier.orderList[i].menuName ==
             storeNotifier.currentMenu.name) {
@@ -103,10 +102,49 @@ class _MenuDetailState extends State<MenuDetail> {
     price = priceTotal.toInt().toString();
   }
 
+  void handleClick() {
+    OrderNotifier orderNotifier =
+        Provider.of<OrderNotifier>(context, listen: false);
+    StoreNotifier storeNotifier =
+        Provider.of<StoreNotifier>(context, listen: false);
+
+    if (orderNotifier.currentOrder != null) {
+      if (amount < 1) {
+        orderNotifier.removeOrder(orderNotifier.currentOrder);
+        orderNotifier.currentOrder = null;
+      } else {
+        order.totalPrice = price;
+        order.topping = selectedTopping;
+        order.amount = amount;
+        order.other = otherController.text.trim();
+      }
+    } else {
+      order.storeId = widget.storeId;
+      order.menuId = widget.menuId;
+      order.menuName = storeNotifier.currentMenu.name;
+      order.totalPrice = price;
+      order.topping = selectedTopping;
+      order.amount = amount;
+      order.other = otherController.text.trim();
+
+      orderNotifier.addOrder(order);
+    }
+
+    orderNotifier.getNetPrice(
+      storeNotifier.currentStore.storeId,
+      storeNotifier.currentStore.isDelivery,
+    );
+
+    // orderedMenu = true;
+    print(orderNotifier.orderList.map((e) => e.menuName));
+    print(orderNotifier.orderList.map((e) => e.totalPrice));
+    Navigator.of(context).pop();
+    // Navigator.pushReplacementNamed(context, '/shopMenu');
+  }
+
   @override
   Widget build(BuildContext context) {
     StoreNotifier storeNotifier = Provider.of<StoreNotifier>(context);
-    OrderNotifier orderNotifier = Provider.of<OrderNotifier>(context);
 
     final double imgHeight = MediaQuery.of(context).size.height / 4;
 
@@ -116,38 +154,6 @@ class _MenuDetailState extends State<MenuDetail> {
     //   }
     // }
     // print(isSelectedTopping);
-
-    handleClick() {
-      if (orderNotifier.currentOrder != null) {
-        if (amount < 1) {
-          orderNotifier.removeOrder(orderNotifier.currentOrder);
-          orderNotifier.currentOrder = null;
-        } else {
-          order.totalPrice = price;
-          order.topping = selectedTopping;
-          order.amount = amount;
-          order.other = otherController.text.trim();
-        }
-      } else {
-        order.storeId = widget.storeId;
-        order.menuId = widget.menuId;
-        order.menuName = storeNotifier.currentMenu.name;
-        order.totalPrice = price;
-        order.topping = selectedTopping;
-        order.amount = amount;
-        order.other = otherController.text.trim();
-
-        orderNotifier.addOrder(order);
-      }
-
-      orderNotifier.getNetPrice(
-        storeNotifier.currentStore.storeId,
-        storeNotifier.currentStore.isDelivery,
-      );
-
-      orderedMenu = true;
-      Navigator.of(context).pop();
-    }
 
     return SafeArea(
       child: Scaffold(

@@ -449,16 +449,12 @@ class _OrderDetailPageState extends State<OrderDetailPage> {
                       child: EditButton(
                         editText: 'แก้ไข',
                         onClicked: () {
-                          for (int i = 0;
-                              i < storeNotifier.menuList.length;
-                              i++) {
-                            if (order.menuName ==
-                                storeNotifier.menuList[i].name) {
-                              storeNotifier.currentMenu =
-                                  storeNotifier.menuList[i];
-                              break;
+                          storeNotifier.menuList.forEach((menu) {
+                            if (order.menuName == menu.name) {
+                              storeNotifier.currentMenu = menu;
                             }
-                          }
+                          });
+
                           Navigator.push(
                             context,
                             MaterialPageRoute(

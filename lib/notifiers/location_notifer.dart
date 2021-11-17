@@ -10,7 +10,7 @@ class LocationNotifier with ChangeNotifier {
 
   Map<MarkerId, Marker> _marker;
   final MarkerId markerIdUser = MarkerId("userLocation");
-  Set<Marker> _markers = {};
+  // Set<Marker> _markers = {};
 
   static LatLng _initialPosition;
   GoogleMapController mapController;
@@ -20,7 +20,7 @@ class LocationNotifier with ChangeNotifier {
   Position get currentPosition => _currentPosition;
   String get currentAddress => _currentAddress;
   Map<MarkerId, Marker> get marker => _marker;
-  Set<Marker> get markers => _markers;
+  // Set<Marker> get markers => _markers;
 
   LocationNotifier() {
     _marker = <MarkerId, Marker>{};

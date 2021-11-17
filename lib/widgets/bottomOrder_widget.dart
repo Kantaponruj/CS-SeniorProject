@@ -1,5 +1,4 @@
 import 'package:cs_senior_project/asset/color.dart';
-import 'package:cs_senior_project/asset/text_style.dart';
 import 'package:cs_senior_project/widgets/button_widget.dart';
 import 'package:flutter/material.dart';
 
@@ -35,9 +34,10 @@ class _BottomOrderState extends State<BottomOrder> {
           ),
           Container(
             child: StadiumConfirmButtonWidget(
-                text: 'เพิ่มในตะกร้า',
-                price: widget.price + ' บาท',
-                onClicked: widget.onClicked),
+              text: 'เพิ่มในตะกร้า',
+              price: widget.price + ' บาท',
+              onClicked: widget.onClicked,
+            ),
           ),
         ],
       ),

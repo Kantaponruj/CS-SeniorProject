@@ -2,6 +2,7 @@ import 'package:auto_size_text/auto_size_text.dart';
 import 'package:cs_senior_project/asset/text_style.dart';
 import 'package:cs_senior_project/component/appBar.dart';
 import 'package:cs_senior_project/notifiers/address_notifier.dart';
+import 'package:cs_senior_project/notifiers/location_notifer.dart';
 import 'package:cs_senior_project/notifiers/order_notifier.dart';
 import 'package:cs_senior_project/notifiers/user_notifier.dart';
 import 'package:cs_senior_project/screens/address/add_address.dart';
@@ -39,6 +40,7 @@ class _ManageAddressState extends State<ManageAddress> {
     UserNotifier userNotifier = Provider.of<UserNotifier>(context);
     AddressNotifier addressNotifier = Provider.of<AddressNotifier>(context);
     OrderNotifier orderNotifier = Provider.of<OrderNotifier>(context);
+    LocationNotifier locationNotifier = Provider.of<LocationNotifier>(context);
 
     return Scaffold(
       appBar: RoundedAppBar(
@@ -126,6 +128,15 @@ class _ManageAddressState extends State<ManageAddress> {
                                   widget.isDelivery,
                                 );
                               }
+
+                              locationNotifier.setCameraPositionMap(
+                                LatLng(
+                                  addressNotifier
+                                      .addressList[index].geoPoint.latitude,
+                                  addressNotifier
+                                      .addressList[index].geoPoint.longitude,
+                                ),
+                              );
 
                               userNotifier.updateUserData({
                                 "selectedAddress": {

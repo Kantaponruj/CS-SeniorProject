@@ -1,5 +1,3 @@
-import 'dart:async';
-
 import 'package:cs_senior_project/asset/constant.dart';
 import 'package:cs_senior_project/notifiers/address_notifier.dart';
 import 'package:cs_senior_project/notifiers/user_notifier.dart';
@@ -7,7 +5,6 @@ import 'package:cs_senior_project/services/user_service.dart';
 import 'package:cs_senior_project/widgets/tap_widget.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
-import 'package:google_maps_flutter/google_maps_flutter.dart';
 import 'package:provider/provider.dart';
 import 'package:sliding_up_panel/sliding_up_panel.dart';
 
@@ -26,7 +23,6 @@ class HomePage extends StatefulWidget {
 }
 
 class _HomePageState extends State<HomePage> {
-  final Completer<GoogleMapController> _mapController = Completer();
   final double tabBarHeight = 30;
   final panelController = PanelController();
 
@@ -86,7 +82,7 @@ class _HomePageState extends State<HomePage> {
             ),
             body: Padding(
               padding: EdgeInsets.fromLTRB(0, 0, 0, 80),
-              child: MapWidget(mapController: _mapController),
+              child: MapWidget(),
             ),
           ),
         ],

@@ -65,8 +65,6 @@ void main() async {
 }
 
 class MyApp extends StatelessWidget {
-  // static final String title = 'Home';
-  // This widget is the root of your application.
   @override
   Widget build(BuildContext context) {
     UserNotifier auth = Provider.of<UserNotifier>(context);

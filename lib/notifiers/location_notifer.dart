@@ -13,6 +13,7 @@ class LocationNotifier with ChangeNotifier {
   Set<Marker> _markers = {};
 
   static LatLng _initialPosition;
+  GoogleMapController mapController;
 
   // getter
   LatLng get initialPosition => _initialPosition;
@@ -79,6 +80,18 @@ class LocationNotifier with ChangeNotifier {
     );
     _marker[markerIdUser] = markerUser;
 
+    notifyListeners();
+  }
+
+  setCameraPositionMap(LatLng position) {
+    mapController.animateCamera(
+      CameraUpdate.newCameraPosition(
+        CameraPosition(
+          target: position,
+          zoom: 15.0,
+        ),
+      ),
+    );
     notifyListeners();
   }
 }

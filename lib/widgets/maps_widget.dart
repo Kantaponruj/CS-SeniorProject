@@ -1,5 +1,3 @@
-import 'dart:async';
-
 import 'package:cs_senior_project/notifiers/location_notifer.dart';
 import 'package:cs_senior_project/widgets/loading_widget.dart';
 import 'package:flutter/material.dart';
@@ -12,8 +10,7 @@ import 'package:cs_senior_project/notifiers/store_notifier.dart';
 const _marker = 350.0;
 
 class MapWidget extends StatefulWidget {
-  const MapWidget({Key key, @required this.mapController}) : super(key: key);
-  final Completer<GoogleMapController> mapController;
+  const MapWidget({Key key}) : super(key: key);
 
   @override
   _MapWidgetState createState() => _MapWidgetState();
@@ -52,7 +49,6 @@ class _MapWidgetState extends State<MapWidget> {
         );
       },
     );
-    // setState(() {});
 
     return locationNotifier.initialPosition == null
         ? LoadingWidget()
@@ -68,7 +64,7 @@ class _MapWidgetState extends State<MapWidget> {
                     zoom: 15,
                   ),
                   onMapCreated: (GoogleMapController controller) {
-                    widget.mapController.complete(controller);
+                    locationNotifier.mapController = controller;
                   },
                   markers: Set.from(_markers),
                 ),

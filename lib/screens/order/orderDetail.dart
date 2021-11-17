@@ -295,6 +295,8 @@ class _OrderDetailPageState extends State<OrderDetailPage> {
                 order.orderList.removeWhere(
                     (order) => order.storeId == store.currentStore.storeId);
 
+                location.setCameraPositionMap(location.initialPosition);
+
                 user.updateUserData({
                   "selectedAddress": {
                     "residentName": "",

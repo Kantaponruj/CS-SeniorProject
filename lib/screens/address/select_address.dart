@@ -70,6 +70,13 @@ class _SelectAddressState extends State<SelectAddress> {
                             );
                           }
 
+                          location.setCameraPositionMap(
+                           LatLng(
+                                selectedPlace.geometry.location.lat,
+                                selectedPlace.geometry.location.lng,
+                              ),
+                          );
+
                           Navigator.of(context).pop();
                           setState(() {
                             userNotifier.updateUserData({

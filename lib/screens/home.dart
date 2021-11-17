@@ -137,10 +137,9 @@ class _HomePageState extends State<HomePage> {
           ),
           body: TabBarView(
             children: [
-              TapWidget(scrollController: scrollController, tapName: "all"),
-              TapWidget(
-                  scrollController: scrollController, tapName: "delivery"),
-              TapWidget(scrollController: scrollController, tapName: "pickup"),
+              TapWidget(scrollController: scrollController),
+              TapWidget(scrollController: scrollController, isDelivery: true),
+              TapWidget(scrollController: scrollController, isDelivery: false),
             ],
           ),
         ),

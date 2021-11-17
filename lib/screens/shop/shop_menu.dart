@@ -164,7 +164,7 @@ class _ShopMenuState extends State<ShopMenu> {
       extendBodyBehindAppBar: true,
       appBar: ShopRoundedFavAppBar(
         appBarTitle: storeNotifier.currentStore.storeName,
-        subTitle: 'ของหวาน',
+        subTitle: storeNotifier.currentStore.kindOfFood.join(', '),
         onClicked: () {
           Navigator.of(context).push(MaterialPageRoute(
             builder: (context) => ShopDetail(),

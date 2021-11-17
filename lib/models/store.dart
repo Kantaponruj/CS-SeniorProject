@@ -6,6 +6,7 @@ class Store {
   bool isPickUp;
   String storeName;
   List kindOfFood;
+  // String email;
   String image;
   String phone;
   String address;
@@ -13,6 +14,9 @@ class Store {
   GeoPoint location;
   String description;
   GeoPoint realtimeLocation;
+  // bool deliveryStatus;
+  // bool storeStatus;
+  // String typeOfStore;
 
   // Store();
 
@@ -29,6 +33,23 @@ class Store {
     location = data['selectedLocation'];
     description = data['description'];
     realtimeLocation = data['realtimeLocation'];
+  }
+
+  Map<String, dynamic> toMap() {
+    return {
+      'storeId': storeId,
+      'isDelivery': isDelivery,
+      'isPickUp': isPickUp,
+      'storeName': storeName,
+      'kindOfFood': kindOfFood,
+      'image': image,
+      'phone': phone,
+      'selectedAddress': address,
+      'selectedAddressName': addressName,
+      'selectedLocation': location,
+      'description': description,
+      'realtimeLocation': realtimeLocation
+    };
   }
 }
 

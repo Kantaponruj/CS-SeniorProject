@@ -14,21 +14,28 @@ Future<Store> getStoreById(String storeId) => firebaseFirestore
     .get()
     .then((doc) => Store.fromMap(doc.data()));
 
-Future<void> getStores(StoreNotifier storeNotifier, {bool isDelivery}) async {
-  QuerySnapshot snapshot = await firebaseFirestore
+Stream<QuerySnapshot> getStores(bool isDelivery) {
+  return firebaseFirestore
       .collection(collection)
       .where('isDelivery', isEqualTo: isDelivery)
-      .get();
-
-  List<Store> _storeList = [];
-
-  snapshot.docs.forEach((document) {
-    Store store = Store.fromMap(document.data());
-    _storeList.add(store);
-  });
-
-  storeNotifier.storeList = _storeList;
+      .snapshots();
 }
+
+// Future<void> getStores(StoreNotifier storeNotifier, {bool isDelivery}) async {
+//   QuerySnapshot snapshot = await firebaseFirestore
+//       .collection(collection)
+//       .where('isDelivery', isEqualTo: isDelivery)
+//       .get();
+
+//   List<Store> _storeList = [];
+
+//   snapshot.docs.forEach((document) {
+//     Store store = Store.fromMap(document.data());
+//     _storeList.add(store);
+//   });
+
+//   storeNotifier.storeList = _storeList;
+// }
 
 Future<void> getMenu(StoreNotifier storeNotifier) async {
   QuerySnapshot snapshot = await firebaseFirestore

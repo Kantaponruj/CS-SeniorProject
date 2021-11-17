@@ -11,7 +11,7 @@ class OrderNotifier with ChangeNotifier {
   OrderModel _currentOrder;
   int _netPrice = 0;
   int _totalFoodPrice = 0;
-  String _distance;
+  String _distance = '0.00';
   String _shippingFee = '0';
   String _storeId;
 

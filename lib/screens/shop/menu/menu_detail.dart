@@ -135,11 +135,7 @@ class _MenuDetailState extends State<MenuDetail> {
       storeNotifier.currentStore.isDelivery,
     );
 
-    // orderedMenu = true;
-    print(orderNotifier.orderList.map((e) => e.menuName));
-    print(orderNotifier.orderList.map((e) => e.totalPrice));
     Navigator.of(context).pop();
-    // Navigator.pushReplacementNamed(context, '/shopMenu');
   }
 
   @override

@@ -14,6 +14,7 @@ import 'package:cs_senior_project/screens/order/orderDetail.dart';
 import 'package:cs_senior_project/screens/shop/menu/menu_detail.dart';
 import 'package:cs_senior_project/screens/shop/shop_detail.dart';
 import 'package:cs_senior_project/screens/shop/shop_menu.dart';
+import 'package:cs_senior_project/screens/splash_page.dart';
 import 'package:cs_senior_project/widgets/loading_widget.dart';
 import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
@@ -48,7 +49,8 @@ void main() async {
           scaffoldBackgroundColor: CollectionsColors.grey,
           buttonColor: CollectionsColors.yellow,
         ),
-        home: MyApp(),
+        //home: MyApp(),
+        home: SplashPage(),
         // initialRoute: '/',
         routes: {
           '/shopMenu': (context) => ShopMenu(),

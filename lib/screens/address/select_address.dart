@@ -1,3 +1,4 @@
+import 'package:cs_senior_project/models/address.dart';
 import 'package:flutter/material.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:cs_senior_project/asset/constant.dart';
@@ -22,6 +23,8 @@ class SelectAddress extends StatefulWidget {
 }
 
 class _SelectAddressState extends State<SelectAddress> {
+  AddressModel _address = AddressModel();
+
   @override
   void initState() {
     LocationNotifier locationNotifier =
@@ -71,29 +74,25 @@ class _SelectAddressState extends State<SelectAddress> {
                           }
 
                           location.setCameraPositionMap(
-                           LatLng(
-                                selectedPlace.geometry.location.lat,
-                                selectedPlace.geometry.location.lng,
-                              ),
+                            LatLng(
+                              selectedPlace.geometry.location.lat,
+                              selectedPlace.geometry.location.lng,
+                            ),
                           );
 
-                          Navigator.of(context).pop();
                           setState(() {
-                            userNotifier.updateUserData({
-                              'selectedAddress': {
-                                'address': selectedPlace.formattedAddress,
-                                'addressDetail': '',
-                                'addressName': '',
-                                'geoPoint': GeoPoint(
-                                    selectedPlace.geometry.location.lat,
-                                    selectedPlace.geometry.location.lng),
-                                'phone': userNotifier.userModel.phone,
-                                'residentName':
-                                    userNotifier.userModel.displayName,
-                              }
-                            });
-                            userNotifier.reloadUserModel();
+                            _address.address = selectedPlace.formattedAddress;
+                            _address.geoPoint = GeoPoint(
+                              selectedPlace.geometry.location.lat,
+                              selectedPlace.geometry.location.lng,
+                            );
+                            _address.phone = userNotifier.userModel.phone;
+                            _address.residentName =
+                                userNotifier.userModel.displayName;
                           });
+                          location.setSelectedPosition(_address);
+
+                          Navigator.of(context).pop();
                         },
                       ),
                       // GoogleMap(

@@ -60,11 +60,11 @@ class _ShopMenuState extends State<ShopMenu> {
 
     order.setPolylines(
       LatLng(
-        user.userModel.selectedAddress['geoPoint'] != GeoPoint(0, 0)
-            ? user.userModel.selectedAddress['geoPoint'].latitude
+        location.selectedAddress.geoPoint != GeoPoint(0, 0)
+            ? location.selectedAddress.geoPoint.latitude
             : location.currentPosition.latitude,
-        user.userModel.selectedAddress['geoPoint'] != GeoPoint(0, 0)
-            ? user.userModel.selectedAddress['geoPoint'].longitude
+        location.selectedAddress.geoPoint != GeoPoint(0, 0)
+            ? location.selectedAddress.geoPoint.longitude
             : location.currentPosition.longitude,
       ),
       LatLng(
@@ -140,9 +140,11 @@ class _ShopMenuState extends State<ShopMenu> {
   final LatLng cPosition = LatLng(13.7091526, 100.4742055);
 
   getDistance() async {
-    Position position = await Geolocator.getCurrentPosition(desiredAccuracy: LocationAccuracy.high);
-    final double distance = Geolocator.distanceBetween(pPosition.latitude, pPosition.longitude,
-        position.latitude, position.longitude) / 1000;
+    Position position = await Geolocator.getCurrentPosition(
+        desiredAccuracy: LocationAccuracy.high);
+    final double distance = Geolocator.distanceBetween(pPosition.latitude,
+            pPosition.longitude, position.latitude, position.longitude) /
+        1000;
     final result = distance;
     print(result);
   }
@@ -640,6 +642,7 @@ class _ShopMenuState extends State<ShopMenu> {
   Widget meetingPlace() {
     AddressNotifier address = Provider.of<AddressNotifier>(context);
     UserNotifier user = Provider.of<UserNotifier>(context);
+    LocationNotifier location = Provider.of<LocationNotifier>(context);
 
     return Container(
       margin: EdgeInsets.fromLTRB(0, 20, 0, 20),
@@ -683,20 +686,10 @@ class _ShopMenuState extends State<ShopMenu> {
                     selectedAddress = value;
                     address.addressList.forEach((element) {
                       if (value == element.addressName) {
-                        user.updateUserData({
-                          "selectedAddress": {
-                            "residentName": element.residentName,
-                            "address": element.address,
-                            "addressName": element.addressName,
-                            "addressDetail": element.addressDetail,
-                            "geoPoint": element.geoPoint,
-                            "phone": element.phone
-                          }
-                        });
+                        location.setSelectedPosition(element);
                       }
                     });
                   });
-                  print(user.userModel.selectedAddress);
                 }),
           ),
         ],
@@ -767,5 +760,4 @@ class _ShopMenuState extends State<ShopMenu> {
       ),
     );
   }
-
 }

@@ -79,17 +79,15 @@ class _HomeAppBarState extends State<HomeAppBar> {
                 Expanded(
                   child: Container(
                     margin: EdgeInsets.only(left: 20),
-                    child: user.userModel.selectedAddress['address'] != null
-                        ? AutoSizeText(
-                            'Deliver to : \n' +
-                                (user.userModel.selectedAddress['address'] != ''
-                                    ? user.userModel.selectedAddress['address']
-                                    : location.currentAddress ?? 'loading...'),
-                            style: FontCollection.bodyTextStyle,
-                            maxLines: 2,
-                            overflow: TextOverflow.ellipsis,
-                          )
-                        : SizedBox(),
+                    child: AutoSizeText(
+                      'Deliver to : \n' +
+                          (location.selectedAddress.address != ''
+                              ? location.selectedAddress.address
+                              : location.currentAddress ?? 'loading...'),
+                      style: FontCollection.bodyTextStyle,
+                      maxLines: 2,
+                      overflow: TextOverflow.ellipsis,
+                    ),
                   ),
                 ),
               ],

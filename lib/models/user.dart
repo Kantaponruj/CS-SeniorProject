@@ -15,7 +15,6 @@ class UserModel {
   String _email;
   String _phone;
   String _token;
-  Map _selectedAddress;
 
   // getter
   String get uid => _uid;
@@ -23,7 +22,6 @@ class UserModel {
   String get email => _email;
   String get phone => _phone;
   String get token => _token;
-  Map get selectedAddress => _selectedAddress;
 
   UserModel.fromSnapshot(DocumentSnapshot snapshot) {
     _uid = snapshot.data()["uid"];
@@ -31,6 +29,5 @@ class UserModel {
     _email = snapshot.data()["email"];
     _phone = snapshot.data()["phone"];
     _token = snapshot.data()["token"];
-    _selectedAddress = snapshot.data()["selectedAddress"];
   }
 }

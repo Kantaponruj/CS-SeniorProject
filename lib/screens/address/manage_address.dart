@@ -138,23 +138,10 @@ class _ManageAddressState extends State<ManageAddress> {
                                 ),
                               );
 
-                              userNotifier.updateUserData({
-                                "selectedAddress": {
-                                  "residentName": addressNotifier
-                                      .addressList[index].residentName,
-                                  "address": addressNotifier
-                                      .addressList[index].address,
-                                  "addressName": addressNotifier
-                                      .addressList[index].addressName,
-                                  "addressDetail": addressNotifier
-                                      .addressList[index].addressDetail,
-                                  "geoPoint": addressNotifier
-                                      .addressList[index].geoPoint,
-                                  "phone":
-                                      addressNotifier.addressList[index].phone
-                                }
-                              });
-                              userNotifier.reloadUserModel();
+                              locationNotifier.setSelectedPosition(
+                                addressNotifier.addressList[index],
+                              );
+
                               Navigator.pop(context);
                             },
                           );

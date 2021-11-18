@@ -20,34 +20,11 @@ class UserService {
     String email,
     String token,
   }) {
-    AddressModel addressModel = AddressModel();
-    String residentName = addressModel.residentName;
-    String address = addressModel.address;
-    String addressName = addressModel.addressName;
-    String addressDetail = addressModel.addressDetail;
-    GeoPoint geoPoint = addressModel.geoPoint;
-    String phone = addressModel.phone;
-
-    residentName = "";
-    address = "";
-    addressName = "";
-    addressDetail = "";
-    geoPoint = GeoPoint(0, 0);
-    phone = "";
-
     firebaseFirestore.collection(collection).doc(uid).set({
       'uid': uid,
       'displayName': displayName,
       'email': email,
       'token': token,
-      'selectedAddress': {
-        'residentName': residentName,
-        'address': address,
-        'addressName': addressName,
-        'addressDetail': addressDetail,
-        'geoPoint': geoPoint,
-        'phone': phone
-      }
     });
   }
 

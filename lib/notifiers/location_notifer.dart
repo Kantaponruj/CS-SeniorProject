@@ -1,3 +1,4 @@
+import 'package:cs_senior_project/models/address.dart';
 import 'package:flutter/material.dart';
 import 'package:geocoding/geocoding.dart';
 import 'package:geolocator/geolocator.dart';
@@ -7,6 +8,7 @@ class LocationNotifier with ChangeNotifier {
   Geolocator geolocator = Geolocator();
   Position _currentPosition;
   String _currentAddress;
+  AddressModel selectedAddress = AddressModel();
 
   Map<MarkerId, Marker> _marker;
   final MarkerId markerIdUser = MarkerId("userLocation");
@@ -92,6 +94,11 @@ class LocationNotifier with ChangeNotifier {
         ),
       ),
     );
+    notifyListeners();
+  }
+
+  setSelectedPosition(AddressModel position) {
+    selectedAddress = position;
     notifyListeners();
   }
 }

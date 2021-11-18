@@ -59,23 +59,21 @@ class _OrderDetailPageState extends State<OrderDetailPage> {
     ActivitiesNotifier activity = Provider.of<ActivitiesNotifier>(context);
 
     _activities.customerId = user.userModel.uid;
-    _activities.customerName =
-        user.userModel.selectedAddress['residentName'] == ""
-            ? user.userModel.displayName
-            : user.userModel.selectedAddress['residentName'];
-    _activities.phone = user.userModel.selectedAddress['phone'] == ""
+    _activities.customerName = location.selectedAddress.residentName == ''
+        ? user.userModel.displayName
+        : location.selectedAddress.residentName;
+    _activities.phone = location.selectedAddress.phone == ''
         ? user.userModel.phone
-        : user.userModel.selectedAddress['phone'];
-    _activities.address = user.userModel.selectedAddress['address'] == ""
+        : location.selectedAddress.phone;
+    _activities.address = location.selectedAddress.address == ''
         ? location.currentAddress
-        : user.userModel.selectedAddress['address'];
-    _activities.addressName = user.userModel.selectedAddress['addressName'];
-    _activities.addressDetail = user.userModel.selectedAddress['addressDetail'];
-    _activities.geoPoint =
-        user.userModel.selectedAddress['geoPoint'] == GeoPoint(0, 0)
-            ? GeoPoint(location.currentPosition.latitude,
-                location.currentPosition.longitude)
-            : user.userModel.selectedAddress['geoPoint'];
+        : location.selectedAddress.address;
+    _activities.addressName = location.selectedAddress.addressName;
+    _activities.addressDetail = location.selectedAddress.addressDetail;
+    _activities.geoPoint = location.selectedAddress.geoPoint == GeoPoint(0, 0)
+        ? GeoPoint(location.currentPosition.latitude,
+            location.currentPosition.longitude)
+        : location.selectedAddress.geoPoint;
     _activities.message = otherMessageController.text.trim() ?? '';
     _activities.dateOrdered = activity.dateOrdered ?? dateFormat.format(now);
     _activities.timeOrdered = timeFormat.format(now);
@@ -308,17 +306,6 @@ class _OrderDetailPageState extends State<OrderDetailPage> {
                     (order) => order.storeId == store.currentStore.storeId);
 
                 location.setCameraPositionMap(location.initialPosition);
-
-                user.updateUserData({
-                  "selectedAddress": {
-                    "residentName": "",
-                    "address": "",
-                    "addressName": "",
-                    "addressDetail": "",
-                    "geoPoint": GeoPoint(0, 0),
-                    "phone": ""
-                  }
-                });
               },
               child: Column(
                 children: [
@@ -759,5 +746,4 @@ class _OrderDetailPageState extends State<OrderDetailPage> {
       ),
     );
   }
-
 }

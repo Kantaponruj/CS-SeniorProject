@@ -121,7 +121,11 @@ class _OrderDetailPageState extends State<OrderDetailPage> {
                     showDialog(
                         context: context,
                         builder: (BuildContext context) {
-                          return editContactInfo();
+                          return editContactInfo(
+                            _activities.customerName,
+                            _activities.phone,
+                            location,
+                          );
                         });
                   },
                   () {
@@ -642,8 +646,13 @@ class _OrderDetailPageState extends State<OrderDetailPage> {
   }
 
   TextEditingController controller;
+  TextEditingController residentName = new TextEditingController();
+  TextEditingController phoneNumber = new TextEditingController();
 
-  Widget editContactInfo() {
+  Widget editContactInfo(String name, String phone, LocationNotifier location) {
+    // residentName.text = name;
+    // phoneNumber.text = phone;
+
     return AlertDialog(
       shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(20)),
       content: Container(
@@ -674,7 +683,7 @@ class _OrderDetailPageState extends State<OrderDetailPage> {
               padding: EdgeInsets.only(top: 20),
               child: BuildTextField(
                 labelText: 'ชื่อผู้ใช้',
-                textEditingController: controller,
+                textEditingController: residentName,
                 hintText: 'กรุณากรอกชื่อผู้ใช้',
               ),
             ),
@@ -682,7 +691,7 @@ class _OrderDetailPageState extends State<OrderDetailPage> {
               padding: EdgeInsets.only(top: 20),
               child: BuildTextField(
                 labelText: 'เบอร์โทรศัพท์',
-                textEditingController: controller,
+                textEditingController: phoneNumber,
                 hintText: 'กรุณากรอกเบอร์โทรศัพท์',
               ),
             ),
@@ -690,7 +699,16 @@ class _OrderDetailPageState extends State<OrderDetailPage> {
               alignment: Alignment.topRight,
               padding: EdgeInsets.only(top: 20),
               child: NoShapeButton(
-                onClicked: () {},
+                onClicked: () {
+                  // setState(() {
+                  //   location.selectedAddress.residentName =
+                  //       residentName.text.trim();
+                  //   location.selectedAddress.phone = phoneNumber.text.trim();
+                  //   Navigator.pop(context);
+                  // });
+                  print('name: ${residentName.text.trim()}');
+                  print('phone: ${phoneNumber.text.trim()}');
+                },
                 text: 'บันทึก',
               ),
             ),

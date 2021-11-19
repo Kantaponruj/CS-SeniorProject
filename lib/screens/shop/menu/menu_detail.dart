@@ -29,7 +29,7 @@ class _MenuDetailState extends State<MenuDetail> {
   String price;
   List isSelectedTopping = [];
   List selectedTopping = [];
-  List<Map<String, dynamic>> subToppingList = [];
+  // List<Map<String, dynamic>> subToppingList = [];
   int totalSubTopping = 0;
 
   OrderModel order;
@@ -141,15 +141,9 @@ class _MenuDetailState extends State<MenuDetail> {
   @override
   Widget build(BuildContext context) {
     StoreNotifier storeNotifier = Provider.of<StoreNotifier>(context);
-
     final double imgHeight = MediaQuery.of(context).size.height / 4;
 
-    // for (int i = 0; i <= storeNotifier.toppingList.length - 1; i++) {
-    //   for (int j = 0; j < storeNotifier.toppingList[i].subTopping.length; j++) {
-    //     isSelectedTopping.add(false);
-    //   }
-    // }
-    // print(isSelectedTopping);
+    getTopping(storeNotifier, widget.storeId, widget.menuId);
 
     return SafeArea(
       child: Scaffold(
@@ -186,7 +180,7 @@ class _MenuDetailState extends State<MenuDetail> {
                     child: Column(
                       children: [
                         menuDetailCard(storeNotifier),
-                        storeNotifier.toppingList.isEmpty
+                        storeNotifier.toppingList == null
                             ? SizedBox.shrink()
                             : ListView.builder(
                                 shrinkWrap: true,
@@ -194,15 +188,8 @@ class _MenuDetailState extends State<MenuDetail> {
                                 physics: NeverScrollableScrollPhysics(),
                                 itemCount: storeNotifier.toppingList.length,
                                 itemBuilder: (context, index) {
-                                  storeNotifier.toppingList[index].subTopping
-                                      .forEach((element) {
-                                    if (isSelectedTopping.length !=
-                                        storeNotifier.toppingList[index]
-                                            .subTopping.length) {
-                                      isSelectedTopping.add(false);
-                                    }
-                                  });
-                                  // print(isSelectedTopping);
+                                  print(
+                                      'length: ${storeNotifier.toppingList[index].subTopping.length}');
                                   return moreCard(storeNotifier, index);
                                 },
                               ),
@@ -304,7 +291,25 @@ class _MenuDetailState extends State<MenuDetail> {
     );
   }
 
-  Widget moreCard(StoreNotifier storeNotifier, int index) {
+  // List defaultSelected = [];
+
+  Widget moreCard(StoreNotifier storeNotifier, int indexT) {
+    List defaultSelected = [];
+
+    storeNotifier.toppingList[indexT].subTopping.forEach(
+      (element) {
+        defaultSelected.add(false);
+      },
+    );
+
+    if (isSelectedTopping.length != storeNotifier.toppingList.length) {
+      isSelectedTopping.add(defaultSelected);
+      isSelectedTopping.sort((a, b) => a.length.compareTo(b.length));
+    }
+    print('isSelectedTopping length: ${isSelectedTopping.length}');
+    print('toppingList: ${storeNotifier.toppingList.length}');
+    print(isSelectedTopping);
+
     return Container(
       margin: EdgeInsets.only(top: 20),
       child: Card(
@@ -333,7 +338,7 @@ class _MenuDetailState extends State<MenuDetail> {
                 ),
               ),
               Divider(),
-              listAddOn(storeNotifier, index),
+              listAddOn(storeNotifier, indexT),
             ],
           ),
         ),
@@ -341,38 +346,43 @@ class _MenuDetailState extends State<MenuDetail> {
     );
   }
 
-  Widget listAddOn(StoreNotifier storeNotifier, int index) {
+  Widget listAddOn(StoreNotifier storeNotifier, int indexT) {
     double totalPriceInt = double.parse(price);
 
     if (order.topping != null) {
       selectedTopping = order.topping;
 
-      for (int i = 0; i <= order.topping.length - 1; i++) {
-        if (order.topping[i] ==
-            storeNotifier.toppingList[index].subTopping[i]['name']) {
-          isSelectedTopping[i] = true;
+      order.topping.forEach((topping) {
+        for (int i = 0;
+            i < storeNotifier.toppingList[indexT].subTopping.length;
+            i++) {
+          if (topping ==
+              storeNotifier.toppingList[indexT].subTopping[i]['name']) {
+            isSelectedTopping[indexT][i] = true;
+          }
         }
-      }
+      });
     }
+    // print(isSelectedTopping[indexT]);
 
     return ListView.builder(
         shrinkWrap: true,
         padding: EdgeInsets.all(0),
         physics: NeverScrollableScrollPhysics(),
-        itemCount: storeNotifier.toppingList[index].subTopping.length,
+        itemCount: storeNotifier.toppingList[indexT].subTopping.length,
         itemBuilder: (context, i) {
-          final subtopping = storeNotifier.toppingList[index].subTopping[i];
+          final subtopping = storeNotifier.toppingList[indexT].subTopping[i];
 
           return CheckboxListTile(
             title: Text(subtopping['name']),
             secondary: Text('+' + subtopping['price']),
             controlAffinity: ListTileControlAffinity.leading,
-            value: isSelectedTopping[i],
+            value: isSelectedTopping[indexT][i],
             onChanged: (bool value) {
               setState(() {
-                isSelectedTopping[i] = value;
+                isSelectedTopping[indexT][i] = value;
 
-                switch (isSelectedTopping[i]) {
+                switch (isSelectedTopping[indexT][i]) {
                   case true:
                     if (amount > 1) {
                       totalPriceInt +=
@@ -383,7 +393,8 @@ class _MenuDetailState extends State<MenuDetail> {
                       totalPriceInt += int.parse(subtopping['price']);
                       priceWithTopping = totalPriceInt;
                     }
-                    selectedTopping.insert(0, subtopping['name']);
+                    selectedTopping.add(subtopping['name']);
+                    print(selectedTopping);
                     break;
                   default:
                     if (amount > 1) {

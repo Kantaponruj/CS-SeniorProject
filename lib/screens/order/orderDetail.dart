@@ -284,11 +284,25 @@ class _OrderDetailPageState extends State<OrderDetailPage> {
           ? SizedBox.shrink()
           : BottomOrderDetail(
               onClicked: () {
+                String typeOrder;
+                if (_activities.startWaitingTime != 'ตอนนี้' &&
+                    _activities.endWaitingTime != null) {
+                  typeOrder = 'meeting-orders';
+                } else {
+                  switch (store.currentStore.isDelivery) {
+                    case true:
+                      typeOrder = 'delivery-orders';
+                      break;
+                    default:
+                      typeOrder = 'pickup-orders';
+                  }
+                }
+
                 saveActivityToHistory(
                   user.userModel.uid,
                   store.currentStore.storeId,
                   _activities,
-                  store.currentStore.isDelivery,
+                  typeOrder,
                 );
 
                 for (int i = 0; i < order.orderList.length; i++) {
@@ -297,7 +311,7 @@ class _OrderDetailPageState extends State<OrderDetailPage> {
                       user.userModel.uid,
                       store.currentStore.storeId,
                       order.orderList[i],
-                      store.currentStore.isDelivery,
+                      typeOrder,
                     );
                   }
                 }

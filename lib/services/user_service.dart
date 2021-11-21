@@ -75,7 +75,7 @@ addAddress(AddressModel address, String uid, Function addAddress) async {
 String orderId;
 
 saveActivityToHistory(
-    String uid, String storeId, Activity activity, bool isDelivery) async {
+    String uid, String storeId, Activity activity, String typeOrder) async {
   DocumentReference orderRef = firebaseFirestore
       .collection('users')
       .doc(uid)
@@ -87,17 +87,11 @@ saveActivityToHistory(
 
   orderRef.set(activity.toMap(), SetOptions(merge: true));
 
-  switch (isDelivery) {
-    case true:
-      saveDeliveryOrder(storeId, activity);
-      break;
-    default:
-      savePickUpOrder(storeId, activity);
-  }
+  saveOrder(typeOrder, storeId, activity);
 }
 
 saveEachOrderToHistory(
-    String uid, String storeId, OrderModel order, bool isDelivery) async {
+    String uid, String storeId, OrderModel order, String typeOrder) async {
   CollectionReference orderToppingRef = firebaseFirestore
       .collection('users')
       .doc(uid)
@@ -108,7 +102,7 @@ saveEachOrderToHistory(
   DocumentReference documentRef = await orderToppingRef.add(order.toMap());
   await documentRef.set(order.toMap(), SetOptions(merge: true));
 
-  saveEachOrder(storeId, order, isDelivery);
+  saveEachOrder(typeOrder, storeId, order);
 }
 
 Future<void> getHistoryOrder(

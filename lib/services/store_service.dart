@@ -93,11 +93,11 @@ Future<void> getDateAndTime(StoreNotifier storeNotifier, String storeId) async {
 
 String documentId;
 
-saveDeliveryOrder(String storeId, Activity activity) async {
+saveOrder(String typeOrder, String storeId, Activity activity) async {
   DocumentReference orderRefStore = firebaseFirestore
       .collection('stores')
       .doc(storeId)
-      .collection('delivery-orders')
+      .collection(typeOrder)
       .doc();
 
   documentId = orderRefStore.id;
@@ -107,25 +107,11 @@ saveDeliveryOrder(String storeId, Activity activity) async {
       .then((value) => orderRefStore.update({'documentId': documentId}));
 }
 
-savePickUpOrder(String storeId, Activity activity) async {
-  DocumentReference orderRefStore = firebaseFirestore
-      .collection('stores')
-      .doc(storeId)
-      .collection('pickup-orders')
-      .doc();
-
-  documentId = orderRefStore.id;
-
-  orderRefStore
-      .set(activity.toMap(), SetOptions(merge: true))
-      .then((value) => orderRefStore.update({'documentId': documentId}));
-}
-
-saveEachOrder(String storeId, OrderModel order, bool isDelivery) async {
+saveEachOrder(String typeOrder, String storeId, OrderModel order) async {
   CollectionReference orderToppingRef = firebaseFirestore
       .collection('stores')
       .doc(storeId)
-      .collection(isDelivery ? 'delivery-orders' : 'pickup-orders')
+      .collection(typeOrder)
       .doc(documentId)
       .collection('orders');
 

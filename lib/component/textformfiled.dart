@@ -75,6 +75,7 @@ class BuildTextField extends StatelessWidget {
     this.obscureText = false,
     this.maxLength,
     this.maxLine,
+    this.onChanged,
   }) : super(key: key);
 
   final String labelText;
@@ -86,6 +87,7 @@ class BuildTextField extends StatelessWidget {
   final bool obscureText;
   final int maxLength;
   final int maxLine;
+  final Function(String) onChanged;
 
   @override
   Widget build(BuildContext context) {
@@ -115,6 +117,7 @@ class BuildTextField extends StatelessWidget {
       obscureText: obscureText,
       maxLength: maxLength,
       maxLines: maxLine,
+      onChanged: onChanged,
     );
   }
 }

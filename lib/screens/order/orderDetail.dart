@@ -663,6 +663,8 @@ class _OrderDetailPageState extends State<OrderDetailPage> {
   TextEditingController residentName = new TextEditingController();
   TextEditingController phoneNumber = new TextEditingController();
 
+  String text;
+
   Widget editContactInfo(String name, String phone, LocationNotifier location) {
     // residentName.text = name;
     // phoneNumber.text = phone;
@@ -698,6 +700,11 @@ class _OrderDetailPageState extends State<OrderDetailPage> {
               child: BuildTextField(
                 labelText: 'ชื่อผู้ใช้',
                 textEditingController: residentName,
+                onChanged: (value) {
+                  setState(() {
+                    text = value;
+                  });
+                },
                 hintText: 'กรุณากรอกชื่อผู้ใช้',
               ),
             ),
@@ -720,6 +727,7 @@ class _OrderDetailPageState extends State<OrderDetailPage> {
                   //   location.selectedAddress.phone = phoneNumber.text.trim();
                   //   Navigator.pop(context);
                   // });
+                  print(text.trim());
                   print('name: ${residentName.text.trim()}');
                   print('phone: ${phoneNumber.text.trim()}');
                 },

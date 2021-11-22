@@ -659,16 +659,7 @@ class _OrderDetailPageState extends State<OrderDetailPage> {
     );
   }
 
-  TextEditingController controller;
-  TextEditingController residentName = new TextEditingController();
-  TextEditingController phoneNumber = new TextEditingController();
-
-  String text;
-
   Widget editContactInfo(String name, String phone, LocationNotifier location) {
-    // residentName.text = name;
-    // phoneNumber.text = phone;
-
     return AlertDialog(
       shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(20)),
       content: Container(
@@ -699,10 +690,10 @@ class _OrderDetailPageState extends State<OrderDetailPage> {
               padding: EdgeInsets.only(top: 20),
               child: BuildTextField(
                 labelText: 'ชื่อผู้ใช้',
-                textEditingController: residentName,
+                initialValue: name,
                 onChanged: (value) {
                   setState(() {
-                    text = value;
+                    location.selectedAddress.residentName = value;
                   });
                 },
                 hintText: 'กรุณากรอกชื่อผู้ใช้',
@@ -712,7 +703,10 @@ class _OrderDetailPageState extends State<OrderDetailPage> {
               padding: EdgeInsets.only(top: 20),
               child: BuildTextField(
                 labelText: 'เบอร์โทรศัพท์',
-                textEditingController: phoneNumber,
+                initialValue: phone,
+                onChanged: (value) {
+                  location.selectedAddress.phone = value;
+                },
                 hintText: 'กรุณากรอกเบอร์โทรศัพท์',
               ),
             ),
@@ -721,15 +715,7 @@ class _OrderDetailPageState extends State<OrderDetailPage> {
               padding: EdgeInsets.only(top: 20),
               child: NoShapeButton(
                 onClicked: () {
-                  // setState(() {
-                  //   location.selectedAddress.residentName =
-                  //       residentName.text.trim();
-                  //   location.selectedAddress.phone = phoneNumber.text.trim();
-                  //   Navigator.pop(context);
-                  // });
-                  print(text.trim());
-                  print('name: ${residentName.text.trim()}');
-                  print('phone: ${phoneNumber.text.trim()}');
+                  Navigator.pop(context);
                 },
                 text: 'บันทึก',
               ),

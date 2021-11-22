@@ -67,8 +67,9 @@ class BuildTextField extends StatelessWidget {
   BuildTextField({
     Key key,
     @required this.labelText,
-    @required this.textEditingController,
     @required this.hintText,
+    this.textEditingController,
+    this.initialValue,
     this.errorText,
     this.validator,
     this.textInputType,
@@ -81,6 +82,7 @@ class BuildTextField extends StatelessWidget {
   final String labelText;
   final TextEditingController textEditingController;
   final String hintText;
+  final String initialValue;
   final String errorText;
   final String Function(String) validator;
   final TextInputType textInputType;
@@ -113,6 +115,7 @@ class BuildTextField extends StatelessWidget {
         ),
       ),
       keyboardType: textInputType,
+      initialValue: initialValue,
       validator: validator,
       obscureText: obscureText,
       maxLength: maxLength,
@@ -121,7 +124,6 @@ class BuildTextField extends StatelessWidget {
     );
   }
 }
-
 
 class BuildPasswordField extends StatefulWidget {
   const BuildPasswordField({

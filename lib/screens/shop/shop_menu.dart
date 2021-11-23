@@ -365,12 +365,15 @@ class _ShopMenuState extends State<ShopMenu> {
     );
   }
 
+  List<MenuModel> _menuList = [];
+
   Widget gridView(
     String categoryName,
     StoreNotifier storeNotifier,
     int indexC,
   ) {
-    List<MenuModel> _menuList = [];
+    // List<MenuModel> _menuList = [];
+    _menuList.clear();
 
     storeNotifier.menuList.forEach((menu) {
       if (menu.categoryFood == categoryName) {

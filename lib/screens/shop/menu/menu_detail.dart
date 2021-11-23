@@ -188,8 +188,6 @@ class _MenuDetailState extends State<MenuDetail> {
                                 physics: NeverScrollableScrollPhysics(),
                                 itemCount: storeNotifier.toppingList.length,
                                 itemBuilder: (context, index) {
-                                  print(
-                                      'length: ${storeNotifier.toppingList[index].subTopping.length}');
                                   return moreCard(storeNotifier, index);
                                 },
                               ),
@@ -291,10 +289,13 @@ class _MenuDetailState extends State<MenuDetail> {
     );
   }
 
-  // List defaultSelected = [];
+  List defaultSelected = [];
 
   Widget moreCard(StoreNotifier storeNotifier, int indexT) {
-    List defaultSelected = [];
+    // defaultSelected.clear();
+    if (storeNotifier.toppingList.length > 1) {
+      defaultSelected.clear();
+    }
 
     storeNotifier.toppingList[indexT].subTopping.forEach(
       (element) {
@@ -304,10 +305,8 @@ class _MenuDetailState extends State<MenuDetail> {
 
     if (isSelectedTopping.length != storeNotifier.toppingList.length) {
       isSelectedTopping.add(defaultSelected);
-      isSelectedTopping.sort((a, b) => a.length.compareTo(b.length));
+      // isSelectedTopping.sort((a, b) => a.length.compareTo(b.length));
     }
-    print('isSelectedTopping length: ${isSelectedTopping.length}');
-    print('toppingList: ${storeNotifier.toppingList.length}');
     print(isSelectedTopping);
 
     return Container(
@@ -352,18 +351,17 @@ class _MenuDetailState extends State<MenuDetail> {
     if (order.topping != null) {
       selectedTopping = order.topping;
 
-      order.topping.forEach((topping) {
-        for (int i = 0;
-            i < storeNotifier.toppingList[indexT].subTopping.length;
-            i++) {
-          if (topping ==
-              storeNotifier.toppingList[indexT].subTopping[i]['name']) {
-            isSelectedTopping[indexT][i] = true;
+      for (int i = 0; i < order.topping.length; i++) {
+        for (int j = 0;
+            j < storeNotifier.toppingList[indexT].subTopping.length;
+            j++) {
+          if (order.topping[i] ==
+              storeNotifier.toppingList[indexT].subTopping[j]['name']) {
+            isSelectedTopping[indexT][j] = true;
           }
         }
-      });
+      }
     }
-    // print(isSelectedTopping[indexT]);
 
     return ListView.builder(
         shrinkWrap: true,
@@ -379,6 +377,10 @@ class _MenuDetailState extends State<MenuDetail> {
             controlAffinity: ListTileControlAffinity.leading,
             value: isSelectedTopping[indexT][i],
             onChanged: (bool value) {
+              // isSelectedTopping[indexT][i] = !isSelectedTopping[indexT][i];
+              // print(i);
+              // print(isSelectedTopping[indexT]);
+
               setState(() {
                 isSelectedTopping[indexT][i] = value;
 

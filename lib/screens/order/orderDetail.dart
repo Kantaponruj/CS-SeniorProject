@@ -404,38 +404,53 @@ class _OrderDetailPageState extends State<OrderDetailPage> {
               ? SizedBox.shrink()
               : Container(
                   margin: EdgeInsets.only(top: 10),
-                  child: Column(
+                  child: Row(
                     children: [
-                      Row(
-                        children: [
-                          Expanded(
-                            flex: 2,
-                            child: Container(),
-                          ),
-                          Expanded(
-                            flex: 10,
-                            child: Row(children: [
-                              Text(
-                                order.topping.join(', '),
-                                style: TextStyle(
-                                  fontWeight: FontWeight.w400,
-                                  fontSize: smallestSize,
-                                  color: Colors.black54,
-                                ),
-                              )
-                            ]),
-                          ),
-                        ],
+                      Expanded(
+                        flex: 2,
+                        child: Container(),
                       ),
-                      order.other.isEmpty
-                          ? SizedBox.shrink()
-                          : Container(
-                              alignment: Alignment.centerLeft,
-                              child: Text(
-                                order.other,
-                                style: FontCollection.bodyTextStyle,
+                      Expanded(
+                        flex: 10,
+                        child: Row(children: [
+                          Text(
+                            order.topping.join(', '),
+                            style: TextStyle(
+                              fontWeight: FontWeight.w400,
+                              fontSize: smallestSize,
+                              color: Colors.black54,
+                            ),
+                          )
+                        ]),
+                      ),
+                    ],
+                  ),
+                ),
+          order.other == null
+              ? SizedBox.shrink()
+              : Container(
+                  margin: EdgeInsets.only(top: 10),
+                  child: Row(
+                    children: [
+                      Expanded(
+                        flex: 2,
+                        child: Container(),
+                      ),
+                      Expanded(
+                        flex: 10,
+                        child: Row(
+                          children: [
+                            Text(
+                              order.other,
+                              style: TextStyle(
+                                fontWeight: FontWeight.w400,
+                                fontSize: smallestSize,
+                                color: Colors.black54,
                               ),
                             ),
+                          ],
+                        ),
+                      ),
                     ],
                   ),
                 ),
@@ -692,9 +707,7 @@ class _OrderDetailPageState extends State<OrderDetailPage> {
                 labelText: 'ชื่อผู้ใช้',
                 initialValue: name,
                 onChanged: (value) {
-                  setState(() {
-                    location.selectedAddress.residentName = value;
-                  });
+                  location.selectedAddress.residentName = value;
                 },
                 hintText: 'กรุณากรอกชื่อผู้ใช้',
               ),
@@ -707,7 +720,15 @@ class _OrderDetailPageState extends State<OrderDetailPage> {
                 onChanged: (value) {
                   location.selectedAddress.phone = value;
                 },
+                validator: (value) {
+                  if (value.length < 10 || value[0] != '0') {
+                    return 'โปรดระบุเบอร์โทรศัพท์ให้ถูกต้อง';
+                  }
+
+                  return null;
+                },
                 hintText: 'กรุณากรอกเบอร์โทรศัพท์',
+                textInputType: TextInputType.phone,
               ),
             ),
             Container(

@@ -2,7 +2,6 @@ import 'package:cs_senior_project/asset/color.dart';
 import 'package:cs_senior_project/asset/text_style.dart';
 import 'package:flutter/material.dart';
 import 'package:splashscreen/splashscreen.dart';
-import 'package:custom_splash/custom_splash.dart';
 import '../main.dart';
 
 class SplashPage extends StatefulWidget {
@@ -21,7 +20,7 @@ class _SplashPageState extends State<SplashPage> {
           'Stalltruckr',
           style: FontCollection.topicBoldTextStyle,
         ),
-        image: Image.asset('assets/images/stalltruckr_logo_merchant_tran.png'),
+        image: Image.asset('assets/images/stalltruckr_logo.png'),
         backgroundColor: Colors.white,
         styleTextUnderTheLoader: TextStyle(color: Colors.deepPurple),
         photoSize: 100.0,

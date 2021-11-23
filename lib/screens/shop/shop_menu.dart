@@ -56,14 +56,7 @@ class _ShopMenuState extends State<ShopMenu> {
         Provider.of<LocationNotifier>(context, listen: false);
 
     order.setPolylines(
-      LatLng(
-        location.selectedAddress.geoPoint != GeoPoint(0, 0)
-            ? location.selectedAddress.geoPoint.latitude
-            : location.currentPosition.latitude,
-        location.selectedAddress.geoPoint != GeoPoint(0, 0)
-            ? location.selectedAddress.geoPoint.longitude
-            : location.currentPosition.longitude,
-      ),
+      location,
       LatLng(
         store.currentStore.realtimeLocation.latitude,
         store.currentStore.realtimeLocation.longitude,

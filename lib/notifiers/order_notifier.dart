@@ -1,7 +1,9 @@
 import 'dart:math';
 
+import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:cs_senior_project/asset/constant.dart';
 import 'package:cs_senior_project/models/order.dart';
+import 'package:cs_senior_project/notifiers/location_notifer.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_polyline_points/flutter_polyline_points.dart';
 import 'package:google_maps_flutter/google_maps_flutter.dart';
@@ -80,12 +82,17 @@ class OrderNotifier with ChangeNotifier {
     notifyListeners();
   }
 
-  setPolylines(LatLng customerP, LatLng storeP, bool isDelivery) async {
+  setPolylines(
+      LocationNotifier customerP, LatLng storeP, bool isDelivery) async {
     _shippingFee = '0';
 
     PolylineResult result = await _polylinePoints.getRouteBetweenCoordinates(
       GOOGLE_MAPS_API_KEY,
-      PointLatLng(customerP.latitude, customerP.longitude),
+      customerP.selectedAddress.geoPoint != GeoPoint(0, 0)
+          ? PointLatLng(customerP.selectedAddress.geoPoint.latitude,
+              customerP.selectedAddress.geoPoint.longitude)
+          : PointLatLng(customerP.currentPosition.latitude,
+              customerP.currentPosition.longitude),
       PointLatLng(storeP.latitude, storeP.longitude),
     );
 

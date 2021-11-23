@@ -59,20 +59,6 @@ class _SelectAddressState extends State<SelectAddress> {
                         selectInitialPosition: true,
                         usePlaceDetailSearch: true,
                         onPlacePicked: (selectedPlace) {
-                          if (widget.storePoint != null) {
-                            orderNotifier.setPolylines(
-                              LatLng(
-                                selectedPlace.geometry.location.lat,
-                                selectedPlace.geometry.location.lng,
-                              ),
-                              LatLng(
-                                widget.storePoint.latitude,
-                                widget.storePoint.longitude,
-                              ),
-                              widget.isDelivery,
-                            );
-                          }
-
                           location.setCameraPositionMap(
                             LatLng(
                               selectedPlace.geometry.location.lat,
@@ -91,6 +77,17 @@ class _SelectAddressState extends State<SelectAddress> {
                                 userNotifier.userModel.displayName;
                           });
                           location.setSelectedPosition(_address);
+
+                          if (widget.storePoint != null) {
+                            orderNotifier.setPolylines(
+                              location,
+                              LatLng(
+                                widget.storePoint.latitude,
+                                widget.storePoint.longitude,
+                              ),
+                              widget.isDelivery,
+                            );
+                          }
 
                           Navigator.of(context).pop();
                         },

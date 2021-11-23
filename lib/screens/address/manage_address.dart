@@ -37,7 +37,6 @@ class _ManageAddressState extends State<ManageAddress> {
 
   @override
   Widget build(BuildContext context) {
-    UserNotifier userNotifier = Provider.of<UserNotifier>(context);
     AddressNotifier addressNotifier = Provider.of<AddressNotifier>(context);
     OrderNotifier orderNotifier = Provider.of<OrderNotifier>(context);
     LocationNotifier locationNotifier = Provider.of<LocationNotifier>(context);
@@ -113,22 +112,6 @@ class _ManageAddressState extends State<ManageAddress> {
                               maxLines: 2,
                             ),
                             onTap: () {
-                              if (widget.storePoint != null) {
-                                orderNotifier.setPolylines(
-                                  LatLng(
-                                    addressNotifier
-                                        .addressList[index].geoPoint.latitude,
-                                    addressNotifier
-                                        .addressList[index].geoPoint.longitude,
-                                  ),
-                                  LatLng(
-                                    widget.storePoint.latitude,
-                                    widget.storePoint.longitude,
-                                  ),
-                                  widget.isDelivery,
-                                );
-                              }
-
                               locationNotifier.setCameraPositionMap(
                                 LatLng(
                                   addressNotifier
@@ -141,6 +124,17 @@ class _ManageAddressState extends State<ManageAddress> {
                               locationNotifier.setSelectedPosition(
                                 addressNotifier.addressList[index],
                               );
+
+                              if (widget.storePoint != null) {
+                                orderNotifier.setPolylines(
+                                  locationNotifier,
+                                  LatLng(
+                                    widget.storePoint.latitude,
+                                    widget.storePoint.longitude,
+                                  ),
+                                  widget.isDelivery,
+                                );
+                              }
 
                               Navigator.pop(context);
                             },

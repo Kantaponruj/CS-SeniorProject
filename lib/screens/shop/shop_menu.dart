@@ -136,18 +136,18 @@ class _ShopMenuState extends State<ShopMenu> {
     }
   }
 
-  final LatLng pPosition = LatLng(14.004394411737309, 100.61918716784919);
-  final LatLng cPosition = LatLng(13.7091526, 100.4742055);
+  // final LatLng pPosition = LatLng(14.004394411737309, 100.61918716784919);
+  // final LatLng cPosition = LatLng(13.7091526, 100.4742055);
 
-  getDistance() async {
-    Position position = await Geolocator.getCurrentPosition(
-        desiredAccuracy: LocationAccuracy.high);
-    final double distance = Geolocator.distanceBetween(pPosition.latitude,
-            pPosition.longitude, position.latitude, position.longitude) /
-        1000;
-    final result = distance;
-    print(result);
-  }
+  // getDistance() async {
+  //   Position position = await Geolocator.getCurrentPosition(
+  //       desiredAccuracy: LocationAccuracy.high);
+  //   final double distance = Geolocator.distanceBetween(pPosition.latitude,
+  //           pPosition.longitude, position.latitude, position.longitude) /
+  //       1000;
+  //   final result = distance;
+  //   print(result);
+  // }
 
   @override
   Widget build(BuildContext context) {

@@ -24,7 +24,6 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:google_maps_flutter/google_maps_flutter.dart';
 import 'package:provider/provider.dart';
-import 'package:geolocator/geolocator.dart';
 
 class ShopMenu extends StatefulWidget {
   ShopMenu({Key key}) : super(key: key);
@@ -34,8 +33,6 @@ class ShopMenu extends StatefulWidget {
 }
 
 class _ShopMenuState extends State<ShopMenu> {
-  int index = 0;
-  final items = List.generate(10, (counter) => 'Item: $counter');
   final controller = ScrollController();
   bool isShowBasket = false;
   String selectedAddress;
@@ -135,19 +132,6 @@ class _ShopMenuState extends State<ShopMenu> {
       }
     }
   }
-
-  // final LatLng pPosition = LatLng(14.004394411737309, 100.61918716784919);
-  // final LatLng cPosition = LatLng(13.7091526, 100.4742055);
-
-  // getDistance() async {
-  //   Position position = await Geolocator.getCurrentPosition(
-  //       desiredAccuracy: LocationAccuracy.high);
-  //   final double distance = Geolocator.distanceBetween(pPosition.latitude,
-  //           pPosition.longitude, position.latitude, position.longitude) /
-  //       1000;
-  //   final result = distance;
-  //   print(result);
-  // }
 
   @override
   Widget build(BuildContext context) {

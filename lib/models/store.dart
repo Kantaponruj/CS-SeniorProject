@@ -15,7 +15,7 @@ class Store {
   String description;
   GeoPoint realtimeLocation;
   // bool deliveryStatus;
-  // bool storeStatus;
+  bool storeStatus;
   String typeOfStore;
 
   // Store();
@@ -33,6 +33,7 @@ class Store {
     location = data['selectedLocation'];
     description = data['description'];
     realtimeLocation = data['realtimeLocation'];
+    storeStatus = data['storeStatus'];
     typeOfStore = data['typeOfStore'];
   }
 
@@ -50,6 +51,7 @@ class Store {
       'selectedLocation': location,
       'description': description,
       'realtimeLocation': realtimeLocation,
+      'storeStatus': storeStatus,
       'typeOfStore': typeOfStore,
     };
   }

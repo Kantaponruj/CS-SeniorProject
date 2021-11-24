@@ -36,7 +36,9 @@ class _TapWidgetState extends State<TapWidget> {
 
         snapshot.data.docs.forEach((document) {
           Store store = Store.fromMap(document.data());
-          _storeList.add(store);
+          if (store.storeStatus) {
+            _storeList.add(store);
+          }
         });
 
         storeNotifier.storeList = _storeList;
@@ -44,9 +46,9 @@ class _TapWidgetState extends State<TapWidget> {
         return ListView.builder(
           padding: EdgeInsets.all(16),
           controller: widget.scrollController,
-          itemCount: snapshot.data.docs.length,
+          itemCount: _storeList.length,
           itemBuilder: (context, index) {
-            final store = snapshot.data.docs[index];
+            Store store = _storeList[index];
             return Column(
               children: [
                 Padding(
@@ -61,7 +63,7 @@ class _TapWidgetState extends State<TapWidget> {
     );
   }
 
-  Widget buildStore(final store, context, StoreNotifier storeNotifier) {
+  Widget buildStore(Store store, context, StoreNotifier storeNotifier) {
     return ListTile(
         leading: Container(
           width: 60,
@@ -71,23 +73,21 @@ class _TapWidgetState extends State<TapWidget> {
               image: DecorationImage(
                 fit: BoxFit.cover,
                 image: NetworkImage(
-                  store['image'] != null
-                      ? store['image']
+                  store.image != null
+                      ? store.image
                       : 'https://www.testingxperts.com/wp-content/uploads/2019/02/placeholder-img.jpg',
                 ),
               )),
         ),
         title: Text(
-          store['storeName'],
+          store.storeName,
           style: TextStyle(fontSize: 18),
         ),
-        subtitle: Text(store['kindOfFood'].join(', ')),
+        subtitle: Text(store.kindOfFood.join(', ')),
         onTap: () {
           _storeList.forEach((element) {
-            if (element.storeId == store['storeId']) {
+            if (element.storeId == store.storeId) {
               storeNotifier.currentStore = element;
-              // print('data id: ${element.storeId}');
-              // print('store id: ${store['storeId']}');
             }
           });
 

@@ -58,6 +58,7 @@ class _SelectAddressState extends State<SelectAddress> {
                         useCurrentLocation: true,
                         selectInitialPosition: true,
                         usePlaceDetailSearch: true,
+                        automaticallyImplyAppBarLeading: false,
                         onPlacePicked: (selectedPlace) {
                           location.setCameraPositionMap(
                             LatLng(

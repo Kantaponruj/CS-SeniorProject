@@ -57,12 +57,14 @@ class _ManageAddressState extends State<ManageAddress> {
                   if (widget.storePoint != null) {
                     Navigator.of(context).push(MaterialPageRoute(
                       builder: (context) => SelectAddress(
-                          storePoint: widget.storePoint,
-                          isDelivery: widget.isDelivery),
+                        storePoint: widget.storePoint,
+                        isDelivery: widget.isDelivery,
+                        isAdding: false,
+                      ),
                     ));
                   } else {
                     Navigator.of(context).push(MaterialPageRoute(
-                      builder: (context) => SelectAddress(),
+                      builder: (context) => SelectAddress(isAdding: false),
                     ));
                   }
                 },

@@ -12,11 +12,16 @@ import 'package:google_maps_place_picker/google_maps_place_picker.dart';
 import 'package:provider/provider.dart';
 
 class SelectAddress extends StatefulWidget {
-  const SelectAddress({Key key, this.storePoint, this.isDelivery})
-      : super(key: key);
+  const SelectAddress({
+    Key key,
+    this.storePoint,
+    this.isDelivery,
+    @required this.isAdding,
+  }) : super(key: key);
 
   final LatLng storePoint;
   final bool isDelivery;
+  final bool isAdding;
 
   @override
   _SelectAddressState createState() => _SelectAddressState();
@@ -60,34 +65,39 @@ class _SelectAddressState extends State<SelectAddress> {
                         usePlaceDetailSearch: true,
                         automaticallyImplyAppBarLeading: false,
                         onPlacePicked: (selectedPlace) {
-                          location.setCameraPositionMap(
-                            LatLng(
-                              selectedPlace.geometry.location.lat,
-                              selectedPlace.geometry.location.lng,
-                            ),
-                          );
-
-                          setState(() {
-                            _address.address = selectedPlace.formattedAddress;
-                            _address.geoPoint = GeoPoint(
-                              selectedPlace.geometry.location.lat,
-                              selectedPlace.geometry.location.lng,
-                            );
-                            _address.phone = userNotifier.userModel.phone;
-                            _address.residentName =
-                                userNotifier.userModel.displayName;
-                          });
-                          location.setSelectedPosition(_address);
-
-                          if (widget.storePoint != null) {
-                            orderNotifier.setPolylines(
-                              location,
+                          if (widget.isAdding) {
+                            location.currentAddress =
+                                selectedPlace.formattedAddress;
+                          } else {
+                            location.setCameraPositionMap(
                               LatLng(
-                                widget.storePoint.latitude,
-                                widget.storePoint.longitude,
+                                selectedPlace.geometry.location.lat,
+                                selectedPlace.geometry.location.lng,
                               ),
-                              widget.isDelivery,
                             );
+
+                            setState(() {
+                              _address.address = selectedPlace.formattedAddress;
+                              _address.geoPoint = GeoPoint(
+                                selectedPlace.geometry.location.lat,
+                                selectedPlace.geometry.location.lng,
+                              );
+                              _address.phone = userNotifier.userModel.phone;
+                              _address.residentName =
+                                  userNotifier.userModel.displayName;
+                            });
+                            location.setSelectedPosition(_address);
+
+                            if (widget.storePoint != null) {
+                              orderNotifier.setPolylines(
+                                location,
+                                LatLng(
+                                  widget.storePoint.latitude,
+                                  widget.storePoint.longitude,
+                                ),
+                                widget.isDelivery,
+                              );
+                            }
                           }
 
                           Navigator.of(context).pop();

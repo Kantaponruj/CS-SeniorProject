@@ -66,7 +66,7 @@ class _AddAddressState extends State<AddAddress> {
         ),
         body: SingleChildScrollView(
           child: Container(
-            margin: EdgeInsets.symmetric(horizontal: 20,vertical: 20),
+            margin: EdgeInsets.symmetric(horizontal: 20, vertical: 20),
             child: Column(
               children: [
                 Container(
@@ -76,7 +76,7 @@ class _AddAddressState extends State<AddAddress> {
                     onClicked: () {
                       Navigator.of(context).push(
                         MaterialPageRoute(
-                          builder: (context) => SelectAddress(),
+                          builder: (context) => SelectAddress(isAdding: true),
                         ),
                       );
                     },
@@ -168,6 +168,7 @@ class _AddAddressState extends State<AddAddress> {
                   child: StadiumButtonWidget(
                     text: 'บันทึก',
                     onClicked: () {
+                      locationNotifier.initialPosition;
                       FocusScope.of(context).requestFocus(new FocusNode());
                       _saveAddress(locationNotifier);
                     },

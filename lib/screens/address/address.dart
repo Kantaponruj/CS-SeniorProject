@@ -46,9 +46,7 @@ class _AddressState extends State<Address> {
               padding: EdgeInsets.symmetric(horizontal: 20, vertical: 20),
               child: Column(
                 children: [
-                  isFromHomePage
-                      ? selectedOnMap()
-                      : SizedBox.shrink(),
+                  isFromHomePage ? selectedOnMap() : SizedBox.shrink(),
                   Container(
                     margin: EdgeInsets.only(bottom: 20),
                     child: StadiumButtonWidget(
@@ -109,7 +107,7 @@ class _AddressState extends State<Address> {
               onClicked: () {
                 Navigator.of(context).push(
                   MaterialPageRoute(
-                    builder: (context) => SelectAddress(),
+                    builder: (context) => SelectAddress(isAdding: false),
                   ),
                 );
               },
@@ -123,5 +121,4 @@ class _AddressState extends State<Address> {
       ),
     );
   }
-
 }

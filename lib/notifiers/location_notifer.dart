@@ -85,6 +85,11 @@ class LocationNotifier with ChangeNotifier {
     notifyListeners();
   }
 
+  set currentAddress(String address) {
+    _currentAddress = address;
+    notifyListeners();
+  }
+
   setCameraPositionMap(LatLng position) {
     mapController.animateCamera(
       CameraUpdate.newCameraPosition(

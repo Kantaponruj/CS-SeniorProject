@@ -104,7 +104,7 @@ class _ShopDetailState extends State<ShopDetail> {
                                 height: double.infinity,
                               )
                             : Image.asset(
-                                'assets/images/shop_test.jpg',
+                                'assets/images/default-photo.png',
                                 fit: BoxFit.cover,
                                 width: double.infinity,
                                 height: double.infinity,

@@ -221,7 +221,7 @@ class _ShopMenuState extends State<ShopMenu> {
                       child: Image.network(
                         storeNotifier.currentStore.image != null
                             ? storeNotifier.currentStore.image
-                            : 'https://www.testingxperts.com/wp-content/uploads/2019/02/placeholder-img.jpg',
+                            : 'assets/images/default-photo.png',
                         errorBuilder: (BuildContext context, Object exception,
                             StackTrace stackTrace) {
                           return Icon(Icons.image, size: 40.0);

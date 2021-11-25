@@ -138,7 +138,7 @@ class _ConfirmedOrderMapPageState extends State<ConfirmedOrderMapPage> {
                               // height: double.infinity,
                             )
                           : AssetImage(
-                              'assets/images/shop_test.jpg',
+                              'assets/images/default-photo.png',
                               // fit: BoxFit.cover,
                               // width: double.infinity,
                               // height: double.infinity,

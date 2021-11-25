@@ -67,11 +67,11 @@ class _MenuPageState extends State<MenuPage> {
                   ));
                 },
               ),
-              menuCard(
-                Icons.calendar_today,
-                'การนัดหมาย',
-                () {},
-              ),
+              // menuCard(
+              //   Icons.calendar_today,
+              //   'การนัดหมาย',
+              //   () {},
+              // ),
               menuCard(
                 Icons.place,
                 'ที่อยู่',

@@ -84,6 +84,7 @@ flutter:
     - assets/images/marker_foodtruck.png
     - assets/images/stalltruckr_logo_merchant_tran.png
     - assets/images/stalltruckr_logo.png
+    - assets/images/default-photo.png
   #   - images/a_dot_ham.jpeg
 
   # An image asset can refer to one or more resolution-specific "variants", see

@@ -1,8 +1,6 @@
-import 'package:cs_senior_project/asset/constant.dart';
 import 'package:cs_senior_project/asset/text_style.dart';
 import 'package:cs_senior_project/component/appBar.dart';
 import 'package:cs_senior_project/notifiers/address_notifier.dart';
-import 'package:cs_senior_project/screens/address/select_address.dart';
 import 'package:cs_senior_project/services/user_service.dart';
 import 'package:cs_senior_project/widgets/button_widget.dart';
 import 'package:auto_size_text/auto_size_text.dart';
@@ -46,7 +44,7 @@ class _AddressState extends State<Address> {
               padding: EdgeInsets.symmetric(horizontal: 20, vertical: 20),
               child: Column(
                 children: [
-                  isFromHomePage ? selectedOnMap() : SizedBox.shrink(),
+                  // isFromHomePage ? selectedOnMap() : SizedBox.shrink(),
                   Container(
                     margin: EdgeInsets.only(bottom: 20),
                     child: StadiumButtonWidget(
@@ -96,29 +94,29 @@ class _AddressState extends State<Address> {
     );
   }
 
-  Widget selectedOnMap() {
-    return Container(
-      child: Column(
-        children: [
-          Container(
-            margin: EdgeInsets.only(bottom: 20),
-            child: StadiumButtonWidget(
-              text: 'เลือกบนแผนที่',
-              onClicked: () {
-                Navigator.of(context).push(
-                  MaterialPageRoute(
-                    builder: (context) => SelectAddress(isAdding: false),
-                  ),
-                );
-              },
-            ),
-          ),
-          Padding(
-            padding: const EdgeInsets.only(bottom: 20),
-            child: Divider(),
-          ),
-        ],
-      ),
-    );
-  }
+  // Widget selectedOnMap() {
+  //   return Container(
+  //     child: Column(
+  //       children: [
+  //         Container(
+  //           margin: EdgeInsets.only(bottom: 20),
+  //           child: StadiumButtonWidget(
+  //             text: 'เลือกบนแผนที่',
+  //             onClicked: () {
+  //               Navigator.of(context).push(
+  //                 MaterialPageRoute(
+  //                   builder: (context) => SelectAddress(isAdding: false),
+  //                 ),
+  //               );
+  //             },
+  //           ),
+  //         ),
+  //         Padding(
+  //           padding: const EdgeInsets.only(bottom: 20),
+  //           child: Divider(),
+  //         ),
+  //       ],
+  //     ),
+  //   );
+  // }
 }

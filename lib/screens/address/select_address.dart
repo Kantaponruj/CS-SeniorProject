@@ -68,6 +68,10 @@ class _SelectAddressState extends State<SelectAddress> {
                           if (widget.isAdding) {
                             location.currentAddress =
                                 selectedPlace.formattedAddress;
+                            location.addingPosition = LatLng(
+                              selectedPlace.geometry.location.lat,
+                              selectedPlace.geometry.location.lng,
+                            );
                           } else {
                             location.setCameraPositionMap(
                               LatLng(

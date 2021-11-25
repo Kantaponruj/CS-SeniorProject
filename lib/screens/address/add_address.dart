@@ -44,9 +44,15 @@ class _AddAddressState extends State<AddAddress> {
         Provider.of<UserNotifier>(context, listen: false);
 
     _currentAddress.address = locationNotifier.currentAddress;
-    _currentAddress.geoPoint = GeoPoint(
-        locationNotifier.currentPosition.latitude,
-        locationNotifier.currentPosition.longitude);
+    _currentAddress.geoPoint = locationNotifier.addingPosition != null
+        ? GeoPoint(
+            locationNotifier.addingPosition.latitude,
+            locationNotifier.addingPosition.longitude,
+          )
+        : GeoPoint(
+            locationNotifier.currentPosition.latitude,
+            locationNotifier.currentPosition.longitude,
+          );
     _currentAddress.addressName = addressName.text.trim();
     _currentAddress.addressDetail = addressDetail.text.trim();
     _currentAddress.residentName = residentName.text.trim();
@@ -99,12 +105,7 @@ class _AddAddressState extends State<AddAddress> {
                           child: buildTextFormField(
                             'ชื่อสถานที่',
                             TextInputType.text,
-                            (value) {
-                              if (value.isEmpty) {
-                                return 'โปรดกรอก';
-                              }
-                              return null;
-                            },
+                            (value) {},
                             addressName,
                           ),
                         ),
@@ -112,12 +113,7 @@ class _AddAddressState extends State<AddAddress> {
                           child: buildTextFormField(
                             'รายละเอียดสถานที่',
                             TextInputType.text,
-                            (value) {
-                              if (value.isEmpty) {
-                                return 'โปรดกรอก';
-                              }
-                              return null;
-                            },
+                            (value) {},
                             addressDetail,
                           ),
                         ),
@@ -138,7 +134,7 @@ class _AddAddressState extends State<AddAddress> {
                             TextInputType.text,
                             (value) {
                               if (value.isEmpty) {
-                                return 'โปรดกรอก';
+                                return 'โปรดระบุชื่อ';
                               }
                               return null;
                             },
@@ -150,8 +146,10 @@ class _AddAddressState extends State<AddAddress> {
                             'เบอร์โทรศัพท์',
                             TextInputType.number,
                             (value) {
-                              if (value.isEmpty) {
-                                return 'โปรดกรอก';
+                              if (value.length != 10 ||
+                                  value[0] != '0' ||
+                                  value.isEmpty) {
+                                return 'โปรดระบุเบอร์โทรศัพท์ให้ถูกต้อง';
                               }
                               return null;
                             },
@@ -168,9 +166,10 @@ class _AddAddressState extends State<AddAddress> {
                   child: StadiumButtonWidget(
                     text: 'บันทึก',
                     onClicked: () {
-                      locationNotifier.initialPosition;
                       FocusScope.of(context).requestFocus(new FocusNode());
                       _saveAddress(locationNotifier);
+                      locationNotifier.initialization();
+                      locationNotifier.addingPosition = null;
                     },
                   ),
                 ),

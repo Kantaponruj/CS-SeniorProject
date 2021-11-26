@@ -33,10 +33,12 @@ class ShopMenu extends StatefulWidget {
 }
 
 class _ShopMenuState extends State<ShopMenu> {
+  // int index = 0;
+  // final items = List.generate(10, (counter) => 'Item: $counter');
   final controller = ScrollController();
   bool isShowBasket = false;
   String selectedAddress;
-  List categories = [];
+  // List categories = [];
 
   Favorite _favorite = Favorite();
   bool _isFavorite = false;
@@ -141,13 +143,13 @@ class _ShopMenuState extends State<ShopMenu> {
       }
     }
 
-    categories.clear();
-    storeNotifier.menuList.forEach((menu) {
-      if (categories.contains(menu.categoryFood)) {
-      } else {
-        categories.add(menu.categoryFood);
-      }
-    });
+    // categories.clear();
+    // storeNotifier.menuList.forEach((menu) {
+    //   if (categories.contains(menu.categoryFood)) {
+    //   } else {
+    //     categories.add(menu.categoryFood);
+    //   }
+    // });
 
     final appBarHeight = 135.0;
 
@@ -259,10 +261,13 @@ class _ShopMenuState extends State<ShopMenu> {
                           child: ListView.builder(
                             shrinkWrap: true,
                             physics: NeverScrollableScrollPhysics(),
-                            itemCount: categories.length,
+                            itemCount: storeNotifier.categoriesList.length,
                             padding: EdgeInsets.zero,
                             itemBuilder: (context, index) {
-                              return menuCategories(categories[index]);
+                              String category =
+                                  storeNotifier.categoriesList[index];
+                              return menuCategories(
+                                  category, storeNotifier, index);
                             },
                           ),
                         ),
@@ -303,41 +308,61 @@ class _ShopMenuState extends State<ShopMenu> {
     );
   }
 
-  Widget buildHorizontalListView() => ListView.builder(
-        padding: EdgeInsets.all(16),
-        scrollDirection: Axis.horizontal,
-        physics: NeverScrollableScrollPhysics(),
-        // separatorBuilder: (context, index) => Divider(),
-        itemCount: categories.length,
-        itemBuilder: (context, index) {
-          return Container(
-            margin: EdgeInsets.only(right: 16),
-            child: Text(
-              categories[index],
-              style: FontCollection.topicBoldTextStyle,
-            ),
-          );
-        },
-      );
+  // Widget buildHorizontalListView(StoreNotifier storeNotifier) =>
+  //     ListView.builder(
+  //       padding: EdgeInsets.all(16),
+  //       scrollDirection: Axis.horizontal,
+  //       physics: NeverScrollableScrollPhysics(),
+  //       // separatorBuilder: (context, index) => Divider(),
+  //       itemCount: storeNotifier.categoriesList.length,
+  //       itemBuilder: (context, index) {
+  //         String category = storeNotifier.categoriesList[index];
+  //         return Container(
+  //           margin: EdgeInsets.only(right: 16),
+  //           child: Text(
+  //             category[index],
+  //             style: FontCollection.topicBoldTextStyle,
+  //           ),
+  //         );
+  //       },
+  //     );
 
-  Widget menuCategories(String categoryName) => BuildCard(
-        headerText: categoryName,
-        child: Container(
-          margin: EdgeInsets.symmetric(horizontal: 20, vertical: 20),
-          child: gridView(categoryName),
-        ),
-        canEdit: false,
-      );
+  List menuList = [];
 
-  Widget gridView(String categoryName) {
-    StoreNotifier storeNotifier = Provider.of<StoreNotifier>(context);
-    List<dynamic> menuCategory = [];
+  Widget menuCategories(
+    String categoryName,
+    StoreNotifier storeNotifier,
+    int indexC,
+  ) {
+    return BuildCard(
+      headerText: categoryName,
+      child: Container(
+        margin: EdgeInsets.symmetric(horizontal: 20, vertical: 20),
+        child: gridView(categoryName, storeNotifier, indexC),
+      ),
+      canEdit: false,
+    );
+  }
+
+  List<MenuModel> _menuList = [];
+
+  Widget gridView(
+    String categoryName,
+    StoreNotifier storeNotifier,
+    int indexC,
+  ) {
+    // List<MenuModel> _menuList = [];
+    _menuList.clear();
 
     storeNotifier.menuList.forEach((menu) {
       if (menu.categoryFood == categoryName) {
-        menuCategory.add(menu);
+        _menuList.add(menu);
       }
     });
+
+    if (menuList.length != storeNotifier.categoriesList.length) {
+      menuList.add(_menuList);
+    }
 
     return Container(
       child: GridView.builder(
@@ -351,10 +376,10 @@ class _ShopMenuState extends State<ShopMenu> {
         ),
         padding: EdgeInsets.fromLTRB(20, 20, 20, 0),
         controller: controller,
-        itemCount: menuCategory.length,
+        itemCount: menuList[indexC].length,
         itemBuilder: (context, index) {
           // final item = items[index];
-          MenuModel menu = menuCategory[index];
+          MenuModel menu = menuList[indexC][index];
           return menuData(storeNotifier, menu);
         },
       ),
@@ -618,7 +643,7 @@ class _ShopMenuState extends State<ShopMenu> {
 
   Widget meetingPlace() {
     AddressNotifier address = Provider.of<AddressNotifier>(context);
-    UserNotifier user = Provider.of<UserNotifier>(context);
+    // UserNotifier user = Provider.of<UserNotifier>(context);
     LocationNotifier location = Provider.of<LocationNotifier>(context);
 
     return Container(

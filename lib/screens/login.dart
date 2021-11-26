@@ -1,3 +1,5 @@
+import 'package:cs_senior_project/asset/color.dart';
+import 'package:cs_senior_project/asset/text_style.dart';
 import 'package:cs_senior_project/component/bottomBar.dart';
 import 'package:cs_senior_project/notifiers/user_notifier.dart';
 import 'package:cs_senior_project/screens/home.dart';
@@ -38,57 +40,85 @@ class _LoginPageState extends State<LoginPage> {
       body: authNotifier.status == Status.Authenticating
           ? LoadingWidget()
           : SingleChildScrollView(
-              child: Form(
-                autovalidateMode: AutovalidateMode.onUserInteraction,
-                child: Padding(
-                  padding: EdgeInsets.all(16),
-                  child: Column(
-                    children: [
-                      SizedBox(
-                        height: 150,
-                      ),
-                      buildEmail(),
-                      const SizedBox(
-                        height: 30,
-                      ),
-                      buildPassword(),
-                      const SizedBox(
-                        height: 30,
-                      ),
-                      buildSubmit(),
-                      const SizedBox(
-                        height: 15,
-                      ),
-                      TextButton(
-                        onPressed: () {},
-                        style: TextButton.styleFrom(
-                          primary: Colors.black,
+
+        child: Theme(
+          data: Theme.of(context).copyWith(
+            colorScheme: ColorScheme.light(
+              primary: CollectionsColors.orange,
+            )
+          ),
+          child: Form(
+                  autovalidateMode: AutovalidateMode.onUserInteraction,
+                  child: Padding(
+                    padding: EdgeInsets.all(30),
+                    child: Column(
+                      children: [
+                        const SizedBox(
+                          height: 10,
                         ),
-                        child: Text(
-                          'ลืมรหัสผ่าน',
-                          style: TextStyle(),
+                        Container(
+                          height: 200,
+                          margin: EdgeInsets.symmetric(vertical: 30),
+                          child: Image.asset('assets/images/stalltruckr_logo.png'),
                         ),
-                      ),
-                      const SizedBox(
-                        height: 15,
-                      ),
-                      Divider(
-                        thickness: 2,
-                      ),
-                      const SizedBox(
-                        height: 30,
-                      ),
-                      InkWell(
-                        onTap: () => register(context),
-                        child: Text(
-                          'ลงทะเบียน',
-                          style: TextStyle(),
+                        const SizedBox(
+                          height: 30,
                         ),
-                      ),
-                    ],
+                        buildEmail(),
+                        const SizedBox(
+                          height: 30,
+                        ),
+                        buildPassword(),
+                        const SizedBox(
+                          height: 30,
+                        ),
+                        Container(
+                          child: Row(
+                            mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                            children: [
+                              EditButton(
+                                onClicked: () {},
+                                editText: 'ลืมรหัสผ่าน',
+                              ),
+                               buildSubmit(),
+                            ],
+                          ),
+                        ),
+                        const SizedBox(
+                          height: 15,
+                        ),
+                        Divider(
+                          thickness: 2,
+                        ),
+                        const SizedBox(
+                          height: 30,
+                        ),
+                        Container(
+                          child: Row(
+                            mainAxisAlignment: MainAxisAlignment.center,
+                            children: [
+                              Container(
+                                child: Text('หากคุณยังไม่มีบัญชี ', style: FontCollection.bodyTextStyle),
+                              ),
+                              InkWell(
+                                onTap: () => register(context),
+                                child: Text(
+                                  'ลงทะเบียนที่นี่',
+                                  style: TextStyle(
+                                    fontSize: 16,
+                                    decoration: TextDecoration.underline,
+                                    color: Colors.black,
+                                  ),
+                                ),
+                              ),
+                            ],
+                          ),
+                        ),
+                      ],
+                    ),
                   ),
                 ),
-              ),
+        ),
             ),
     );
   }
@@ -150,6 +180,7 @@ class _LoginPageState extends State<LoginPage> {
 
     return ButtonWidget(
       text: 'เข้าสู่ระบบ',
+      width: 150,
       onClicked: () async {
         // final isValid = formKey.currentState.validate();
         if (!await authNotifier.signIn()) {

@@ -4,10 +4,12 @@ import 'package:flutter/material.dart';
 class ButtonWidget extends StatelessWidget {
   final String text;
   final VoidCallback onClicked;
+  final double width;
 
   const ButtonWidget({
     @required this.text,
     @required this.onClicked,
+    this.width,
     Key key,
 }) : super(key: key);
 
@@ -15,7 +17,7 @@ class ButtonWidget extends StatelessWidget {
   Widget build(BuildContext context) {
     return Center(
       child: SizedBox(
-        width: 250,
+        width: width!=null? width:250,
         child: RaisedButton(
           padding: EdgeInsets.all(10),
           color: Color(0xFFFAD161),

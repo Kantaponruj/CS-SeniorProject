@@ -77,7 +77,6 @@ class OrderNotifier with ChangeNotifier {
       default:
         _netPrice = _totalFoodPrice;
     }
-    notifyListeners();
   }
 
   setPolylines(LatLng customerP, LatLng storeP, bool isDelivery) async {

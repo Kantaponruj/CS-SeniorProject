@@ -79,7 +79,6 @@ class OrderNotifier with ChangeNotifier {
       default:
         _netPrice = _totalFoodPrice;
     }
-    notifyListeners();
   }
 
   setPolylines(

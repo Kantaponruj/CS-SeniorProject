@@ -16,6 +16,8 @@ class StoreNotifier with ChangeNotifier {
 
   List<StoreOpenDateTime> _dateTimeList = [];
 
+  List<String> _categoriesList = [];
+
   UnmodifiableListView<Store> get storeList => UnmodifiableListView(_storeList);
   Store get currentStore => _currentStore;
 
@@ -28,6 +30,9 @@ class StoreNotifier with ChangeNotifier {
 
   UnmodifiableListView<StoreOpenDateTime> get dateTimeList =>
       UnmodifiableListView(_dateTimeList);
+
+  UnmodifiableListView<String> get categoriesList =>
+      UnmodifiableListView(_categoriesList);
 
   set storeList(List<Store> storeList) {
     Future.delayed(Duration(seconds: 1), () {
@@ -42,6 +47,14 @@ class StoreNotifier with ChangeNotifier {
   }
 
   set menuList(List<MenuModel> menuList) {
+    _categoriesList.clear();
+    menuList.forEach((menu) {
+      if (_categoriesList.contains(menu.categoryFood)) {
+      } else {
+        _categoriesList.add(menu.categoryFood);
+      }
+    });
+
     _menuList = menuList;
     notifyListeners();
   }

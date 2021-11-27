@@ -27,7 +27,7 @@ class _RoundedAppBarState extends State<RoundedAppBar> {
           bottom: Radius.circular(30),
         ),
         child: AppBar(
-          title: Text(widget.appBarTitle),
+          title: Text(widget.appBarTitle, style: FontCollection.topicTextStyle,),
           toolbarHeight: 100,
           flexibleSpace: Container(
             decoration: BoxDecoration(
@@ -70,12 +70,15 @@ class _HomeAppBarState extends State<HomeAppBar> {
         bottom: Radius.circular(30),
       ),
       child: AppBar(
+        iconTheme: IconThemeData(
+          color: Colors.black, //change your color here
+        ),
         title: GestureDetector(
           onTap: widget.onclicked,
           child: Container(
             child: Row(
               children: [
-                Icon(Icons.location_on),
+                Icon(Icons.location_on, color: Colors.black,),
                 Expanded(
                   child: Container(
                     margin: EdgeInsets.only(left: 20),
@@ -97,7 +100,7 @@ class _HomeAppBarState extends State<HomeAppBar> {
         actions: [
           IconButton(
             onPressed: widget.onclicked,
-            icon: Icon(Icons.navigate_next_outlined),
+            icon: Icon(Icons.navigate_next_outlined, color: Colors.black,),
           ),
         ],
         toolbarHeight: 100,

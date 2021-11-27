@@ -121,6 +121,9 @@ class _ShopRoundedFavAppBarState extends State<ShopRoundedFavAppBar> {
           bottom: Radius.circular(30),
         ),
         child: AppBar(
+          iconTheme: IconThemeData(
+            color: Colors.black, //change your color here
+          ),
           title: widget.subTitle == null
               ? Text(
                   widget.appBarTitle,

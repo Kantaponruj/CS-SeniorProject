@@ -396,7 +396,7 @@ class _MenuDetailState extends State<MenuDetail> {
                       priceWithTopping = totalPriceInt;
                     }
                     selectedTopping.add(subtopping['name']);
-                    print(selectedTopping);
+                    // print(selectedTopping);
                     break;
                   default:
                     if (amount > 1) {

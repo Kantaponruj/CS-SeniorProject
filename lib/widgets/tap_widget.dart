@@ -1,10 +1,12 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:cs_senior_project/models/store.dart';
+import 'package:cs_senior_project/notifiers/location_notifer.dart';
 import 'package:cs_senior_project/notifiers/store_notifier.dart';
 import 'package:cs_senior_project/screens/shop/shop_menu.dart';
 import 'package:cs_senior_project/services/store_service.dart';
 import 'package:cs_senior_project/widgets/loading_widget.dart';
 import 'package:flutter/material.dart';
+import 'package:google_maps_flutter/google_maps_flutter.dart';
 import 'package:provider/provider.dart';
 
 class TapWidget extends StatefulWidget {
@@ -64,6 +66,8 @@ class _TapWidgetState extends State<TapWidget> {
   }
 
   Widget buildStore(Store store, context, StoreNotifier storeNotifier) {
+    LocationNotifier locationNotifier = Provider.of<LocationNotifier>(context);
+
     return ListTile(
         leading: Container(
           width: 60,
@@ -90,6 +94,13 @@ class _TapWidgetState extends State<TapWidget> {
               storeNotifier.currentStore = element;
             }
           });
+
+          // locationNotifier.setCameraPositionMap(
+          //   LatLng(
+          //     storeNotifier.currentStore.realtimeLocation.latitude,
+          //     storeNotifier.currentStore.realtimeLocation.longitude,
+          //   ),
+          // );
 
           Navigator.of(context).push(MaterialPageRoute(
             builder: (context) => ShopMenu(),

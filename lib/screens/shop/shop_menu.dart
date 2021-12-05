@@ -609,15 +609,20 @@ class _ShopMenuState extends State<ShopMenu> {
                     ),
                     Container(
                       margin: EdgeInsets.fromLTRB(0, 5, 0, 20),
-                      child: Row(
+                      child: Column(
                         children: [
-                          TimePickerWidget(isStartWaitingTime: true),
-                          Container(
-                            padding: EdgeInsets.symmetric(horizontal: 10),
-                            child: Text(
-                              'จนถึง',
-                              style: FontCollection.bodyTextStyle,
+                          Row(
+                            children: [
+                              TimePickerWidget(isStartWaitingTime: true),
+                              Container(
+                              padding: EdgeInsets.symmetric(horizontal: 10),
+                              child: Text(
+                                'จนถึง',
+                                style: FontCollection.bodyTextStyle,
+                              ),
                             ),
+
+                            ]
                           ),
                           TimePickerWidget(isStartWaitingTime: false),
                         ],
@@ -647,14 +652,14 @@ class _ShopMenuState extends State<ShopMenu> {
     LocationNotifier location = Provider.of<LocationNotifier>(context);
 
     return Container(
-      margin: EdgeInsets.fromLTRB(0, 20, 0, 20),
+      margin: EdgeInsets.fromLTRB(0, 20, 20, 20),
       child: Row(
         children: [
           Icon(Icons.location_on),
           Container(
             margin: EdgeInsets.symmetric(horizontal: 10),
             padding: EdgeInsets.symmetric(horizontal: 10, vertical: 5),
-            width: MediaQuery.of(context).size.width / 1.6,
+            width: MediaQuery.of(context).size.width / 1.8,
             decoration: BoxDecoration(
               boxShadow: [
                 BoxShadow(

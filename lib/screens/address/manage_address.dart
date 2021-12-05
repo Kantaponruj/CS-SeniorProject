@@ -45,7 +45,7 @@ class _ManageAddressState extends State<ManageAddress> {
       appBar: RoundedAppBar(
         appBarTitle: 'เลือกที่อยู่',
       ),
-      body: Container(
+      body: SingleChildScrollView(
         padding: EdgeInsets.symmetric(horizontal: 20, vertical: 20),
         child: Column(
           children: [

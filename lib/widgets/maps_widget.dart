@@ -25,58 +25,57 @@ class _MapWidgetState extends State<MapWidget> {
     LocationNotifier locationNotifier =
         Provider.of<LocationNotifier>(context, listen: false);
     locationNotifier.initialization();
-    setState(() {
-      setCustomMapPin();
-    });
+    // setState(() {
+    //   setCustomMapPin();
+    // });
     super.initState();
   }
 
-  Future<Uint8List> getBytesFromAsset(String path, int width) async {
-    ByteData data = await rootBundle.load(path);
-    ui.Codec codec = await ui.instantiateImageCodec(data.buffer.asUint8List(), targetWidth: width);
-    ui.FrameInfo fi = await codec.getNextFrame();
-    return (await fi.image.toByteData(format: ui.ImageByteFormat.png)).buffer.asUint8List();
-  }
+  // Future<Uint8List> getBytesFromAsset(String path, int width) async {
+  //   ByteData data = await rootBundle.load(path);
+  //   ui.Codec codec = await ui.instantiateImageCodec(data.buffer.asUint8List(), targetWidth: width);
+  //   ui.FrameInfo fi = await codec.getNextFrame();
+  //   return (await fi.image.toByteData(format: ui.ImageByteFormat.png)).buffer.asUint8List();
+  // }
 
-  Uint8List foodStallIcon;
-  Uint8List foodTruckIcon;
+  // Uint8List foodStallIcon;
+  // Uint8List foodTruckIcon;
 
-  void setCustomMapPin() async {
-    foodStallIcon = await getBytesFromAsset('assets/images/marker_foodstall.png', 200);
-    foodTruckIcon = await getBytesFromAsset('assets/images/marker_foodtruck.png', 180);
-    // pinLocationIcon = await BitmapDescriptor.fromAssetImage(
-    //     ImageConfiguration(devicePixelRatio: 0.5,),
-    //     'assets/images/marker_foodstall.png', );
-    print('was called');
-  }
+  // void setCustomMapPin() async {
+  //   foodStallIcon = await getBytesFromAsset('assets/images/marker_foodstall.png', 200);
+  //   foodTruckIcon = await getBytesFromAsset('assets/images/marker_foodtruck.png', 180);
+  //   // pinLocationIcon = await BitmapDescriptor.fromAssetImage(
+  //   //     ImageConfiguration(devicePixelRatio: 0.5,),
+  //   //     'assets/images/marker_foodstall.png', );
+  //   print('was called');
+  // }
 
   @override
   Widget build(BuildContext context) {
     StoreNotifier storeNotifier = Provider.of<StoreNotifier>(context);
     LocationNotifier locationNotifier = Provider.of<LocationNotifier>(context);
 
-      Iterable _markers = Iterable.generate(
-        storeNotifier.storeList.length,
-            (index) {
-          final store = storeNotifier.storeList[index];
-          return Marker(
-            markerId: MarkerId(store.storeId),
-            icon: BitmapDescriptor.fromBytes(store.typeOfStore == 'ร้านค้ารถเข็น' ? foodStallIcon : foodTruckIcon),
-            // BitmapDescriptor.defaultMarkerWithHue(_marker),
-            position: LatLng(
-              store.realtimeLocation != null
-                  ? store.realtimeLocation.latitude
-                  : store.location.latitude,
-              store.realtimeLocation != null
-                  ? store.realtimeLocation.longitude
-                  : store.location.longitude,
-            ),
-            infoWindow: InfoWindow(title: store.storeName),
-          );
-        },
-      );
-
-
+    Iterable _markers = Iterable.generate(
+      storeNotifier.storeList.length,
+      (index) {
+        final store = storeNotifier.storeList[index];
+        return Marker(
+          markerId: MarkerId(store.storeId),
+          icon: BitmapDescriptor.defaultMarkerWithHue(_marker),
+          // icon: BitmapDescriptor.fromBytes(store.typeOfStore == 'ร้านค้ารถเข็น' ? foodStallIcon : foodTruckIcon),
+          // // BitmapDescriptor.defaultMarkerWithHue(_marker),
+          // position: LatLng(
+          //   store.realtimeLocation != null
+          //       ? store.realtimeLocation.latitude
+          //       : store.location.latitude,
+          //   store.realtimeLocation != null
+          //       ? store.realtimeLocation.longitude
+          //       : store.location.longitude,
+          // ),
+          infoWindow: InfoWindow(title: store.storeName),
+        );
+      },
+    );
 
     return locationNotifier.initialPosition == null
         ? LoadingWidget()
@@ -101,5 +100,3 @@ class _MapWidgetState extends State<MapWidget> {
           );
   }
 }
-
-

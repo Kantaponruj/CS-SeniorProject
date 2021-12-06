@@ -1,6 +1,8 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:cs_senior_project/asset/text_style.dart';
 import 'package:cs_senior_project/component/appBar.dart';
 import 'package:cs_senior_project/component/orderCard.dart';
+import 'package:cs_senior_project/component/textformfield.dart';
 import 'package:cs_senior_project/models/address.dart';
 import 'package:cs_senior_project/notifiers/address_notifier.dart';
 import 'package:cs_senior_project/notifiers/location_notifer.dart';
@@ -75,25 +77,35 @@ class _AddAddressState extends State<AddAddress> {
             margin: EdgeInsets.symmetric(horizontal: 20, vertical: 20),
             child: Column(
               children: [
-                Container(
-                  margin: EdgeInsets.only(bottom: 20),
-                  child: StadiumButtonWidget(
-                    text: 'เลือกบนแผนที่',
-                    onClicked: () {
-                      Navigator.of(context).push(
-                        MaterialPageRoute(
-                          builder: (context) => SelectAddress(isAdding: true),
-                        ),
-                      );
-                    },
-                  ),
-                ),
                 BuildCard(
                   headerText: 'ที่อยู่',
                   child: Padding(
                     padding: const EdgeInsets.all(20.0),
                     child: Column(
                       children: [
+                        Container(
+                          child: Container(
+                            margin: EdgeInsets.fromLTRB(0, 0, 0, 20),
+                            alignment: Alignment.topRight,
+                            height: 30,
+                            child: ElevatedButton(
+                              onPressed: () {
+                                Navigator.of(context).push(
+                                  MaterialPageRoute(
+                                    builder: (context) => SelectAddress(isAdding: true),
+                                  ),
+                                );
+                              },
+                              style: ElevatedButton.styleFrom(
+                                  shape: StadiumBorder(),
+                                  primary: Theme.of(context).buttonColor),
+                              child: Text(
+                                'เลือกบนแผนที่',
+                                style: FontCollection.smallBodyTextStyle,
+                              ),
+                            ),
+                          ),
+                        ),
                         Container(
                           decoration: BoxDecoration(
                               borderRadius: BorderRadius.circular(20)),
@@ -104,14 +116,21 @@ class _AddAddressState extends State<AddAddress> {
                         Container(
                           child: buildTextFormField(
                             'ชื่อสถานที่',
+                            'กรุณากรอกชชื่อสถานที่',
                             TextInputType.text,
-                            (value) {},
+                            (value) {
+                              if (value.isEmpty) {
+                                return 'โปรดระบุชื่อ';
+                              }
+                              return null;
+                            },
                             addressName,
                           ),
                         ),
                         Container(
                           child: buildTextFormField(
                             'รายละเอียดสถานที่',
+                            'กรุณากรอกรายละเอียด',
                             TextInputType.text,
                             (value) {},
                             addressDetail,
@@ -131,6 +150,7 @@ class _AddAddressState extends State<AddAddress> {
                         Container(
                           child: buildTextFormField(
                             'ชื่อ',
+                            'กรุณากรอกชื่อ',
                             TextInputType.text,
                             (value) {
                               if (value.isEmpty) {
@@ -144,6 +164,7 @@ class _AddAddressState extends State<AddAddress> {
                         Container(
                           child: buildTextFormField(
                             'เบอร์โทรศัพท์',
+                            '0XXXXXXXXX',
                             TextInputType.number,
                             (value) {
                               if (value.length != 10 ||
@@ -181,20 +202,15 @@ class _AddAddressState extends State<AddAddress> {
     );
   }
 
-  Widget buildTextFormField(String labelText, TextInputType keyboardType,
+  Widget buildTextFormField(String labelText, String hintText, TextInputType keyboardType,
       String Function(String) validator, TextEditingController controller) {
     return Padding(
       padding: const EdgeInsets.only(top: 20),
-      child: TextFormField(
-        decoration: InputDecoration(
-          labelText: labelText,
-          border: OutlineInputBorder(),
-          errorBorder:
-              OutlineInputBorder(borderSide: BorderSide(color: Colors.red)),
-          errorStyle: TextStyle(color: Colors.red),
-        ),
-        keyboardType: keyboardType,
-        controller: controller,
+      child: BuildTextField(
+        labelText: labelText,
+        hintText: hintText,
+        textInputType: keyboardType,
+        textEditingController: controller,
         validator: validator,
       ),
     );

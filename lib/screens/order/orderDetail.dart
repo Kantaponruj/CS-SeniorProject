@@ -97,6 +97,7 @@ class _OrderDetailPageState extends State<OrderDetailPage> {
     return Scaffold(
       extendBodyBehindAppBar: true,
       backgroundColor: CollectionsColors.grey,
+      resizeToAvoidBottomInset: true,
       appBar: ShopRoundedAppBar(
         appBarTitle: store.currentStore.storeName,
         onClicked: () {

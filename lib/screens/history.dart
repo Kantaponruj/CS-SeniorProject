@@ -69,7 +69,10 @@ class _HistoryPageState extends State<HistoryPage> {
                                             CollectionsColors.orange,
                                         foregroundColor: Colors.white,
                                         radius: 50.0,
-                                        child: Icon(Icons.local_shipping)),
+                                        child: Icon(
+                                            stores.currentStore.isDelivery
+                                                ? Icons.local_shipping
+                                                : Icons.directions_walk)),
                                   ),
                                   title: buildText(
                                     activity.orderStatus.toString(),
@@ -106,7 +109,7 @@ class _HistoryPageState extends State<HistoryPage> {
                                       );
                                     } else {
                                       activities.orderMenuList.clear();
-                                      Navigator.of(context).push(
+                                      Navigator.of(context).pushReplacement(
                                         MaterialPageRoute(
                                           builder: (context) =>
                                               ConfirmOrderDetail(),
@@ -228,7 +231,7 @@ class _HistoryPageState extends State<HistoryPage> {
                   child: AutoSizeText(
                     orderStatus,
                     maxLines: 1,
-                    style: check
+                    style: (check)
                         ? FontCollection.bodyTextStyle
                         : TextStyle(
                             fontSize: 16,

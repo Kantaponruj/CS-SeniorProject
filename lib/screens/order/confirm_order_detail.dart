@@ -9,6 +9,7 @@ import 'package:cs_senior_project/notifiers/activities_notifier.dart';
 import 'package:cs_senior_project/notifiers/user_notifier.dart';
 import 'package:cs_senior_project/screens/shop/shop_detail.dart';
 import 'package:cs_senior_project/services/user_service.dart';
+import 'package:cs_senior_project/widgets/button_widget.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 
@@ -59,11 +60,12 @@ class _ConfirmOrderDetailState extends State<ConfirmOrderDetail> {
     return Scaffold(
       extendBodyBehindAppBar: true,
       backgroundColor: CollectionsColors.grey,
+      resizeToAvoidBottomInset: true,
       appBar: ShopRoundedAppBar(
         appBarTitle: activity.currentActivity.storeName,
         automaticallyImplyLeading: false,
         leading: IconButton(
-          icon: Icon(Icons.arrow_back),
+          icon: Icon(Icons.arrow_back, color: Colors.black,),
           onPressed: () {
             Navigator.of(context).pushReplacement(
                 MaterialPageRoute(builder: (context) => bottomBar()));
@@ -219,7 +221,13 @@ class _ConfirmOrderDetailState extends State<ConfirmOrderDetail> {
               Container(
                 margin: EdgeInsets.only(top: 20),
                 child: TextButton(
-                  onPressed: () {},
+                  onPressed: () {
+                      showDialog(
+                          context: context,
+                          builder: (BuildContext context) {
+                            return cancelOrder('012345678');
+                          });
+                  },
                   child: Text(
                     'ยกเลิกคำสั่งซื้อ',
                     style: FontCollection.underlineButtonTextStyle,
@@ -487,4 +495,53 @@ class _ConfirmOrderDetailState extends State<ConfirmOrderDetail> {
       ),
     );
   }
+
+  Widget cancelOrder(String phone) {
+    return AlertDialog(
+      shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(20)),
+      title: Container(
+        alignment: Alignment.topRight,
+        child: GestureDetector(
+          onTap: () {
+            Navigator.of(context).pop();
+          },
+          child: Icon(
+            Icons.close,
+            color: Colors.black,
+          ),
+        ),
+      ),
+      content: Container(
+        child: Center(
+          child: Column(
+            mainAxisSize: MainAxisSize.min,
+            mainAxisAlignment: MainAxisAlignment.center,
+            children: [
+              Container(
+                child: Text(
+                  'ยกเลิกสินค้า',
+                  style: FontCollection.topicTextStyle,
+                ),
+              ),
+              Container(
+                padding: EdgeInsets.only(top: 20),
+                child: Text(
+                  'กรุณาติดต่อผู้ขายที่เบอร์ ' + phone,
+                  style: FontCollection.bodyTextStyle,
+                ),
+              ),
+              Container(
+                padding: EdgeInsets.only(top: 20),
+                child: StadiumButtonWidget(
+                  text: 'โทรติดต่อผู้ขาย',
+                  onClicked: () {},
+                ),
+              ),
+            ],
+          ),
+        ),
+      ),
+    );
+  }
+
 }

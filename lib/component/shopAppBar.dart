@@ -34,6 +34,9 @@ class _ShopRoundedAppBarState extends State<ShopRoundedAppBar> {
           bottom: Radius.circular(30),
         ),
         child: AppBar(
+          iconTheme: IconThemeData(
+            color: Colors.black, //change your color here
+          ),
           automaticallyImplyLeading: widget.automaticallyImplyLeading,
           title: widget.subTitle == null
               ? Text(
@@ -81,7 +84,7 @@ class _ShopRoundedAppBarState extends State<ShopRoundedAppBar> {
           actions: [
             IconButton(
               onPressed: widget.onClicked,
-              icon: Icon(Icons.info),
+              icon: Icon(Icons.info, color: Colors.black,),
             ),
           ],
         ),
@@ -170,13 +173,13 @@ class _ShopRoundedFavAppBarState extends State<ShopRoundedFavAppBar> {
             IconButton(
               padding: EdgeInsets.only(right: 0),
               icon: widget.isFavorite
-                  ? Icon(Icons.bookmark)
-                  : Icon(Icons.bookmark_border_outlined),
+                  ? Icon(Icons.bookmark, color: Colors.black,)
+                  : Icon(Icons.bookmark_border_outlined, color: Colors.black,),
               onPressed: widget.onSaved,
             ),
             IconButton(
               onPressed: widget.onClicked,
-              icon: Icon(Icons.info),
+              icon: Icon(Icons.info, color: Colors.black,),
             ),
           ],
         ),

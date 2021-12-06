@@ -27,6 +27,9 @@ class _RoundedAppBarState extends State<RoundedAppBar> {
           bottom: Radius.circular(30),
         ),
         child: AppBar(
+          iconTheme: IconThemeData(
+            color: Colors.black, //change your color here
+          ),
           title: Text(widget.appBarTitle, style: FontCollection.topicTextStyle,),
           toolbarHeight: 100,
           flexibleSpace: Container(

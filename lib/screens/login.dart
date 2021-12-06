@@ -2,6 +2,7 @@ import 'package:cs_senior_project/asset/color.dart';
 import 'package:cs_senior_project/asset/text_style.dart';
 import 'package:cs_senior_project/component/bottomBar.dart';
 import 'package:cs_senior_project/notifiers/user_notifier.dart';
+import 'package:cs_senior_project/screens/forget_password.dart';
 import 'package:cs_senior_project/screens/home.dart';
 import 'package:cs_senior_project/screens/register.dart';
 import 'package:cs_senior_project/widgets/button_widget.dart';
@@ -41,14 +42,12 @@ class _LoginPageState extends State<LoginPage> {
       body: authNotifier.status == Status.Authenticating
           ? LoadingWidget()
           : SingleChildScrollView(
-
-        child: Theme(
-          data: Theme.of(context).copyWith(
-            colorScheme: ColorScheme.light(
-              primary: CollectionsColors.orange,
-            )
-          ),
-          child: Form(
+              child: Theme(
+                data: Theme.of(context).copyWith(
+                    colorScheme: ColorScheme.light(
+                  primary: CollectionsColors.orange,
+                )),
+                child: Form(
                   autovalidateMode: AutovalidateMode.onUserInteraction,
                   child: Padding(
                     padding: EdgeInsets.all(30),
@@ -60,7 +59,8 @@ class _LoginPageState extends State<LoginPage> {
                         Container(
                           height: 200,
                           margin: EdgeInsets.symmetric(vertical: 30),
-                          child: Image.asset('assets/images/stalltruckr_logo.png'),
+                          child:
+                              Image.asset('assets/images/stalltruckr_logo.png'),
                         ),
                         const SizedBox(
                           height: 30,
@@ -78,10 +78,18 @@ class _LoginPageState extends State<LoginPage> {
                             mainAxisAlignment: MainAxisAlignment.spaceBetween,
                             children: [
                               EditButton(
-                                onClicked: () {},
+                                onClicked: () {
+                                  Navigator.push(
+                                    context,
+                                    MaterialPageRoute<void>(
+                                      builder: (BuildContext context) =>
+                                          ForgetPasswordPage(),
+                                    ),
+                                  );
+                                },
                                 editText: 'ลืมรหัสผ่าน',
                               ),
-                               buildSubmit(),
+                              buildSubmit(),
                             ],
                           ),
                         ),
@@ -99,7 +107,8 @@ class _LoginPageState extends State<LoginPage> {
                             mainAxisAlignment: MainAxisAlignment.center,
                             children: [
                               Container(
-                                child: Text('หากคุณยังไม่มีบัญชี ', style: FontCollection.bodyTextStyle),
+                                child: Text('หากคุณยังไม่มีบัญชี ',
+                                    style: FontCollection.bodyTextStyle),
                               ),
                               InkWell(
                                 onTap: () => register(context),
@@ -119,7 +128,7 @@ class _LoginPageState extends State<LoginPage> {
                     ),
                   ),
                 ),
-        ),
+              ),
             ),
     );
   }

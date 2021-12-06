@@ -85,6 +85,7 @@ class _MapWidgetState extends State<MapWidget> {
                 width: double.infinity,
                 height: double.infinity,
                 child: GoogleMap(
+                  padding: EdgeInsets.only(bottom: 200),
                   myLocationEnabled: true,
                   initialCameraPosition: CameraPosition(
                     target: locationNotifier.initialPosition,

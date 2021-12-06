@@ -27,6 +27,7 @@ class UserNotifier with ChangeNotifier {
   TextEditingController password = TextEditingController();
   TextEditingController confirmPassword = TextEditingController();
   TextEditingController displayName = TextEditingController();
+  TextEditingController phone = TextEditingController();
 
   UserNotifier.initialize() {
     _fireSetUp();

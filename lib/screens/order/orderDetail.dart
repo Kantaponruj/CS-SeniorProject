@@ -5,7 +5,7 @@ import 'package:cs_senior_project/asset/constant.dart';
 import 'package:cs_senior_project/asset/text_style.dart';
 import 'package:cs_senior_project/component/orderCard.dart';
 import 'package:cs_senior_project/component/shopAppBar.dart';
-import 'package:cs_senior_project/component/textformfiled.dart';
+import 'package:cs_senior_project/component/textformfield.dart';
 import 'package:cs_senior_project/models/activities.dart';
 import 'package:cs_senior_project/models/order.dart';
 import 'package:cs_senior_project/notifiers/activities_notifier.dart';

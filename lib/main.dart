@@ -42,6 +42,7 @@ void main() async {
         ChangeNotifierProvider(create: (context) => FavoriteNotifier()),
       ],
       child: MaterialApp(
+        debugShowCheckedModeBanner: false,
         theme: ThemeData(
           fontFamily: NotoSansFont,
           primaryColor: CollectionsColors.orange,

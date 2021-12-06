@@ -1,6 +1,7 @@
 import 'package:cs_senior_project/asset/color.dart';
 import 'package:cs_senior_project/asset/text_style.dart';
 import 'package:cs_senior_project/component/bottomBar.dart';
+import 'package:cs_senior_project/component/textformfield.dart';
 import 'package:cs_senior_project/notifiers/user_notifier.dart';
 import 'package:cs_senior_project/screens/forget_password.dart';
 import 'package:cs_senior_project/screens/home.dart';
@@ -136,16 +137,11 @@ class _LoginPageState extends State<LoginPage> {
   Widget buildEmail() {
     UserNotifier authNotifier = Provider.of<UserNotifier>(context);
 
-    return TextFormField(
-      decoration: InputDecoration(
-        labelText: 'อีเมล',
-        border: OutlineInputBorder(),
-        errorBorder:
-            OutlineInputBorder(borderSide: BorderSide(color: Colors.red)),
-        errorStyle: TextStyle(color: Colors.red),
-      ),
-      controller: authNotifier.email,
-      keyboardType: TextInputType.emailAddress,
+    return BuildTextField(
+      labelText: 'อีเมล',
+      hintText: 'กรุณากรอกอีเมล',
+      textEditingController: authNotifier.email,
+      textInputType: TextInputType.emailAddress,
       validator: (value) {
         final pattern = r'(^[a-zA-Z0-9_.+-]+@[a-zA-Z0-9-]+\.[a-zA-Z0-9-]+$)';
         final regExp = RegExp(pattern);
@@ -165,15 +161,10 @@ class _LoginPageState extends State<LoginPage> {
   Widget buildPassword() {
     UserNotifier authNotifier = Provider.of<UserNotifier>(context);
 
-    return TextFormField(
-      decoration: InputDecoration(
-        labelText: 'รหัสผ่าน',
-        border: OutlineInputBorder(),
-        errorBorder:
-            OutlineInputBorder(borderSide: BorderSide(color: Colors.red)),
-        errorStyle: TextStyle(color: Colors.red),
-      ),
-      controller: authNotifier.password,
+    return BuildPasswordField(
+      labelText: 'รหัสผ่าน',
+      hintText: 'กรุณากรอกรหัสผ่าน',
+      textEditingController: authNotifier.password,
       validator: (value) {
         if (value.isEmpty) {
           return 'โปรดระบุรหัสผ่าน';
@@ -181,7 +172,6 @@ class _LoginPageState extends State<LoginPage> {
         return null;
       },
       // onSaved: (value) => setState(() => password = value),
-      obscureText: true,
     );
   }
 

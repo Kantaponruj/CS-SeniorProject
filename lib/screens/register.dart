@@ -1,4 +1,7 @@
+import 'package:cs_senior_project/asset/color.dart';
+import 'package:cs_senior_project/asset/text_style.dart';
 import 'package:cs_senior_project/component/bottomBar.dart';
+import 'package:cs_senior_project/component/textformfield.dart';
 import 'package:cs_senior_project/notifiers/user_notifier.dart';
 import 'package:cs_senior_project/screens/login.dart';
 import 'package:cs_senior_project/widgets/button_widget.dart';
@@ -15,6 +18,7 @@ class RegisterPage extends StatefulWidget {
 
 class _RegisterPageState extends State<RegisterPage> {
   final formKey = GlobalKey<ScaffoldState>();
+
   // String username = '';
   // String email = '';
   String password = '';
@@ -34,6 +38,19 @@ class _RegisterPageState extends State<RegisterPage> {
     UserNotifier authNotifier = Provider.of<UserNotifier>(context);
 
     return Scaffold(
+      appBar: AppBar(
+        iconTheme: IconThemeData(
+          color: Colors.black, //change your color here
+        ),
+        centerTitle: true,
+        title: Text(
+          'ลงทะเบียน',
+          style: FontCollection.topicBoldTextStyle,
+        ),
+        backgroundColor: CollectionsColors.grey,
+        elevation: 0,
+        toolbarHeight: 80,
+      ),
       key: formKey,
       body: authNotifier.status == Status.Authenticating
           ? LoadingWidget()
@@ -44,10 +61,6 @@ class _RegisterPageState extends State<RegisterPage> {
                   padding: EdgeInsets.all(16),
                   child: Column(
                     children: [
-                      SizedBox(
-                        height: 100,
-                      ),
-                      Text('Register'),
                       SizedBox(
                         height: 20,
                       ),
@@ -66,6 +79,10 @@ class _RegisterPageState extends State<RegisterPage> {
                       buildConfirmPassword(),
                       const SizedBox(
                         height: 30,
+                      ),
+                      buildPhoneNumber(),
+                      const SizedBox(
+                        height: 50,
                       ),
                       buildSubmit(),
                       const SizedBox(
@@ -90,11 +107,28 @@ class _RegisterPageState extends State<RegisterPage> {
                       const SizedBox(
                         height: 30,
                       ),
-                      InkWell(
-                        onTap: () => login(context),
-                        child: Text(
-                          'เข้าสู่ระบบ',
-                          style: TextStyle(),
+                      Container(
+                        child: Row(
+                          mainAxisAlignment: MainAxisAlignment.center,
+                          children: [
+                            Container(
+                              child: Text(
+                                'หากคุณมีบัญชีแล้ว ',
+                                style: FontCollection.bodyTextStyle,
+                              ),
+                            ),
+                            InkWell(
+                              onTap: () => login(context),
+                              child: Text(
+                                'เข้าสู่ระบบ',
+                                style: TextStyle(
+                                  fontSize: 16,
+                                  decoration: TextDecoration.underline,
+                                  color: Colors.black,
+                                ),
+                              ),
+                            ),
+                          ],
                         ),
                       ),
                     ],
@@ -108,16 +142,11 @@ class _RegisterPageState extends State<RegisterPage> {
   Widget buildUsername() {
     UserNotifier authNotifier = Provider.of<UserNotifier>(context);
 
-    return TextFormField(
-      decoration: InputDecoration(
-        labelText: 'ชื่อผู้ใช้',
-        border: OutlineInputBorder(),
-        errorBorder:
-            OutlineInputBorder(borderSide: BorderSide(color: Colors.red)),
-        errorStyle: TextStyle(color: Colors.red),
-      ),
-      controller: authNotifier.displayName,
-      keyboardType: TextInputType.text,
+    return BuildTextField(
+      hintText: 'กรุณากรอกชื่อผู้ใช้',
+      labelText: 'ชื่อผู้ใช้',
+      textInputType: TextInputType.text,
+      textEditingController: authNotifier.displayName,
       validator: (value) {
         if (value.length < 4) {
           return 'Enter at least 4 characters';
@@ -133,16 +162,11 @@ class _RegisterPageState extends State<RegisterPage> {
   Widget buildEmail() {
     UserNotifier authNotifier = Provider.of<UserNotifier>(context);
 
-    return TextFormField(
-      decoration: InputDecoration(
-        labelText: 'อีเมล',
-        border: OutlineInputBorder(),
-        errorBorder:
-            OutlineInputBorder(borderSide: BorderSide(color: Colors.red)),
-        errorStyle: TextStyle(color: Colors.red),
-      ),
-      controller: authNotifier.email,
-      keyboardType: TextInputType.emailAddress,
+    return BuildTextField(
+      labelText: 'อีเมล',
+      hintText: 'กรุณากรอกอีเมล',
+      textEditingController: authNotifier.email,
+      textInputType: TextInputType.emailAddress,
       validator: (value) {
         final pattern = r'(^[a-zA-Z0-9_.+-]+@[a-zA-Z0-9-]+\.[a-zA-Z0-9-]+$)';
         final regExp = RegExp(pattern);
@@ -159,18 +183,31 @@ class _RegisterPageState extends State<RegisterPage> {
     );
   }
 
+  Widget buildPhoneNumber() {
+    UserNotifier authNotifier = Provider.of<UserNotifier>(context);
+
+    return BuildTextField(
+      labelText: 'เบอร์โทรศัพท์',
+      textEditingController: authNotifier.phone,
+      hintText: 'กรุณาระบุเบอรืโทรศัพท์',
+      textInputType: TextInputType.phone,
+      validator: (value) {
+        if (value.length != 10 || value[0] != '0') {
+          return 'โปรดระบุเบอร์โทรศัพท์ให้ถูกต้อง';
+        } else {
+          return null;
+        }
+      },
+    );
+  }
+
   Widget buildPassword() {
     UserNotifier authNotifier = Provider.of<UserNotifier>(context);
 
-    return TextFormField(
-      decoration: InputDecoration(
-        labelText: 'รหัสผ่าน',
-        border: OutlineInputBorder(),
-        errorBorder:
-            OutlineInputBorder(borderSide: BorderSide(color: Colors.red)),
-        errorStyle: TextStyle(color: Colors.red),
-      ),
-      controller: authNotifier.password,
+    return BuildPasswordField(
+      textEditingController: authNotifier.password,
+      labelText: 'รหัสผ่าน',
+      hintText: 'กรุณากรอกรหัสผ่าน',
       validator: (value) {
         if (value.length < 8) {
           return 'รหัสผ่านห้ามมีความยาวน้อยกว่า 8 ';
@@ -179,22 +216,16 @@ class _RegisterPageState extends State<RegisterPage> {
         }
       },
       // onSaved: (value) => setState(() => password = value),
-      obscureText: true,
     );
   }
 
   Widget buildConfirmPassword() {
     UserNotifier authNotifier = Provider.of<UserNotifier>(context);
 
-    return TextFormField(
-      decoration: InputDecoration(
-        labelText: 'ยืนยันรหัสผ่าน',
-        border: OutlineInputBorder(),
-        errorBorder:
-            OutlineInputBorder(borderSide: BorderSide(color: Colors.red)),
-        errorStyle: TextStyle(color: Colors.red),
-      ),
-      controller: authNotifier.confirmPassword,
+    return BuildPasswordField(
+      hintText: 'กรุณายืนยันรหัสผ่าน',
+      labelText: 'ยืนยันรหัสผ่าน',
+      textEditingController: authNotifier.confirmPassword,
       validator: (value) {
         if (value != authNotifier.password.text) {
           return 'รหัสผ่านไม่ตรงกัน';
@@ -203,7 +234,6 @@ class _RegisterPageState extends State<RegisterPage> {
         }
       },
       onSaved: (value) => setState(() => password = value),
-      obscureText: true,
     );
   }
 

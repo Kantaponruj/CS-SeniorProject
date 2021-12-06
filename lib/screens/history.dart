@@ -81,21 +81,19 @@ class _HistoryPageState extends State<HistoryPage> {
                                     ),
                                     buildListTitle(
                                       Icons.location_on,
-                                      activity.addressName,
+                                      activity.addressName.isNotEmpty
+                                          ? activity.addressName
+                                          : '${activity.address.characters.getRange(0, 10)}...',
                                     ),
                                     activity.orderStatus.toString() !=
                                         'ยกเลิกคำสั่งซื้อ',
                                   ),
                                   onTap: () {
-                                    for (int i = 0;
-                                        i < stores.storeList.length;
-                                        i++) {
-                                      if (activity.storeId ==
-                                          stores.storeList[i].storeId) {
-                                        stores.currentStore =
-                                            stores.storeList[i];
+                                    stores.storeList.forEach((store) {
+                                      if (activity.storeId == store.storeId) {
+                                        stores.currentStore = store;
                                       }
-                                    }
+                                    });
                                     activities.currentActivity = activity;
 
                                     if (activity.orderStatus ==
@@ -107,10 +105,12 @@ class _HistoryPageState extends State<HistoryPage> {
                                         ),
                                       );
                                     } else {
+                                      activities.orderMenuList.clear();
                                       Navigator.of(context).push(
                                         MaterialPageRoute(
-                                            builder: (context) =>
-                                                ConfirmOrderDetail()),
+                                          builder: (context) =>
+                                              ConfirmOrderDetail(),
+                                        ),
                                       );
                                     }
                                   },
@@ -153,7 +153,9 @@ class _HistoryPageState extends State<HistoryPage> {
                                     ),
                                     buildListTitle(
                                       Icons.location_on,
-                                      activity.addressName,
+                                      activity.addressName.isNotEmpty
+                                          ? activity.addressName
+                                          : '${activity.address.characters.getRange(0, 10)}...',
                                     ),
                                     activity.orderStatus.toString() !=
                                         'ยกเลิกคำสั่งซื้อ',
@@ -163,6 +165,7 @@ class _HistoryPageState extends State<HistoryPage> {
 
                                     if (activity.orderStatus ==
                                         'จัดส่งเรียบร้อยแล้ว') {
+                                      activities.orderMenuList.clear();
                                       Navigator.of(context).push(
                                         MaterialPageRoute(
                                           builder: (context) =>

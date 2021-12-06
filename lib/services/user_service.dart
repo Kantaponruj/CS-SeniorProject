@@ -112,7 +112,7 @@ Future<void> getHistoryOrder(
       .collection('users')
       .doc(uid)
       .collection('activities')
-      .orderBy('dateOrdered')
+      .orderBy('dateOrdered', descending: true)
       .limitToLast(14)
       .get();
 

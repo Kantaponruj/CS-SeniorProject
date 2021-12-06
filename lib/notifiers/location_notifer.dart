@@ -102,7 +102,7 @@ class LocationNotifier with ChangeNotifier {
       CameraUpdate.newCameraPosition(
         CameraPosition(
           target: position,
-          zoom: 15.0,
+          zoom: 20.0,
         ),
       ),
     );

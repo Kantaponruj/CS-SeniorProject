@@ -37,6 +37,7 @@ class _ShopMenuState extends State<ShopMenu> {
   final controller = ScrollController();
   bool isShowBasket = false;
   String selectedAddress;
+
   // List categories = [];
 
   Favorite _favorite = Favorite();
@@ -193,12 +194,19 @@ class _ShopMenuState extends State<ShopMenu> {
               ),
               Padding(
                 padding: const EdgeInsets.only(left: 10),
-                child: chipIconInfo(
-                  Icons.attach_money,
-                  '${orderNotifier.shippingFee} บาท',
-                  Color(0xFF219653),
-                  Colors.white,
-                ),
+                child: storeNotifier.currentStore.isDelivery
+                    ? chipIconInfo(
+                        Icons.attach_money,
+                        '${orderNotifier.shippingFee} บาท',
+                        Color(0xFF219653),
+                        Colors.white,
+                      )
+                    : chipIconInfo(
+                        Icons.place_outlined,
+                        'address',
+                        Colors.white,
+                        Colors.black,
+                      ),
               ),
             ],
           ),

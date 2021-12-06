@@ -101,9 +101,9 @@ class _TapWidgetState extends State<TapWidget> {
           //   ),
           // );
 
-          Navigator.of(context).push(MaterialPageRoute(
-            builder: (context) => ShopMenu(),
-          ));
+          // Navigator.of(context).push(MaterialPageRoute(
+          //   builder: (context) => ShopMenu(),
+          // ));
         });
   }
 }

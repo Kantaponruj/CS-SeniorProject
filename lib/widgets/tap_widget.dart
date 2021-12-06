@@ -94,7 +94,6 @@ class _TapWidgetState extends State<TapWidget> {
               storeNotifier.currentStore = element;
             }
           });
-
           // locationNotifier.setCameraPositionMap(
           //   LatLng(
           //     storeNotifier.currentStore.realtimeLocation.latitude,

@@ -25,8 +25,7 @@ class StoreNotifier with ChangeNotifier {
       UnmodifiableListView(_menuList);
   MenuModel get currentMenu => _currentMenu;
 
-  UnmodifiableListView<ToppingModel> get toppingList =>
-      UnmodifiableListView(_toppingList);
+  List<ToppingModel> get toppingList => _toppingList;
 
   UnmodifiableListView<StoreOpenDateTime> get dateTimeList =>
       UnmodifiableListView(_dateTimeList);

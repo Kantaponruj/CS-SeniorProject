@@ -143,7 +143,7 @@ class _MenuDetailState extends State<MenuDetail> {
     StoreNotifier storeNotifier = Provider.of<StoreNotifier>(context);
     final double imgHeight = MediaQuery.of(context).size.height / 4;
 
-    getTopping(storeNotifier, widget.storeId, widget.menuId);
+    // getTopping(storeNotifier, widget.storeId, widget.menuId);
 
     return SafeArea(
       child: Scaffold(

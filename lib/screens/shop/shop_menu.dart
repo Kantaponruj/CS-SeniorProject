@@ -42,6 +42,9 @@ class _ShopMenuState extends State<ShopMenu> {
   Favorite _favorite = Favorite();
   bool _isFavorite = false;
 
+  List menuList = [];
+  List<MenuModel> _menuList = [];
+
   @override
   void initState() {
     AddressNotifier address =
@@ -324,8 +327,6 @@ class _ShopMenuState extends State<ShopMenu> {
   //       },
   //     );
 
-  List menuList = [];
-
   Widget menuCategories(
     String categoryName,
     StoreNotifier storeNotifier,
@@ -341,14 +342,11 @@ class _ShopMenuState extends State<ShopMenu> {
     );
   }
 
-  List<MenuModel> _menuList = [];
-
   Widget gridView(
     String categoryName,
     StoreNotifier storeNotifier,
     int indexC,
   ) {
-    // List<MenuModel> _menuList = [];
     _menuList.clear();
 
     storeNotifier.menuList.forEach((menu) {
@@ -358,6 +356,7 @@ class _ShopMenuState extends State<ShopMenu> {
     });
 
     if (menuList.length != storeNotifier.categoriesList.length) {
+      // menuList.add(_menuList);
       menuList.add(_menuList);
     }
 
@@ -403,6 +402,7 @@ class _ShopMenuState extends State<ShopMenu> {
         InkWell(
           onTap: () {
             storeNotifier.currentMenu = menu;
+            storeNotifier.toppingList.clear();
             Navigator.push(
               context,
               MaterialPageRoute(

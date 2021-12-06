@@ -1,5 +1,4 @@
 import 'package:auto_size_text/auto_size_text.dart';
-import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:cs_senior_project/asset/color.dart';
 import 'package:cs_senior_project/asset/constant.dart';
 import 'package:cs_senior_project/asset/text_style.dart';
@@ -52,7 +51,6 @@ class _ShopMenuState extends State<ShopMenu> {
     StoreNotifier store = Provider.of<StoreNotifier>(context, listen: false);
     FavoriteNotifier favorite =
         Provider.of<FavoriteNotifier>(context, listen: false);
-    UserNotifier user = Provider.of<UserNotifier>(context, listen: false);
     OrderNotifier order = Provider.of<OrderNotifier>(context, listen: false);
     LocationNotifier location =
         Provider.of<LocationNotifier>(context, listen: false);
@@ -72,7 +70,6 @@ class _ShopMenuState extends State<ShopMenu> {
 
     getMenu(store);
 
-    getFavoriteStores(favorite, user.user.uid);
     if (favorite.favoriteList != null) {
       for (int i = 0; i < favorite.favoriteList.length; i++) {
         if (favorite.favoriteList[i].storeId == store.currentStore.storeId) {
@@ -611,19 +608,16 @@ class _ShopMenuState extends State<ShopMenu> {
                       margin: EdgeInsets.fromLTRB(0, 5, 0, 20),
                       child: Column(
                         children: [
-                          Row(
-                            children: [
-                              TimePickerWidget(isStartWaitingTime: true),
-                              Container(
+                          Row(children: [
+                            TimePickerWidget(isStartWaitingTime: true),
+                            Container(
                               padding: EdgeInsets.symmetric(horizontal: 10),
                               child: Text(
                                 'จนถึง',
                                 style: FontCollection.bodyTextStyle,
                               ),
                             ),
-
-                            ]
-                          ),
+                          ]),
                           TimePickerWidget(isStartWaitingTime: false),
                         ],
                       ),

@@ -4,6 +4,7 @@ import 'package:cs_senior_project/models/activities.dart';
 import 'package:cs_senior_project/models/address.dart';
 import 'package:cs_senior_project/models/favorite.dart';
 import 'package:cs_senior_project/models/order.dart';
+import 'package:cs_senior_project/models/store.dart';
 import 'package:cs_senior_project/models/user.dart';
 import 'package:cs_senior_project/notifiers/activities_notifier.dart';
 import 'package:cs_senior_project/notifiers/address_notifier.dart';
@@ -181,18 +182,34 @@ deleteFavoriteStore(Favorite favorite, Function deleteFav, String uid) async {
 }
 
 Future<void> getFavoriteStores(FavoriteNotifier favNotifier, String uid) async {
+  QuerySnapshot snapshotStore =
+      await firebaseFirestore.collection('stores').get();
+  List<Store> _storeList = [];
+
+  snapshotStore.docs.forEach((document) {
+    Store store = Store.fromMap(document.data());
+    _storeList.add(store);
+  });
+
   QuerySnapshot snapshot = await firebaseFirestore
       .collection('users')
       .doc(uid)
       .collection('favorites')
       .get();
-
   List<Favorite> _favoriteList = [];
+  List<Store> _favStoresList = [];
 
   snapshot.docs.forEach((document) {
     Favorite favorite = Favorite.fromMap(document.data());
     _favoriteList.add(favorite);
+
+    _storeList.forEach((store) {
+      if (store.storeId == favorite.storeId) {
+        _favStoresList.add(store);
+      }
+    });
   });
 
   favNotifier.favoriteList = _favoriteList;
+  favNotifier.favStoresList = _favStoresList;
 }

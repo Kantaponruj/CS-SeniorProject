@@ -1,5 +1,6 @@
 import 'package:cs_senior_project/asset/constant.dart';
 import 'package:cs_senior_project/notifiers/address_notifier.dart';
+import 'package:cs_senior_project/notifiers/favorite_notifier.dart';
 import 'package:cs_senior_project/notifiers/user_notifier.dart';
 import 'package:cs_senior_project/services/user_service.dart';
 import 'package:cs_senior_project/widgets/tap_widget.dart';
@@ -37,7 +38,10 @@ class _HomePageState extends State<HomePage> {
     AddressNotifier address =
         Provider.of<AddressNotifier>(context, listen: false);
     UserNotifier user = Provider.of<UserNotifier>(context, listen: false);
+    FavoriteNotifier favorite =
+        Provider.of<FavoriteNotifier>(context, listen: false);
     getAddress(address, user.user.uid);
+    getFavoriteStores(favorite, user.user.uid);
     isFromHomePage = false;
     super.initState();
   }

@@ -21,11 +21,8 @@ Stream<QuerySnapshot> getStores(bool isDelivery) {
       .snapshots();
 }
 
-// Future<void> getStores(StoreNotifier storeNotifier, {bool isDelivery}) async {
-//   QuerySnapshot snapshot = await firebaseFirestore
-//       .collection(collection)
-//       .where('isDelivery', isEqualTo: isDelivery)
-//       .get();
+// Future<void> getStores(StoreNotifier storeNotifier) async {
+//   QuerySnapshot snapshot = await firebaseFirestore.collection(collection).get();
 
 //   List<Store> _storeList = [];
 

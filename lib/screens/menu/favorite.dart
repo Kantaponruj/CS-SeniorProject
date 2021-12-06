@@ -43,17 +43,10 @@ class _FavoritePageState extends State<FavoritePage> {
               ListView.builder(
                 shrinkWrap: true,
                 physics: NeverScrollableScrollPhysics(),
-                itemCount: fav.favoriteList.length,
+                itemCount: fav.favStoresList.length,
                 padding: EdgeInsets.zero,
                 itemBuilder: (context, index) {
-                  Store store;
-                  for (int i = 0; i < storeNotifier.storeList.length; i++) {
-                    if (fav.favoriteList[index].storeId ==
-                        storeNotifier.storeList[i].storeId) {
-                      store = storeNotifier.storeList[i];
-                    }
-                  }
-                  return listCard(store, storeNotifier);
+                  return listCard(fav.favStoresList[index], storeNotifier);
                 },
               ),
             ],

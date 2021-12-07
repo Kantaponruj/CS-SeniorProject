@@ -3,7 +3,7 @@ import 'package:cs_senior_project/screens/history.dart';
 import 'package:cs_senior_project/screens/home.dart';
 import 'package:cs_senior_project/screens/login.dart';
 import 'package:cs_senior_project/screens/menu.dart';
-import 'package:cs_senior_project/screens/notification.dart';
+import 'package:cs_senior_project/screens/notification/notification.dart';
 import 'package:cs_senior_project/screens/shop/shop_menu.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_icons/flutter_icons.dart';

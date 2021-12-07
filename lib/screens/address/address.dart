@@ -39,56 +39,65 @@ class _AddressState extends State<Address> {
           appBar: RoundedAppBar(
             appBarTitle: 'ที่อยู่ของคุณ',
           ),
-          body: new RefreshIndicator(
-            child: Container(
-              padding: EdgeInsets.symmetric(horizontal: 20, vertical: 20),
-              child: Column(
-                children: [
-                  // isFromHomePage ? selectedOnMap() : SizedBox.shrink(),
-                  Container(
-                    margin: EdgeInsets.only(bottom: 20),
-                    child: StadiumButtonWidget(
-                      text: 'เพิ่มที่อยู่ใหม่',
-                      onClicked: () {
-                        Navigator.push(
-                            context,
-                            MaterialPageRoute(
-                                builder: (context) => AddAddress()));
-                      },
+          body: SingleChildScrollView(
+            child: new RefreshIndicator(
+              child: Container(
+                padding: EdgeInsets.symmetric(horizontal: 20, vertical: 20),
+                child: Column(
+                  children: [
+                    // isFromHomePage ? selectedOnMap() : SizedBox.shrink(),
+                    Card(
+                      elevation: 0,
+                      shape: RoundedRectangleBorder(
+                        borderRadius: BorderRadius.circular(20),
+                      ),
+                      child: Container(
+                        padding:
+                            EdgeInsets.symmetric(horizontal: 20, vertical: 20),
+                        child: ListView.separated(
+                          shrinkWrap: true,
+                          physics: NeverScrollableScrollPhysics(),
+                          itemCount: addressNotifier.addressList.length,
+                          itemBuilder: (BuildContext context, int index) {
+                            return ListTile(
+                              title: Text(
+                                  addressNotifier.addressList[index].addressName,
+                                  style: FontCollection.bodyTextStyle),
+                              subtitle: AutoSizeText(
+                                addressNotifier.addressList[index].address,
+                                maxLines: 2,
+                              ),
+                              trailing: GestureDetector(
+                                onTap: () {
+                                  Navigator.of(context).push(MaterialPageRoute(builder: (context) => AddAddress(),),);
+                                },
+                                child: Icon(Icons.edit),
+                              ),
+                            );
+                          },
+                          separatorBuilder: (BuildContext context, int index) {
+                            return Divider();
+                          },
+                        ),
+                      ),
                     ),
-                  ),
-                  Card(
-                    elevation: 0,
-                    shape: RoundedRectangleBorder(
-                      borderRadius: BorderRadius.circular(20),
-                    ),
-                    child: Container(
-                      padding:
-                          EdgeInsets.symmetric(horizontal: 20, vertical: 20),
-                      child: ListView.separated(
-                        shrinkWrap: true,
-                        itemCount: addressNotifier.addressList.length,
-                        itemBuilder: (BuildContext context, int index) {
-                          return ListTile(
-                            title: Text(
-                                addressNotifier.addressList[index].addressName,
-                                style: FontCollection.bodyTextStyle),
-                            subtitle: AutoSizeText(
-                              addressNotifier.addressList[index].address,
-                              maxLines: 2,
-                            ),
-                          );
-                        },
-                        separatorBuilder: (BuildContext context, int index) {
-                          return Divider();
+                    Container(
+                      margin: EdgeInsets.only(top: 20),
+                      child: StadiumButtonWidget(
+                        text: 'เพิ่มที่อยู่ใหม่',
+                        onClicked: () {
+                          Navigator.push(
+                              context,
+                              MaterialPageRoute(
+                                  builder: (context) => AddAddress()));
                         },
                       ),
                     ),
-                  ),
-                ],
+                  ],
+                ),
               ),
+              onRefresh: _refreshList,
             ),
-            onRefresh: _refreshList,
           )),
       // ),
     );

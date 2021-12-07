@@ -116,7 +116,7 @@ class _AddAddressState extends State<AddAddress> {
                         Container(
                           child: buildTextFormField(
                             'ชื่อสถานที่',
-                            'กรุณากรอกชชื่อสถานที่',
+                            'กรุณากรอกชื่อสถานที่',
                             TextInputType.text,
                             (value) {
                               if (value.isEmpty) {

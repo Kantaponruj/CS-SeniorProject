@@ -25,9 +25,7 @@ class _MapWidgetState extends State<MapWidget> {
     LocationNotifier locationNotifier =
         Provider.of<LocationNotifier>(context, listen: false);
     locationNotifier.initialization();
-    // setState(() {
-    //   setCustomMapPin();
-    // });
+    // setCustomMapPin();
     super.initState();
   }
 
@@ -41,13 +39,21 @@ class _MapWidgetState extends State<MapWidget> {
   // Uint8List foodStallIcon;
   // Uint8List foodTruckIcon;
 
+  BitmapDescriptor foodStallIcon;
+  BitmapDescriptor foodTruckIcon;
+
   // void setCustomMapPin() async {
-  //   foodStallIcon = await getBytesFromAsset('assets/images/marker_foodstall.png', 200);
-  //   foodTruckIcon = await getBytesFromAsset('assets/images/marker_foodtruck.png', 180);
+  //   foodStallIcon = await BitmapDescriptor.fromAssetImage(
+  //     ImageConfiguration(),
+  //     'assets/images/marker_foodstall.png',
+  //   );
+  //   foodTruckIcon = await BitmapDescriptor.fromAssetImage(
+  //     ImageConfiguration(),
+  //     'assets/images/marker_foodtruck.png',
+  //   );
   //   // pinLocationIcon = await BitmapDescriptor.fromAssetImage(
   //   //     ImageConfiguration(devicePixelRatio: 0.5,),
   //   //     'assets/images/marker_foodstall.png', );
-  //   print('was called');
   // }
 
   @override
@@ -55,23 +61,36 @@ class _MapWidgetState extends State<MapWidget> {
     StoreNotifier storeNotifier = Provider.of<StoreNotifier>(context);
     LocationNotifier locationNotifier = Provider.of<LocationNotifier>(context);
 
+    BitmapDescriptor.fromAssetImage(
+      ImageConfiguration(size: Size(8, 8)),
+      'assets/images/marker_foodstall.png',
+    ).then((d) {
+      foodStallIcon = d;
+    });
+
+    BitmapDescriptor.fromAssetImage(
+      ImageConfiguration(size: Size(8, 8)),
+      'assets/images/marker_foodtruck.png',
+    ).then((d) {
+      foodTruckIcon = d;
+    });
+
     Iterable _markers = Iterable.generate(
       storeNotifier.storeList.length,
       (index) {
         final store = storeNotifier.storeList[index];
         return Marker(
           markerId: MarkerId(store.storeId),
+          // icon: store.typeOfStore == 'ร้านค้ารถเข็น' ? foodStallIcon : foodTruckIcon,
           icon: BitmapDescriptor.defaultMarkerWithHue(_marker),
-          // icon: BitmapDescriptor.fromBytes(store.typeOfStore == 'ร้านค้ารถเข็น' ? foodStallIcon : foodTruckIcon),
-          // // BitmapDescriptor.defaultMarkerWithHue(_marker),
-          // position: LatLng(
-          //   store.realtimeLocation != null
-          //       ? store.realtimeLocation.latitude
-          //       : store.location.latitude,
-          //   store.realtimeLocation != null
-          //       ? store.realtimeLocation.longitude
-          //       : store.location.longitude,
-          // ),
+          position: LatLng(
+            store.realtimeLocation != null
+                ? store.realtimeLocation.latitude
+                : store.location.latitude,
+            store.realtimeLocation != null
+                ? store.realtimeLocation.longitude
+                : store.location.longitude,
+          ),
           infoWindow: InfoWindow(title: store.storeName),
         );
       },

@@ -106,6 +106,7 @@ class _SelectAddressState extends State<SelectAddress> {
 
                           Navigator.of(context).pop();
                         },
+                        autocompleteLanguage: 'TH',
                       ),
                       // GoogleMap(
                       //   myLocationEnabled: true,

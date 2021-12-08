@@ -151,8 +151,6 @@ class _OrderDetailPageState extends State<OrderDetailPage> {
                   },
                 ),
               ),
-              // deliTimeCard(_activities.dateOrdered, _activities.timeOrdered),
-              // meetingTimeCard('21 เมษายน 2564', '12.30 น.'),
               BuildCard(
                 headerText: 'สรุปการสั่งซื้อ',
                 editText: 'เพิ่มเมนู',
@@ -298,13 +296,6 @@ class _OrderDetailPageState extends State<OrderDetailPage> {
                     typeOrder = 'meeting-orders';
                   } else {
                     typeOrder = 'delivery-orders';
-                    // switch (store.currentStore.isDelivery) {
-                    //   case true:
-                    //     typeOrder = 'delivery-orders';
-                    //     break;
-                    //   default:
-                    //     typeOrder = 'pickup-orders';
-                    // }
                   }
 
                   saveActivityToHistory(

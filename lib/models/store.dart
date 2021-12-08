@@ -17,6 +17,8 @@ class Store {
   // bool deliveryStatus;
   bool storeStatus;
   String typeOfStore;
+  String shippingfee;
+  String distanceForOrder;
 
   // Store();
 
@@ -35,6 +37,8 @@ class Store {
     realtimeLocation = data['realtimeLocation'];
     storeStatus = data['storeStatus'];
     typeOfStore = data['typeOfStore'];
+    shippingfee = data['shippingfee'];
+    distanceForOrder = data['distanceForOrder'];
   }
 
   Map<String, dynamic> toMap() {
@@ -53,6 +57,8 @@ class Store {
       'realtimeLocation': realtimeLocation,
       'storeStatus': storeStatus,
       'typeOfStore': typeOfStore,
+      'shippingfee': shippingfee,
+      'distanceForOrder': distanceForOrder,
     };
   }
 }

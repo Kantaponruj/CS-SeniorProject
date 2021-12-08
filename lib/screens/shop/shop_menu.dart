@@ -66,6 +66,8 @@ class _ShopMenuState extends State<ShopMenu> {
         store.currentStore.realtimeLocation.longitude,
       ),
       store.currentStore.isDelivery,
+      shippingPrice: int.parse(store.currentStore.shippingfee
+          .substring(0, store.currentStore.shippingfee.length - 2)),
     );
     order.getNetPrice(
       store.currentStore.storeId,

@@ -81,8 +81,8 @@ class OrderNotifier with ChangeNotifier {
     }
   }
 
-  setPolylines(
-      LocationNotifier customerP, LatLng storeP, bool isDelivery) async {
+  setPolylines(LocationNotifier customerP, LatLng storeP, bool isDelivery,
+      {int shippingPrice}) async {
     _shippingFee = '0';
 
     PolylineResult result = await _polylinePoints.getRouteBetweenCoordinates(
@@ -102,11 +102,11 @@ class OrderNotifier with ChangeNotifier {
       if (_orderList.isNotEmpty) {
         getNetPrice(_storeId, isDelivery);
       }
-      calculateDistance(isDelivery);
+      calculateDistance(isDelivery, shippingPrice: shippingPrice);
     }
   }
 
-  void calculateDistance(bool isDelivery) {
+  void calculateDistance(bool isDelivery, {int shippingPrice}) {
     double totalDistance = 0.0;
     double distance;
 
@@ -124,7 +124,7 @@ class OrderNotifier with ChangeNotifier {
     if (isDelivery) {
       if (double.parse(_distance) > 1) {
         distance = double.parse(_distance) - 1;
-        _shippingFee = (distance * 5).toInt().toString();
+        _shippingFee = (distance * shippingPrice).toInt().toString();
         _netPrice += int.parse(_shippingFee);
       }
     }

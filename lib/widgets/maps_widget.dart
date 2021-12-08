@@ -26,6 +26,7 @@ class _MapWidgetState extends State<MapWidget> {
         Provider.of<LocationNotifier>(context, listen: false);
     locationNotifier.initialization();
     // setCustomMapPin();
+    setSourceAndDestinationIcons();
     super.initState();
   }
 
@@ -41,6 +42,22 @@ class _MapWidgetState extends State<MapWidget> {
 
   BitmapDescriptor foodStallIcon;
   BitmapDescriptor foodTruckIcon;
+
+  void setSourceAndDestinationIcons() async {
+    BitmapDescriptor.fromAssetImage(
+      ImageConfiguration(size: Size(8, 8)),
+      'assets/images/marker_foodstall.png',
+    ).then((d) {
+      foodStallIcon = d;
+    });
+
+    BitmapDescriptor.fromAssetImage(
+      ImageConfiguration(size: Size(8, 8)),
+      'assets/images/marker_foodtruck.png',
+    ).then((d) {
+      foodTruckIcon = d;
+    });
+  }
 
   // void setCustomMapPin() async {
   //   foodStallIcon = await BitmapDescriptor.fromAssetImage(
@@ -61,19 +78,6 @@ class _MapWidgetState extends State<MapWidget> {
     StoreNotifier storeNotifier = Provider.of<StoreNotifier>(context);
     LocationNotifier locationNotifier = Provider.of<LocationNotifier>(context);
 
-    BitmapDescriptor.fromAssetImage(
-      ImageConfiguration(size: Size(8, 8)),
-      'assets/images/marker_foodstall.png',
-    ).then((d) {
-      foodStallIcon = d;
-    });
-
-    BitmapDescriptor.fromAssetImage(
-      ImageConfiguration(size: Size(8, 8)),
-      'assets/images/marker_foodtruck.png',
-    ).then((d) {
-      foodTruckIcon = d;
-    });
 
     Iterable _markers = Iterable.generate(
       storeNotifier.storeList.length,
@@ -81,8 +85,8 @@ class _MapWidgetState extends State<MapWidget> {
         final store = storeNotifier.storeList[index];
         return Marker(
           markerId: MarkerId(store.storeId),
-          // icon: store.typeOfStore == 'ร้านค้ารถเข็น' ? foodStallIcon : foodTruckIcon,
-          icon: BitmapDescriptor.defaultMarkerWithHue(_marker),
+          icon: store.typeOfStore == 'ร้านค้ารถเข็น' ? foodStallIcon : foodTruckIcon,
+          // icon: BitmapDescriptor.defaultMarkerWithHue(_marker),
           position: LatLng(
             store.realtimeLocation != null
                 ? store.realtimeLocation.latitude

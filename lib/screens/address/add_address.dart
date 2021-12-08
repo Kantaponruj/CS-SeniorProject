@@ -1,4 +1,5 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:cs_senior_project/asset/color.dart';
 import 'package:cs_senior_project/asset/text_style.dart';
 import 'package:cs_senior_project/component/appBar.dart';
 import 'package:cs_senior_project/component/orderCard.dart';
@@ -15,9 +16,10 @@ import 'package:google_maps_flutter/google_maps_flutter.dart';
 import 'package:provider/provider.dart';
 
 class AddAddress extends StatefulWidget {
-  const AddAddress({Key key, @required this.isUpdating}) : super(key: key);
-
+  const AddAddress({Key key, @required this.isUpdating, this.isDelete})
+      : super(key: key);
   final bool isUpdating;
+  final bool isDelete;
 
   @override
   _AddAddressState createState() => _AddAddressState();
@@ -231,6 +233,60 @@ class _AddAddressState extends State<AddAddress> {
                     },
                   ),
                 ),
+                widget.isDelete
+                    ? Container(
+                        padding: EdgeInsets.only(top: 20),
+                        child: EditButton(
+                          onClicked: () {
+                            showDialog(
+                              context: context,
+                              builder: (BuildContext context) {
+                                return ClipRRect(
+                                  borderRadius: BorderRadius.circular(30),
+                                  child: AlertDialog(
+                                    title: Text(
+                                      'ยืนยันที่จะลบข้อมูลที่อยู่นี้หรือไม่',
+                                      style: FontCollection.bodyTextStyle,
+                                    ),
+                                    actions: [
+                                      Row(
+                                        mainAxisAlignment:
+                                            MainAxisAlignment.spaceBetween,
+                                        children: [
+                                          Container(
+                                            child: TextButton(
+                                              onPressed: () {
+                                                setState(() {
+                                                  Navigator.pop(context);
+                                                });
+                                              },
+                                              child: Text(
+                                                'ยกเลิก',
+                                                style: TextStyle(
+                                                    fontSize: 16,
+                                                    color:
+                                                        CollectionsColors.red),
+                                              ),
+                                            ),
+                                          ),
+                                          Container(
+                                            child: ButtonWidget(
+                                              text: 'ยืนยัน',
+                                              onClicked: () {},
+                                            ),
+                                          ),
+                                        ],
+                                      )
+                                    ],
+                                  ),
+                                );
+                              },
+                            );
+                          },
+                          editText: 'ลบที่อยู่',
+                        ),
+                      )
+                    : SizedBox.shrink(),
               ],
             ),
           ),

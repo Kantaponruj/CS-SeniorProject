@@ -630,14 +630,14 @@ class _ShopMenuState extends State<ShopMenu> {
                         ],
                       ),
                     ),
-                    Align(
-                      alignment: Alignment.topLeft,
-                      child: Text(
-                        'สถานที่การรับ/จัดส่งสินค้า',
-                        style: FontCollection.bodyTextStyle,
-                      ),
-                    ),
-                    meetingPlace(),
+                    // Align(
+                    //   alignment: Alignment.topLeft,
+                    //   child: Text(
+                    //     'สถานที่การรับ/จัดส่งสินค้า',
+                    //     style: FontCollection.bodyTextStyle,
+                    //   ),
+                    // ),
+                    // meetingPlace(),
                   ],
                 ),
               ),

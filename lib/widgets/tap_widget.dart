@@ -1,4 +1,5 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:cs_senior_project/asset/color.dart';
 import 'package:cs_senior_project/models/store.dart';
 import 'package:cs_senior_project/notifiers/location_notifer.dart';
 import 'package:cs_senior_project/notifiers/store_notifier.dart';
@@ -88,18 +89,31 @@ class _TapWidgetState extends State<TapWidget> {
           style: TextStyle(fontSize: 18),
         ),
         subtitle: Text(store.kindOfFood.join(', ')),
+        trailing: GestureDetector(
+          onTap: () {
+            locationNotifier.setCameraPositionMap(
+              LatLng(
+                storeNotifier.currentStore.realtimeLocation.latitude,
+                storeNotifier.currentStore.realtimeLocation.longitude,
+              ),
+            );
+          },
+          child: Container(
+            width: 60,
+            height: 60,
+            decoration: BoxDecoration(
+              shape: BoxShape.circle,
+              color: CollectionsColors.yellow,
+            ),
+            child: Icon(Icons.near_me, color: Colors.white,),
+          ),
+        ),
         onTap: () {
           _storeList.forEach((element) {
             if (element.storeId == store.storeId) {
               storeNotifier.currentStore = element;
             }
           });
-          // locationNotifier.setCameraPositionMap(
-          //   LatLng(
-          //     storeNotifier.currentStore.realtimeLocation.latitude,
-          //     storeNotifier.currentStore.realtimeLocation.longitude,
-          //   ),
-          // );
 
           Navigator.of(context).push(MaterialPageRoute(
             builder: (context) => ShopMenu(),

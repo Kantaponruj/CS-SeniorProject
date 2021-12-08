@@ -75,7 +75,7 @@ class _AddressState extends State<Address> {
                                   Navigator.of(context).push(
                                     MaterialPageRoute(
                                       builder: (context) =>
-                                          AddAddress(isUpdating: true),
+                                          AddAddress(isUpdating: true, isDelete: true,),
                                     ),
                                   );
                                 },
@@ -98,7 +98,7 @@ class _AddressState extends State<Address> {
                               context,
                               MaterialPageRoute(
                                   builder: (context) =>
-                                      AddAddress(isUpdating: false)));
+                                      AddAddress(isUpdating: false,isDelete: false,)));
                         },
                       ),
                     ),
@@ -112,29 +112,29 @@ class _AddressState extends State<Address> {
     );
   }
 
-  // Widget selectedOnMap() {
-  //   return Container(
-  //     child: Column(
-  //       children: [
-  //         Container(
-  //           margin: EdgeInsets.only(bottom: 20),
-  //           child: StadiumButtonWidget(
-  //             text: 'เลือกบนแผนที่',
-  //             onClicked: () {
-  //               Navigator.of(context).push(
-  //                 MaterialPageRoute(
-  //                   builder: (context) => SelectAddress(isAdding: false),
-  //                 ),
-  //               );
-  //             },
-  //           ),
-  //         ),
-  //         Padding(
-  //           padding: const EdgeInsets.only(bottom: 20),
-  //           child: Divider(),
-  //         ),
-  //       ],
-  //     ),
-  //   );
-  // }
+// Widget selectedOnMap() {
+//   return Container(
+//     child: Column(
+//       children: [
+//         Container(
+//           margin: EdgeInsets.only(bottom: 20),
+//           child: StadiumButtonWidget(
+//             text: 'เลือกบนแผนที่',
+//             onClicked: () {
+//               Navigator.of(context).push(
+//                 MaterialPageRoute(
+//                   builder: (context) => SelectAddress(isAdding: false),
+//                 ),
+//               );
+//             },
+//           ),
+//         ),
+//         Padding(
+//           padding: const EdgeInsets.only(bottom: 20),
+//           child: Divider(),
+//         ),
+//       ],
+//     ),
+//   );
+// }
 }

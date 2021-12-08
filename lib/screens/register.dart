@@ -1,4 +1,5 @@
 import 'package:cs_senior_project/asset/color.dart';
+import 'package:cs_senior_project/asset/constant.dart';
 import 'package:cs_senior_project/asset/text_style.dart';
 import 'package:cs_senior_project/component/bottomBar.dart';
 import 'package:cs_senior_project/component/textformfield.dart';
@@ -64,39 +65,29 @@ class _RegisterPageState extends State<RegisterPage> {
                       SizedBox(
                         height: 20,
                       ),
-                      buildUsername(),
+                      buildUsername(authNotifier),
                       const SizedBox(
                         height: 30,
                       ),
-                      buildEmail(),
+                      buildEmail(authNotifier),
                       const SizedBox(
                         height: 30,
                       ),
-                      buildPassword(),
+                      buildPassword(authNotifier),
                       const SizedBox(
                         height: 30,
                       ),
-                      buildConfirmPassword(),
+                      buildConfirmPassword(authNotifier),
                       const SizedBox(
                         height: 30,
                       ),
-                      buildPhoneNumber(),
+                      buildPhoneNumber(authNotifier),
                       const SizedBox(
                         height: 50,
                       ),
-                      buildSubmit(),
+                      buildSubmit(authNotifier),
                       const SizedBox(
                         height: 15,
-                      ),
-                      TextButton(
-                        onPressed: () {},
-                        style: TextButton.styleFrom(
-                          primary: Colors.black,
-                        ),
-                        child: Text(
-                          'ลืมรหัสผ่าน',
-                          style: TextStyle(),
-                        ),
                       ),
                       const SizedBox(
                         height: 15,
@@ -139,9 +130,7 @@ class _RegisterPageState extends State<RegisterPage> {
     );
   }
 
-  Widget buildUsername() {
-    UserNotifier authNotifier = Provider.of<UserNotifier>(context);
-
+  Widget buildUsername(UserNotifier authNotifier) {
     return BuildTextField(
       hintText: 'กรุณากรอกชื่อผู้ใช้',
       labelText: 'ชื่อผู้ใช้',
@@ -159,9 +148,7 @@ class _RegisterPageState extends State<RegisterPage> {
     );
   }
 
-  Widget buildEmail() {
-    UserNotifier authNotifier = Provider.of<UserNotifier>(context);
-
+  Widget buildEmail(UserNotifier authNotifier) {
     return BuildTextField(
       labelText: 'อีเมล',
       hintText: 'กรุณากรอกอีเมล',
@@ -183,9 +170,7 @@ class _RegisterPageState extends State<RegisterPage> {
     );
   }
 
-  Widget buildPhoneNumber() {
-    UserNotifier authNotifier = Provider.of<UserNotifier>(context);
-
+  Widget buildPhoneNumber(UserNotifier authNotifier) {
     return BuildTextField(
       labelText: 'เบอร์โทรศัพท์',
       textEditingController: authNotifier.phone,
@@ -201,9 +186,7 @@ class _RegisterPageState extends State<RegisterPage> {
     );
   }
 
-  Widget buildPassword() {
-    UserNotifier authNotifier = Provider.of<UserNotifier>(context);
-
+  Widget buildPassword(UserNotifier authNotifier) {
     return BuildPasswordField(
       textEditingController: authNotifier.password,
       labelText: 'รหัสผ่าน',
@@ -219,9 +202,7 @@ class _RegisterPageState extends State<RegisterPage> {
     );
   }
 
-  Widget buildConfirmPassword() {
-    UserNotifier authNotifier = Provider.of<UserNotifier>(context);
-
+  Widget buildConfirmPassword(UserNotifier authNotifier) {
     return BuildPasswordField(
       hintText: 'กรุณายืนยันรหัสผ่าน',
       labelText: 'ยืนยันรหัสผ่าน',
@@ -237,9 +218,7 @@ class _RegisterPageState extends State<RegisterPage> {
     );
   }
 
-  Widget buildSubmit() {
-    UserNotifier authNotifier = Provider.of<UserNotifier>(context);
-
+  Widget buildSubmit(UserNotifier authNotifier) {
     return ButtonWidget(
       text: 'ลงทะเบียน',
       onClicked: () async {

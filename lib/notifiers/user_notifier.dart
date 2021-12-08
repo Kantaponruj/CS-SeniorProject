@@ -72,10 +72,12 @@ class UserNotifier with ChangeNotifier {
         String _deviceToken = await fcm.getToken();
         await prefs.setString("uid", result.user.uid);
         _userService.createUser(
-            uid: result.user.uid,
-            displayName: displayName.text.trim(),
-            email: email.text.trim(),
-            token: _deviceToken);
+          uid: result.user.uid,
+          displayName: displayName.text.trim(),
+          email: email.text.trim(),
+          token: _deviceToken,
+          phone: phone.text.trim(),
+        );
       });
       return true;
     } catch (e) {
@@ -102,6 +104,7 @@ class UserNotifier with ChangeNotifier {
     email.text = "";
     password.text = "";
     confirmPassword.text = "";
+    phone.text = "";
   }
 
   Future<void> reloadUserModel() async {

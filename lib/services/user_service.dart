@@ -9,7 +9,6 @@ import 'package:cs_senior_project/models/user.dart';
 import 'package:cs_senior_project/notifiers/activities_notifier.dart';
 import 'package:cs_senior_project/notifiers/address_notifier.dart';
 import 'package:cs_senior_project/notifiers/favorite_notifier.dart';
-import 'package:cs_senior_project/notifiers/order_notifier.dart';
 import 'package:cs_senior_project/services/store_service.dart';
 
 class UserService {
@@ -20,12 +19,14 @@ class UserService {
     String displayName,
     String email,
     String token,
+    String phone,
   }) {
     firebaseFirestore.collection(collection).doc(uid).set({
       'uid': uid,
       'displayName': displayName,
       'email': email,
       'token': token,
+      'phone': phone,
     });
   }
 

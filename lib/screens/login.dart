@@ -171,7 +171,6 @@ class _LoginPageState extends State<LoginPage> {
         }
         return null;
       },
-      // onSaved: (value) => setState(() => password = value),
     );
   }
 

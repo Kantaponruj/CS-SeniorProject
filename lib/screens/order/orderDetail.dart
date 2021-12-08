@@ -24,6 +24,7 @@ import 'package:flutter/material.dart';
 import 'package:google_maps_widget/google_maps_widget.dart';
 import 'package:intl/intl.dart';
 import 'package:provider/provider.dart';
+import 'package:fluttertoast/fluttertoast.dart';
 import 'package:flutter_phone_direct_caller/flutter_phone_direct_caller.dart';
 
 class OrderDetailPage extends StatefulWidget {
@@ -261,24 +262,24 @@ class _OrderDetailPageState extends State<OrderDetailPage> {
                 canEdit: true,
               ),
               // orderFinish ? SizedBox.shrink() : BuildTextFiled(textEditingController: textEditingController, hintText: hintText),
-              orderFinish
-                  ? Container(
-                      margin: EdgeInsets.only(top: 20),
-                      child: TextButton(
-                        onPressed: () {
-                          showDialog(
-                              context: context,
-                              builder: (BuildContext context) {
-                                return cancelOrder(store.currentStore.phone);
-                              });
-                        },
-                        child: Text(
-                          'ยกเลิกคำสั่งซื้อ',
-                          style: FontCollection.underlineButtonTextStyle,
-                        ),
-                      ),
-                    )
-                  : SizedBox.shrink(),
+              // orderFinish
+              //     ? Container(
+              //         margin: EdgeInsets.only(top: 20),
+              //         child: TextButton(
+              //           onPressed: () {
+              //             showDialog(
+              //                 context: context,
+              //                 builder: (BuildContext context) {
+              //                   return cancelOrder(store.currentStore.phone);
+              //                 });
+              //           },
+              //           child: Text(
+              //             'ยกเลิกคำสั่งซื้อ',
+              //             style: FontCollection.underlineButtonTextStyle,
+              //           ),
+              //         ),
+              //       )
+              //     : SizedBox.shrink(),
             ],
           ),
         ),
@@ -287,46 +288,58 @@ class _OrderDetailPageState extends State<OrderDetailPage> {
           ? SizedBox.shrink()
           : BottomOrderDetail(
               onClicked: () {
-                String typeOrder;
-                if (_activities.startWaitingTime != 'ตอนนี้' &&
-                    _activities.endWaitingTime != null) {
-                  typeOrder = 'meeting-orders';
+                if (_activities.endWaitingTime != null) {
+                  String typeOrder;
+                  if (_activities.startWaitingTime != 'ตอนนี้' &&
+                      _activities.endWaitingTime != null) {
+                    typeOrder = 'meeting-orders';
+                  } else {
+                    switch (store.currentStore.isDelivery) {
+                      case true:
+                        typeOrder = 'delivery-orders';
+                        break;
+                      default:
+                        typeOrder = 'pickup-orders';
+                    }
+                  }
+
+                  saveActivityToHistory(
+                    user.userModel.uid,
+                    store.currentStore.storeId,
+                    _activities,
+                    typeOrder,
+                  );
+
+                  for (int i = 0; i < order.orderList.length; i++) {
+                    if ((order.orderList[i].storeId == widget.storeId)) {
+                      saveEachOrderToHistory(
+                        user.userModel.uid,
+                        store.currentStore.storeId,
+                        order.orderList[i],
+                        typeOrder,
+                      );
+                    }
+                  }
+                  activity.currentActivity = _activities;
+                  Navigator.of(context)
+                      .pushReplacementNamed('/confirmOrderDetail');
+
+                  activity.resetDateTimeOrdered();
+                  order.orderList.removeWhere(
+                      (order) => order.storeId == store.currentStore.storeId);
+
+                  location.setCameraPositionMap(location.initialPosition);
                 } else {
-                  switch (store.currentStore.isDelivery) {
-                    case true:
-                      typeOrder = 'delivery-orders';
-                      break;
-                    default:
-                      typeOrder = 'pickup-orders';
-                  }
+                  Fluttertoast.showToast(
+                    msg: "โปรดระบุช่วงเวลาที่สามารถรอได้",
+                    toastLength: Toast.LENGTH_SHORT,
+                    gravity: ToastGravity.CENTER,
+                    timeInSecForIosWeb: 1,
+                    backgroundColor: Colors.red,
+                    textColor: Colors.white,
+                    fontSize: 16.0,
+                  );
                 }
-
-                saveActivityToHistory(
-                  user.userModel.uid,
-                  store.currentStore.storeId,
-                  _activities,
-                  typeOrder,
-                );
-
-                for (int i = 0; i < order.orderList.length; i++) {
-                  if ((order.orderList[i].storeId == widget.storeId)) {
-                    saveEachOrderToHistory(
-                      user.userModel.uid,
-                      store.currentStore.storeId,
-                      order.orderList[i],
-                      typeOrder,
-                    );
-                  }
-                }
-                activity.currentActivity = _activities;
-                Navigator.of(context)
-                    .pushReplacementNamed('/confirmOrderDetail');
-
-                activity.resetDateTimeOrdered();
-                order.orderList.removeWhere(
-                    (order) => order.storeId == store.currentStore.storeId);
-
-                location.setCameraPositionMap(location.initialPosition);
               },
               child: Column(
                 children: [
@@ -788,9 +801,9 @@ class _OrderDetailPageState extends State<OrderDetailPage> {
                 child: StadiumButtonWidget(
                   text: 'โทรติดต่อผู้ขาย',
                   onClicked: () async {
-                      String number = phone;
-                      // launch('tel://$number');
-                      await FlutterPhoneDirectCaller.callNumber(number);
+                    String number = phone;
+                    // launch('tel://$number');
+                    await FlutterPhoneDirectCaller.callNumber(number);
                   },
                 ),
               ),

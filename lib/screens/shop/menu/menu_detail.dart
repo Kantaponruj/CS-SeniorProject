@@ -29,6 +29,7 @@ class _MenuDetailState extends State<MenuDetail> {
   String price;
   List isSelectedTopping = [];
   List selectedTopping = [];
+  int selectedRadioTile = 0;
 
   // List<Map<String, dynamic>> subToppingList = [];
   int totalSubTopping = 0;
@@ -72,7 +73,15 @@ class _MenuDetailState extends State<MenuDetail> {
 
     priceMenu = int.parse(storeNotifier.currentMenu.price);
 
+    selectedRadioTile = 0;
+
     super.initState();
+  }
+
+  setSelectedRadioTile(int val) {
+    setState(() {
+      selectedRadioTile = val;
+    });
   }
 
   void handleIncreaseAmount() {
@@ -352,6 +361,7 @@ class _MenuDetailState extends State<MenuDetail> {
   }
 
   Widget listAddOn(StoreNotifier storeNotifier, int indexT) {
+    int val = 0;
     double totalPriceInt = double.parse(price);
 
     if (order.topping != null) {
@@ -368,7 +378,6 @@ class _MenuDetailState extends State<MenuDetail> {
         }
       }
     }
-    int val = 0;
 
     return ListView.builder(
         shrinkWrap: true,
@@ -377,6 +386,7 @@ class _MenuDetailState extends State<MenuDetail> {
         itemCount: storeNotifier.toppingList[indexT].subTopping.length,
         itemBuilder: (context, i) {
           final subtopping = storeNotifier.toppingList[indexT].subTopping[i];
+          val += 1;
 
           return storeNotifier.toppingList[indexT].type == 'ตัวเลือกเดียว'
               ? Container(
@@ -384,11 +394,39 @@ class _MenuDetailState extends State<MenuDetail> {
                   child: RadioListTile(
                     title: Text(subtopping['name']),
                     secondary: Text('+' + subtopping['price']),
-                    value: 0,
-                    // groupValue: val,
+                    value: val,
+                    groupValue: selectedRadioTile,
                     onChanged: (value) {
+                      setSelectedRadioTile(value);
                       setState(() {
-                        val = value;
+                        // setSelectedRadioTile(value);
+                        switch (value) {
+                          case 1:
+                            if (amount > 1) {
+                              totalPriceInt +=
+                                  (int.parse(subtopping['price']) * amount);
+                              priceWithTopping = totalPriceInt;
+                              priceWithTopping = priceWithTopping / amount;
+                            } else {
+                              totalPriceInt += int.parse(subtopping['price']);
+                              priceWithTopping = totalPriceInt;
+                            }
+                            selectedTopping.add(subtopping['name']);
+                            // print(selectedTopping);
+                            break;
+                          default:
+                            if (amount > 1) {
+                              totalPriceInt -=
+                                  (int.parse(subtopping['price']) * amount);
+                              priceWithTopping = totalPriceInt;
+                              priceWithTopping = priceWithTopping / amount;
+                            } else {
+                              totalPriceInt -= int.parse(subtopping['price']);
+                              priceWithTopping = totalPriceInt;
+                            }
+                            selectedTopping.remove(subtopping['name']);
+                        }
+                        price = totalPriceInt.toInt().toString();
                       });
                     },
                     activeColor: CollectionsColors.yellow,

@@ -30,6 +30,12 @@ class AddressNotifier with ChangeNotifier {
     notifyListeners();
   }
 
+  deleteAddress(AddressModel address) {
+    _addressList
+        .removeWhere((_address) => _address.addressId == address.addressId);
+    notifyListeners();
+  }
+
   // setSelectedAddress(String address) {
   //   _selectedAddress = address;
   //   notifyListeners();

@@ -99,9 +99,22 @@ class _AddAddressState extends State<AddAddress> {
     locationNotifier.resetPosition();
   }
 
+  int count;
+
+  _deleteAddress(AddressModel address) {
+    AddressNotifier addressNotifier =
+        Provider.of<AddressNotifier>(context, listen: false);
+    addressNotifier.deleteAddress(address);
+    count = 0;
+    Navigator.popUntil(context, (route) {
+      return count++ == 2;
+    });
+  }
+
   @override
   Widget build(BuildContext context) {
     LocationNotifier locationNotifier = Provider.of<LocationNotifier>(context);
+    UserNotifier userNotifier = Provider.of<UserNotifier>(context);
 
     return SafeArea(
       child: Scaffold(
@@ -256,9 +269,7 @@ class _AddAddressState extends State<AddAddress> {
                                           Container(
                                             child: TextButton(
                                               onPressed: () {
-                                                setState(() {
-                                                  Navigator.pop(context);
-                                                });
+                                                Navigator.pop(context);
                                               },
                                               child: Text(
                                                 'ยกเลิก',
@@ -272,7 +283,13 @@ class _AddAddressState extends State<AddAddress> {
                                           Container(
                                             child: ButtonWidget(
                                               text: 'ยืนยัน',
-                                              onClicked: () {},
+                                              onClicked: () {
+                                                deleteAddress(
+                                                  userNotifier.userModel.uid,
+                                                  _currentAddress,
+                                                  _deleteAddress,
+                                                );
+                                              },
                                             ),
                                           ),
                                         ],

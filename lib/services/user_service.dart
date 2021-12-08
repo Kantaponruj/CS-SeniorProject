@@ -78,6 +78,17 @@ addAddress(AddressModel address, String uid, bool isUpdating,
   addAddress(address);
 }
 
+deleteAddress(String uid, AddressModel address, Function onDeleted) {
+  firebaseFirestore
+      .collection('users')
+      .doc(uid)
+      .collection('address')
+      .doc(address.addressId)
+      .delete();
+
+  onDeleted(address);
+}
+
 // activities & histoy
 String orderId;
 

@@ -291,19 +291,20 @@ class _OrderDetailPageState extends State<OrderDetailPage> {
           ? SizedBox.shrink()
           : BottomOrderDetail(
               onClicked: () {
+                String typeOrder;
                 if (_activities.endWaitingTime != null) {
-                  String typeOrder;
                   if (_activities.startWaitingTime != 'ตอนนี้' &&
                       _activities.endWaitingTime != null) {
                     typeOrder = 'meeting-orders';
                   } else {
-                    switch (store.currentStore.isDelivery) {
-                      case true:
-                        typeOrder = 'delivery-orders';
-                        break;
-                      default:
-                        typeOrder = 'pickup-orders';
-                    }
+                    typeOrder = 'delivery-orders';
+                    // switch (store.currentStore.isDelivery) {
+                    //   case true:
+                    //     typeOrder = 'delivery-orders';
+                    //     break;
+                    //   default:
+                    //     typeOrder = 'pickup-orders';
+                    // }
                   }
 
                   saveActivityToHistory(
@@ -333,7 +334,7 @@ class _OrderDetailPageState extends State<OrderDetailPage> {
 
                   location.setCameraPositionMap(location.initialPosition);
                 } else {
-                  if(store.currentStore.isDelivery) {
+                  if (store.currentStore.isDelivery) {
                     Fluttertoast.showToast(
                       msg: "โปรดระบุช่วงเวลาที่สามารถรอได้",
                       toastLength: Toast.LENGTH_SHORT,
@@ -343,6 +344,35 @@ class _OrderDetailPageState extends State<OrderDetailPage> {
                       textColor: Colors.white,
                       fontSize: 16.0,
                     );
+                  } else {
+                    typeOrder = 'pickup-orders';
+
+                    saveActivityToHistory(
+                      user.userModel.uid,
+                      store.currentStore.storeId,
+                      _activities,
+                      typeOrder,
+                    );
+
+                    for (int i = 0; i < order.orderList.length; i++) {
+                      if ((order.orderList[i].storeId == widget.storeId)) {
+                        saveEachOrderToHistory(
+                          user.userModel.uid,
+                          store.currentStore.storeId,
+                          order.orderList[i],
+                          typeOrder,
+                        );
+                      }
+                    }
+                    activity.currentActivity = _activities;
+                    Navigator.of(context)
+                        .pushReplacementNamed('/confirmOrderDetail');
+
+                    activity.resetDateTimeOrdered();
+                    order.orderList.removeWhere(
+                        (order) => order.storeId == store.currentStore.storeId);
+
+                    location.setCameraPositionMap(location.initialPosition);
                   }
                 }
               },

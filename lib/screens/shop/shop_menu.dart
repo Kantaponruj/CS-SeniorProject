@@ -88,7 +88,7 @@ class _ShopMenuState extends State<ShopMenu> {
     }
     activity.resetDateTimeOrdered();
 
-    GetAddressFromLatLong();
+    // GetAddressFromLatLong();
 
     super.initState();
   }
@@ -132,21 +132,21 @@ class _ShopMenuState extends State<ShopMenu> {
     }
   }
 
-  Future<void> GetAddressFromLatLong() async {
-    StoreNotifier storeNotifier = Provider.of<StoreNotifier>(context);
-    List<Placemark> placemarks = await placemarkFromCoordinates(
-      storeNotifier.currentStore.location.latitude,
-      storeNotifier.currentStore.location.longitude,
-    );
-    print(storeNotifier.currentStore.location.latitude);
-    print(storeNotifier.currentStore.location.longitude);
-    Placemark place = placemarks[0];
-    print('\n\n\nAddress: ' + address.toString());
-    setState(() {
-      address =
-          '${place.street}, ${place.subLocality}, ${place.locality}, ${place.postalCode}, ${place.country}';
-    });
-  }
+  // Future<void> GetAddressFromLatLong() async {
+  //   StoreNotifier storeNotifier = Provider.of<StoreNotifier>(context);
+  //   List<Placemark> placemarks = await placemarkFromCoordinates(
+  //     storeNotifier.currentStore.location.latitude,
+  //     storeNotifier.currentStore.location.longitude,
+  //   );
+  //   print(storeNotifier.currentStore.location.latitude);
+  //   print(storeNotifier.currentStore.location.longitude);
+  //   Placemark place = placemarks[0];
+  //   print('\n\n\nAddress: ' + address.toString());
+  //   setState(() {
+  //     address =
+  //         '${place.street}, ${place.subLocality}, ${place.locality}, ${place.postalCode}, ${place.country}';
+  //   });
+  // }
 
   @override
   Widget build(BuildContext context) {

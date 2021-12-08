@@ -281,7 +281,7 @@ class _AddAddressState extends State<AddAddress> {
                                             ),
                                           ),
                                           Container(
-                                            child: ButtonWidget(
+                                            child: StadiumButtonWidget(
                                               text: 'ยืนยัน',
                                               onClicked: () {
                                                 deleteAddress(

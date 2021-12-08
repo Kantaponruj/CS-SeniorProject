@@ -110,7 +110,7 @@ class _HistoryPageState extends State<HistoryPage> {
                                       );
                                     } else {
                                       activities.orderMenuList.clear();
-                                      Navigator.of(context).pushReplacement(
+                                      Navigator.of(context).push(
                                         MaterialPageRoute(
                                           builder: (context) =>
                                               ConfirmOrderDetail(fromHistory: true,),

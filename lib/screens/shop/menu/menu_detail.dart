@@ -307,7 +307,7 @@ class _MenuDetailState extends State<MenuDetail> {
       isSelectedTopping.add(defaultSelected);
       // isSelectedTopping.sort((a, b) => a.length.compareTo(b.length));
     }
-    print(isSelectedTopping);
+    // print(isSelectedTopping);
 
     return Container(
       margin: EdgeInsets.only(top: 20),

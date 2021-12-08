@@ -70,20 +70,39 @@ class _TapWidgetState extends State<TapWidget> {
     LocationNotifier locationNotifier = Provider.of<LocationNotifier>(context);
 
     return ListTile(
-        leading: Container(
-          width: 60,
-          height: 60,
-          decoration: BoxDecoration(
-              shape: BoxShape.circle,
-              image: DecorationImage(
-                fit: BoxFit.cover,
-                image: NetworkImage(
-                  store.image != null
-                      ? store.image
-                      : 'https://www.testingxperts.com/wp-content/uploads/2019/02/placeholder-img.jpg',
+        leading: ClipOval(
+          child: store.image != ""
+              ? Image.network(
+                  store.image,
+                  fit: BoxFit.fill,
+                  width: 60,
+                  height: 60,
+                  // 'https://www.testingxperts.com/wp-content/uploads/2019/02/placeholder-img.jpg',
+                )
+              : Image.asset(
+                  'assets/images/default-photo.png',
+                  fit: BoxFit.fill,
+                  width: 60,
+                  height: 60,
                 ),
-              )),
+          clipper: MyClip(),
         ),
+        // Container(
+        //   width: 60,
+        //   height: 60,
+        //   decoration: BoxDecoration(
+        //       shape: BoxShape.circle,
+        //       image: DecorationImage(
+        //         fit: BoxFit.cover,
+        //         image: store.image != null
+        //             ? NetworkImage(store.image,
+        //                 // 'https://www.testingxperts.com/wp-content/uploads/2019/02/placeholder-img.jpg',
+        //                 )
+        //             : AssetImage(
+        //                 'assets/images/default-photo.png',
+        //               ),
+        //       )),
+        // ),
         title: Text(
           store.storeName,
           style: TextStyle(fontSize: 18),
@@ -105,7 +124,10 @@ class _TapWidgetState extends State<TapWidget> {
               shape: BoxShape.circle,
               color: CollectionsColors.yellow,
             ),
-            child: Icon(Icons.near_me, color: Colors.white,),
+            child: Icon(
+              Icons.near_me,
+              color: Colors.white,
+            ),
           ),
         ),
         onTap: () {
@@ -119,5 +141,15 @@ class _TapWidgetState extends State<TapWidget> {
             builder: (context) => ShopMenu(),
           ));
         });
+  }
+}
+
+class MyClip extends CustomClipper<Rect> {
+  Rect getClip(Size size) {
+    return Rect.fromLTWH(0, 0, 60, 60);
+  }
+
+  bool shouldReclip(oldClipper) {
+    return false;
   }
 }

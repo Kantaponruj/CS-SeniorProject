@@ -29,6 +29,7 @@ class _MenuDetailState extends State<MenuDetail> {
   String price;
   List isSelectedTopping = [];
   List selectedTopping = [];
+
   // List<Map<String, dynamic>> subToppingList = [];
   int totalSubTopping = 0;
 
@@ -164,14 +165,19 @@ class _MenuDetailState extends State<MenuDetail> {
                     borderRadius: BorderRadius.vertical(
                       bottom: Radius.circular(20),
                     ),
-                    child: Image.network(
-                      storeNotifier.currentMenu.image != null
-                          ? storeNotifier.currentMenu.image
-                          : 'https://www.testingxperts.com/wp-content/uploads/2019/02/placeholder-img.jpg',
-                      fit: BoxFit.cover,
-                      width: double.infinity,
-                      height: double.infinity,
-                    ),
+                    child: storeNotifier.currentMenu.image != null
+                        ? Image.network(
+                            storeNotifier.currentStore.image,
+                            fit: BoxFit.cover,
+                            width: double.infinity,
+                            height: double.infinity,
+                          )
+                        : Image.asset(
+                            'assets/images/default-photo.png',
+                            fit: BoxFit.cover,
+                            width: double.infinity,
+                            height: double.infinity,
+                          ),
                   ),
                 ),
                 Positioned(
@@ -242,49 +248,49 @@ class _MenuDetailState extends State<MenuDetail> {
   }
 
   Widget menuDetailCard(StoreNotifier storeNotifier) {
-    return ClipRRect(
-      borderRadius: BorderRadius.circular(20),
-      child: Container(
+    return Container(
+      decoration: BoxDecoration(
+        borderRadius: BorderRadius.circular(20),
         color: CollectionsColors.white,
-        padding: EdgeInsets.symmetric(horizontal: 20, vertical: 20),
-        child: Column(
-          children: [
-            Container(
-              child: Row(
-                mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                children: [
-                  Text(
-                    storeNotifier.currentMenu.name,
-                    style: FontCollection.topicTextStyle,
-                  ),
-                  Container(
+      ),
+      padding: EdgeInsets.symmetric(horizontal: 20, vertical: 20),
+      child: Column(
+        children: [
+          Container(
+            child: Row(
+              mainAxisAlignment: MainAxisAlignment.spaceBetween,
+              children: [
+                Text(
+                  storeNotifier.currentMenu.name,
+                  style: FontCollection.topicTextStyle,
+                ),
+                Container(
+                  alignment: Alignment.centerRight,
+                  child: Container(
                     alignment: Alignment.centerRight,
-                    child: Container(
-                      alignment: Alignment.centerRight,
-                      child: Text(
-                        storeNotifier.currentMenu.price,
-                        style: FontCollection.topicBoldTextStyle,
-                      ),
+                    child: Text(
+                      storeNotifier.currentMenu.price,
+                      style: FontCollection.topicBoldTextStyle,
                     ),
                   ),
-                ],
-              ),
+                ),
+              ],
             ),
-            Container(
-              alignment: Alignment.centerRight,
+          ),
+          Container(
+            alignment: Alignment.centerRight,
+            child: Text(
+              'ราคาเริ่มต้น',
+              style: FontCollection.smallBodyTextStyle,
+            ),
+          ),
+          Container(
+              alignment: Alignment.centerLeft,
               child: Text(
-                'ราคาเริ่มต้น',
-                style: FontCollection.smallBodyTextStyle,
-              ),
-            ),
-            Container(
-                alignment: Alignment.centerLeft,
-                child: Text(
-                  storeNotifier.currentMenu.description,
-                  style: FontCollection.bodyTextStyle,
-                )),
-          ],
-        ),
+                storeNotifier.currentMenu.description,
+                style: FontCollection.bodyTextStyle,
+              )),
+        ],
       ),
     );
   }
@@ -362,6 +368,7 @@ class _MenuDetailState extends State<MenuDetail> {
         }
       }
     }
+    int val = 0;
 
     return ListView.builder(
         shrinkWrap: true,
@@ -371,51 +378,72 @@ class _MenuDetailState extends State<MenuDetail> {
         itemBuilder: (context, i) {
           final subtopping = storeNotifier.toppingList[indexT].subTopping[i];
 
-          return CheckboxListTile(
-            title: Text(subtopping['name']),
-            secondary: Text('+' + subtopping['price']),
-            controlAffinity: ListTileControlAffinity.leading,
-            value: isSelectedTopping[indexT][i],
-            onChanged: (bool value) {
-              // isSelectedTopping[indexT][i] = !isSelectedTopping[indexT][i];
-              // print(i);
-              // print(isSelectedTopping[indexT]);
+          return storeNotifier.toppingList[indexT].type == 'ตัวเลือกเดียว'
+              ? Container(
+                  color: Colors.white,
+                  child: RadioListTile(
+                    title: Text(subtopping['name']),
+                    secondary: Text('+' + subtopping['price']),
+                    value: 1,
+                    groupValue: val,
+                    onChanged: (value) {
+                      setState(() {
+                        val = value;
+                      });
+                    },
+                    activeColor: CollectionsColors.yellow,
+                    tileColor: CollectionsColors.white,
+                    selectedTileColor: CollectionsColors.white,
+                  ),
+                )
+              : Container(
+                  color: Colors.white,
+                  child: CheckboxListTile(
+                    title: Text(subtopping['name']),
+                    secondary: Text('+' + subtopping['price']),
+                    controlAffinity: ListTileControlAffinity.leading,
+                    value: isSelectedTopping[indexT][i],
+                    onChanged: (bool value) {
+                      // isSelectedTopping[indexT][i] = !isSelectedTopping[indexT][i];
+                      // print(i);
+                      // print(isSelectedTopping[indexT]);
 
-              setState(() {
-                isSelectedTopping[indexT][i] = value;
+                      setState(() {
+                        isSelectedTopping[indexT][i] = value;
 
-                switch (isSelectedTopping[indexT][i]) {
-                  case true:
-                    if (amount > 1) {
-                      totalPriceInt +=
-                          (int.parse(subtopping['price']) * amount);
-                      priceWithTopping = totalPriceInt;
-                      priceWithTopping = priceWithTopping / amount;
-                    } else {
-                      totalPriceInt += int.parse(subtopping['price']);
-                      priceWithTopping = totalPriceInt;
-                    }
-                    selectedTopping.add(subtopping['name']);
-                    // print(selectedTopping);
-                    break;
-                  default:
-                    if (amount > 1) {
-                      totalPriceInt -=
-                          (int.parse(subtopping['price']) * amount);
-                      priceWithTopping = totalPriceInt;
-                      priceWithTopping = priceWithTopping / amount;
-                    } else {
-                      totalPriceInt -= int.parse(subtopping['price']);
-                      priceWithTopping = totalPriceInt;
-                    }
-                    selectedTopping.remove(subtopping['name']);
-                }
-                price = totalPriceInt.toInt().toString();
-              });
-            },
-            activeColor: CollectionsColors.yellow,
-            checkColor: CollectionsColors.white,
-          );
+                        switch (isSelectedTopping[indexT][i]) {
+                          case true:
+                            if (amount > 1) {
+                              totalPriceInt +=
+                                  (int.parse(subtopping['price']) * amount);
+                              priceWithTopping = totalPriceInt;
+                              priceWithTopping = priceWithTopping / amount;
+                            } else {
+                              totalPriceInt += int.parse(subtopping['price']);
+                              priceWithTopping = totalPriceInt;
+                            }
+                            selectedTopping.add(subtopping['name']);
+                            // print(selectedTopping);
+                            break;
+                          default:
+                            if (amount > 1) {
+                              totalPriceInt -=
+                                  (int.parse(subtopping['price']) * amount);
+                              priceWithTopping = totalPriceInt;
+                              priceWithTopping = priceWithTopping / amount;
+                            } else {
+                              totalPriceInt -= int.parse(subtopping['price']);
+                              priceWithTopping = totalPriceInt;
+                            }
+                            selectedTopping.remove(subtopping['name']);
+                        }
+                        price = totalPriceInt.toInt().toString();
+                      });
+                    },
+                    activeColor: CollectionsColors.yellow,
+                    checkColor: CollectionsColors.white,
+                  ),
+                );
         });
   }
 }

@@ -97,7 +97,7 @@ class _ShopDetailState extends State<ShopDetail> {
                     // padding: EdgeInsets.only(top: 80),
                     children: [
                       Expanded(
-                        child: storeNotifier.currentStore.image.isNotEmpty
+                        child: storeNotifier.currentStore.image != ""
                             ? Image.network(
                                 storeNotifier.currentStore.image,
                                 fit: BoxFit.cover,

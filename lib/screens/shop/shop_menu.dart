@@ -228,18 +228,28 @@ class _ShopMenuState extends State<ShopMenu> {
                   children: [
                     SizedBox(
                       height: 250,
-                      child: Image.network(
-                        storeNotifier.currentStore.image != null
-                            ? storeNotifier.currentStore.image
-                            : 'assets/images/default-photo.png',
-                        errorBuilder: (BuildContext context, Object exception,
-                            StackTrace stackTrace) {
-                          return Icon(Icons.image, size: 40.0);
-                        },
-                        fit: BoxFit.cover,
-                        width: double.infinity,
-                        height: double.infinity,
-                      ),
+                      child: storeNotifier.currentStore.image != null
+                          ? Image.network(
+                              storeNotifier.currentStore.image,
+                              errorBuilder: (BuildContext context,
+                                  Object exception, StackTrace stackTrace) {
+                                return Image.asset(
+                                  'assets/images/default-photo.png',
+                                  fit: BoxFit.cover,
+                                  width: double.infinity,
+                                  height: double.infinity,
+                                );
+                              },
+                              fit: BoxFit.cover,
+                              width: double.infinity,
+                              height: double.infinity,
+                            )
+                          : Image.asset(
+                              'assets/images/default-photo.png',
+                              fit: BoxFit.cover,
+                              width: double.infinity,
+                              height: double.infinity,
+                            ),
                     ),
                     Padding(
                       padding: EdgeInsets.fromLTRB(20, 20, 20, 0),
@@ -430,16 +440,19 @@ class _ShopMenuState extends State<ShopMenu> {
                   height: 150,
                   margin: EdgeInsets.only(top: 15),
                   child: SizedBox(
-                    child: Image.network(
-                      menu.image != null
-                          ? menu.image
-                          : 'https://www.testingxperts.com/wp-content/uploads/2019/02/placeholder-img.jpg',
-                      // errorBuilder: (BuildContext context, Object exception,
-                      //     StackTrace stackTrace) {
-                      //   return Icon(Icons.image, size: 40.0);
-                      // },
-                      fit: BoxFit.cover,
-                    ),
+                    child: menu.image != null
+                        ? Image.network(
+                            menu.image,
+                            // errorBuilder: (BuildContext context, Object exception,
+                            //     StackTrace stackTrace) {
+                            //   return Icon(Icons.image, size: 40.0);
+                            // },
+                            fit: BoxFit.cover,
+                          )
+                        : Image.asset(
+                            'assets/images/default-photo.png',
+                            fit: BoxFit.cover,
+                          ),
                   ),
                 ),
                 Container(

@@ -111,7 +111,7 @@ class _FavoritePageState extends State<FavoritePage> {
               )),
           onTap: () {
             storeNotifier.currentStore = store;
-            Navigator.of(context).push(MaterialPageRoute(
+            Navigator.of(context).pushReplacement(MaterialPageRoute(
               builder: (context) => ShopMenu(),
             ));
           },

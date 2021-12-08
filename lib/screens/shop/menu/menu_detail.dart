@@ -167,7 +167,7 @@ class _MenuDetailState extends State<MenuDetail> {
                     ),
                     child: storeNotifier.currentMenu.image != null
                         ? Image.network(
-                            storeNotifier.currentStore.image,
+                            storeNotifier.currentMenu.image,
                             fit: BoxFit.cover,
                             width: double.infinity,
                             height: double.infinity,
@@ -335,7 +335,7 @@ class _MenuDetailState extends State<MenuDetail> {
                     Padding(
                       padding: EdgeInsets.only(left: 30),
                       child: Text(
-                        'เลือกได้สูงสุด 2 อย่าง',
+                        'เลือกได้สูงสุด ${storeNotifier.toppingList[indexT].selectedNumberTopping} อย่าง',
                         style: FontCollection.descriptionTextStyle,
                       ),
                     )
@@ -384,8 +384,8 @@ class _MenuDetailState extends State<MenuDetail> {
                   child: RadioListTile(
                     title: Text(subtopping['name']),
                     secondary: Text('+' + subtopping['price']),
-                    value: 1,
-                    groupValue: val,
+                    value: 0,
+                    // groupValue: val,
                     onChanged: (value) {
                       setState(() {
                         val = value;

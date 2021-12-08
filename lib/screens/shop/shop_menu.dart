@@ -48,8 +48,6 @@ class _ShopMenuState extends State<ShopMenu> {
 
   @override
   void initState() {
-    AddressNotifier address =
-        Provider.of<AddressNotifier>(context, listen: false);
     ActivitiesNotifier activity =
         Provider.of<ActivitiesNotifier>(context, listen: false);
     StoreNotifier store = Provider.of<StoreNotifier>(context, listen: false);
@@ -83,10 +81,6 @@ class _ShopMenuState extends State<ShopMenu> {
           break;
         }
       }
-    }
-
-    if (address.addressList != null) {
-      selectedAddress = address.addressList[0].addressName;
     }
     activity.resetDateTimeOrdered();
     super.initState();

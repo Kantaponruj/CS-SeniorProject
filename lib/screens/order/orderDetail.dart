@@ -94,6 +94,7 @@ class _OrderDetailPageState extends State<OrderDetailPage> {
     _activities.subTotal = order.totalFoodPrice.toString();
     _activities.typeOrder =
         store.currentStore.isDelivery ? 'delivery' : 'pick up';
+    _activities.phoneStore = store.currentStore.phone;
 
     return Scaffold(
       extendBodyBehindAppBar: true,

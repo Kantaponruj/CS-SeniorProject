@@ -25,6 +25,7 @@ class Activity {
   String shippingFee;
   String subTotal;
   String typeOrder;
+  String phoneStore;
 
   Activity();
 
@@ -53,7 +54,8 @@ class Activity {
       'distance': distance,
       'shippingFee': shippingFee,
       'subTotal': subTotal,
-      'typeOrder': typeOrder
+      'typeOrder': typeOrder,
+      'phoneStore': phoneStore,
     };
   }
 
@@ -81,5 +83,6 @@ class Activity {
     shippingFee = data['shippingFee'];
     subTotal = data['subTotal'];
     typeOrder = data['typeOrder'];
+    phoneStore = data['phoneStore'];
   }
 }

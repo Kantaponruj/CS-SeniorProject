@@ -15,10 +15,15 @@ import 'package:provider/provider.dart';
 
 class ManageAddress extends StatefulWidget {
   const ManageAddress(
-      {Key key, @required this.uid, this.storePoint, this.isDelivery})
+      {Key key,
+      @required this.uid,
+      this.storePoint,
+      this.isDelivery,
+      this.shippingfee})
       : super(key: key);
 
   final String uid;
+  final int shippingfee;
   final LatLng storePoint;
   final bool isDelivery;
 
@@ -59,6 +64,7 @@ class _ManageAddressState extends State<ManageAddress> {
                       builder: (context) => SelectAddress(
                         storePoint: widget.storePoint,
                         isDelivery: widget.isDelivery,
+                        shippingfee: widget.shippingfee,
                         isAdding: false,
                       ),
                     ));
@@ -77,9 +83,14 @@ class _ManageAddressState extends State<ManageAddress> {
                 text: 'เพิ่มที่อยู่ใหม่',
                 onClicked: () {
                   Navigator.push(
-                      context,
-                      MaterialPageRoute(
-                          builder: (context) => AddAddress(isUpdating: false)));
+                    context,
+                    MaterialPageRoute(
+                      builder: (context) => AddAddress(
+                        isUpdating: false,
+                        isDelete: false,
+                      ),
+                    ),
+                  );
                 },
               ),
             ),
@@ -137,6 +148,7 @@ class _ManageAddressState extends State<ManageAddress> {
                                     widget.storePoint.longitude,
                                   ),
                                   widget.isDelivery,
+                                  shippingPrice: widget.shippingfee,
                                 );
                               }
 

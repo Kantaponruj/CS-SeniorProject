@@ -16,11 +16,13 @@ class SelectAddress extends StatefulWidget {
     Key key,
     this.storePoint,
     this.isDelivery,
+    this.shippingfee,
     @required this.isAdding,
   }) : super(key: key);
 
   final LatLng storePoint;
   final bool isDelivery;
+  final int shippingfee;
   final bool isAdding;
 
   @override
@@ -100,6 +102,7 @@ class _SelectAddressState extends State<SelectAddress> {
                                   widget.storePoint.longitude,
                                 ),
                                 widget.isDelivery,
+                                shippingPrice: widget.shippingfee,
                               );
                             }
                           }

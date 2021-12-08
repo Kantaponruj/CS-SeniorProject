@@ -142,6 +142,9 @@ class _OrderDetailPageState extends State<OrderDetailPage> {
                             store.currentStore.realtimeLocation.longitude,
                           ),
                           isDelivery: store.currentStore.isDelivery,
+                          shippingfee: int.parse(store.currentStore.shippingfee
+                              .substring(0,
+                                  store.currentStore.shippingfee.length - 2)),
                         ),
                       ),
                     );

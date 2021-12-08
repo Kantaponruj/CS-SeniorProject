@@ -113,7 +113,7 @@ class _HistoryPageState extends State<HistoryPage> {
                                       Navigator.of(context).pushReplacement(
                                         MaterialPageRoute(
                                           builder: (context) =>
-                                              ConfirmOrderDetail(),
+                                              ConfirmOrderDetail(fromHistory: true,),
                                         ),
                                       );
                                     }
@@ -177,7 +177,7 @@ class _HistoryPageState extends State<HistoryPage> {
                                       Navigator.of(context).push(
                                         MaterialPageRoute(
                                           builder: (context) =>
-                                              ConfirmOrderDetail(),
+                                              ConfirmOrderDetail(fromHistory: true,),
                                         ),
                                       );
                                     }

@@ -16,16 +16,17 @@ class MapConfirmedWidet extends StatelessWidget {
 
     // String timeOrdered = activity.currentActivity.timeOrdered;
 
-    final routeColor = CollectionsColors.navy;
+    final routeColor = CollectionsColors.navy.withOpacity(0.6);
     final routeWidth = 5;
     final storeName = "จุดเริ่มต้น";
     final customerName = "ฉัน";
     final driverName = "ร้านค้า";
     final storeIcon = "assets/images/restaurant-marker-icon.png";
     final customerIcon = "assets/images/house-marker-icon.png";
-    final driverIcon = "assets/images/driver-marker-icon.png";
+    final driverIcon = "assets/images/marker_foodstall.png";
 
     return GoogleMapsWidget(
+      padding: EdgeInsets.only(bottom: 20),
       apiKey: GOOGLE_MAPS_API_KEY,
       sourceLatLng: LatLng(
         store.currentStore.realtimeLocation.latitude,

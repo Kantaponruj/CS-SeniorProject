@@ -6,10 +6,14 @@ import 'package:cs_senior_project/component/bottomBar.dart';
 import 'package:cs_senior_project/models/activities.dart';
 import 'package:cs_senior_project/notifiers/activities_notifier.dart';
 import 'package:cs_senior_project/notifiers/user_notifier.dart';
+import 'package:cs_senior_project/screens/order/detail.dart';
 import 'package:cs_senior_project/widgets/button_widget.dart';
 import 'package:cs_senior_project/widgets/map_confirmed_widget.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_phone_direct_caller/flutter_phone_direct_caller.dart';
 import 'package:provider/provider.dart';
+
+import 'confirm_order_detail.dart';
 
 class ConfirmedOrderMapPage extends StatefulWidget {
   const ConfirmedOrderMapPage({Key key}) : super(key: key);
@@ -170,7 +174,7 @@ class _ConfirmedOrderMapPageState extends State<ConfirmedOrderMapPage> {
                                   //   orderedMenu = false;
                                   // });
                                   Navigator.of(context)
-                                      .pushNamed('/confirmOrderDetail');
+                                      .push(MaterialPageRoute(builder: (context) => DetailPage()));
                                 },
                                 child: Text(
                                   'รายละเอียด',
@@ -211,7 +215,10 @@ class _ConfirmedOrderMapPageState extends State<ConfirmedOrderMapPage> {
           ),
           StadiumButtonWidget(
             text: 'โทร',
-            onClicked: () {},
+            onClicked: () async {
+              String number = activity.phoneStore;
+              await FlutterPhoneDirectCaller.callNumber(number);
+            },
           ),
         ],
       ),

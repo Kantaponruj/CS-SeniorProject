@@ -787,12 +787,10 @@ class _OrderDetailPageState extends State<OrderDetailPage> {
                 padding: EdgeInsets.only(top: 20),
                 child: StadiumButtonWidget(
                   text: 'โทรติดต่อผู้ขาย',
-                  onClicked: () {
-                        () async {
+                  onClicked: () async {
                       String number = phone;
                       // launch('tel://$number');
                       await FlutterPhoneDirectCaller.callNumber(number);
-                    };
                   },
                 ),
               ),

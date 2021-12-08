@@ -85,8 +85,8 @@ class _MapWidgetState extends State<MapWidget> {
         final store = storeNotifier.storeList[index];
         return Marker(
           markerId: MarkerId(store.storeId),
-          icon: store.typeOfStore == 'ร้านค้ารถเข็น' ? foodStallIcon : foodTruckIcon,
-          // icon: BitmapDescriptor.defaultMarkerWithHue(_marker),
+          // icon: store.typeOfStore == 'ร้านค้ารถเข็น' ? foodStallIcon : foodTruckIcon,
+          icon: BitmapDescriptor.defaultMarkerWithHue(_marker),
           position: LatLng(
             store.realtimeLocation != null
                 ? store.realtimeLocation.latitude

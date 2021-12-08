@@ -21,6 +21,8 @@ import 'package:cs_senior_project/services/user_service.dart';
 import 'package:cs_senior_project/widgets/datetime_picker_widget.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:geocoding/geocoding.dart';
+import 'package:geolocator/geolocator.dart';
 import 'package:google_maps_flutter/google_maps_flutter.dart';
 import 'package:provider/provider.dart';
 
@@ -45,6 +47,8 @@ class _ShopMenuState extends State<ShopMenu> {
 
   List menuList = [];
   List<MenuModel> _menuList = [];
+
+  var address;
 
   @override
   void initState() {
@@ -83,6 +87,9 @@ class _ShopMenuState extends State<ShopMenu> {
       }
     }
     activity.resetDateTimeOrdered();
+
+    GetAddressFromLatLong();
+
     super.initState();
   }
 
@@ -123,6 +130,22 @@ class _ShopMenuState extends State<ShopMenu> {
         );
       }
     }
+  }
+
+  Future<void> GetAddressFromLatLong() async {
+    StoreNotifier storeNotifier = Provider.of<StoreNotifier>(context);
+    List<Placemark> placemarks = await placemarkFromCoordinates(
+      storeNotifier.currentStore.location.latitude,
+      storeNotifier.currentStore.location.longitude,
+    );
+    print(storeNotifier.currentStore.location.latitude);
+    print(storeNotifier.currentStore.location.longitude);
+    Placemark place = placemarks[0];
+    print('\n\n\nAddress: ' + address.toString());
+    setState(() {
+      address =
+          '${place.street}, ${place.subLocality}, ${place.locality}, ${place.postalCode}, ${place.country}';
+    });
   }
 
   @override
@@ -197,12 +220,13 @@ class _ShopMenuState extends State<ShopMenu> {
                         Color(0xFF219653),
                         Colors.white,
                       )
-                    : chipIconInfo(
-                        Icons.place_outlined,
-                        'address',
-                        Colors.white,
-                        Colors.black,
-                      ),
+                    : SizedBox.shrink(),
+                // chipIconInfo(
+                //   Icons.place_outlined,
+                //   address.toString(),
+                //   Colors.white,
+                //   Colors.black,
+                // ),
               ),
             ],
           ),
@@ -216,7 +240,7 @@ class _ShopMenuState extends State<ShopMenu> {
             SliverAppBar(
               floating: true,
               // snap: true,
-              toolbarHeight: 220,
+              toolbarHeight: storeNotifier.currentStore.isDelivery ? 220 : 80,
               automaticallyImplyLeading: false,
               backgroundColor: Colors.transparent,
               flexibleSpace: Container(
@@ -247,10 +271,12 @@ class _ShopMenuState extends State<ShopMenu> {
                               height: double.infinity,
                             ),
                     ),
-                    Padding(
-                      padding: EdgeInsets.fromLTRB(20, 20, 20, 0),
-                      child: orderTimeAndDate(),
-                    ),
+                    storeNotifier.currentStore.isDelivery
+                        ? Padding(
+                            padding: EdgeInsets.fromLTRB(20, 20, 20, 0),
+                            child: orderTimeAndDate(),
+                          )
+                        : SizedBox.shrink(),
                   ],
                 ),
               ),
@@ -550,25 +576,44 @@ class _ShopMenuState extends State<ShopMenu> {
                           : 'ตอนนี้',
                       style: FontCollection.bodyTextStyle,
                     ),
-                    activity.endWaitingTime != null
-                        ? Container(
-                            child: Row(
-                              children: [
-                                Container(
-                                  padding: EdgeInsets.symmetric(horizontal: 10),
-                                  child: Text(
-                                    'จนถึง',
-                                    style: FontCollection.bodyTextStyle,
-                                  ),
-                                ),
-                                Text(
-                                  '${activity.endWaitingTime} น.',
-                                  style: FontCollection.bodyTextStyle,
-                                ),
-                              ],
+                    Container(
+                      child: Row(
+                        children: [
+                          Container(
+                            padding: EdgeInsets.symmetric(horizontal: 10),
+                            child: Text(
+                              'จนถึง',
+                              style: FontCollection.bodyTextStyle,
                             ),
-                          )
-                        : SizedBox()
+                          ),
+                          Text(
+                            activity.endWaitingTime != null
+                                ? '${activity.endWaitingTime} น.'
+                                : 'กรุณาเลือกเวลา',
+                            style: FontCollection.bodyTextStyle,
+                          ),
+                        ],
+                      ),
+                    ),
+                    // activity.endWaitingTime != null
+                    //     ? Container(
+                    //         child: Row(
+                    //           children: [
+                    //             Container(
+                    //               padding: EdgeInsets.symmetric(horizontal: 10),
+                    //               child: Text(
+                    //                 'จนถึง',
+                    //                 style: FontCollection.bodyTextStyle,
+                    //               ),
+                    //             ),
+                    //             Text(
+                    //               '${activity.endWaitingTime} น.',
+                    //               style: FontCollection.bodyTextStyle,
+                    //             ),
+                    //           ],
+                    //         ),
+                    //       )
+                    //     : SizedBox.shrink()
                   ],
                 ),
                 trailing: IconButton(
@@ -596,6 +641,7 @@ class _ShopMenuState extends State<ShopMenu> {
         width: MediaQuery.of(context).size.width,
         decoration: BoxDecoration(borderRadius: BorderRadius.circular(30)),
         child: Column(
+          mainAxisSize: MainAxisSize.min,
           children: [
             Align(
               alignment: Alignment.topRight,

@@ -330,15 +330,17 @@ class _OrderDetailPageState extends State<OrderDetailPage> {
 
                   location.setCameraPositionMap(location.initialPosition);
                 } else {
-                  Fluttertoast.showToast(
-                    msg: "โปรดระบุช่วงเวลาที่สามารถรอได้",
-                    toastLength: Toast.LENGTH_SHORT,
-                    gravity: ToastGravity.CENTER,
-                    timeInSecForIosWeb: 1,
-                    backgroundColor: Colors.red,
-                    textColor: Colors.white,
-                    fontSize: 16.0,
-                  );
+                  if(store.currentStore.isDelivery) {
+                    Fluttertoast.showToast(
+                      msg: "โปรดระบุช่วงเวลาที่สามารถรอได้",
+                      toastLength: Toast.LENGTH_SHORT,
+                      gravity: ToastGravity.CENTER,
+                      timeInSecForIosWeb: 1,
+                      backgroundColor: Colors.red,
+                      textColor: Colors.white,
+                      fontSize: 16.0,
+                    );
+                  }
                 }
               },
               child: Column(

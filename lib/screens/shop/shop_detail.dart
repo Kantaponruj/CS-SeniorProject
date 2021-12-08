@@ -54,13 +54,14 @@ class _ShopDetailState extends State<ShopDetail> {
 
       return Container(
         child: textCase == 1
-            ? Text(
+            ? AutoSizeText(
                 daysArr[0] + " - " + daysArr[daysArr.length - 1],
                 style: FontCollection.bodyTextStyle,
+          maxLines: 2,
               )
             : Row(
                 children: [
-                  Text(daysArr.join(', '), style: FontCollection.bodyTextStyle)
+                  Expanded(child: AutoSizeText(daysArr.join(', '), style: FontCollection.bodyTextStyle,maxLines: 1,))
                 ],
               ),
       );
@@ -137,33 +138,42 @@ class _ShopDetailState extends State<ShopDetail> {
                           child: Container(
                             margin: EdgeInsets.symmetric(
                                 horizontal: 20, vertical: 20),
-                            child: ListView.builder(
+                            child: ListView.separated(
                               shrinkWrap: true,
                               itemCount: storeNotifier.dateTimeList.length,
                               padding: EdgeInsets.zero,
                               itemBuilder: (context, index) {
                                 return Container(
+                                  padding:
+                                  EdgeInsets.fromLTRB(0, 10, 0, 10),
                                   child: Row(
+                                    mainAxisSize: MainAxisSize.min,
                                     mainAxisAlignment:
                                         MainAxisAlignment.spaceBetween,
                                     children: [
-                                      showDateTime(
+                                      Expanded(
+                                          child: showDateTime(
                                         index,
                                         storeNotifier.dateTimeList[index],
-                                      ),
+                                      )),
+
                                       Container(
-                                        child: Text(
+                                        child: AutoSizeText(
                                           storeNotifier.dateTimeList[index]
                                                   .openTime +
                                               " - " +
                                               storeNotifier.dateTimeList[index]
                                                   .closeTime,
                                           style: FontCollection.bodyTextStyle,
+                                          maxLines: 2,
                                         ),
                                       ),
                                     ],
                                   ),
                                 );
+                              },
+                              separatorBuilder: (context, index) {
+                                return Divider(color: Colors.grey);
                               },
                             ),
                           ),

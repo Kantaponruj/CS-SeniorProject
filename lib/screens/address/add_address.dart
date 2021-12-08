@@ -11,10 +11,13 @@ import 'package:cs_senior_project/screens/address/select_address.dart';
 import 'package:cs_senior_project/services/user_service.dart';
 import 'package:cs_senior_project/widgets/button_widget.dart';
 import 'package:flutter/material.dart';
+import 'package:google_maps_flutter/google_maps_flutter.dart';
 import 'package:provider/provider.dart';
 
 class AddAddress extends StatefulWidget {
-  const AddAddress({Key key}) : super(key: key);
+  const AddAddress({Key key, @required this.isUpdating}) : super(key: key);
+
+  final bool isUpdating;
 
   @override
   _AddAddressState createState() => _AddAddressState();
@@ -22,7 +25,7 @@ class AddAddress extends StatefulWidget {
 
 class _AddAddressState extends State<AddAddress> {
   AddressModel _currentAddress;
-
+  GeoPoint geoPoint;
   TextEditingController addressName = new TextEditingController();
   TextEditingController addressDetail = new TextEditingController();
   TextEditingController residentName = new TextEditingController();
@@ -30,37 +33,68 @@ class _AddAddressState extends State<AddAddress> {
 
   @override
   void initState() {
-    _currentAddress = AddressModel();
+    AddressNotifier address =
+        Provider.of<AddressNotifier>(context, listen: false);
+    LocationNotifier location =
+        Provider.of<LocationNotifier>(context, listen: false);
+    if (widget.isUpdating) {
+      _currentAddress = address.currentAddress;
+      location.currentAddress = _currentAddress.address;
+      geoPoint = _currentAddress.geoPoint;
+      addressName.text = _currentAddress.addressName;
+      addressDetail.text = _currentAddress.addressDetail;
+      residentName.text = _currentAddress.residentName;
+      phone.text = _currentAddress.phone;
+    } else {
+      location.initialization();
+      _currentAddress = AddressModel();
+    }
+    location.resetPosition();
     super.initState();
   }
 
   _onAddAddress(AddressModel address) {
     AddressNotifier addressNotifier =
         Provider.of<AddressNotifier>(context, listen: false);
-    addressNotifier.addAddress(address);
+    if (!widget.isUpdating) {
+      addressNotifier.addAddress(address);
+    }
     Navigator.pop(context);
   }
 
   _saveAddress(LocationNotifier locationNotifier) {
-    UserNotifier userNotifier =
-        Provider.of<UserNotifier>(context, listen: false);
+    AddressNotifier address =
+        Provider.of<AddressNotifier>(context, listen: false);
+    UserNotifier user = Provider.of<UserNotifier>(context, listen: false);
 
     _currentAddress.address = locationNotifier.currentAddress;
-    _currentAddress.geoPoint = locationNotifier.addingPosition != null
-        ? GeoPoint(
-            locationNotifier.addingPosition.latitude,
-            locationNotifier.addingPosition.longitude,
-          )
-        : GeoPoint(
-            locationNotifier.currentPosition.latitude,
-            locationNotifier.currentPosition.longitude,
-          );
     _currentAddress.addressName = addressName.text.trim();
     _currentAddress.addressDetail = addressDetail.text.trim();
     _currentAddress.residentName = residentName.text.trim();
     _currentAddress.phone = phone.text.trim();
 
-    addAddress(_currentAddress, userNotifier.userModel.uid, _onAddAddress);
+    if (widget.isUpdating) {
+      _currentAddress.geoPoint = locationNotifier.addingPosition != LatLng(0, 0)
+          ? GeoPoint(
+              locationNotifier.addingPosition.latitude,
+              locationNotifier.addingPosition.longitude,
+            )
+          : geoPoint;
+      addAddress(_currentAddress, user.userModel.uid, true, _onAddAddress);
+      getAddress(address, user.userModel.uid);
+    } else {
+      _currentAddress.geoPoint = locationNotifier.addingPosition != LatLng(0, 0)
+          ? GeoPoint(
+              locationNotifier.addingPosition.latitude,
+              locationNotifier.addingPosition.longitude,
+            )
+          : GeoPoint(
+              locationNotifier.currentPosition.latitude,
+              locationNotifier.currentPosition.longitude,
+            );
+      addAddress(_currentAddress, user.userModel.uid, false, _onAddAddress);
+    }
+    locationNotifier.resetPosition();
   }
 
   @override
@@ -92,7 +126,8 @@ class _AddAddressState extends State<AddAddress> {
                               onPressed: () {
                                 Navigator.of(context).push(
                                   MaterialPageRoute(
-                                    builder: (context) => SelectAddress(isAdding: true),
+                                    builder: (context) =>
+                                        SelectAddress(isAdding: true),
                                   ),
                                 );
                               },
@@ -109,9 +144,11 @@ class _AddAddressState extends State<AddAddress> {
                         Container(
                           decoration: BoxDecoration(
                               borderRadius: BorderRadius.circular(20)),
-                          child: Text(locationNotifier.currentAddress != null
-                              ? locationNotifier.currentAddress
-                              : 'กรุณาเลือกที่อยู่'),
+                          child: Text(
+                            locationNotifier.currentAddress != null
+                                ? locationNotifier.currentAddress
+                                : 'กรุณาเลือกที่อยู่',
+                          ),
                         ),
                         Container(
                           child: buildTextFormField(
@@ -202,8 +239,12 @@ class _AddAddressState extends State<AddAddress> {
     );
   }
 
-  Widget buildTextFormField(String labelText, String hintText, TextInputType keyboardType,
-      String Function(String) validator, TextEditingController controller) {
+  Widget buildTextFormField(
+      String labelText,
+      String hintText,
+      TextInputType keyboardType,
+      String Function(String) validator,
+      TextEditingController controller) {
     return Padding(
       padding: const EdgeInsets.only(top: 20),
       child: BuildTextField(

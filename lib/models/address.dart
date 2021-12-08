@@ -1,6 +1,7 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 
 class AddressModel {
+  String addressId;
   String address = '';
   String addressName = '';
   String addressDetail = '';
@@ -11,6 +12,7 @@ class AddressModel {
   AddressModel();
 
   AddressModel.fromMap(Map<String, dynamic> data) {
+    addressId = data['addressId'];
     address = data['address'];
     addressName = data['addressName'];
     addressDetail = data['addressDetail'];
@@ -21,6 +23,7 @@ class AddressModel {
 
   Map<String, dynamic> toMap() {
     return {
+      'addressId': addressId,
       'address': address,
       'addressName': addressName,
       'addressDetail': addressDetail,

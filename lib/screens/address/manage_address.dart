@@ -76,8 +76,10 @@ class _ManageAddressState extends State<ManageAddress> {
               child: StadiumButtonWidget(
                 text: 'เพิ่มที่อยู่ใหม่',
                 onClicked: () {
-                  Navigator.push(context,
-                      MaterialPageRoute(builder: (context) => AddAddress()));
+                  Navigator.push(
+                      context,
+                      MaterialPageRoute(
+                          builder: (context) => AddAddress(isUpdating: false)));
                 },
               ),
             ),

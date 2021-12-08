@@ -60,7 +60,6 @@ void main() async {
           '/orderDetail': (context) => OrderDetailPage(),
           '/shopDetail': (context) => ShopDetail(),
           // '/manageAddress': (context) => ManageAddress(),
-          '/addAddress': (context) => AddAddress(),
           // '/setAddress': (context) => Address(),
           '/confirmOrderDetail': (context) => ConfirmOrderDetail(),
         },

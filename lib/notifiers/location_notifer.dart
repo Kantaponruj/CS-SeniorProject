@@ -8,7 +8,7 @@ class LocationNotifier with ChangeNotifier {
   Geolocator geolocator = Geolocator();
   Position _currentPosition;
   String _currentAddress;
-  LatLng _addingPosition;
+  LatLng _addingPosition = LatLng(0, 0);
   AddressModel selectedAddress = AddressModel();
 
   Map<MarkerId, Marker> _marker;
@@ -89,12 +89,16 @@ class LocationNotifier with ChangeNotifier {
 
   set currentAddress(String address) {
     _currentAddress = address;
-    notifyListeners();
+    // notifyListeners();
   }
 
   set addingPosition(LatLng position) {
     _addingPosition = position;
     notifyListeners();
+  }
+
+  resetPosition() {
+    _addingPosition = LatLng(0, 0);
   }
 
   setCameraPositionMap(LatLng position) {

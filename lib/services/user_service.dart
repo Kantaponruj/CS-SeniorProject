@@ -62,13 +62,18 @@ Future<void> getAddress(AddressNotifier addressNotifier, String uid) async {
   addressNotifier.addressList = _addressList;
 }
 
-addAddress(AddressModel address, String uid, Function addAddress) async {
+addAddress(AddressModel address, String uid, bool isUpdating,
+    Function addAddress) async {
   CollectionReference addressRef =
       firebaseFirestore.collection('users').doc(uid).collection('address');
 
-  DocumentReference documentRef = await addressRef.add(address.toMap());
-  await documentRef.set(address.toMap(), SetOptions(merge: true));
-
+  if (isUpdating) {
+    await addressRef.doc(address.addressId).update(address.toMap());
+  } else {
+    DocumentReference documentRef = await addressRef.add(address.toMap());
+    address.addressId = documentRef.id;
+    await documentRef.set(address.toMap(), SetOptions(merge: true));
+  }
   addAddress(address);
 }
 

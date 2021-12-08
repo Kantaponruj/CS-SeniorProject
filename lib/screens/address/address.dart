@@ -61,7 +61,8 @@ class _AddressState extends State<Address> {
                           itemBuilder: (BuildContext context, int index) {
                             return ListTile(
                               title: Text(
-                                  addressNotifier.addressList[index].addressName,
+                                  addressNotifier
+                                      .addressList[index].addressName,
                                   style: FontCollection.bodyTextStyle),
                               subtitle: AutoSizeText(
                                 addressNotifier.addressList[index].address,
@@ -69,7 +70,14 @@ class _AddressState extends State<Address> {
                               ),
                               trailing: GestureDetector(
                                 onTap: () {
-                                  Navigator.of(context).push(MaterialPageRoute(builder: (context) => AddAddress(),),);
+                                  addressNotifier.currentAddress =
+                                      addressNotifier.addressList[index];
+                                  Navigator.of(context).push(
+                                    MaterialPageRoute(
+                                      builder: (context) =>
+                                          AddAddress(isUpdating: true),
+                                    ),
+                                  );
                                 },
                                 child: Icon(Icons.edit),
                               ),
@@ -89,7 +97,8 @@ class _AddressState extends State<Address> {
                           Navigator.push(
                               context,
                               MaterialPageRoute(
-                                  builder: (context) => AddAddress()));
+                                  builder: (context) =>
+                                      AddAddress(isUpdating: false)));
                         },
                       ),
                     ),

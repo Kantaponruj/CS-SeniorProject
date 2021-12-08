@@ -70,9 +70,10 @@ class _HistoryPageState extends State<HistoryPage> {
                                         foregroundColor: Colors.white,
                                         radius: 50.0,
                                         child: Icon(
-                                            stores.currentStore.isDelivery
-                                                ? Icons.local_shipping
-                                                : Icons.directions_walk)),
+                                          activity.typeOrder == 'pick up'
+                                              ? Icons.local_shipping
+                                              : Icons.directions_walk,
+                                        )),
                                   ),
                                   title: buildText(
                                     activity.orderStatus.toString(),
@@ -140,11 +141,15 @@ class _HistoryPageState extends State<HistoryPage> {
                                     width: 50,
                                     alignment: Alignment.topLeft,
                                     child: CircleAvatar(
-                                        backgroundColor:
-                                            CollectionsColors.orange,
-                                        foregroundColor: Colors.white,
-                                        radius: 50.0,
-                                        child: Icon(Icons.local_shipping)),
+                                      backgroundColor: CollectionsColors.orange,
+                                      foregroundColor: Colors.white,
+                                      radius: 50.0,
+                                      child: Icon(
+                                        activity.typeOrder == 'pick up'
+                                            ? Icons.local_shipping
+                                            : Icons.directions_walk,
+                                      ),
+                                    ),
                                   ),
                                   title: buildText(
                                     activity.orderStatus.toString(),

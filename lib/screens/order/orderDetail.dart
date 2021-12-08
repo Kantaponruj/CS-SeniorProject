@@ -24,6 +24,7 @@ import 'package:flutter/material.dart';
 import 'package:google_maps_widget/google_maps_widget.dart';
 import 'package:intl/intl.dart';
 import 'package:provider/provider.dart';
+import 'package:flutter_phone_direct_caller/flutter_phone_direct_caller.dart';
 
 class OrderDetailPage extends StatefulWidget {
   OrderDetailPage({Key key, this.storeId}) : super(key: key);
@@ -267,7 +268,7 @@ class _OrderDetailPageState extends State<OrderDetailPage> {
                           showDialog(
                               context: context,
                               builder: (BuildContext context) {
-                                return cancelOrder();
+                                return cancelOrder(store.currentStore.phone);
                               });
                         },
                         child: Text(
@@ -748,7 +749,7 @@ class _OrderDetailPageState extends State<OrderDetailPage> {
     );
   }
 
-  Widget cancelOrder() {
+  Widget cancelOrder(String phone) {
     return AlertDialog(
       shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(20)),
       title: Container(
@@ -777,7 +778,7 @@ class _OrderDetailPageState extends State<OrderDetailPage> {
               Container(
                 padding: EdgeInsets.only(top: 20),
                 child: Text(
-                  'กรุณาติดต่อผู้ขายที่เบอร์ 08123456789',
+                  'กรุณาติดต่อผู้ขายที่เบอร์ ' + phone,
                   style: FontCollection.bodyTextStyle,
                 ),
               ),
@@ -785,7 +786,13 @@ class _OrderDetailPageState extends State<OrderDetailPage> {
                 padding: EdgeInsets.only(top: 20),
                 child: StadiumButtonWidget(
                   text: 'โทรติดต่อผู้ขาย',
-                  onClicked: () {},
+                  onClicked: () {
+                        () async {
+                      String number = phone;
+                      // launch('tel://$number');
+                      await FlutterPhoneDirectCaller.callNumber(number);
+                    };
+                  },
                 ),
               ),
             ],

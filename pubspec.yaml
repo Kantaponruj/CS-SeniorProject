@@ -51,6 +51,7 @@ dependencies:
   google_maps_place_picker: ^2.1.0-nullsafety.3
   flutter_launcher_icons: ^0.9.2
   custom_splash: ^0.0.2
+  flutter_phone_direct_caller: ^2.0.0
 
 dev_dependencies:
   flutter_test:

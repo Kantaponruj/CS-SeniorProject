@@ -110,6 +110,12 @@ class _TapWidgetState extends State<TapWidget> {
         subtitle: Text(store.kindOfFood.join(', ')),
         trailing: GestureDetector(
           onTap: () {
+            _storeList.forEach((element) {
+              if (element.storeId == store.storeId) {
+                storeNotifier.currentStore = element;
+              }
+            });
+
             locationNotifier.setCameraPositionMap(
               LatLng(
                 storeNotifier.currentStore.realtimeLocation.latitude,

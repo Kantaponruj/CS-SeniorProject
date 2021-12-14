@@ -39,6 +39,7 @@ Future<void> getMenu(StoreNotifier storeNotifier) async {
       .collection(collection)
       .doc(storeNotifier.currentStore.storeId)
       .collection('menu')
+      .where('haveMenu', isEqualTo: true)
       .get();
 
   List<MenuModel> _menuList = [];

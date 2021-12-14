@@ -314,7 +314,9 @@ class _MenuDetailState extends State<MenuDetail> {
 
     storeNotifier.toppingList[indexT].subTopping.forEach(
       (element) {
+        // if (element['haveSubTopping'] == true) {
         defaultSelected.add(false);
+        // }
       },
     );
 
@@ -392,42 +394,63 @@ class _MenuDetailState extends State<MenuDetail> {
               ? Container(
                   color: Colors.white,
                   child: RadioListTile(
-                    title: Text(subtopping['name']),
-                    secondary: Text('+' + subtopping['price']),
-                    value: val,
+                    title: Text(
+                      subtopping['name'],
+                      style: TextStyle(
+                        color: subtopping['haveSubTopping']
+                            ? CollectionsColors.black
+                            : Colors.grey,
+                      ),
+                    ),
+                    secondary: Text(
+                      '+' + subtopping['price'],
+                      style: TextStyle(
+                        color: subtopping['haveSubTopping']
+                            ? CollectionsColors.black
+                            : Colors.grey,
+                      ),
+                    ),
+                    value: subtopping['haveSubTopping'] ? val : null,
                     groupValue: selectedRadioTile,
                     onChanged: (value) {
-                      setSelectedRadioTile(value);
-                      setState(() {
-                        // setSelectedRadioTile(value);
-                        switch (value) {
-                          case 1:
-                            if (amount > 1) {
-                              totalPriceInt +=
-                                  (int.parse(subtopping['price']) * amount);
-                              priceWithTopping = totalPriceInt;
-                              priceWithTopping = priceWithTopping / amount;
-                            } else {
-                              totalPriceInt += int.parse(subtopping['price']);
-                              priceWithTopping = totalPriceInt;
-                            }
-                            selectedTopping.add(subtopping['name']);
-                            // print(selectedTopping);
-                            break;
-                          default:
-                            if (amount > 1) {
-                              totalPriceInt -=
-                                  (int.parse(subtopping['price']) * amount);
-                              priceWithTopping = totalPriceInt;
-                              priceWithTopping = priceWithTopping / amount;
-                            } else {
-                              totalPriceInt -= int.parse(subtopping['price']);
-                              priceWithTopping = totalPriceInt;
-                            }
-                            selectedTopping.remove(subtopping['name']);
-                        }
-                        price = totalPriceInt.toInt().toString();
-                      });
+                      subtopping['haveSubTopping']
+                          ? setState(() {
+                              setSelectedRadioTile(value);
+                              switch (value) {
+                                case 1:
+                                  if (amount > 1) {
+                                    totalPriceInt +=
+                                        (int.parse(subtopping['price']) *
+                                            amount);
+                                    priceWithTopping = totalPriceInt;
+                                    priceWithTopping =
+                                        priceWithTopping / amount;
+                                  } else {
+                                    totalPriceInt +=
+                                        int.parse(subtopping['price']);
+                                    priceWithTopping = totalPriceInt;
+                                  }
+                                  selectedTopping.add(subtopping['name']);
+                                  // print(selectedTopping);
+                                  break;
+                                default:
+                                  if (amount > 1) {
+                                    totalPriceInt -=
+                                        (int.parse(subtopping['price']) *
+                                            amount);
+                                    priceWithTopping = totalPriceInt;
+                                    priceWithTopping =
+                                        priceWithTopping / amount;
+                                  } else {
+                                    totalPriceInt -=
+                                        int.parse(subtopping['price']);
+                                    priceWithTopping = totalPriceInt;
+                                  }
+                                  selectedTopping.remove(subtopping['name']);
+                              }
+                              price = totalPriceInt.toInt().toString();
+                            })
+                          : null;
                     },
                     activeColor: CollectionsColors.yellow,
                     tileColor: CollectionsColors.white,
@@ -437,46 +460,66 @@ class _MenuDetailState extends State<MenuDetail> {
               : Container(
                   color: Colors.white,
                   child: CheckboxListTile(
-                    title: Text(subtopping['name']),
-                    secondary: Text('+' + subtopping['price']),
+                    title: Text(
+                      subtopping['name'],
+                      style: TextStyle(
+                        color: subtopping['haveSubTopping']
+                            ? CollectionsColors.black
+                            : Colors.grey,
+                      ),
+                    ),
+                    secondary: Text(
+                      '+' + subtopping['price'],
+                      style: TextStyle(
+                        color: subtopping['haveSubTopping']
+                            ? CollectionsColors.black
+                            : Colors.grey,
+                      ),
+                    ),
                     controlAffinity: ListTileControlAffinity.leading,
-                    value: isSelectedTopping[indexT][i],
+                    value: subtopping['haveSubTopping']
+                        ? isSelectedTopping[indexT][i]
+                        : false,
                     onChanged: (bool value) {
-                      // isSelectedTopping[indexT][i] = !isSelectedTopping[indexT][i];
-                      // print(i);
-                      // print(isSelectedTopping[indexT]);
+                      subtopping['haveSubTopping']
+                          ? setState(() {
+                              isSelectedTopping[indexT][i] = value;
 
-                      setState(() {
-                        isSelectedTopping[indexT][i] = value;
-
-                        switch (isSelectedTopping[indexT][i]) {
-                          case true:
-                            if (amount > 1) {
-                              totalPriceInt +=
-                                  (int.parse(subtopping['price']) * amount);
-                              priceWithTopping = totalPriceInt;
-                              priceWithTopping = priceWithTopping / amount;
-                            } else {
-                              totalPriceInt += int.parse(subtopping['price']);
-                              priceWithTopping = totalPriceInt;
-                            }
-                            selectedTopping.add(subtopping['name']);
-                            // print(selectedTopping);
-                            break;
-                          default:
-                            if (amount > 1) {
-                              totalPriceInt -=
-                                  (int.parse(subtopping['price']) * amount);
-                              priceWithTopping = totalPriceInt;
-                              priceWithTopping = priceWithTopping / amount;
-                            } else {
-                              totalPriceInt -= int.parse(subtopping['price']);
-                              priceWithTopping = totalPriceInt;
-                            }
-                            selectedTopping.remove(subtopping['name']);
-                        }
-                        price = totalPriceInt.toInt().toString();
-                      });
+                              switch (isSelectedTopping[indexT][i]) {
+                                case true:
+                                  if (amount > 1) {
+                                    totalPriceInt +=
+                                        (int.parse(subtopping['price']) *
+                                            amount);
+                                    priceWithTopping = totalPriceInt;
+                                    priceWithTopping =
+                                        priceWithTopping / amount;
+                                  } else {
+                                    totalPriceInt +=
+                                        int.parse(subtopping['price']);
+                                    priceWithTopping = totalPriceInt;
+                                  }
+                                  selectedTopping.add(subtopping['name']);
+                                  // print(selectedTopping);
+                                  break;
+                                default:
+                                  if (amount > 1) {
+                                    totalPriceInt -=
+                                        (int.parse(subtopping['price']) *
+                                            amount);
+                                    priceWithTopping = totalPriceInt;
+                                    priceWithTopping =
+                                        priceWithTopping / amount;
+                                  } else {
+                                    totalPriceInt -=
+                                        int.parse(subtopping['price']);
+                                    priceWithTopping = totalPriceInt;
+                                  }
+                                  selectedTopping.remove(subtopping['name']);
+                              }
+                              price = totalPriceInt.toInt().toString();
+                            })
+                          : null;
                     },
                     activeColor: CollectionsColors.yellow,
                     checkColor: CollectionsColors.white,

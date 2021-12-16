@@ -1,4 +1,5 @@
 import 'dart:async';
+import 'dart:math';
 
 import 'package:cs_senior_project/asset/color.dart';
 import 'package:cs_senior_project/asset/constant.dart';
@@ -7,6 +8,7 @@ import 'package:cs_senior_project/notifiers/order_notifier.dart';
 import 'package:cs_senior_project/notifiers/user_notifier.dart';
 import 'package:cs_senior_project/screens/login.dart';
 import 'package:cs_senior_project/screens/menu/favorite.dart';
+import 'package:cs_senior_project/screens/shop/menu/edit_user.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 
@@ -164,7 +166,10 @@ class _MenuPageState extends State<MenuPage> {
                 ),
                 Container(
                   child: TextButton(
-                    onPressed: () {},
+                    onPressed: () {
+                      Navigator.of(context).push(MaterialPageRoute(
+                          builder: (context) => EditUserPage()));
+                    },
                     child: Text(
                       'แก้ไข',
                       style: FontCollection.underlineButtonTextStyle,
@@ -178,4 +183,5 @@ class _MenuPageState extends State<MenuPage> {
       ),
     );
   }
+
 }

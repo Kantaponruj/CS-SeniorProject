@@ -1,4 +1,5 @@
 import 'package:cs_senior_project/asset/color.dart';
+import 'package:cs_senior_project/asset/text_style.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 
@@ -210,4 +211,5 @@ class _BuildPlainTextFieldState extends State<BuildPlainTextField> {
       ),
     );
   }
+
 }

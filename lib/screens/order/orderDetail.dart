@@ -120,7 +120,6 @@ class _OrderDetailPageState extends State<OrderDetailPage> {
         child: Container(
           margin: EdgeInsets.fromLTRB(20, 120, 20, 20),
           child: Column(
-            // mainAxisAlignment: MainAxisAlignment.center,
             children: [
               Container(
                 margin: EdgeInsets.only(),
@@ -266,25 +265,6 @@ class _OrderDetailPageState extends State<OrderDetailPage> {
                 ),
                 canEdit: true,
               ),
-              // orderFinish ? SizedBox.shrink() : BuildTextFiled(textEditingController: textEditingController, hintText: hintText),
-              // orderFinish
-              //     ? Container(
-              //         margin: EdgeInsets.only(top: 20),
-              //         child: TextButton(
-              //           onPressed: () {
-              //             showDialog(
-              //                 context: context,
-              //                 builder: (BuildContext context) {
-              //                   return cancelOrder(store.currentStore.phone);
-              //                 });
-              //           },
-              //           child: Text(
-              //             'ยกเลิกคำสั่งซื้อ',
-              //             style: FontCollection.underlineButtonTextStyle,
-              //           ),
-              //         ),
-              //       )
-              //     : SizedBox.shrink(),
             ],
           ),
         ),

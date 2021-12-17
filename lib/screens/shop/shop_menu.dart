@@ -21,8 +21,6 @@ import 'package:cs_senior_project/services/user_service.dart';
 import 'package:cs_senior_project/widgets/datetime_picker_widget.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
-import 'package:geocoding/geocoding.dart';
-import 'package:geolocator/geolocator.dart';
 import 'package:google_maps_flutter/google_maps_flutter.dart';
 import 'package:provider/provider.dart';
 
@@ -34,13 +32,9 @@ class ShopMenu extends StatefulWidget {
 }
 
 class _ShopMenuState extends State<ShopMenu> {
-  // int index = 0;
-  // final items = List.generate(10, (counter) => 'Item: $counter');
   final controller = ScrollController();
   bool isShowBasket = false;
   String selectedAddress;
-
-  // List categories = [];
 
   Favorite _favorite = Favorite();
   bool _isFavorite = false;
@@ -87,9 +81,6 @@ class _ShopMenuState extends State<ShopMenu> {
       }
     }
     activity.resetDateTimeOrdered();
-
-    // GetAddressFromLatLong();
-
     super.initState();
   }
 
@@ -132,22 +123,6 @@ class _ShopMenuState extends State<ShopMenu> {
     }
   }
 
-  // Future<void> GetAddressFromLatLong() async {
-  //   StoreNotifier storeNotifier = Provider.of<StoreNotifier>(context);
-  //   List<Placemark> placemarks = await placemarkFromCoordinates(
-  //     storeNotifier.currentStore.location.latitude,
-  //     storeNotifier.currentStore.location.longitude,
-  //   );
-  //   print(storeNotifier.currentStore.location.latitude);
-  //   print(storeNotifier.currentStore.location.longitude);
-  //   Placemark place = placemarks[0];
-  //   print('\n\n\nAddress: ' + address.toString());
-  //   setState(() {
-  //     address =
-  //         '${place.street}, ${place.subLocality}, ${place.locality}, ${place.postalCode}, ${place.country}';
-  //   });
-  // }
-
   @override
   Widget build(BuildContext context) {
     StoreNotifier storeNotifier = Provider.of<StoreNotifier>(context);
@@ -162,14 +137,6 @@ class _ShopMenuState extends State<ShopMenu> {
         if (storeId == orderStoreId) isShowBasket = true;
       }
     }
-
-    // categories.clear();
-    // storeNotifier.menuList.forEach((menu) {
-    //   if (categories.contains(menu.categoryFood)) {
-    //   } else {
-    //     categories.add(menu.categoryFood);
-    //   }
-    // });
 
     final appBarHeight = 135.0;
 
@@ -189,7 +156,6 @@ class _ShopMenuState extends State<ShopMenu> {
         isFavorite: _isFavorite,
         child: Container(
           height: MediaQuery.of(context).size.height,
-          // margin: EdgeInsets.only(top: appBarHeight),
           padding: EdgeInsets.fromLTRB(40, 110, 0, 40),
           child: Row(
             children: [
@@ -221,12 +187,6 @@ class _ShopMenuState extends State<ShopMenu> {
                         Colors.white,
                       )
                     : SizedBox.shrink(),
-                // chipIconInfo(
-                //   Icons.place_outlined,
-                //   address.toString(),
-                //   Colors.white,
-                //   Colors.black,
-                // ),
               ),
             ],
           ),
@@ -286,11 +246,6 @@ class _ShopMenuState extends State<ShopMenu> {
             margin: EdgeInsets.only(top: 10),
             child: Column(
               children: [
-                // Container(
-                //   height: 80,
-                //   padding: EdgeInsets.fromLTRB(20, 10, 20, 0),
-                //   child: buildHorizontalListView(),
-                // ),
                 Expanded(
                   child: SingleChildScrollView(
                     child: Column(
@@ -348,25 +303,6 @@ class _ShopMenuState extends State<ShopMenu> {
     );
   }
 
-  // Widget buildHorizontalListView(StoreNotifier storeNotifier) =>
-  //     ListView.builder(
-  //       padding: EdgeInsets.all(16),
-  //       scrollDirection: Axis.horizontal,
-  //       physics: NeverScrollableScrollPhysics(),
-  //       // separatorBuilder: (context, index) => Divider(),
-  //       itemCount: storeNotifier.categoriesList.length,
-  //       itemBuilder: (context, index) {
-  //         String category = storeNotifier.categoriesList[index];
-  //         return Container(
-  //           margin: EdgeInsets.only(right: 16),
-  //           child: Text(
-  //             category[index],
-  //             style: FontCollection.topicBoldTextStyle,
-  //           ),
-  //         );
-  //       },
-  //     );
-
   Widget menuCategories(
     String categoryName,
     StoreNotifier storeNotifier,
@@ -396,7 +332,6 @@ class _ShopMenuState extends State<ShopMenu> {
     });
 
     if (menuList.length != storeNotifier.categoriesList.length) {
-      // menuList.add(_menuList);
       menuList.add(_menuList);
     }
 
@@ -414,7 +349,6 @@ class _ShopMenuState extends State<ShopMenu> {
         controller: controller,
         itemCount: menuList[indexC].length,
         itemBuilder: (context, index) {
-          // final item = items[index];
           MenuModel menu = menuList[indexC][index];
           return menuData(storeNotifier, menu);
         },
@@ -432,7 +366,6 @@ class _ShopMenuState extends State<ShopMenu> {
         if (orderNotifier.orderList[i].menuName == menu.name) {
           amount = orderNotifier.orderList[i].amount;
           isOrdered = true;
-          // print(orderNotifier.orderList[i].menuName);
         }
       }
     }
@@ -463,14 +396,7 @@ class _ShopMenuState extends State<ShopMenu> {
                   margin: EdgeInsets.only(top: 15),
                   child: SizedBox(
                     child: menu.image != null
-                        ? Image.network(
-                            menu.image,
-                            // errorBuilder: (BuildContext context, Object exception,
-                            //     StackTrace stackTrace) {
-                            //   return Icon(Icons.image, size: 40.0);
-                            // },
-                            fit: BoxFit.cover,
-                          )
+                        ? Image.network(menu.image, fit: BoxFit.cover)
                         : Image.asset(
                             'assets/images/default-photo.png',
                             fit: BoxFit.cover,
@@ -595,25 +521,6 @@ class _ShopMenuState extends State<ShopMenu> {
                         ],
                       ),
                     ),
-                    // activity.endWaitingTime != null
-                    //     ? Container(
-                    //         child: Row(
-                    //           children: [
-                    //             Container(
-                    //               padding: EdgeInsets.symmetric(horizontal: 10),
-                    //               child: Text(
-                    //                 'จนถึง',
-                    //                 style: FontCollection.bodyTextStyle,
-                    //               ),
-                    //             ),
-                    //             Text(
-                    //               '${activity.endWaitingTime} น.',
-                    //               style: FontCollection.bodyTextStyle,
-                    //             ),
-                    //           ],
-                    //         ),
-                    //       )
-                    //     : SizedBox.shrink()
                   ],
                 ),
                 trailing: IconButton(
@@ -685,14 +592,6 @@ class _ShopMenuState extends State<ShopMenu> {
                         ],
                       ),
                     ),
-                    // Align(
-                    //   alignment: Alignment.topLeft,
-                    //   child: Text(
-                    //     'สถานที่การรับ/จัดส่งสินค้า',
-                    //     style: FontCollection.bodyTextStyle,
-                    //   ),
-                    // ),
-                    // meetingPlace(),
                   ],
                 ),
               ),
@@ -705,7 +604,6 @@ class _ShopMenuState extends State<ShopMenu> {
 
   Widget meetingPlace() {
     AddressNotifier address = Provider.of<AddressNotifier>(context);
-    // UserNotifier user = Provider.of<UserNotifier>(context);
     LocationNotifier location = Provider.of<LocationNotifier>(context);
 
     return Container(

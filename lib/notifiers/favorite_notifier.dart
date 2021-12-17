@@ -7,14 +7,12 @@ import 'package:flutter/material.dart';
 class FavoriteNotifier with ChangeNotifier {
   List<Favorite> _favoriteList = [];
   List<Store> _favStoresList = [];
-  // Favorite _currentFavorite;
 
   UnmodifiableListView<Favorite> get favoriteList =>
       UnmodifiableListView(_favoriteList);
 
   UnmodifiableListView<Store> get favStoresList =>
       UnmodifiableListView(_favStoresList);
-  // Favorite get currentFavorite => _currentFavorite;
 
   set favoriteList(List<Favorite> favoriteList) {
     _favoriteList = favoriteList;
@@ -25,11 +23,6 @@ class FavoriteNotifier with ChangeNotifier {
     _favStoresList = storeList;
     notifyListeners();
   }
-
-  // set currentFavorite(Favorite favorite) {
-  //   _currentFavorite = favorite;
-  //   notifyListeners();
-  // }
 
   addFavorite(Favorite favorite) {
     _favoriteList.insert(_favoriteList.length, favorite);

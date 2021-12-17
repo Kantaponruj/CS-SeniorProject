@@ -6,7 +6,6 @@ import 'package:cs_senior_project/notifiers/favorite_notifier.dart';
 import 'package:cs_senior_project/notifiers/location_notifer.dart';
 import 'package:cs_senior_project/notifiers/order_notifier.dart';
 import 'package:cs_senior_project/notifiers/user_notifier.dart';
-import 'package:cs_senior_project/screens/address/add_address.dart';
 import 'package:cs_senior_project/screens/login.dart';
 import 'package:cs_senior_project/screens/order/confirm_order_map.dart';
 import 'package:cs_senior_project/screens/order/confirm_order_detail.dart';
@@ -50,17 +49,13 @@ void main() async {
           scaffoldBackgroundColor: CollectionsColors.grey,
           buttonColor: CollectionsColors.yellow,
         ),
-        //home: MyApp(),
         home: SplashPage(),
-        // initialRoute: '/',
         routes: {
           '/shopMenu': (context) => ShopMenu(),
           '/menuDetail': (context) => MenuDetail(),
           '/confirmOrderMap': (context) => ConfirmedOrderMapPage(),
           '/orderDetail': (context) => OrderDetailPage(),
           '/shopDetail': (context) => ShopDetail(),
-          // '/manageAddress': (context) => ManageAddress(),
-          // '/setAddress': (context) => Address(),
           '/confirmOrderDetail': (context) => ConfirmOrderDetail(),
         },
       )));

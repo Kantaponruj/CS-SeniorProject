@@ -4,7 +4,6 @@ import 'package:cs_senior_project/component/bottomBar.dart';
 import 'package:cs_senior_project/component/textformfield.dart';
 import 'package:cs_senior_project/notifiers/user_notifier.dart';
 import 'package:cs_senior_project/screens/forget_password.dart';
-import 'package:cs_senior_project/screens/home.dart';
 import 'package:cs_senior_project/screens/register.dart';
 import 'package:cs_senior_project/widgets/button_widget.dart';
 import 'package:cs_senior_project/widgets/loading_widget.dart';
@@ -20,9 +19,6 @@ class LoginPage extends StatefulWidget {
 
 class _LoginPageState extends State<LoginPage> {
   final formKey = GlobalKey<ScaffoldState>();
-
-  // String email = '';
-  // String password = '';
 
   void register(BuildContext context) {
     Navigator.of(context).push(
@@ -154,7 +150,6 @@ class _LoginPageState extends State<LoginPage> {
           return null;
         }
       },
-      // onSaved: (value) => setState(() => email = value),
     );
   }
 
@@ -181,7 +176,6 @@ class _LoginPageState extends State<LoginPage> {
       text: 'เข้าสู่ระบบ',
       width: 150,
       onClicked: () async {
-        // final isValid = formKey.currentState.validate();
         if (!await authNotifier.signIn()) {
           ScaffoldMessenger.of(context).showSnackBar(const SnackBar(
               content: Text("อีเมลหรือรหัสไม่ถูกต้อง โปรดลองใหม่อีกครั้ง")));

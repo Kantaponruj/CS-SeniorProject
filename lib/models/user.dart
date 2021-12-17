@@ -1,15 +1,6 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 
 class UserModel {
-  // static const UID = "uid";
-  // static const DISPLAYNAME = "displayName";
-  // static const EMAIL = "email";
-  // static const ADDRESS = "address";
-  // static const PHONE = "phone";
-  // static const TOKEN = "token";
-  // static const IMAGE = "image";
-  // static const REALTIMELOCATION = "realtimeLocation";
-
   String _uid;
   String _displayName;
   String _email;

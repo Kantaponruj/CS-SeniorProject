@@ -57,11 +57,16 @@ class _ShopDetailState extends State<ShopDetail> {
             ? AutoSizeText(
                 daysArr[0] + " - " + daysArr[daysArr.length - 1],
                 style: FontCollection.bodyTextStyle,
-          maxLines: 2,
+                maxLines: 2,
               )
             : Row(
                 children: [
-                  Expanded(child: AutoSizeText(daysArr.join(', '), style: FontCollection.bodyTextStyle,maxLines: 1,))
+                  Expanded(
+                      child: AutoSizeText(
+                    daysArr.join(', '),
+                    style: FontCollection.bodyTextStyle,
+                    maxLines: 1,
+                  ))
                 ],
               ),
       );
@@ -93,25 +98,23 @@ class _ShopDetailState extends State<ShopDetail> {
             children: [
               Expanded(
                 flex: 4,
-                child: Column(
-                    // padding: EdgeInsets.only(top: 80),
-                    children: [
-                      Expanded(
-                        child: storeNotifier.currentStore.image != ""
-                            ? Image.network(
-                                storeNotifier.currentStore.image,
-                                fit: BoxFit.cover,
-                                width: double.infinity,
-                                height: double.infinity,
-                              )
-                            : Image.asset(
-                                'assets/images/default-photo.png',
-                                fit: BoxFit.cover,
-                                width: double.infinity,
-                                height: double.infinity,
-                              ),
-                      ),
-                    ]),
+                child: Column(children: [
+                  Expanded(
+                    child: storeNotifier.currentStore.image != ""
+                        ? Image.network(
+                            storeNotifier.currentStore.image,
+                            fit: BoxFit.cover,
+                            width: double.infinity,
+                            height: double.infinity,
+                          )
+                        : Image.asset(
+                            'assets/images/default-photo.png',
+                            fit: BoxFit.cover,
+                            width: double.infinity,
+                            height: double.infinity,
+                          ),
+                  ),
+                ]),
               ),
               Expanded(
                 flex: 8,
@@ -144,8 +147,7 @@ class _ShopDetailState extends State<ShopDetail> {
                               padding: EdgeInsets.zero,
                               itemBuilder: (context, index) {
                                 return Container(
-                                  padding:
-                                  EdgeInsets.fromLTRB(0, 10, 0, 10),
+                                  padding: EdgeInsets.fromLTRB(0, 10, 0, 10),
                                   child: Row(
                                     mainAxisSize: MainAxisSize.min,
                                     mainAxisAlignment:
@@ -156,7 +158,6 @@ class _ShopDetailState extends State<ShopDetail> {
                                         index,
                                         storeNotifier.dateTimeList[index],
                                       )),
-
                                       Container(
                                         child: AutoSizeText(
                                           storeNotifier.dateTimeList[index]

@@ -1,6 +1,5 @@
 import 'package:auto_size_text/auto_size_text.dart';
 import 'package:cs_senior_project/asset/color.dart';
-import 'package:cs_senior_project/asset/constant.dart';
 import 'package:cs_senior_project/asset/text_style.dart';
 import 'package:cs_senior_project/component/bottomBar.dart';
 import 'package:cs_senior_project/component/orderCard.dart';
@@ -60,7 +59,6 @@ class _ConfirmOrderDetailState extends State<ConfirmOrderDetail> {
   @override
   Widget build(BuildContext context) {
     ActivitiesNotifier activity = Provider.of<ActivitiesNotifier>(context);
-    String orderStatusCheck = activity.currentActivity.orderStatus;
 
     return Scaffold(
       extendBodyBehindAppBar: true,
@@ -91,7 +89,6 @@ class _ConfirmOrderDetailState extends State<ConfirmOrderDetail> {
         child: Container(
           margin: EdgeInsets.fromLTRB(20, 120, 20, 20),
           child: Column(
-            // mainAxisAlignment: MainAxisAlignment.center,
             children: [
               Container(
                 margin: EdgeInsets.only(),
@@ -101,8 +98,6 @@ class _ConfirmOrderDetailState extends State<ConfirmOrderDetail> {
                   activity.currentActivity.address,
                 ),
               ),
-              // deliTimeCard(_activities.dateOrdered, _activities.timeOrdered),
-              // meetingTimeCard('21 เมษายน 2564', '12.30 น.'),
               BuildCard(
                 headerText: 'สรุปการสั่งซื้อ',
                 onClicked: () {},
@@ -227,7 +222,6 @@ class _ConfirmOrderDetailState extends State<ConfirmOrderDetail> {
                 ),
                 canEdit: false,
               ),
-              // orderFinish ? SizedBox.shrink() : BuildTextFiled(textEditingController: textEditingController, hintText: hintText),
               (activity.currentActivity.orderStatus == 'จัดส่งเรียบร้อยแล้ว')
                   ? SizedBox.shrink()
                   : Container(
@@ -237,7 +231,8 @@ class _ConfirmOrderDetailState extends State<ConfirmOrderDetail> {
                           showDialog(
                               context: context,
                               builder: (BuildContext context) {
-                                return cancelOrder(activity.currentActivity.phoneStore);
+                                return cancelOrder(
+                                    activity.currentActivity.phoneStore);
                               });
                         },
                         child: Text(

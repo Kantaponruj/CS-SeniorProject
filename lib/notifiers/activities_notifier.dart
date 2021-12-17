@@ -11,7 +11,6 @@ class ActivitiesNotifier with ChangeNotifier {
   Activity _currentActivity;
 
   String _dateOrdered;
-  // String _timeOrdered;
   String _startWaitingTime;
   String _endWaitingTime;
   String _arrivableTime;
@@ -24,7 +23,6 @@ class ActivitiesNotifier with ChangeNotifier {
   Activity get currentActivity => _currentActivity;
 
   String get dateOrdered => _dateOrdered;
-  // String get timeOrdered => _timeOrdered;
   String get startWaitingTime => _startWaitingTime;
   String get endWaitingTime => _endWaitingTime;
   String get arrivableTime => _arrivableTime;
@@ -70,17 +68,4 @@ class ActivitiesNotifier with ChangeNotifier {
   getArrivableTime(String time) {
     _arrivableTime = time;
   }
-
-  // calculateEstimateTime(int estimateTime, int timeOrdered) {
-  //   int arrivableTime;
-  //   arrivableTime = estimateTime + timeOrdered;
-
-  //   if (arrivableTime == 60) {
-  //     arrivableTime = 00;
-  //   } else if (arrivableTime > 60) {
-  //     arrivableTime = estimateTime;
-  //   }
-
-  //   _arrivableTime = arrivableTime.toString();
-  // }
 }

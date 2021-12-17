@@ -74,8 +74,10 @@ class _AddressState extends State<Address> {
                                       addressNotifier.addressList[index];
                                   Navigator.of(context).push(
                                     MaterialPageRoute(
-                                      builder: (context) =>
-                                          AddAddress(isUpdating: true, isDelete: true,),
+                                      builder: (context) => AddAddress(
+                                        isUpdating: true,
+                                        isDelete: true,
+                                      ),
                                     ),
                                   );
                                 },
@@ -97,8 +99,10 @@ class _AddressState extends State<Address> {
                           Navigator.push(
                               context,
                               MaterialPageRoute(
-                                  builder: (context) =>
-                                      AddAddress(isUpdating: false,isDelete: false,)));
+                                  builder: (context) => AddAddress(
+                                        isUpdating: false,
+                                        isDelete: false,
+                                      )));
                         },
                       ),
                     ),
@@ -111,30 +115,4 @@ class _AddressState extends State<Address> {
       // ),
     );
   }
-
-// Widget selectedOnMap() {
-//   return Container(
-//     child: Column(
-//       children: [
-//         Container(
-//           margin: EdgeInsets.only(bottom: 20),
-//           child: StadiumButtonWidget(
-//             text: 'เลือกบนแผนที่',
-//             onClicked: () {
-//               Navigator.of(context).push(
-//                 MaterialPageRoute(
-//                   builder: (context) => SelectAddress(isAdding: false),
-//                 ),
-//               );
-//             },
-//           ),
-//         ),
-//         Padding(
-//           padding: const EdgeInsets.only(bottom: 20),
-//           child: Divider(),
-//         ),
-//       ],
-//     ),
-//   );
-// }
 }

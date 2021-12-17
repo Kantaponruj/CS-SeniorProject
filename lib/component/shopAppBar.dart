@@ -78,13 +78,14 @@ class _ShopRoundedAppBarState extends State<ShopRoundedAppBar> {
             ),
             child: widget.child,
           ),
-          // elevation: 10,
-          // titleSpacing: 20,
           leading: widget.leading,
           actions: [
             IconButton(
               onPressed: widget.onClicked,
-              icon: Icon(Icons.info, color: Colors.black,),
+              icon: Icon(
+                Icons.info,
+                color: Colors.black,
+              ),
             ),
           ],
         ),
@@ -173,13 +174,22 @@ class _ShopRoundedFavAppBarState extends State<ShopRoundedFavAppBar> {
             IconButton(
               padding: EdgeInsets.only(right: 0),
               icon: widget.isFavorite
-                  ? Icon(Icons.bookmark, color: Colors.black,)
-                  : Icon(Icons.bookmark_border_outlined, color: Colors.black,),
+                  ? Icon(
+                      Icons.bookmark,
+                      color: Colors.black,
+                    )
+                  : Icon(
+                      Icons.bookmark_border_outlined,
+                      color: Colors.black,
+                    ),
               onPressed: widget.onSaved,
             ),
             IconButton(
               onPressed: widget.onClicked,
-              icon: Icon(Icons.info, color: Colors.black,),
+              icon: Icon(
+                Icons.info,
+                color: Colors.black,
+              ),
             ),
           ],
         ),

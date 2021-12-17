@@ -6,7 +6,6 @@ class Store {
   bool isPickUp;
   String storeName;
   List kindOfFood;
-  // String email;
   String image;
   String phone;
   String address;
@@ -14,13 +13,10 @@ class Store {
   GeoPoint location;
   String description;
   GeoPoint realtimeLocation;
-  // bool deliveryStatus;
   bool storeStatus;
   String typeOfStore;
   String shippingfee;
   String distanceForOrder;
-
-  // Store();
 
   Store.fromMap(Map<String, dynamic> data) {
     storeId = data['storeId'];

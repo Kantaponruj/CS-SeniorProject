@@ -1,7 +1,6 @@
 import 'package:auto_size_text/auto_size_text.dart';
 import 'package:cs_senior_project/asset/color.dart';
 import 'package:cs_senior_project/asset/text_style.dart';
-import 'package:cs_senior_project/component/bottomBar.dart';
 import 'package:cs_senior_project/component/orderCard.dart';
 import 'package:cs_senior_project/component/shopAppBar.dart';
 import 'package:cs_senior_project/models/order.dart';
@@ -21,7 +20,6 @@ class _DetailPageState extends State<DetailPage> {
   @override
   Widget build(BuildContext context) {
     ActivitiesNotifier activity = Provider.of<ActivitiesNotifier>(context);
-    String orderStatusCheck = activity.currentActivity.orderStatus;
 
     return Scaffold(
       extendBodyBehindAppBar: true,
@@ -40,7 +38,6 @@ class _DetailPageState extends State<DetailPage> {
         child: Container(
           margin: EdgeInsets.fromLTRB(20, 120, 20, 20),
           child: Column(
-            // mainAxisAlignment: MainAxisAlignment.center,
             children: [
               Container(
                 margin: EdgeInsets.only(),
@@ -50,8 +47,6 @@ class _DetailPageState extends State<DetailPage> {
                   activity.currentActivity.address,
                 ),
               ),
-              // deliTimeCard(_activities.dateOrdered, _activities.timeOrdered),
-              // meetingTimeCard('21 เมษายน 2564', '12.30 น.'),
               BuildCard(
                 headerText: 'สรุปการสั่งซื้อ',
                 onClicked: () {},
@@ -82,7 +77,7 @@ class _DetailPageState extends State<DetailPage> {
                             children: [
                               Row(
                                 mainAxisAlignment:
-                                MainAxisAlignment.spaceBetween,
+                                    MainAxisAlignment.spaceBetween,
                                 children: [
                                   Container(
                                     child: AutoSizeText('ค่าอาหารทั้งหมด'),
@@ -95,7 +90,7 @@ class _DetailPageState extends State<DetailPage> {
                                         Container(
                                           padding: EdgeInsets.only(left: 20),
                                           child:
-                                          AutoSizeText('บาท', maxLines: 1),
+                                              AutoSizeText('บาท', maxLines: 1),
                                         ),
                                       ],
                                     ),
@@ -104,7 +99,7 @@ class _DetailPageState extends State<DetailPage> {
                               ),
                               Row(
                                 mainAxisAlignment:
-                                MainAxisAlignment.spaceBetween,
+                                    MainAxisAlignment.spaceBetween,
                                 children: [
                                   Container(
                                     child: AutoSizeText('ค่าส่ง'),
@@ -117,7 +112,7 @@ class _DetailPageState extends State<DetailPage> {
                                         Container(
                                           padding: EdgeInsets.only(left: 20),
                                           child:
-                                          AutoSizeText('บาท', maxLines: 1),
+                                              AutoSizeText('บาท', maxLines: 1),
                                         ),
                                       ],
                                     ),
@@ -126,7 +121,7 @@ class _DetailPageState extends State<DetailPage> {
                               ),
                               Row(
                                 mainAxisAlignment:
-                                MainAxisAlignment.spaceBetween,
+                                    MainAxisAlignment.spaceBetween,
                                 children: [
                                   Container(
                                     child: AutoSizeText(
@@ -140,7 +135,7 @@ class _DetailPageState extends State<DetailPage> {
                                         AutoSizeText(
                                           activity.currentActivity.netPrice,
                                           style:
-                                          FontCollection.bodyBoldTextStyle,
+                                              FontCollection.bodyBoldTextStyle,
                                         ),
                                         Container(
                                           padding: EdgeInsets.only(left: 20),
@@ -233,43 +228,43 @@ class _DetailPageState extends State<DetailPage> {
           order.topping.isEmpty
               ? SizedBox.shrink()
               : Container(
-            margin: EdgeInsets.only(top: 10),
-            child: Column(
-              children: [
-                Row(
-                  children: [
-                    Expanded(
-                      flex: 2,
-                      child: Container(),
-                    ),
-                    Expanded(
-                      flex: 10,
-                      child: Row(children: [
-                        Text(
-                          order.topping.join(', '),
-                          style: TextStyle(
-                            fontWeight: FontWeight.w400,
-                            fontSize: smallestSize,
-                            color: Colors.black54,
+                  margin: EdgeInsets.only(top: 10),
+                  child: Column(
+                    children: [
+                      Row(
+                        children: [
+                          Expanded(
+                            flex: 2,
+                            child: Container(),
                           ),
-                        )
-                      ]),
-                    ),
-                  ],
+                          Expanded(
+                            flex: 10,
+                            child: Row(children: [
+                              Text(
+                                order.topping.join(', '),
+                                style: TextStyle(
+                                  fontWeight: FontWeight.w400,
+                                  fontSize: smallestSize,
+                                  color: Colors.black54,
+                                ),
+                              )
+                            ]),
+                          ),
+                        ],
+                      ),
+                    ],
+                  ),
                 ),
-              ],
-            ),
-          ),
         ],
       ),
     );
   }
 
   Widget customerDeliCard(
-      String name,
-      String phoneNumber,
-      String address,
-      ) {
+    String name,
+    String phoneNumber,
+    String address,
+  ) {
     return BuildCard(
       headerText: 'ข้อมูลผู้สั่งซื้อ',
       child: Container(
@@ -321,5 +316,4 @@ class _DetailPageState extends State<DetailPage> {
       canEdit: false,
     );
   }
-
 }

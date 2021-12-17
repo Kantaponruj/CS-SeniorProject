@@ -69,13 +69,11 @@ class UserNotifier with ChangeNotifier {
               email: email.text.trim(), password: password.text.trim())
           .then((result) async {
         SharedPreferences prefs = await SharedPreferences.getInstance();
-        String _deviceToken = await fcm.getToken();
         await prefs.setString("uid", result.user.uid);
         _userService.createUser(
           uid: result.user.uid,
           displayName: displayName.text.trim(),
           email: email.text.trim(),
-          token: _deviceToken,
           phone: phone.text.trim(),
         );
       });

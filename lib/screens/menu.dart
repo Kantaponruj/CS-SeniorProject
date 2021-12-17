@@ -1,6 +1,3 @@
-import 'dart:async';
-import 'dart:math';
-
 import 'package:cs_senior_project/asset/color.dart';
 import 'package:cs_senior_project/asset/constant.dart';
 import 'package:cs_senior_project/asset/text_style.dart';
@@ -22,8 +19,6 @@ class MenuPage extends StatefulWidget {
 }
 
 class _MenuPageState extends State<MenuPage> {
-  List<Widget> _children;
-
   @override
   Widget build(BuildContext context) {
     UserNotifier userNotifier = Provider.of<UserNotifier>(context);
@@ -69,11 +64,6 @@ class _MenuPageState extends State<MenuPage> {
                   ));
                 },
               ),
-              // menuCard(
-              //   Icons.calendar_today,
-              //   'การนัดหมาย',
-              //   () {},
-              // ),
               menuCard(
                 Icons.place,
                 'ที่อยู่',
@@ -183,5 +173,4 @@ class _MenuPageState extends State<MenuPage> {
       ),
     );
   }
-
 }

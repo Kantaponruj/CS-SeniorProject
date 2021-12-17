@@ -69,11 +69,6 @@ class _FavoritePageState extends State<FavoritePage> {
             child: CircleAvatar(
               backgroundColor: CollectionsColors.yellow,
               radius: 40.0,
-              // child: Text(
-              //   nameUpperCase,
-              //   style: FontCollection.topicBoldTextStyle,
-              //   textAlign: TextAlign.left,
-              // ),
               backgroundImage: NetworkImage(store.image),
             ),
           ),

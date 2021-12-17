@@ -26,8 +26,6 @@ class ToppingModel {
   String detail;
   List<dynamic> subTopping = [];
 
-  // ToppingModel();
-
   ToppingModel.fromMap(Map<String, dynamic> data) {
     toppingId = data['toppingId'];
     type = data['type'];

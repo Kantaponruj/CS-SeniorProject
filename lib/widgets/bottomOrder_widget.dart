@@ -19,7 +19,6 @@ class _BottomOrderState extends State<BottomOrder> {
   @override
   Widget build(BuildContext context) {
     return Container(
-      // height: 200,
       padding: EdgeInsets.symmetric(horizontal: 20, vertical: 20),
       decoration: BoxDecoration(
         borderRadius: BorderRadius.vertical(top: Radius.circular(20)),
@@ -62,7 +61,6 @@ class _BottomOrderDetailState extends State<BottomOrderDetail> {
   @override
   Widget build(BuildContext context) {
     return Container(
-      // height: 200,
       padding: EdgeInsets.symmetric(horizontal: 20, vertical: 20),
       decoration: BoxDecoration(
         borderRadius: BorderRadius.vertical(top: Radius.circular(20)),
@@ -101,7 +99,6 @@ class _BottomButtonState extends State<BottomButton> {
   @override
   Widget build(BuildContext context) {
     return Container(
-      // height: 200,
       padding: EdgeInsets.symmetric(horizontal: 20, vertical: 20),
       decoration: BoxDecoration(
         borderRadius: BorderRadius.vertical(top: Radius.circular(20)),

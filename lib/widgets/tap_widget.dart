@@ -77,7 +77,6 @@ class _TapWidgetState extends State<TapWidget> {
                   fit: BoxFit.fill,
                   width: 60,
                   height: 60,
-                  // 'https://www.testingxperts.com/wp-content/uploads/2019/02/placeholder-img.jpg',
                 )
               : Image.asset(
                   'assets/images/default-photo.png',
@@ -87,22 +86,6 @@ class _TapWidgetState extends State<TapWidget> {
                 ),
           clipper: MyClip(),
         ),
-        // Container(
-        //   width: 60,
-        //   height: 60,
-        //   decoration: BoxDecoration(
-        //       shape: BoxShape.circle,
-        //       image: DecorationImage(
-        //         fit: BoxFit.cover,
-        //         image: store.image != null
-        //             ? NetworkImage(store.image,
-        //                 // 'https://www.testingxperts.com/wp-content/uploads/2019/02/placeholder-img.jpg',
-        //                 )
-        //             : AssetImage(
-        //                 'assets/images/default-photo.png',
-        //               ),
-        //       )),
-        // ),
         title: Text(
           store.storeName,
           style: TextStyle(fontSize: 18),

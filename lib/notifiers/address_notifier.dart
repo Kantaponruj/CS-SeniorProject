@@ -6,14 +6,11 @@ import 'package:flutter/material.dart';
 class AddressNotifier with ChangeNotifier {
   List<AddressModel> _addressList = [];
   AddressModel _currentAddress;
-  // String _selectedAddress;
 
   UnmodifiableListView<AddressModel> get addressList =>
       UnmodifiableListView(_addressList);
 
   AddressModel get currentAddress => _currentAddress;
-
-  // String get selectedAddress => _selectedAddress;
 
   set addressList(List<AddressModel> addressList) {
     _addressList = addressList;
@@ -35,9 +32,4 @@ class AddressNotifier with ChangeNotifier {
         .removeWhere((_address) => _address.addressId == address.addressId);
     notifyListeners();
   }
-
-  // setSelectedAddress(String address) {
-  //   _selectedAddress = address;
-  //   notifyListeners();
-  // }
 }

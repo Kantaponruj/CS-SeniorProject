@@ -1,9 +1,8 @@
-import 'dart:typed_data';
-import 'dart:ui' as ui;
+// import 'dart:typed_data';
+// import 'dart:ui' as ui;
 import 'package:cs_senior_project/notifiers/location_notifer.dart';
 import 'package:cs_senior_project/widgets/loading_widget.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter/services.dart';
 import 'package:google_maps_flutter/google_maps_flutter.dart';
 import 'package:google_maps_widget/google_maps_widget.dart';
 import 'package:provider/provider.dart';
@@ -77,7 +76,6 @@ class _MapWidgetState extends State<MapWidget> {
   Widget build(BuildContext context) {
     StoreNotifier storeNotifier = Provider.of<StoreNotifier>(context);
     LocationNotifier locationNotifier = Provider.of<LocationNotifier>(context);
-
 
     Iterable _markers = Iterable.generate(
       storeNotifier.storeList.length,

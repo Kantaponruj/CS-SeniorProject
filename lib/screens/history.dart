@@ -113,7 +113,9 @@ class _HistoryPageState extends State<HistoryPage> {
                                       Navigator.of(context).push(
                                         MaterialPageRoute(
                                           builder: (context) =>
-                                              ConfirmOrderDetail(fromHistory: true,),
+                                              ConfirmOrderDetail(
+                                            fromHistory: true,
+                                          ),
                                         ),
                                       );
                                     }
@@ -177,7 +179,9 @@ class _HistoryPageState extends State<HistoryPage> {
                                       Navigator.of(context).push(
                                         MaterialPageRoute(
                                           builder: (context) =>
-                                              ConfirmOrderDetail(fromHistory: true,),
+                                              ConfirmOrderDetail(
+                                            fromHistory: true,
+                                          ),
                                         ),
                                       );
                                     }
@@ -245,7 +249,6 @@ class _HistoryPageState extends State<HistoryPage> {
                   ),
                 ),
                 Container(
-                  // alignment: Alignment.topRight,
                   child: Text(
                     date,
                     style: FontCollection.bodyTextStyle,
@@ -261,7 +264,6 @@ class _HistoryPageState extends State<HistoryPage> {
               children: [
                 childAddress,
                 Container(
-                  // alignment: Alignment.bottomRight,
                   child: AutoSizeText(
                     price,
                     style: FontCollection.bodyTextStyle,

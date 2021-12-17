@@ -2,7 +2,6 @@ import 'package:cs_senior_project/asset/text_style.dart';
 import 'package:cs_senior_project/component/appBar.dart';
 import 'package:cs_senior_project/component/textformfield.dart';
 import 'package:cs_senior_project/notifiers/user_notifier.dart';
-import 'package:cs_senior_project/screens/forget_password.dart';
 import 'package:cs_senior_project/widgets/button_widget.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';

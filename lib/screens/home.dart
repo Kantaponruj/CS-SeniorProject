@@ -29,10 +29,6 @@ class _HomePageState extends State<HomePage> {
 
   String query = ' ';
 
-  // static const double heightClosed = 200;
-  // static const double fabHeightClosed = heightClosed + 20;
-  // double fabHeight = fabHeightClosed;
-
   @override
   void initState() {
     AddressNotifier address =
@@ -48,13 +44,9 @@ class _HomePageState extends State<HomePage> {
 
   @override
   Widget build(BuildContext context) {
-    // final initialSizeOpen = 0.3
-    // // MediaQuery.of(context).size.height * 0.1
-    //     ;
     UserNotifier userNotifier = Provider.of<UserNotifier>(context);
 
     return Scaffold(
-      // extendBodyBehindAppBar: true,
       appBar: HomeAppBar(
         onclicked: () {
           setState(() {
@@ -70,13 +62,11 @@ class _HomePageState extends State<HomePage> {
         },
       ),
       body: Stack(
-        // fit: StackFit.expand,
         children: [
           SlidingUpPanel(
             color: Theme.of(context).backgroundColor,
             controller: panelController,
             borderRadius: BorderRadius.vertical(top: Radius.circular(30)),
-            // maxHeight: MediaQuery.of(context).size.height,
             panelBuilder: (scrollController) => ClipRRect(
               borderRadius: BorderRadius.vertical(top: Radius.circular(30)),
               child: buildSlidingPanel(
@@ -93,12 +83,6 @@ class _HomePageState extends State<HomePage> {
       ),
     );
   }
-
-  // Widget buildSearch() => SearchWidget(
-  //   text:query,
-  //   hintText: 'Title or Author Name',
-  //   // onChanged: searchBook,
-  // );
 
   Widget buildDragHandle() => GestureDetector(
         child: Center(

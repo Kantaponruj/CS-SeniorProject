@@ -21,19 +21,6 @@ Stream<QuerySnapshot> getStores(bool isDelivery) {
       .snapshots();
 }
 
-// Future<void> getStores(StoreNotifier storeNotifier) async {
-//   QuerySnapshot snapshot = await firebaseFirestore.collection(collection).get();
-
-//   List<Store> _storeList = [];
-
-//   snapshot.docs.forEach((document) {
-//     Store store = Store.fromMap(document.data());
-//     _storeList.add(store);
-//   });
-
-//   storeNotifier.storeList = _storeList;
-// }
-
 Future<void> getMenu(StoreNotifier storeNotifier) async {
   QuerySnapshot snapshot = await firebaseFirestore
       .collection(collection)

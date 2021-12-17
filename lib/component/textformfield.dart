@@ -1,5 +1,4 @@
 import 'package:cs_senior_project/asset/color.dart';
-import 'package:cs_senior_project/asset/text_style.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 
@@ -137,7 +136,8 @@ class _BuildPasswordFieldState extends State<BuildPasswordField> {
             borderSide: BorderSide(color: CollectionsColors.red, width: 2.0),
           ),
           suffixIcon: IconButton(
-            icon: isHidden ? Icon(Icons.visibility_off) : Icon(Icons.visibility),
+            icon:
+                isHidden ? Icon(Icons.visibility_off) : Icon(Icons.visibility),
             disabledColor: Colors.grey,
             focusColor: CollectionsColors.orange,
             color: Colors.black.withOpacity(0.6),
@@ -211,5 +211,4 @@ class _BuildPlainTextFieldState extends State<BuildPlainTextField> {
       ),
     );
   }
-
 }

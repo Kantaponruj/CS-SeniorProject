@@ -13,7 +13,6 @@ class LocationNotifier with ChangeNotifier {
 
   Map<MarkerId, Marker> _marker;
   final MarkerId markerIdUser = MarkerId("userLocation");
-  // Set<Marker> _markers = {};
 
   static LatLng _initialPosition;
   GoogleMapController mapController;

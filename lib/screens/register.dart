@@ -1,5 +1,4 @@
 import 'package:cs_senior_project/asset/color.dart';
-import 'package:cs_senior_project/asset/constant.dart';
 import 'package:cs_senior_project/asset/text_style.dart';
 import 'package:cs_senior_project/component/bottomBar.dart';
 import 'package:cs_senior_project/component/textformfield.dart';
@@ -19,9 +18,6 @@ class RegisterPage extends StatefulWidget {
 
 class _RegisterPageState extends State<RegisterPage> {
   final formKey = GlobalKey<ScaffoldState>();
-
-  // String username = '';
-  // String email = '';
   String password = '';
 
   void login(BuildContext context) {
@@ -144,7 +140,6 @@ class _RegisterPageState extends State<RegisterPage> {
         }
       },
       maxLength: 30,
-      // onSaved: (value) => setState(() => username = value),
     );
   }
 
@@ -166,7 +161,6 @@ class _RegisterPageState extends State<RegisterPage> {
           return null;
         }
       },
-      // onSaved: (value) => setState(() => email = value),
     );
   }
 
@@ -198,7 +192,6 @@ class _RegisterPageState extends State<RegisterPage> {
           return null;
         }
       },
-      // onSaved: (value) => setState(() => password = value),
     );
   }
 

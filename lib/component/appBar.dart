@@ -30,7 +30,10 @@ class _RoundedAppBarState extends State<RoundedAppBar> {
           iconTheme: IconThemeData(
             color: Colors.black, //change your color here
           ),
-          title: Text(widget.appBarTitle, style: FontCollection.topicTextStyle,),
+          title: Text(
+            widget.appBarTitle,
+            style: FontCollection.topicTextStyle,
+          ),
           toolbarHeight: 100,
           flexibleSpace: Container(
             decoration: BoxDecoration(
@@ -45,9 +48,6 @@ class _RoundedAppBarState extends State<RoundedAppBar> {
           titleSpacing: 20,
         ),
       );
-// {
-//   return
-// }
 }
 
 class HomeAppBar extends StatefulWidget implements PreferredSizeWidget {
@@ -81,7 +81,10 @@ class _HomeAppBarState extends State<HomeAppBar> {
           child: Container(
             child: Row(
               children: [
-                Icon(Icons.location_on, color: Colors.black,),
+                Icon(
+                  Icons.location_on,
+                  color: Colors.black,
+                ),
                 Expanded(
                   child: Container(
                     margin: EdgeInsets.only(left: 20),
@@ -103,7 +106,10 @@ class _HomeAppBarState extends State<HomeAppBar> {
         actions: [
           IconButton(
             onPressed: widget.onclicked,
-            icon: Icon(Icons.navigate_next_outlined, color: Colors.black,),
+            icon: Icon(
+              Icons.navigate_next_outlined,
+              color: Colors.black,
+            ),
           ),
         ],
         toolbarHeight: 100,

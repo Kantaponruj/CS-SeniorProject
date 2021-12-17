@@ -30,8 +30,6 @@ class _MenuDetailState extends State<MenuDetail> {
   List isSelectedTopping = [];
   List selectedTopping = [];
   int selectedRadioTile = 0;
-
-  // List<Map<String, dynamic>> subToppingList = [];
   int totalSubTopping = 0;
 
   OrderModel order;
@@ -153,8 +151,6 @@ class _MenuDetailState extends State<MenuDetail> {
     StoreNotifier storeNotifier = Provider.of<StoreNotifier>(context);
     final double imgHeight = MediaQuery.of(context).size.height / 4;
 
-    // getTopping(storeNotifier, widget.storeId, widget.menuId);
-
     return SafeArea(
       child: Scaffold(
         backgroundColor: CollectionsColors.grey,
@@ -231,13 +227,9 @@ class _MenuDetailState extends State<MenuDetail> {
               TextFormField(
                 controller: otherController,
                 decoration: InputDecoration(
-                  // errorText: 'Error message',
                   hintText: 'ใส่ข้อความตรงนี้',
                   border: OutlineInputBorder(
                       borderRadius: BorderRadius.circular(10)),
-                  // suffixIcon: Icon(
-                  //   Icons.error,
-                  // ),
                 ),
               ),
               Container(
@@ -307,24 +299,19 @@ class _MenuDetailState extends State<MenuDetail> {
   List defaultSelected = [];
 
   Widget moreCard(StoreNotifier storeNotifier, int indexT) {
-    // defaultSelected.clear();
     if (storeNotifier.toppingList.length > 1) {
       defaultSelected.clear();
     }
 
     storeNotifier.toppingList[indexT].subTopping.forEach(
       (element) {
-        // if (element['haveSubTopping'] == true) {
         defaultSelected.add(false);
-        // }
       },
     );
 
     if (isSelectedTopping.length != storeNotifier.toppingList.length) {
       isSelectedTopping.add(defaultSelected);
-      // isSelectedTopping.sort((a, b) => a.length.compareTo(b.length));
     }
-    // print(isSelectedTopping);
 
     return Container(
       margin: EdgeInsets.only(top: 20),

@@ -13,8 +13,6 @@ import 'package:flutter/material.dart';
 import 'package:flutter_phone_direct_caller/flutter_phone_direct_caller.dart';
 import 'package:provider/provider.dart';
 
-import 'confirm_order_detail.dart';
-
 class ConfirmedOrderMapPage extends StatefulWidget {
   const ConfirmedOrderMapPage({Key key}) : super(key: key);
 
@@ -23,7 +21,6 @@ class ConfirmedOrderMapPage extends StatefulWidget {
 }
 
 class _ConfirmedOrderMapPageState extends State<ConfirmedOrderMapPage> {
-  // int arrivableTime;
   bool orderStatus;
 
   @override
@@ -49,14 +46,6 @@ class _ConfirmedOrderMapPageState extends State<ConfirmedOrderMapPage> {
       checkStatus();
     });
   }
-
-  // void calculateEstimateTime(int estimateTime, int timeOrdered) {
-  //   arrivableTime = estimateTime + timeOrdered;
-
-  //   if (arrivableTime >= 60) {
-  //     arrivableTime = 00;
-  //   }
-  // }
 
   @override
   Widget build(BuildContext context) {
@@ -115,10 +104,6 @@ class _ConfirmedOrderMapPageState extends State<ConfirmedOrderMapPage> {
                     arrivableTime != null
                         ? 'จะได้รับภายใน ${arrivableTime} นาที'
                         : '',
-                    // arrivableTime != null
-                    //     ? 'จะได้รับในเวลา ${activity.timeOrdered.substring(0, 3)}' +
-                    //         arrivableTime
-                    //     : '',
                     style: FontCollection.topicTextStyle,
                   ),
                 ),
@@ -135,18 +120,8 @@ class _ConfirmedOrderMapPageState extends State<ConfirmedOrderMapPage> {
                     height: 80,
                     child: CircleAvatar(
                       backgroundImage: activity.storeImage.isNotEmpty
-                          ? NetworkImage(
-                              activity.storeImage,
-                              // fit: BoxFit.cover,
-                              // width: double.infinity,
-                              // height: double.infinity,
-                            )
-                          : AssetImage(
-                              'assets/images/default-photo.png',
-                              // fit: BoxFit.cover,
-                              // width: double.infinity,
-                              // height: double.infinity,
-                            ),
+                          ? NetworkImage(activity.storeImage)
+                          : AssetImage('assets/images/default-photo.png'),
                       radius: 60,
                     ),
                   ),
@@ -169,12 +144,8 @@ class _ConfirmedOrderMapPageState extends State<ConfirmedOrderMapPage> {
                               alignment: Alignment.topRight,
                               child: TextButton(
                                 onPressed: () {
-                                  // setState(() {
-                                  //   orderFinish = true;
-                                  //   orderedMenu = false;
-                                  // });
-                                  Navigator.of(context)
-                                      .push(MaterialPageRoute(builder: (context) => DetailPage()));
+                                  Navigator.of(context).push(MaterialPageRoute(
+                                      builder: (context) => DetailPage()));
                                 },
                                 child: Text(
                                   'รายละเอียด',

@@ -42,13 +42,20 @@ class _OrderDetailPageState extends State<OrderDetailPage> {
   DateFormat timeFormat = DateFormat.Hm('cs');
 
   Activity _activities = Activity();
-
+  List<OrderModel> orderList = [];
   TextEditingController otherMessageController = new TextEditingController();
 
   @override
   void initState() {
     UserNotifier user = Provider.of<UserNotifier>(context, listen: false);
+    OrderNotifier order = Provider.of<OrderNotifier>(context, listen: false);
     user.reloadUserModel();
+    orderList.clear();
+    order.orderList.forEach((order) {
+      if (order.storeId == widget.storeId) {
+        orderList.add(order);
+      }
+    });
     super.initState();
   }
 
@@ -166,12 +173,9 @@ class _OrderDetailPageState extends State<OrderDetailPage> {
                           shrinkWrap: true,
                           padding: EdgeInsets.zero,
                           physics: NeverScrollableScrollPhysics(),
-                          itemCount: order.orderList.length,
+                          itemCount: orderList.length,
                           itemBuilder: (context, index) {
-                            return (order.orderList[index].storeId ==
-                                    widget.storeId)
-                                ? listOrder(order.orderList[index])
-                                : Container();
+                            return listOrder(orderList[index]);
                           },
                           separatorBuilder: (context, index) => Divider(
                             color: Colors.grey,
@@ -362,7 +366,7 @@ class _OrderDetailPageState extends State<OrderDetailPage> {
                     activity.resetDateTimeOrdered();
                     order.orderList.removeWhere(
                         (order) => order.storeId == store.currentStore.storeId);
-
+                    orderList.clear();
                     location.setCameraPositionMap(location.initialPosition);
                   }
                 }

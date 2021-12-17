@@ -183,8 +183,8 @@ class _LoginPageState extends State<LoginPage> {
       onClicked: () async {
         // final isValid = formKey.currentState.validate();
         if (!await authNotifier.signIn()) {
-          ScaffoldMessenger.of(context)
-              .showSnackBar(const SnackBar(content: Text("Login failed")));
+          ScaffoldMessenger.of(context).showSnackBar(const SnackBar(
+              content: Text("อีเมลหรือรหัสไม่ถูกต้อง โปรดลองใหม่อีกครั้ง")));
           return;
         }
         authNotifier.clearController();

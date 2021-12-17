@@ -95,8 +95,8 @@ class UserNotifier with ChangeNotifier {
     return Future.delayed(Duration.zero);
   }
 
-  resetPassword() {
-    auth.sendPasswordResetEmail(email: email.text.trim());
+  resetPassword(String email) {
+    auth.sendPasswordResetEmail(email: email);
   }
 
   void clearController() {

@@ -54,15 +54,9 @@ class _ForgetPasswordPageState extends State<ForgetPasswordPage> {
               text: 'ตั้งรหัสผ่านใหม่',
               width: 150,
               onClicked: () async {
-                // final isValid = formKey.currentState.validate();
-                // if (!await authNotifier.signIn()) {
-                //   ScaffoldMessenger.of(context).showSnackBar(
-                //       const SnackBar(content: Text("ส่งเข้าอีเมลเรียบร้อยแล้ว")));
-                //   return;
-                // }
-                ScaffoldMessenger.of(context).showSnackBar(
-                    const SnackBar(content: Text("ส่งเข้าอีเมลเรียบร้อยแล้ว")));
-                authNotifier.resetPassword();
+                ScaffoldMessenger.of(context).showSnackBar(const SnackBar(
+                    content: Text("โปรดตรวจสอบกล่องจดหมายในอีเมลของท่าน")));
+                authNotifier.resetPassword(authNotifier.email.text.trim());
                 authNotifier.clearController();
                 Navigator.pushAndRemoveUntil(
                     context,

@@ -1,9 +1,11 @@
-import 'package:cs_senior_project/asset/color.dart';
 import 'package:cs_senior_project/asset/text_style.dart';
 import 'package:cs_senior_project/component/appBar.dart';
 import 'package:cs_senior_project/component/textformfield.dart';
+import 'package:cs_senior_project/notifiers/user_notifier.dart';
+import 'package:cs_senior_project/screens/forget_password.dart';
 import 'package:cs_senior_project/widgets/button_widget.dart';
 import 'package:flutter/material.dart';
+import 'package:provider/provider.dart';
 
 class EditUserPage extends StatefulWidget {
   EditUserPage({Key key}) : super(key: key);
@@ -13,6 +15,20 @@ class EditUserPage extends StatefulWidget {
 }
 
 class _EditUserPageState extends State<EditUserPage> {
+  TextEditingController email = TextEditingController();
+  TextEditingController name = TextEditingController();
+  TextEditingController phone = TextEditingController();
+
+  @override
+  void initState() {
+    UserNotifier userNotifier =
+        Provider.of<UserNotifier>(context, listen: false);
+    email.text = userNotifier.userModel.email;
+    name.text = userNotifier.userModel.displayName;
+    phone.text = userNotifier.userModel.phone;
+    super.initState();
+  }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -30,6 +46,8 @@ class _EditUserPageState extends State<EditUserPage> {
   }
 
   Widget storeSection() {
+    UserNotifier user = Provider.of<UserNotifier>(context);
+
     return Card(
       shape: RoundedRectangleBorder(
         borderRadius: BorderRadius.circular(20),
@@ -73,7 +91,12 @@ class _EditUserPageState extends State<EditUserPage> {
                     ),
                   ),
                   GestureDetector(
-                    onTap: () {},
+                    onTap: () {
+                      ScaffoldMessenger.of(context).showSnackBar(const SnackBar(
+                          content:
+                              Text("โปรดตรวจสอบกล่องจดหมายในอีเมลของท่าน")));
+                      user.resetPassword(user.userModel.email);
+                    },
                     child: Container(
                       alignment: Alignment.centerLeft,
                       child: Text(
@@ -117,15 +140,26 @@ class _EditUserPageState extends State<EditUserPage> {
                 'กรุณากรอกเบอร์โทรศัพท์',
               ),
             ),
+            Container(
+              margin: EdgeInsets.only(top: 20),
+              child: StadiumButtonWidget(
+                text: 'บันทึก',
+                onClicked: () {
+                  user.updateUserData({
+                    'email': email.text.trim(),
+                    'displayName': name.text.trim(),
+                    'phone': phone.text.trim(),
+                  });
+                  Navigator.pop(context);
+                  user.reloadUserModel();
+                },
+              ),
+            ),
           ],
         ),
       ),
     );
   }
-
-  TextEditingController email;
-  TextEditingController name;
-  TextEditingController phone;
 
   Widget buildTextField(String headerText, TextEditingController controller,
       TextInputType keyboardType, Function(String) validator, String hintText) {

@@ -72,3 +72,19 @@ class BuildCard extends StatelessWidget {
     );
   }
 }
+
+class BuildPlainCard extends StatelessWidget {
+  BuildPlainCard({Key key, this.child}) : super(key: key);
+
+  final Widget child;
+
+  @override
+  Widget build(BuildContext context) {
+    return Card(
+      shape: RoundedRectangleBorder(
+        borderRadius: BorderRadius.circular(20),
+      ),
+      child: child,
+    );
+  }
+}

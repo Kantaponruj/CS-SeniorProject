@@ -6,12 +6,15 @@ import 'package:cs_senior_project/component/orderCard.dart';
 import 'package:cs_senior_project/component/shopAppBar.dart';
 import 'package:cs_senior_project/models/order.dart';
 import 'package:cs_senior_project/notifiers/activities_notifier.dart';
+import 'package:cs_senior_project/notifiers/store_notifier.dart';
 import 'package:cs_senior_project/notifiers/user_notifier.dart';
 import 'package:cs_senior_project/screens/shop/shop_detail.dart';
 import 'package:cs_senior_project/services/user_service.dart';
 import 'package:cs_senior_project/widgets/button_widget.dart';
+import 'package:cs_senior_project/widgets/icontext_widget.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_phone_direct_caller/flutter_phone_direct_caller.dart';
+import 'package:intl/intl.dart';
 import 'package:provider/provider.dart';
 
 class ConfirmOrderDetail extends StatefulWidget {
@@ -50,6 +53,10 @@ class _ConfirmOrderDetailState extends State<ConfirmOrderDetail> {
     );
     if (activity.currentActivity.orderStatus == 'ยืนยันการจัดส่ง') {
       Navigator.of(context).pushReplacementNamed('/confirmOrderMap');
+    } else if(activity.currentActivity.orderStatus == 'ปรุงอาหารเสร็จเรียบร้อย') {
+      Navigator.of(context).pushReplacement(MaterialPageRoute(builder: (context) => bottomBar()));
+    } else {
+    setState(() {});
     }
     Future.delayed(Duration(seconds: 2), () {
       checkStatus();
@@ -59,6 +66,9 @@ class _ConfirmOrderDetailState extends State<ConfirmOrderDetail> {
   @override
   Widget build(BuildContext context) {
     ActivitiesNotifier activity = Provider.of<ActivitiesNotifier>(context);
+
+    final height = 80.0;
+    final width = 80.0;
 
     return Scaffold(
       extendBodyBehindAppBar: true,
@@ -90,14 +100,174 @@ class _ConfirmOrderDetailState extends State<ConfirmOrderDetail> {
           margin: EdgeInsets.fromLTRB(20, 120, 20, 20),
           child: Column(
             children: [
+              (activity.currentActivity.orderStatus == 'จัดส่งเรียบร้อยแล้ว')
+                  ? SizedBox.shrink()
+                  : BuildPlainCard(
+                      child: Container(
+                        padding:
+                            EdgeInsets.symmetric(horizontal: 20, vertical: 20),
+                        child: Row(
+                          mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                          children: [
+                            Container(
+                              child: Text(
+                                'สถานะคำสั่งซื้อ',
+                                style: FontCollection.bodyBoldTextStyle,
+                              ),
+                            ),
+                            Container(
+                              child: Text(
+                                activity.currentActivity.orderStatus ==
+                                        'ยืนยันคำสั่งซื้อ'
+                                    ? 'ยืนยันคำสั่งซื้อ'
+                                    : 'รอการยืนยัน',
+                                style: FontCollection.bodyTextStyle,
+                              ),
+                            ),
+                          ],
+                        ),
+                      ),
+                    ),
               Container(
-                margin: EdgeInsets.only(),
+                margin: EdgeInsets.only(top: 10),
+                child: BuildCard(
+                  headerText: 'ข้อมูลร้านค้า',
+                  child: Container(
+                    padding: EdgeInsets.symmetric(vertical: 20),
+                    child: Column(
+                      children: [
+                        ListTile(
+                          leading: CircleAvatar(
+                            backgroundColor: CollectionsColors.navy,
+                            radius: 35.0,
+                            child: Icon(
+                              Icons.store,
+                              color: CollectionsColors.white,
+                            ),
+                          ),
+                          title: Text(
+                            activity.currentActivity.storeName,
+                            style: FontCollection.bodyTextStyle,
+                            textAlign: TextAlign.left,
+                          ),
+                          subtitle: Text(
+                            activity.currentActivity.phoneStore,
+                            style: FontCollection.bodyTextStyle,
+                          ),
+                          trailing: GestureDetector(
+                            onTap: () async {
+                              String number =
+                                  activity.currentActivity.phoneStore;
+                              await FlutterPhoneDirectCaller.callNumber(number);
+                            },
+                            child: Container(
+                              width: width,
+                              height: height,
+                              alignment: Alignment.center,
+                              decoration: BoxDecoration(
+                                color: CollectionsColors.yellow,
+                                shape: BoxShape.circle,
+                                boxShadow: [
+                                  BoxShadow(
+                                      color: Colors.grey.withOpacity(0.7),
+                                      blurRadius: 1,
+                                      offset: Offset(-0.5, 2))
+                                ],
+                              ),
+                              child: Icon(
+                                Icons.call,
+                                color: Colors.white,
+                              ),
+                            ),
+                          ),
+                        ),
+                      ],
+                    ),
+                  ),
+                  canEdit: false,
+                ),
+              ),
+              Container(
                 child: customerDeliCard(
                   activity.currentActivity.customerName,
                   activity.currentActivity.phone,
                   activity.currentActivity.address,
                 ),
               ),
+              activity.currentActivity.typeOrder == 'pick up'
+                  ? SizedBox.shrink()
+                  : BuildCard(
+                      headerText: 'เวลานัดหมาย',
+                      child: Container(
+                        padding:
+                            EdgeInsets.symmetric(horizontal: 30, vertical: 20),
+                        child: Column(
+                          children: [
+                            Padding(
+                              padding: const EdgeInsets.only(bottom: 15),
+                              child: BuildIconText(
+                                icon: Icons.calendar_today,
+                                text: activity.dateOrdered != null
+                                    ? activity.dateOrdered
+                                    : DateFormat('d MMMM y')
+                                        .format(DateTime.now()),
+                              ),
+                            ),
+                            BuildIconText(
+                              icon: Icons.access_time,
+                              // text:
+                              // activity.startWaitingTime == null
+                              //     ? 'ตอนนี้'
+                              //     : activity.startWaitingTime.toString(),
+                              child: Row(
+                                children: [
+                                  Container(
+                                    child: Text(
+                                      activity.startWaitingTime == null
+                                          ? 'ตอนนี้'
+                                          : activity.startWaitingTime
+                                                  .toString() +
+                                              '  น.',
+                                      style: FontCollection.bodyTextStyle,
+                                    ),
+                                  ),
+                                  activity.endWaitingTime == null
+                                      ? SizedBox.shrink()
+                                      : Container(
+                                          padding: EdgeInsets.symmetric(
+                                              horizontal: 20),
+                                          child: Text(
+                                            'จนถึง',
+                                            style: FontCollection.bodyTextStyle,
+                                          ),
+                                        ),
+                                  activity.endWaitingTime == null
+                                      ? SizedBox.shrink()
+                                      : Container(
+                                          child: activity.endWaitingTime == null
+                                              ? Text(
+                                                  'กรุณากรอกเวลา',
+                                                  style: TextStyle(
+                                                      fontSize: 16,
+                                                      color: CollectionsColors
+                                                          .orange),
+                                                )
+                                              : Text(
+                                                  activity.endWaitingTime
+                                                          .toString() +
+                                                      '  น.',
+                                                  style: FontCollection
+                                                      .bodyTextStyle,
+                                                ),
+                                        ),
+                                ],
+                              ),
+                            ),
+                          ],
+                        ),
+                      ),
+                      canEdit: false,
+                    ),
               BuildCard(
                 headerText: 'สรุปการสั่งซื้อ',
                 onClicked: () {},

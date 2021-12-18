@@ -19,6 +19,7 @@ import 'package:cs_senior_project/screens/shop/shop_detail.dart';
 import 'package:cs_senior_project/services/user_service.dart';
 import 'package:cs_senior_project/widgets/bottomOrder_widget.dart';
 import 'package:cs_senior_project/widgets/button_widget.dart';
+import 'package:cs_senior_project/widgets/icontext_widget.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:google_maps_widget/google_maps_widget.dart';
@@ -157,6 +158,74 @@ class _OrderDetailPageState extends State<OrderDetailPage> {
                   },
                 ),
               ),
+              _activities.typeOrder == 'pick up'
+                  ? SizedBox.shrink()
+                  : BuildCard(
+                      headerText: 'เวลานัดหมาย',
+                      child: Container(
+                        padding:
+                            EdgeInsets.symmetric(horizontal: 30, vertical: 20),
+                        child: Column(
+                          children: [
+                            Padding(
+                              padding: const EdgeInsets.only(bottom: 15),
+                              child: BuildIconText(
+                                icon: Icons.calendar_today,
+                                text: activity.dateOrdered != null
+                                    ? activity.dateOrdered
+                                    : DateFormat('d MMMM y')
+                                        .format(DateTime.now()),
+                              ),
+                            ),
+                            BuildIconText(
+                              icon: Icons.access_time,
+                              // text:
+                              // activity.startWaitingTime == null
+                              //     ? 'ตอนนี้'
+                              //     : activity.startWaitingTime.toString(),
+                              child: Row(
+                                children: [
+                                  Container(
+                                    child: Text(
+                                      activity.startWaitingTime == null
+                                          ? 'ตอนนี้'
+                                          : activity.startWaitingTime
+                                                  .toString() +
+                                              '  น.',
+                                      style: FontCollection.bodyTextStyle,
+                                    ),
+                                  ),
+                                  Container(
+                                    padding:
+                                        EdgeInsets.symmetric(horizontal: 20),
+                                    child: Text(
+                                      'จนถึง',
+                                      style: FontCollection.bodyTextStyle,
+                                    ),
+                                  ),
+                                  Container(
+                                    child: activity.endWaitingTime == null
+                                        ? Text(
+                                            'กรุณากรอกเวลา',
+                                            style: TextStyle(
+                                                fontSize: 16,
+                                                color:
+                                                    CollectionsColors.orange),
+                                          )
+                                        : Text(
+                                            activity.endWaitingTime.toString() +
+                                                '  น.',
+                                            style: FontCollection.bodyTextStyle,
+                                          ),
+                                  ),
+                                ],
+                              ),
+                            ),
+                          ],
+                        ),
+                      ),
+                      canEdit: false,
+                    ),
               BuildCard(
                 headerText: 'สรุปการสั่งซื้อ',
                 editText: 'เพิ่มเมนู',

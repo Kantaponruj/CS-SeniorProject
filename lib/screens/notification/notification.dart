@@ -30,9 +30,9 @@ class _NotificationsPageState extends State<NotificationsPage> {
           child: Column(
             children: <Widget>[
               buildCard(
-                'ใกล้ถึงเวลานัด !',
-                'อีก 10 นาทีจะถึงเวลานัดของคุณกับร้านโตเกียวหน้า ม.',
-                '12.42',
+                'ไอศกรีมไผ่ทองโปรสุดพิเศษ',
+                'เพียงซื้อไอศกรีมร้านไผ่ทอง 8-10 ก.ย. 64',
+                '12.59',
               ),
               buildCard(
                 'ใกล้ถึงเวลานัด !',
@@ -69,6 +69,7 @@ class _NotificationsPageState extends State<NotificationsPage> {
               alignment: Alignment.topLeft,
               child: CircleAvatar(
                 backgroundColor: CollectionsColors.yellow,
+                foregroundImage: AssetImage('assets/images/default-photo.png'),
                 radius: 80.0,
                 child: Text(
                   '1',

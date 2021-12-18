@@ -21,6 +21,8 @@ import 'package:cs_senior_project/services/user_service.dart';
 import 'package:cs_senior_project/widgets/datetime_picker_widget.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:geocoding/geocoding.dart';
+import 'package:geolocator/geolocator.dart';
 import 'package:google_maps_flutter/google_maps_flutter.dart';
 import 'package:provider/provider.dart';
 
@@ -81,6 +83,10 @@ class _ShopMenuState extends State<ShopMenu> {
       }
     }
     activity.resetDateTimeOrdered();
+    getPlace(
+      store.currentStore.realtimeLocation.latitude,
+      store.currentStore.realtimeLocation.longitude,
+    );
     super.initState();
   }
 
@@ -123,6 +129,32 @@ class _ShopMenuState extends State<ShopMenu> {
     }
   }
 
+  String addressDetail = '';
+
+  Future<void> getPlace(var latitude, var longitude) async {
+    List<Placemark> placemark = await placemarkFromCoordinates(
+      latitude,
+      longitude,
+    localeIdentifier: 'TH',);
+    List<Placemark> placemarks = await placemarkFromCoordinates(52.2165157, 6.9437819);
+
+    Placemark placeMark = placemark[0];
+    String name = placeMark.name;
+    String street = placeMark.street;
+    String subLocality = placeMark.subLocality;
+    String locality = placeMark.locality;
+    String administrativeArea = placeMark.administrativeArea;
+    String _address =
+        "${street}, ${subLocality}, ${locality}, ${administrativeArea}";
+
+    setState(() {
+      addressDetail = _address;
+      print(addressDetail);
+    });
+    // print(address);
+  }
+
+
   @override
   Widget build(BuildContext context) {
     StoreNotifier storeNotifier = Provider.of<StoreNotifier>(context);
@@ -164,6 +196,7 @@ class _ShopMenuState extends State<ShopMenu> {
                 '${orderNotifier.distance ?? ''} กม.',
                 Color(0xFFC4C4C4),
                 Colors.black,
+                null,
               ),
               Padding(
                 padding: const EdgeInsets.only(left: 10),
@@ -185,8 +218,15 @@ class _ShopMenuState extends State<ShopMenu> {
                         '${orderNotifier.shippingFee} บาท',
                         Color(0xFF219653),
                         Colors.white,
+                  null,
                       )
-                    : SizedBox.shrink(),
+                    : chipIconInfo(
+                        Icons.location_on,
+                        addressDetail,
+                        Colors.white,
+                        Colors.black,
+                  150,
+                      ),
               ),
             ],
           ),
@@ -687,7 +727,7 @@ class _ShopMenuState extends State<ShopMenu> {
   }
 
   Widget chipIconInfo(
-      IconData icon, String text, Color color, Color textColor) {
+      IconData icon, String text, Color color, Color textColor, double size) {
     return Container(
       padding: EdgeInsets.fromLTRB(10, 5, 10, 5),
       decoration: BoxDecoration(
@@ -708,14 +748,17 @@ class _ShopMenuState extends State<ShopMenu> {
             size: 20,
             color: textColor,
           ),
-          Padding(
+          Container(
+            width: size == null ? null : size,
             padding: const EdgeInsets.only(left: 5),
-            child: Text(
+            child: AutoSizeText(
               text,
               style: TextStyle(
                 fontSize: 12,
                 color: textColor,
               ),
+              overflow: TextOverflow.ellipsis,
+              maxLines: 1,
             ),
           ),
         ],

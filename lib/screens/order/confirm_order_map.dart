@@ -40,7 +40,7 @@ class _ConfirmedOrderMapPageState extends State<ConfirmedOrderMapPage> {
     );
     if (activity.currentActivity.orderStatus == 'จัดส่งเรียบร้อยแล้ว') {
       Navigator.of(context).pushReplacement(
-          MaterialPageRoute(builder: (context) => bottomBar()));
+          MaterialPageRoute(builder: (context) => BottomBar()));
     }
     Future.delayed(Duration(seconds: 2), () {
       checkStatus();

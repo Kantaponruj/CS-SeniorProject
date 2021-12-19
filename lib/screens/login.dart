@@ -184,7 +184,7 @@ class _LoginPageState extends State<LoginPage> {
         authNotifier.clearController();
         Navigator.pushAndRemoveUntil(
             context,
-            MaterialPageRoute(builder: (context) => bottomBar()),
+            MaterialPageRoute(builder: (context) => BottomBar()),
             (route) => false);
         FocusScope.of(context).unfocus();
       },

@@ -85,7 +85,7 @@ class MyApp extends StatelessWidget {
               case Status.Authenticating:
                 return LoginPage();
               case Status.Authenticated:
-                return bottomBar();
+                return BottomBar();
               default:
                 return LoginPage();
             }

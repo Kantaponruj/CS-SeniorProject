@@ -6,12 +6,12 @@ import 'package:cs_senior_project/screens/notification/notification.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_icons/flutter_icons.dart';
 
-class bottomBar extends StatefulWidget {
+class BottomBar extends StatefulWidget {
   @override
   _State createState() => _State();
 }
 
-class _State extends State<bottomBar> {
+class _State extends State<BottomBar> {
   int _selectedIndex = 0;
   List<Widget> _pageWidget = <Widget>[
     HomePage(),

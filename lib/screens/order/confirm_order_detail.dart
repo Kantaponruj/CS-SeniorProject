@@ -56,36 +56,52 @@ class _ConfirmOrderDetailState extends State<ConfirmOrderDetail> {
     } else if (activity.currentActivity.orderStatus ==
         'ปรุงอาหารเสร็จเรียบร้อย') {
       Navigator.of(context).pushReplacement(
-          MaterialPageRoute(builder: (context) => bottomBar()));
+          MaterialPageRoute(builder: (context) => BottomBar()));
     } else if (activity.currentActivity.orderStatus ==
         'ร้านค้าปฏิเสธคำสั่งซื้อ') {
-      return showDialog(builder: (BuildContext buildContext) {
-        return AlertDialog(
-          title: Text(
-            'ร้านค้าปฏิเสธคำสั่งซื้อของคุณ',
-            style: FontCollection.bodyTextStyle,
-          ),
-          actions: [
-            Row(
-              mainAxisAlignment: MainAxisAlignment.spaceBetween,
-              children: [
-                Container(
-                  child: ButtonWidget(
-                    text: 'กลับสู่หน้าหลัก',
-                    onClicked: () {
-                      count = 0;
-
-                      Navigator.popUntil(context, (route) {
-                        return count++ == 2;
-                      });
-                    },
-                  ),
+      return showDialog(
+          barrierDismissible: false,
+          context: context,
+          builder: (BuildContext buildContext) {
+            return AlertDialog(
+              shape: RoundedRectangleBorder(
+                borderRadius: BorderRadius.circular(30),
+              ),
+              title: Text(
+                'ยกเลิกคำสั่งซื้อ',
+                style: FontCollection.bodyTextStyle,
+              ),
+              content: Container(
+                padding: EdgeInsets.symmetric(horizontal: 20, vertical: 20),
+                child: Column(
+                  mainAxisSize: MainAxisSize.min,
+                  children: [
+                    Container(
+                      child: Text(
+                        'ร้านค้าปฏิเสธคำสั่งซื้อของคุณ',
+                        style: FontCollection.bodyTextStyle,
+                      ),
+                    ),
+                    Container(
+                      padding: EdgeInsets.only(top: 20),
+                      child: ButtonWidget(
+                        text: 'กลับสู่หน้าหลัก',
+                        onClicked: () {
+                          // count = 0;
+                          //
+                          // Navigator.popUntil(context, (route) {
+                          //   return count++ == 2;
+                          // });
+                          Navigator.of(context).push(MaterialPageRoute(
+                              builder: (context) => BottomBar()));
+                        },
+                      ),
+                    ),
+                  ],
                 ),
-              ],
-            )
-          ],
-        );
-      });
+              ),
+            );
+          });
     } else {
       setState(() {});
     }
@@ -117,7 +133,7 @@ class _ConfirmOrderDetailState extends State<ConfirmOrderDetail> {
                 ),
                 onPressed: () {
                   Navigator.of(context).pushReplacement(
-                      MaterialPageRoute(builder: (context) => bottomBar()));
+                      MaterialPageRoute(builder: (context) => BottomBar()));
                 },
               ),
         onClicked: () {

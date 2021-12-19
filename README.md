@@ -1,6 +1,6 @@
 # StallTruckr Application | Senior Project
 
-[![alt][https://drive.google.com/file/d/17rWuYq1LGAXKcoGZADxklI_phOmONgUp/view?usp=sharing]
+![image](https://ibb.co/XtRZBWF)
 
 StallTruckr is a mobile application which created by using Flutter and Firebase
 

@@ -54,11 +54,11 @@ class ActivitiesNotifier with ChangeNotifier {
     _endWaitingTime = endT;
   }
 
-  resetDateTimeOrdered() {
-    _dateOrdered = null;
-    _startWaitingTime = null;
-    _endWaitingTime = null;
-  }
+  // resetDateTimeOrdered() {
+  //   _dateOrdered = null;
+  //   _startWaitingTime = null;
+  //   _endWaitingTime = null;
+  // }
 
   reloadActivityModel(String uid, String activityId) async {
     _currentActivity = await getActivityById(uid, activityId);

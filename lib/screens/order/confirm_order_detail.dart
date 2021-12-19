@@ -6,7 +6,6 @@ import 'package:cs_senior_project/component/orderCard.dart';
 import 'package:cs_senior_project/component/shopAppBar.dart';
 import 'package:cs_senior_project/models/order.dart';
 import 'package:cs_senior_project/notifiers/activities_notifier.dart';
-import 'package:cs_senior_project/notifiers/store_notifier.dart';
 import 'package:cs_senior_project/notifiers/user_notifier.dart';
 import 'package:cs_senior_project/screens/shop/shop_detail.dart';
 import 'package:cs_senior_project/services/user_service.dart';
@@ -14,7 +13,6 @@ import 'package:cs_senior_project/widgets/button_widget.dart';
 import 'package:cs_senior_project/widgets/icontext_widget.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_phone_direct_caller/flutter_phone_direct_caller.dart';
-import 'package:intl/intl.dart';
 import 'package:provider/provider.dart';
 
 class ConfirmOrderDetail extends StatefulWidget {
@@ -28,6 +26,7 @@ class ConfirmOrderDetail extends StatefulWidget {
 
 class _ConfirmOrderDetailState extends State<ConfirmOrderDetail> {
   int totalPrice = 0;
+  int count;
 
   TextEditingController otherMessageController = new TextEditingController();
 
@@ -51,12 +50,44 @@ class _ConfirmOrderDetailState extends State<ConfirmOrderDetail> {
       user.userModel.uid,
       activity.currentActivity.orderId,
     );
+
     if (activity.currentActivity.orderStatus == 'ยืนยันการจัดส่ง') {
       Navigator.of(context).pushReplacementNamed('/confirmOrderMap');
-    } else if(activity.currentActivity.orderStatus == 'ปรุงอาหารเสร็จเรียบร้อย') {
-      Navigator.of(context).pushReplacement(MaterialPageRoute(builder: (context) => bottomBar()));
+    } else if (activity.currentActivity.orderStatus ==
+        'ปรุงอาหารเสร็จเรียบร้อย') {
+      Navigator.of(context).pushReplacement(
+          MaterialPageRoute(builder: (context) => bottomBar()));
+    } else if (activity.currentActivity.orderStatus ==
+        'ร้านค้าปฏิเสธคำสั่งซื้อ') {
+      return showDialog(builder: (BuildContext buildContext) {
+        return AlertDialog(
+          title: Text(
+            'ร้านค้าปฏิเสธคำสั่งซื้อของคุณ',
+            style: FontCollection.bodyTextStyle,
+          ),
+          actions: [
+            Row(
+              mainAxisAlignment: MainAxisAlignment.spaceBetween,
+              children: [
+                Container(
+                  child: ButtonWidget(
+                    text: 'กลับสู่หน้าหลัก',
+                    onClicked: () {
+                      count = 0;
+
+                      Navigator.popUntil(context, (route) {
+                        return count++ == 2;
+                      });
+                    },
+                  ),
+                ),
+              ],
+            )
+          ],
+        );
+      });
     } else {
-    setState(() {});
+      setState(() {});
     }
     Future.delayed(Duration(seconds: 2), () {
       checkStatus();
@@ -207,59 +238,33 @@ class _ConfirmOrderDetailState extends State<ConfirmOrderDetail> {
                               padding: const EdgeInsets.only(bottom: 15),
                               child: BuildIconText(
                                 icon: Icons.calendar_today,
-                                text: activity.dateOrdered != null
-                                    ? activity.dateOrdered
-                                    : DateFormat('d MMMM y')
-                                        .format(DateTime.now()),
+                                text: activity.currentActivity.dateOrdered,
                               ),
                             ),
                             BuildIconText(
                               icon: Icons.access_time,
-                              // text:
-                              // activity.startWaitingTime == null
-                              //     ? 'ตอนนี้'
-                              //     : activity.startWaitingTime.toString(),
                               child: Row(
                                 children: [
                                   Container(
                                     child: Text(
-                                      activity.startWaitingTime == null
-                                          ? 'ตอนนี้'
-                                          : activity.startWaitingTime
-                                                  .toString() +
-                                              '  น.',
+                                      activity.currentActivity.timeOrdered,
                                       style: FontCollection.bodyTextStyle,
                                     ),
                                   ),
-                                  activity.endWaitingTime == null
-                                      ? SizedBox.shrink()
-                                      : Container(
-                                          padding: EdgeInsets.symmetric(
-                                              horizontal: 20),
-                                          child: Text(
-                                            'จนถึง',
-                                            style: FontCollection.bodyTextStyle,
-                                          ),
-                                        ),
-                                  activity.endWaitingTime == null
-                                      ? SizedBox.shrink()
-                                      : Container(
-                                          child: activity.endWaitingTime == null
-                                              ? Text(
-                                                  'กรุณากรอกเวลา',
-                                                  style: TextStyle(
-                                                      fontSize: 16,
-                                                      color: CollectionsColors
-                                                          .orange),
-                                                )
-                                              : Text(
-                                                  activity.endWaitingTime
-                                                          .toString() +
-                                                      '  น.',
-                                                  style: FontCollection
-                                                      .bodyTextStyle,
-                                                ),
-                                        ),
+                                  Container(
+                                    padding:
+                                        EdgeInsets.symmetric(horizontal: 20),
+                                    child: Text(
+                                      'จนถึง',
+                                      style: FontCollection.bodyTextStyle,
+                                    ),
+                                  ),
+                                  Container(
+                                    child: Text(
+                                      '${activity.currentActivity.endWaitingTime} น.',
+                                      style: FontCollection.bodyTextStyle,
+                                    ),
+                                  ),
                                 ],
                               ),
                             ),

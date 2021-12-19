@@ -372,7 +372,6 @@ class _OrderDetailPageState extends State<OrderDetailPage> {
                   Navigator.of(context)
                       .pushReplacementNamed('/confirmOrderDetail');
 
-                  activity.resetDateTimeOrdered();
                   order.orderList.removeWhere(
                       (order) => order.storeId == store.currentStore.storeId);
 
@@ -412,7 +411,7 @@ class _OrderDetailPageState extends State<OrderDetailPage> {
                     Navigator.of(context)
                         .pushReplacementNamed('/confirmOrderDetail');
 
-                    activity.resetDateTimeOrdered();
+                    // activity.resetDateTimeOrdered();
                     order.orderList.removeWhere(
                         (order) => order.storeId == store.currentStore.storeId);
                     orderList.clear();

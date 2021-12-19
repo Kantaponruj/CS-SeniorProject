@@ -82,7 +82,7 @@ class _ShopMenuState extends State<ShopMenu> {
         }
       }
     }
-    activity.resetDateTimeOrdered();
+    // activity.resetDateTimeOrdered();
     getPlace(
       store.currentStore.realtimeLocation.latitude,
       store.currentStore.realtimeLocation.longitude,
@@ -135,8 +135,10 @@ class _ShopMenuState extends State<ShopMenu> {
     List<Placemark> placemark = await placemarkFromCoordinates(
       latitude,
       longitude,
-    localeIdentifier: 'TH',);
-    List<Placemark> placemarks = await placemarkFromCoordinates(52.2165157, 6.9437819);
+      localeIdentifier: 'TH',
+    );
+    List<Placemark> placemarks =
+        await placemarkFromCoordinates(52.2165157, 6.9437819);
 
     Placemark placeMark = placemark[0];
     String name = placeMark.name;
@@ -153,7 +155,6 @@ class _ShopMenuState extends State<ShopMenu> {
     });
     // print(address);
   }
-
 
   @override
   Widget build(BuildContext context) {
@@ -218,14 +219,14 @@ class _ShopMenuState extends State<ShopMenu> {
                         '${orderNotifier.shippingFee} บาท',
                         Color(0xFF219653),
                         Colors.white,
-                  null,
+                        null,
                       )
                     : chipIconInfo(
                         Icons.location_on,
                         addressDetail,
                         Colors.white,
                         Colors.black,
-                  150,
+                        150,
                       ),
               ),
             ],

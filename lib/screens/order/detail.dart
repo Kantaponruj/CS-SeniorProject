@@ -77,37 +77,37 @@ class _DetailPageState extends State<DetailPage> {
                                 activity.startWaitingTime == null
                                     ? 'ตอนนี้'
                                     : activity.startWaitingTime.toString() +
-                                    '  น.',
+                                        '  น.',
                                 style: FontCollection.bodyTextStyle,
                               ),
                             ),
                             activity.endWaitingTime == null
                                 ? SizedBox.shrink()
                                 : Container(
-                              padding:
-                              EdgeInsets.symmetric(horizontal: 20),
-                              child: Text(
-                                'จนถึง',
-                                style: FontCollection.bodyTextStyle,
-                              ),
-                            ),
+                                    padding:
+                                        EdgeInsets.symmetric(horizontal: 20),
+                                    child: Text(
+                                      'จนถึง',
+                                      style: FontCollection.bodyTextStyle,
+                                    ),
+                                  ),
                             activity.endWaitingTime == null
                                 ? SizedBox.shrink()
                                 : Container(
-                              child: activity.endWaitingTime == null
-                                  ? Text(
-                                'กรุณากรอกเวลา',
-                                style: TextStyle(
-                                    fontSize: 16,
-                                    color:
-                                    CollectionsColors.orange),
-                              )
-                                  : Text(
-                                activity.endWaitingTime.toString() +
-                                    '  น.',
-                                style: FontCollection.bodyTextStyle,
-                              ),
-                            ),
+                                    child: activity.endWaitingTime == null
+                                        ? Text(
+                                            'กรุณากรอกเวลา',
+                                            style: TextStyle(
+                                                fontSize: 16,
+                                                color:
+                                                    CollectionsColors.orange),
+                                          )
+                                        : Text(
+                                            activity.endWaitingTime.toString() +
+                                                '  น.',
+                                            style: FontCollection.bodyTextStyle,
+                                          ),
+                                  ),
                           ],
                         ),
                       ),

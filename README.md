@@ -1,8 +1,10 @@
 # StallTruckr Application | Senior Project
 
-A new Flutter project.
+[![alt][https://drive.google.com/file/d/17rWuYq1LGAXKcoGZADxklI_phOmONgUp/view?usp=sharing]
 
-# [] Setup
+StallTruckr is a mobile application which created by using Flutter and Firebase
+
+# Setup
 
 After setup flutter with your prefered IDEs, clone the project
 
@@ -12,7 +14,7 @@ Run the project by
 
 `flutter run`
 
-# [] Common error
+# Common error
 
 **Missing packages or packages related errors, try**
 

@@ -1,16 +1,26 @@
-# cs_senior_project
+# StallTruckr Application | Senior Project
 
-A new Flutter project.
+<img src="https://i.ibb.co/zZvhcmP/stalltruckr-logo.png" width="150">
 
-## Getting Started
+StallTruckr is a mobile application which created by using Flutter and Firebase. This application is about ordering food and tracking location of food stalls and food trucks.
 
-This project is a starting point for a Flutter application.
+# Setup
 
-A few resources to get you started if this is your first Flutter project:
+After setup flutter with your prefered IDEs, clone the project
 
-- [Lab: Write your first Flutter app](https://flutter.dev/docs/get-started/codelab)
-- [Cookbook: Useful Flutter samples](https://flutter.dev/docs/cookbook)
+`git clone`
 
-For help getting started with Flutter, view our
-[online documentation](https://flutter.dev/docs), which offers tutorials,
-samples, guidance on mobile development, and a full API reference.
+Run the project by
+
+`flutter run`
+
+# Common error
+
+**Missing packages or packages related errors, try**
+
+`flutter pub get`
+
+**Anything realated to**
+`pubspec.lock`
+**Just delete everything inside it and run**
+`flutter pub get`

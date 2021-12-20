@@ -164,12 +164,12 @@ Future<void> getOrderMenu(
   activitiesNotifier.orderMenuList = _orderMenuList;
 }
 
-Future<Activity> getActivityById(String uid, String activityId) =>
+Future<Activity> getActivityById(String uid, String orderId) =>
     firebaseFirestore
         .collection('users')
         .doc(uid)
         .collection('activities')
-        .doc(orderId ?? activityId)
+        .doc(orderId)
         .get()
         .then((doc) => Activity.fromMap(doc.data()));
 

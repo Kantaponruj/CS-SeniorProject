@@ -87,11 +87,6 @@ class _ConfirmOrderDetailState extends State<ConfirmOrderDetail> {
                       child: ButtonWidget(
                         text: 'กลับสู่หน้าหลัก',
                         onClicked: () {
-                          // count = 0;
-                          //
-                          // Navigator.popUntil(context, (route) {
-                          //   return count++ == 2;
-                          // });
                           Navigator.of(context).push(MaterialPageRoute(
                               builder: (context) => BottomBar()));
                         },

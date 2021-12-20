@@ -98,8 +98,7 @@ class _HistoryPageState extends State<HistoryPage> {
                                         stores.currentStore = store;
                                       }
                                     });
-                                    activities.currentActivity =
-                                        activities.activitiesList[index];
+                                    activities.currentActivity = activity;
 
                                     if (activity.orderStatus ==
                                         'ยืนยันการจัดส่ง') {
@@ -172,8 +171,7 @@ class _HistoryPageState extends State<HistoryPage> {
                                         'ยกเลิกคำสั่งซื้อ',
                                   ),
                                   onTap: () {
-                                    activities.currentActivity =
-                                        activities.activitiesList[index];
+                                    activities.currentActivity = activity;
 
                                     if (activity.orderStatus ==
                                         'จัดส่งเรียบร้อยแล้ว') {

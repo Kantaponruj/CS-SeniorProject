@@ -29,7 +29,7 @@ class _MenuDetailState extends State<MenuDetail> {
   String price;
   List isSelectedTopping = [];
   List selectedTopping = [];
-  int selectedRadioTile = 0;
+  int selectedRadioTile;
   int totalSubTopping = 0;
 
   OrderModel order;
@@ -351,21 +351,26 @@ class _MenuDetailState extends State<MenuDetail> {
 
   Widget listAddOn(StoreNotifier storeNotifier, int indexT) {
     int val = 0;
+    int oldValue;
     double totalPriceInt = double.parse(price);
 
     if (order.topping != null) {
       selectedTopping = order.topping;
 
-      for (int i = 0; i < order.topping.length; i++) {
+      order.topping.forEach((_order) {
         for (int j = 0;
             j < storeNotifier.toppingList[indexT].subTopping.length;
             j++) {
-          if (order.topping[i] ==
+          if (_order ==
               storeNotifier.toppingList[indexT].subTopping[j]['name']) {
-            isSelectedTopping[indexT][j] = true;
+            if (storeNotifier.toppingList[indexT].type == 'ตัวเลือกเดียว') {
+              selectedRadioTile = j + 1;
+            } else {
+              isSelectedTopping[indexT][j] = true;
+            }
           }
         }
-      }
+      });
     }
 
     return ListView.builder(
@@ -400,41 +405,43 @@ class _MenuDetailState extends State<MenuDetail> {
                     value: subtopping['haveSubTopping'] ? val : null,
                     groupValue: selectedRadioTile,
                     onChanged: (value) {
+                      oldValue = selectedRadioTile;
                       subtopping['haveSubTopping']
                           ? setState(() {
                               setSelectedRadioTile(value);
-                              switch (value) {
-                                case 1:
-                                  if (amount > 1) {
-                                    totalPriceInt +=
-                                        (int.parse(subtopping['price']) *
-                                            amount);
-                                    priceWithTopping = totalPriceInt;
-                                    priceWithTopping =
-                                        priceWithTopping / amount;
-                                  } else {
-                                    totalPriceInt +=
-                                        int.parse(subtopping['price']);
-                                    priceWithTopping = totalPriceInt;
-                                  }
-                                  selectedTopping.add(subtopping['name']);
-                                  // print(selectedTopping);
-                                  break;
-                                default:
-                                  if (amount > 1) {
-                                    totalPriceInt -=
-                                        (int.parse(subtopping['price']) *
-                                            amount);
-                                    priceWithTopping = totalPriceInt;
-                                    priceWithTopping =
-                                        priceWithTopping / amount;
-                                  } else {
-                                    totalPriceInt -=
-                                        int.parse(subtopping['price']);
-                                    priceWithTopping = totalPriceInt;
-                                  }
-                                  selectedTopping.remove(subtopping['name']);
+                              // test = value;
+
+                              if (oldValue == 0) {
+                                if (amount > 1) {
+                                  totalPriceInt +=
+                                      (int.parse(subtopping['price']) * amount);
+                                  priceWithTopping = totalPriceInt;
+                                  priceWithTopping = priceWithTopping / amount;
+                                } else {
+                                  totalPriceInt +=
+                                      int.parse(subtopping['price']);
+                                  priceWithTopping = totalPriceInt;
+                                  print('plus');
+                                }
+                                selectedTopping.add(subtopping['name']);
+                              } else {
+                                if (amount > 1) {
+                                  totalPriceInt -=
+                                      (int.parse(subtopping['price']) * amount);
+                                  totalPriceInt +=
+                                      (int.parse(subtopping['price']) * amount);
+                                  priceWithTopping = totalPriceInt;
+                                  priceWithTopping = priceWithTopping / amount;
+                                } else {
+                                  totalPriceInt = priceMenu.toDouble();
+                                  totalPriceInt +=
+                                      (int.parse(subtopping['price']) * amount);
+                                  priceWithTopping = totalPriceInt;
+                                  print('minus');
+                                }
+                                selectedTopping.remove(subtopping['name']);
                               }
+                              oldValue = selectedRadioTile;
                               price = totalPriceInt.toInt().toString();
                             })
                           : null;

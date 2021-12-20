@@ -25,6 +25,7 @@ class ToppingModel {
   String topic;
   String detail;
   List<dynamic> subTopping = [];
+  bool require;
 
   ToppingModel.fromMap(Map<String, dynamic> data) {
     toppingId = data['toppingId'];
@@ -33,5 +34,6 @@ class ToppingModel {
     topic = data['topic'];
     detail = data['detail'];
     subTopping = data['subTopping'];
+    require = data['require'];
   }
 }

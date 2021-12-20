@@ -199,7 +199,7 @@ class _MenuDetailState extends State<MenuDetail> {
                                 physics: NeverScrollableScrollPhysics(),
                                 itemCount: storeNotifier.toppingList.length,
                                 itemBuilder: (context, index) {
-                                  return moreCard(storeNotifier, index);
+                                  return moreCard(storeNotifier, index,);
                                 },
                               ),
                       ],
@@ -323,6 +323,20 @@ class _MenuDetailState extends State<MenuDetail> {
           padding: EdgeInsets.symmetric(horizontal: 20, vertical: 20),
           child: Column(
             children: [
+              storeNotifier.toppingList[indexT].require
+                  ? Container(
+                padding: EdgeInsets.only(bottom: 10),
+                alignment: Alignment.topLeft,
+                child: Text(
+                  '* จำเป็นต้องกรอก',
+                  style: TextStyle(
+                    color: CollectionsColors.orange,
+                    fontSize: 14,
+                    fontWeight: FontWeight.w700,
+                  ),
+                ),
+              )
+                  : SizedBox.shrink(),
               Container(
                 child: Row(
                   children: [

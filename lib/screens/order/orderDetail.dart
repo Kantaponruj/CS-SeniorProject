@@ -243,7 +243,7 @@ class _OrderDetailPageState extends State<OrderDetailPage> {
                           physics: NeverScrollableScrollPhysics(),
                           itemCount: orderList.length,
                           itemBuilder: (context, index) {
-                            return listOrder(orderList[index]);
+                            return listOrder(orderList[index], index);
                           },
                           separatorBuilder: (context, index) => Divider(
                             color: Colors.grey,
@@ -444,7 +444,7 @@ class _OrderDetailPageState extends State<OrderDetailPage> {
     );
   }
 
-  Widget listOrder(OrderModel order) {
+  Widget listOrder(OrderModel order, int index) {
     StoreNotifier storeNotifier = Provider.of<StoreNotifier>(context);
     OrderNotifier orderNotifier = Provider.of<OrderNotifier>(context);
 
@@ -584,6 +584,7 @@ class _OrderDetailPageState extends State<OrderDetailPage> {
                     Container(
                       child: IconButton(
                         onPressed: () {
+                          orderList.removeAt(index);
                           orderNotifier.removeOrder(order);
                         },
                         icon: Icon(

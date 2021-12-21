@@ -8,6 +8,7 @@ import 'package:cs_senior_project/widgets/bottomOrder_widget.dart';
 import 'package:cs_senior_project/widgets/stepper.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:fluttertoast/fluttertoast.dart';
 import 'package:provider/provider.dart';
 
 class MenuDetail extends StatefulWidget {
@@ -116,34 +117,46 @@ class _MenuDetailState extends State<MenuDetail> {
     StoreNotifier storeNotifier =
         Provider.of<StoreNotifier>(context, listen: false);
 
-    if (orderNotifier.currentOrder != null) {
-      if (amount < 1) {
-        orderNotifier.removeOrder(orderNotifier.currentOrder);
-        orderNotifier.currentOrder = null;
+    if (selectedTopping.length == storeNotifier.count) {
+      if (orderNotifier.currentOrder != null) {
+        if (amount < 1) {
+          orderNotifier.removeOrder(orderNotifier.currentOrder);
+          orderNotifier.currentOrder = null;
+        } else {
+          order.totalPrice = price;
+          order.topping = selectedTopping;
+          order.amount = amount;
+          order.other = otherController.text.trim();
+        }
       } else {
+        order.storeId = widget.storeId;
+        order.menuId = widget.menuId;
+        order.menuName = storeNotifier.currentMenu.name;
         order.totalPrice = price;
         order.topping = selectedTopping;
         order.amount = amount;
         order.other = otherController.text.trim();
+
+        orderNotifier.addOrder(order);
       }
+
+      orderNotifier.getNetPrice(
+        storeNotifier.currentStore.storeId,
+        storeNotifier.currentStore.isDelivery,
+      );
+
+      Navigator.of(context).pop();
     } else {
-      order.storeId = widget.storeId;
-      order.menuId = widget.menuId;
-      order.menuName = storeNotifier.currentMenu.name;
-      order.totalPrice = price;
-      order.topping = selectedTopping;
-      order.amount = amount;
-      order.other = otherController.text.trim();
-
-      orderNotifier.addOrder(order);
+      Fluttertoast.showToast(
+        msg: "โปรดเลือกรายการเพิ่มเติม",
+        toastLength: Toast.LENGTH_SHORT,
+        gravity: ToastGravity.CENTER,
+        timeInSecForIosWeb: 1,
+        backgroundColor: Colors.red,
+        textColor: Colors.white,
+        fontSize: 16.0,
+      );
     }
-
-    orderNotifier.getNetPrice(
-      storeNotifier.currentStore.storeId,
-      storeNotifier.currentStore.isDelivery,
-    );
-
-    Navigator.of(context).pop();
   }
 
   @override
@@ -199,7 +212,7 @@ class _MenuDetailState extends State<MenuDetail> {
                                 physics: NeverScrollableScrollPhysics(),
                                 itemCount: storeNotifier.toppingList.length,
                                 itemBuilder: (context, index) {
-                                  return moreCard(storeNotifier, index,);
+                                  return moreCard(storeNotifier, index);
                                 },
                               ),
                       ],
@@ -325,17 +338,17 @@ class _MenuDetailState extends State<MenuDetail> {
             children: [
               storeNotifier.toppingList[indexT].require
                   ? Container(
-                padding: EdgeInsets.only(bottom: 10),
-                alignment: Alignment.topLeft,
-                child: Text(
-                  '* จำเป็นต้องกรอก',
-                  style: TextStyle(
-                    color: CollectionsColors.orange,
-                    fontSize: 14,
-                    fontWeight: FontWeight.w700,
-                  ),
-                ),
-              )
+                      padding: EdgeInsets.only(bottom: 10),
+                      alignment: Alignment.topLeft,
+                      child: Text(
+                        '* จำเป็นต้องกรอก',
+                        style: TextStyle(
+                          color: CollectionsColors.orange,
+                          fontSize: 14,
+                          fontWeight: FontWeight.w700,
+                        ),
+                      ),
+                    )
                   : SizedBox.shrink(),
               Container(
                 child: Row(

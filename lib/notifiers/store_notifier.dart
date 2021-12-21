@@ -18,6 +18,8 @@ class StoreNotifier with ChangeNotifier {
 
   List<String> _categoriesList = [];
 
+  int count = 0;
+
   UnmodifiableListView<Store> get storeList => UnmodifiableListView(_storeList);
   Store get currentStore => _currentStore;
 
@@ -65,6 +67,13 @@ class StoreNotifier with ChangeNotifier {
 
   set toppingList(List<ToppingModel> topping) {
     _toppingList = topping;
+
+    _toppingList.forEach((topping) {
+      if (topping.require) {
+        count += 1;
+      }
+    });
+    print(count);
     notifyListeners();
   }
 

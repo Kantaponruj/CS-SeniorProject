@@ -545,49 +545,6 @@ class _ShopMenuState extends State<ShopMenu> {
                   style: FontCollection.bodyTextStyle,
                   maxLines: 1,
                 ),
-                // Row(
-                //   mainAxisSize: MainAxisSize.min,
-                //   children: [
-                //     // Text(
-                //     //   activity.dateOrdered != null ? activity.dateOrdered : '',
-                //     //   style: FontCollection.bodyTextStyle,
-                //     // ),
-                //     Expanded(
-                //       child: AutoSizeText(
-                //         activity.startWaitingTime != null
-                //             ? '${activity.startWaitingTime} น. จนถึง ' +
-                //                         activity.endWaitingTime !=
-                //                     null
-                //                 ? '${activity.endWaitingTime} น.'
-                //                 : 'กรุณาเลือกเวลา'
-                //             : 'ตอนนี้ จนถึง ' + activity.endWaitingTime != null
-                //                 ? '${activity.endWaitingTime} น.'
-                //                 : 'กรุณาเลือกเวลา',
-                //         style: FontCollection.bodyTextStyle,
-                //       ),
-                //     ),
-                //     // Container(
-                //     //   child: Row(
-                //     //     mainAxisSize: MainAxisSize.min,
-                //     //     children: [
-                //     //       Container(
-                //     //         padding: EdgeInsets.symmetric(horizontal: 10),
-                //     //         child: AutoSizeText(
-                //     //           'จนถึง',
-                //     //           style: FontCollection.bodyTextStyle,
-                //     //         ),
-                //     //       ),
-                //     //       AutoSizeText(
-                //     //         activity.endWaitingTime != null
-                //     //             ? '${activity.endWaitingTime} น.'
-                //     //             : 'กรุณาเลือกเวลา',
-                //     //         style: FontCollection.bodyTextStyle,
-                //     //       ),
-                //     //     ],
-                //     //   ),
-                //     // ),
-                //   ],
-                // ),
                 trailing: IconButton(
                   onPressed: () {
                     showDialog(

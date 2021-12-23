@@ -22,7 +22,7 @@ class _SplashPageState extends State<SplashPage> {
         ),
         image: Image.asset('assets/images/stalltruckr_logo.png'),
         backgroundColor: Colors.white,
-        styleTextUnderTheLoader: TextStyle(color: Colors.deepPurple),
+        styleTextUnderTheLoader: TextStyle(color: CollectionsColors.orange),
         photoSize: 100.0,
         loaderColor: CollectionsColors.orange
     );

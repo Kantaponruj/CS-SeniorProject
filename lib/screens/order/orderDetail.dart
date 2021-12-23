@@ -82,7 +82,7 @@ class _OrderDetailPageState extends State<OrderDetailPage> {
     _activities.addressDetail = location.selectedAddress.addressDetail;
     _activities.geoPoint = location.selectedAddress.geoPoint == GeoPoint(0, 0)
         ? GeoPoint(location.currentPosition.latitude,
-            location.currentPosition.longitude)
+        location.currentPosition.longitude)
         : location.selectedAddress.geoPoint;
     _activities.message = otherMessageController.text.trim() ?? '';
     _activities.dateOrdered = activity.dateOrdered ?? dateFormat.format(now);
@@ -102,8 +102,20 @@ class _OrderDetailPageState extends State<OrderDetailPage> {
     _activities.shippingFee = order.shippingFee;
     _activities.subTotal = order.totalFoodPrice.toString();
     _activities.typeOrder =
-        store.currentStore.isDelivery ? 'delivery' : 'pick up';
+    store.currentStore.isDelivery ? 'delivery' : 'pick up';
     _activities.phoneStore = store.currentStore.phone;
+
+    String startTime = activity.startWaitingTime == null
+        ? 'ตอนนี้'
+        : activity.startWaitingTime
+        .toString() +
+        '  น.';
+    String endTime = activity.endWaitingTime == null
+        ?
+    'กรุณากรอกเวลา' :
+    activity.endWaitingTime.toString() +
+        '  น.'
+    ;
 
     return Scaffold(
       extendBodyBehindAppBar: true,
@@ -128,7 +140,7 @@ class _OrderDetailPageState extends State<OrderDetailPage> {
                   _activities.customerName,
                   _activities.phone,
                   _activities.address ?? 'โปรดระบุที่อยู่',
-                  () {
+                      () {
                     showDialog(
                         context: context,
                         builder: (BuildContext context) {
@@ -139,20 +151,23 @@ class _OrderDetailPageState extends State<OrderDetailPage> {
                           );
                         });
                   },
-                  () {
+                      () {
                     Navigator.of(context).push(
                       MaterialPageRoute(
-                        builder: (context) => ManageAddress(
-                          uid: user.userModel.uid,
-                          storePoint: LatLng(
-                            store.currentStore.realtimeLocation.latitude,
-                            store.currentStore.realtimeLocation.longitude,
-                          ),
-                          isDelivery: store.currentStore.isDelivery,
-                          shippingfee: int.parse(store.currentStore.shippingfee
-                              .substring(0,
-                                  store.currentStore.shippingfee.length - 2)),
-                        ),
+                        builder: (context) =>
+                            ManageAddress(
+                              uid: user.userModel.uid,
+                              storePoint: LatLng(
+                                store.currentStore.realtimeLocation.latitude,
+                                store.currentStore.realtimeLocation.longitude,
+                              ),
+                              isDelivery: store.currentStore.isDelivery,
+                              shippingfee: int.parse(
+                                  store.currentStore.shippingfee
+                                      .substring(0,
+                                      store.currentStore.shippingfee.length -
+                                          2)),
+                            ),
                       ),
                     );
                   },
@@ -161,71 +176,34 @@ class _OrderDetailPageState extends State<OrderDetailPage> {
               _activities.typeOrder == 'pick up'
                   ? SizedBox.shrink()
                   : BuildCard(
-                      headerText: 'เวลานัดหมาย',
-                      child: Container(
-                        padding:
-                            EdgeInsets.symmetric(horizontal: 30, vertical: 20),
-                        child: Column(
-                          children: [
-                            Padding(
-                              padding: const EdgeInsets.only(bottom: 15),
-                              child: BuildIconText(
-                                icon: Icons.calendar_today,
-                                text: activity.dateOrdered != null
-                                    ? activity.dateOrdered
-                                    : DateFormat('d MMMM y')
-                                        .format(DateTime.now()),
-                              ),
-                            ),
-                            BuildIconText(
-                              icon: Icons.access_time,
-                              // text:
-                              // activity.startWaitingTime == null
-                              //     ? 'ตอนนี้'
-                              //     : activity.startWaitingTime.toString(),
-                              child: Row(
-                                children: [
-                                  Container(
-                                    child: Text(
-                                      activity.startWaitingTime == null
-                                          ? 'ตอนนี้'
-                                          : activity.startWaitingTime
-                                                  .toString() +
-                                              '  น.',
-                                      style: FontCollection.bodyTextStyle,
-                                    ),
-                                  ),
-                                  Container(
-                                    padding:
-                                        EdgeInsets.symmetric(horizontal: 20),
-                                    child: Text(
-                                      'จนถึง',
-                                      style: FontCollection.bodyTextStyle,
-                                    ),
-                                  ),
-                                  Container(
-                                    child: activity.endWaitingTime == null
-                                        ? Text(
-                                            'กรุณากรอกเวลา',
-                                            style: TextStyle(
-                                                fontSize: 16,
-                                                color:
-                                                    CollectionsColors.orange),
-                                          )
-                                        : Text(
-                                            activity.endWaitingTime.toString() +
-                                                '  น.',
-                                            style: FontCollection.bodyTextStyle,
-                                          ),
-                                  ),
-                                ],
-                              ),
-                            ),
-                          ],
+                headerText: 'เวลานัดหมาย',
+                child: Container(
+                  padding:
+                  EdgeInsets.symmetric(horizontal: 30, vertical: 20),
+                  child: Column(
+                    children: [
+                      Padding(
+                        padding: const EdgeInsets.only(bottom: 15),
+                        child: BuildIconText(
+                          icon: Icons.calendar_today,
+                          text: activity.dateOrdered != null
+                              ? activity.dateOrdered
+                              : DateFormat('d MMMM y')
+                              .format(DateTime.now()),
                         ),
                       ),
-                      canEdit: false,
-                    ),
+                      BuildIconText(
+                        icon: Icons.access_time,
+                        child: AutoSizeText(
+                          startTime + ' จนถึง ' + endTime,
+                          style: FontCollection.bodyTextStyle,
+                        ),
+                      ),
+                    ],
+                  ),
+                ),
+                canEdit: false,
+              ),
               BuildCard(
                 headerText: 'สรุปการสั่งซื้อ',
                 editText: 'เพิ่มเมนู',
@@ -245,9 +223,10 @@ class _OrderDetailPageState extends State<OrderDetailPage> {
                           itemBuilder: (context, index) {
                             return listOrder(orderList[index], index);
                           },
-                          separatorBuilder: (context, index) => Divider(
-                            color: Colors.grey,
-                          ),
+                          separatorBuilder: (context, index) =>
+                              Divider(
+                                color: Colors.grey,
+                              ),
                         ),
                       ),
                       Divider(
@@ -277,54 +256,64 @@ class _OrderDetailPageState extends State<OrderDetailPage> {
                                 ),
                               ],
                             ),
-                            Row(
-                              mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                              children: [
-                                Container(
-                                  child: AutoSizeText('ค่าส่ง'),
-                                ),
-                                Container(
-                                  child: Row(
-                                    children: [
-                                      AutoSizeText(order.shippingFee),
-                                      Container(
-                                        padding: EdgeInsets.only(left: 20),
-                                        child: AutoSizeText('บาท', maxLines: 1),
-                                      ),
-                                    ],
+                            Container(
+                              padding: EdgeInsets.only(top: 10),
+                              child: Row(
+                                mainAxisAlignment: MainAxisAlignment
+                                    .spaceBetween,
+                                children: [
+                                  Container(
+                                    child: AutoSizeText('ค่าส่ง'),
                                   ),
-                                ),
-                              ],
-                            ),
-                            Row(
-                              mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                              children: [
-                                Container(
-                                  child: AutoSizeText(
-                                    'ราคาสุทธิ',
-                                    style: FontCollection.bodyBoldTextStyle,
-                                  ),
-                                ),
-                                Container(
-                                  child: Row(
-                                    children: [
-                                      AutoSizeText(
-                                        order.netPrice.toString(),
-                                        style: FontCollection.bodyBoldTextStyle,
-                                      ),
-                                      Container(
-                                        padding: EdgeInsets.only(left: 20),
-                                        child: AutoSizeText(
-                                          'บาท',
-                                          maxLines: 1,
-                                          style:
-                                              FontCollection.bodyBoldTextStyle,
+                                  Container(
+                                    child: Row(
+                                      children: [
+                                        AutoSizeText(order.shippingFee),
+                                        Container(
+                                          padding: EdgeInsets.only(left: 20),
+                                          child: AutoSizeText(
+                                              'บาท', maxLines: 1),
                                         ),
-                                      ),
-                                    ],
+                                      ],
+                                    ),
                                   ),
-                                ),
-                              ],
+                                ],
+                              ),
+                            ),
+                            Container(
+                              padding: EdgeInsets.only(top: 10),
+                              child: Row(
+                                mainAxisAlignment: MainAxisAlignment
+                                    .spaceBetween,
+                                children: [
+                                  Container(
+                                    child: AutoSizeText(
+                                      'ราคาสุทธิ',
+                                      style: FontCollection.bodyBoldTextStyle,
+                                    ),
+                                  ),
+                                  Container(
+                                    child: Row(
+                                      children: [
+                                        AutoSizeText(
+                                          order.netPrice.toString(),
+                                          style: FontCollection
+                                              .bodyBoldTextStyle,
+                                        ),
+                                        Container(
+                                          padding: EdgeInsets.only(left: 20),
+                                          child: AutoSizeText(
+                                            'บาท',
+                                            maxLines: 1,
+                                            style:
+                                            FontCollection.bodyBoldTextStyle,
+                                          ),
+                                        ),
+                                      ],
+                                    ),
+                                  ),
+                                ],
+                              ),
                             ),
                           ],
                         ),
@@ -341,106 +330,102 @@ class _OrderDetailPageState extends State<OrderDetailPage> {
       bottomNavigationBar: orderFinish
           ? SizedBox.shrink()
           : BottomOrderDetail(
-              onClicked: () {
-                String typeOrder;
-                if (_activities.endWaitingTime != null) {
-                  if (_activities.startWaitingTime != 'ตอนนี้' &&
-                      _activities.endWaitingTime != null) {
-                    typeOrder = 'meeting-orders';
-                  } else {
-                    typeOrder = 'delivery-orders';
-                  }
+        onClicked: () {
+          String typeOrder;
+          if (_activities.endWaitingTime != null) {
+            if (_activities.startWaitingTime != 'ตอนนี้' &&
+                _activities.endWaitingTime != null) {
+              typeOrder = 'meeting-orders';
+            } else {
+              typeOrder = 'delivery-orders';
+            }
 
-                  saveActivityToHistory(
+            saveActivityToHistory(
+              user.userModel.uid,
+              store.currentStore.storeId,
+              _activities,
+              typeOrder,
+            );
+
+            for (int i = 0; i < order.orderList.length; i++) {
+              if ((order.orderList[i].storeId == widget.storeId)) {
+                saveEachOrderToHistory(
+                  user.userModel.uid,
+                  store.currentStore.storeId,
+                  order.orderList[i],
+                  typeOrder,
+                );
+              }
+            }
+            activity.currentActivity = _activities;
+            Navigator.of(context)
+                .pushReplacementNamed('/confirmOrderDetail');
+
+            order.orderList.removeWhere(
+                    (order) => order.storeId == store.currentStore.storeId);
+
+            location.setCameraPositionMap(location.initialPosition);
+          } else {
+            if (store.currentStore.isDelivery) {
+              Fluttertoast.showToast(
+                msg: "โปรดระบุช่วงเวลาที่สามารถรอได้",
+                toastLength: Toast.LENGTH_SHORT,
+                gravity: ToastGravity.CENTER,
+                timeInSecForIosWeb: 1,
+                backgroundColor: Colors.red,
+                textColor: Colors.white,
+                fontSize: 16.0,
+              );
+            } else {
+              typeOrder = 'pickup-orders';
+
+              saveActivityToHistory(
+                user.userModel.uid,
+                store.currentStore.storeId,
+                _activities,
+                typeOrder,
+              );
+
+              for (int i = 0; i < order.orderList.length; i++) {
+                if ((order.orderList[i].storeId == widget.storeId)) {
+                  saveEachOrderToHistory(
                     user.userModel.uid,
                     store.currentStore.storeId,
-                    _activities,
+                    order.orderList[i],
                     typeOrder,
                   );
-
-                  for (int i = 0; i < order.orderList.length; i++) {
-                    if ((order.orderList[i].storeId == widget.storeId)) {
-                      saveEachOrderToHistory(
-                        user.userModel.uid,
-                        store.currentStore.storeId,
-                        order.orderList[i],
-                        typeOrder,
-                      );
-                    }
-                  }
-                  activity.currentActivity = _activities;
-                  Navigator.of(context)
-                      .pushReplacementNamed('/confirmOrderDetail');
-
-                  order.orderList.removeWhere(
-                      (order) => order.storeId == store.currentStore.storeId);
-
-                  location.setCameraPositionMap(location.initialPosition);
-                } else {
-                  if (store.currentStore.isDelivery) {
-                    Fluttertoast.showToast(
-                      msg: "โปรดระบุช่วงเวลาที่สามารถรอได้",
-                      toastLength: Toast.LENGTH_SHORT,
-                      gravity: ToastGravity.CENTER,
-                      timeInSecForIosWeb: 1,
-                      backgroundColor: Colors.red,
-                      textColor: Colors.white,
-                      fontSize: 16.0,
-                    );
-                  } else {
-                    typeOrder = 'pickup-orders';
-
-                    saveActivityToHistory(
-                      user.userModel.uid,
-                      store.currentStore.storeId,
-                      _activities,
-                      typeOrder,
-                    );
-
-                    for (int i = 0; i < order.orderList.length; i++) {
-                      if ((order.orderList[i].storeId == widget.storeId)) {
-                        saveEachOrderToHistory(
-                          user.userModel.uid,
-                          store.currentStore.storeId,
-                          order.orderList[i],
-                          typeOrder,
-                        );
-                      }
-                    }
-                    activity.currentActivity = _activities;
-                    Navigator.of(context)
-                        .pushReplacementNamed('/confirmOrderDetail');
-
-                    // activity.resetDateTimeOrdered();
-                    order.orderList.removeWhere(
-                        (order) => order.storeId == store.currentStore.storeId);
-                    orderList.clear();
-                    location.setCameraPositionMap(location.initialPosition);
-                  }
                 }
-              },
-              child: Column(
-                children: [
-                  Container(
-                    alignment: Alignment.centerLeft,
-                    margin: EdgeInsets.only(bottom: 10),
-                    child: Text(
-                      'ข้อความเพิ่มเติม',
-                      style: FontCollection.bodyTextStyle,
-                    ),
-                  ),
-                  TextFormField(
-                    controller: otherMessageController,
-                    decoration: InputDecoration(
-                      hintText: 'ใส่ข้อความตรงนี้',
-                      border: OutlineInputBorder(
-                          borderRadius: BorderRadius.circular(10)),
-                    ),
-                  ),
-                ],
+              }
+              activity.currentActivity = _activities;
+              Navigator.of(context)
+                  .pushReplacementNamed('/confirmOrderDetail');
+
+              // activity.resetDateTimeOrdered();
+              order.orderList.removeWhere(
+                      (order) => order.storeId == store.currentStore.storeId);
+              orderList.clear();
+              location.setCameraPositionMap(location.initialPosition);
+            }
+          }
+        },
+        child: Column(
+          children: [
+            Container(
+              alignment: Alignment.centerLeft,
+              margin: EdgeInsets.only(bottom: 10),
+              child: Text(
+                'ข้อความเพิ่มเติม',
+                style: FontCollection.bodyTextStyle,
               ),
-              netPrice: order.netPrice.toString(),
             ),
+            BuildPlainTextField(
+              textEditingController: otherMessageController,
+              hintText: 'ใส่ข้อความตรงนี้',
+            ),
+          ],
+        ),
+        netPrice: order.netPrice.toString(),
+      ),
     );
   }
 
@@ -459,26 +444,29 @@ class _OrderDetailPageState extends State<OrderDetailPage> {
                 flex: 2,
                 child: Container(
                   alignment: Alignment.center,
-                  child: Text(
+                  child: AutoSizeText(
                     order.amount.toString(),
                     style: FontCollection.bodyBoldTextStyle,
+                    maxLines: 1,
                   ),
                 ),
               ),
               Expanded(
                 flex: 6,
-                child: Text(
+                child: AutoSizeText(
                   order.menuName,
                   style: FontCollection.bodyTextStyle,
+                  maxLines: 1,
                 ),
               ),
               Expanded(
                 flex: 2,
                 child: Container(
                   alignment: Alignment.centerRight,
-                  child: Text(
+                  child: AutoSizeText(
                     order.totalPrice,
                     style: FontCollection.bodyTextStyle,
+                    maxLines: 1,
                   ),
                 ),
               ),
@@ -497,57 +485,57 @@ class _OrderDetailPageState extends State<OrderDetailPage> {
           order.topping.isEmpty
               ? SizedBox.shrink()
               : Container(
-                  margin: EdgeInsets.only(top: 10),
-                  child: Row(
-                    children: [
-                      Expanded(
-                        flex: 2,
-                        child: Container(),
-                      ),
-                      Expanded(
-                        flex: 10,
-                        child: Row(children: [
-                          Text(
-                            order.topping.join(', '),
-                            style: TextStyle(
-                              fontWeight: FontWeight.w400,
-                              fontSize: smallestSize,
-                              color: Colors.black54,
-                            ),
-                          )
-                        ]),
-                      ),
-                    ],
-                  ),
+            margin: EdgeInsets.only(top: 10),
+            child: Row(
+              children: [
+                Expanded(
+                  flex: 2,
+                  child: Container(),
                 ),
-          order.other == null
+                Expanded(
+                  flex: 10,
+                  child: Row(children: [
+                    Text(
+                      order.topping.join(', '),
+                      style: TextStyle(
+                        fontWeight: FontWeight.w400,
+                        fontSize: smallestSize,
+                        color: Colors.black54,
+                      ),
+                    )
+                  ]),
+                ),
+              ],
+            ),
+          ),
+          order.other.isEmpty
               ? SizedBox.shrink()
               : Container(
-                  margin: EdgeInsets.only(top: 10),
+            margin: EdgeInsets.only(top: 10),
+            child: Row(
+              children: [
+                Expanded(
+                  flex: 2,
+                  child: Container(),
+                ),
+                Expanded(
+                  flex: 10,
                   child: Row(
                     children: [
-                      Expanded(
-                        flex: 2,
-                        child: Container(),
-                      ),
-                      Expanded(
-                        flex: 10,
-                        child: Row(
-                          children: [
-                            Text(
-                              order.other,
-                              style: TextStyle(
-                                fontWeight: FontWeight.w400,
-                                fontSize: smallestSize,
-                                color: Colors.black54,
-                              ),
-                            ),
-                          ],
+                      Text(
+                        order.other,
+                        style: TextStyle(
+                          fontWeight: FontWeight.w400,
+                          fontSize: smallestSize,
+                          color: Colors.black54,
                         ),
                       ),
                     ],
                   ),
                 ),
+              ],
+            ),
+          ),
           Row(
             children: [
               Expanded(
@@ -572,10 +560,11 @@ class _OrderDetailPageState extends State<OrderDetailPage> {
                           Navigator.push(
                             context,
                             MaterialPageRoute(
-                              builder: (context) => MenuDetail(
-                                storeId: storeNotifier.currentStore.storeId,
-                                menuId: storeNotifier.currentMenu.menuId,
-                              ),
+                              builder: (context) =>
+                                  MenuDetail(
+                                    storeId: storeNotifier.currentStore.storeId,
+                                    menuId: storeNotifier.currentMenu.menuId,
+                                  ),
                             ),
                           );
                         },
@@ -603,13 +592,11 @@ class _OrderDetailPageState extends State<OrderDetailPage> {
     );
   }
 
-  Widget customerDeliCard(
-    String name,
-    String phoneNumber,
-    String address,
-    VoidCallback onClickedContact,
-    VoidCallback onClickedAddress,
-  ) {
+  Widget customerDeliCard(String name,
+      String phoneNumber,
+      String address,
+      VoidCallback onClickedContact,
+      VoidCallback onClickedAddress,) {
     return BuildCard(
       headerText: 'ข้อมูลผู้สั่งซื้อ',
       child: Container(
@@ -670,12 +657,10 @@ class _OrderDetailPageState extends State<OrderDetailPage> {
     );
   }
 
-  Widget customerPickCard(
-    String name,
-    String phoneNumber,
-    String address,
-    VoidCallback onClicked,
-  ) {
+  Widget customerPickCard(String name,
+      String phoneNumber,
+      String address,
+      VoidCallback onClicked,) {
     return BuildCard(
       headerText: 'ข้อมูลผู้สั่งซื้อ',
       child: Container(
@@ -708,10 +693,8 @@ class _OrderDetailPageState extends State<OrderDetailPage> {
     );
   }
 
-  Widget meetingTimeCard(
-    String date,
-    String time,
-  ) {
+  Widget meetingTimeCard(String date,
+      String time,) {
     return BuildCard(
       headerText: 'เวลานัดหมาย',
       child: Container(
@@ -728,10 +711,8 @@ class _OrderDetailPageState extends State<OrderDetailPage> {
     );
   }
 
-  Widget deliTimeCard(
-    String date,
-    String time,
-  ) {
+  Widget deliTimeCard(String date,
+      String time,) {
     return BuildCard(
       headerText: 'เวลาจัดส่ง',
       child: Container(
@@ -773,7 +754,10 @@ class _OrderDetailPageState extends State<OrderDetailPage> {
     return AlertDialog(
       shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(20)),
       content: Container(
-        width: MediaQuery.of(context).size.width,
+        width: MediaQuery
+            .of(context)
+            .size
+            .width,
         child: Column(
           mainAxisSize: MainAxisSize.min,
           children: [

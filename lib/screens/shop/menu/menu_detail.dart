@@ -1,5 +1,6 @@
 import 'package:cs_senior_project/asset/color.dart';
 import 'package:cs_senior_project/asset/text_style.dart';
+import 'package:cs_senior_project/component/textformfield.dart';
 import 'package:cs_senior_project/models/order.dart';
 import 'package:cs_senior_project/notifiers/order_notifier.dart';
 import 'package:cs_senior_project/notifiers/store_notifier.dart';
@@ -239,13 +240,9 @@ class _MenuDetailState extends State<MenuDetail> {
                   style: FontCollection.bodyTextStyle,
                 ),
               ),
-              TextFormField(
-                controller: otherController,
-                decoration: InputDecoration(
-                  hintText: 'ใส่ข้อความตรงนี้',
-                  border: OutlineInputBorder(
-                      borderRadius: BorderRadius.circular(10)),
-                ),
+              BuildPlainTextField(
+                textEditingController: otherController,
+                hintText: 'ใส่ข้อความตรงนี้',
               ),
               Container(
                 margin: EdgeInsets.only(top: 20),

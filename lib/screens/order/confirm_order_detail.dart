@@ -187,10 +187,11 @@ class _ConfirmOrderDetailState extends State<ConfirmOrderDetail> {
                               color: CollectionsColors.white,
                             ),
                           ),
-                          title: Text(
+                          title: AutoSizeText(
                             activity.currentActivity.storeName,
                             style: FontCollection.bodyTextStyle,
                             textAlign: TextAlign.left,
+                            maxLines: 1,
                           ),
                           subtitle: Text(
                             activity.currentActivity.phoneStore,
@@ -258,7 +259,7 @@ class _ConfirmOrderDetailState extends State<ConfirmOrderDetail> {
                                 children: [
                                   Container(
                                     child: Text(
-                                      activity.currentActivity.timeOrdered,
+                                      '${activity.currentActivity.timeOrdered} น.',
                                       style: FontCollection.bodyTextStyle,
                                     ),
                                   ),
@@ -334,59 +335,65 @@ class _ConfirmOrderDetailState extends State<ConfirmOrderDetail> {
                                   ),
                                 ],
                               ),
-                              Row(
-                                mainAxisAlignment:
-                                    MainAxisAlignment.spaceBetween,
-                                children: [
-                                  Container(
-                                    child: AutoSizeText('ค่าส่ง'),
-                                  ),
-                                  Container(
-                                    child: Row(
-                                      children: [
-                                        AutoSizeText(activity
-                                            .currentActivity.shippingFee),
-                                        Container(
-                                          padding: EdgeInsets.only(left: 20),
-                                          child:
-                                              AutoSizeText('บาท', maxLines: 1),
-                                        ),
-                                      ],
+                              Container(
+                                padding: EdgeInsets.only(top: 10),
+                                child: Row(
+                                  mainAxisAlignment:
+                                      MainAxisAlignment.spaceBetween,
+                                  children: [
+                                    Container(
+                                      child: AutoSizeText('ค่าส่ง'),
                                     ),
-                                  ),
-                                ],
-                              ),
-                              Row(
-                                mainAxisAlignment:
-                                    MainAxisAlignment.spaceBetween,
-                                children: [
-                                  Container(
-                                    child: AutoSizeText(
-                                      'ราคาสุทธิ',
-                                      style: FontCollection.bodyBoldTextStyle,
-                                    ),
-                                  ),
-                                  Container(
-                                    child: Row(
-                                      children: [
-                                        AutoSizeText(
-                                          activity.currentActivity.netPrice,
-                                          style:
-                                              FontCollection.bodyBoldTextStyle,
-                                        ),
-                                        Container(
-                                          padding: EdgeInsets.only(left: 20),
-                                          child: AutoSizeText(
-                                            'บาท',
-                                            maxLines: 1,
-                                            style: FontCollection
-                                                .bodyBoldTextStyle,
+                                    Container(
+                                      child: Row(
+                                        children: [
+                                          AutoSizeText(activity
+                                              .currentActivity.shippingFee),
+                                          Container(
+                                            padding: EdgeInsets.only(left: 20),
+                                            child:
+                                                AutoSizeText('บาท', maxLines: 1),
                                           ),
-                                        ),
-                                      ],
+                                        ],
+                                      ),
                                     ),
-                                  ),
-                                ],
+                                  ],
+                                ),
+                              ),
+                              Container(
+                                padding: EdgeInsets.only(top: 10),
+                                child: Row(
+                                  mainAxisAlignment:
+                                      MainAxisAlignment.spaceBetween,
+                                  children: [
+                                    Container(
+                                      child: AutoSizeText(
+                                        'ราคาสุทธิ',
+                                        style: FontCollection.bodyBoldTextStyle,
+                                      ),
+                                    ),
+                                    Container(
+                                      child: Row(
+                                        children: [
+                                          AutoSizeText(
+                                            activity.currentActivity.netPrice,
+                                            style:
+                                                FontCollection.bodyBoldTextStyle,
+                                          ),
+                                          Container(
+                                            padding: EdgeInsets.only(left: 20),
+                                            child: AutoSizeText(
+                                              'บาท',
+                                              maxLines: 1,
+                                              style: FontCollection
+                                                  .bodyBoldTextStyle,
+                                            ),
+                                          ),
+                                        ],
+                                      ),
+                                    ),
+                                  ],
+                                ),
                               ),
                             ],
                           )),

@@ -104,7 +104,7 @@ class _TimePickerWidgetState extends State<TimePickerWidget> {
 
     return ShowDateTime(
       icon: Icons.access_time,
-      text: timeStr != null ? timeStr : getText(),
+      text: timeStr != null ? timeStr + ' น.' : getText(),
       onClicked: () => pickTime(context),
     );
   }

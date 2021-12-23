@@ -67,8 +67,19 @@ class _ConfirmedOrderMapPageState extends State<ConfirmedOrderMapPage> {
               height: mapHeight,
               child: MapConfirmedWidet(),
             ),
-            information(orderDetailHeight, mapHeight, activity.currentActivity,
-                activity.arrivableTime),
+            Container(
+              height: orderDetailHeight,
+              width: MediaQuery.of(context).size.width,
+              decoration: BoxDecoration(
+                borderRadius: BorderRadius.vertical(top: Radius.circular(30)),
+                color: Colors.white,
+              ),
+              margin: EdgeInsets.only(top: mapHeight - 20),
+              child: SingleChildScrollView(
+                child: information(orderDetailHeight, mapHeight, activity.currentActivity,
+                    activity.arrivableTime),
+              ),
+            ),
           ],
         ),
       ),
@@ -78,14 +89,7 @@ class _ConfirmedOrderMapPageState extends State<ConfirmedOrderMapPage> {
   Widget information(double orderDetailHeight, double mapHeight,
       Activity activity, String arrivableTime) {
     return Container(
-      height: orderDetailHeight,
-      width: MediaQuery.of(context).size.width,
-      decoration: BoxDecoration(
-        borderRadius: BorderRadius.vertical(top: Radius.circular(30)),
-        color: Colors.white,
-      ),
-      margin: EdgeInsets.only(top: mapHeight - 20),
-      padding: EdgeInsets.symmetric(horizontal: 30, vertical: 30),
+      padding: EdgeInsets.symmetric(horizontal: 20, vertical: 20),
       child: Column(
         mainAxisAlignment: MainAxisAlignment.spaceBetween,
         children: [
@@ -111,6 +115,7 @@ class _ConfirmedOrderMapPageState extends State<ConfirmedOrderMapPage> {
             ),
           ),
           Container(
+            padding: EdgeInsets.only(top: 10),
             child: Row(
               children: [
                 Padding(
@@ -184,12 +189,15 @@ class _ConfirmedOrderMapPageState extends State<ConfirmedOrderMapPage> {
               ],
             ),
           ),
-          StadiumButtonWidget(
-            text: 'โทร',
-            onClicked: () async {
-              String number = activity.phoneStore;
-              await FlutterPhoneDirectCaller.callNumber(number);
-            },
+          Container(
+            padding: EdgeInsets.only(top: 10),
+            child: StadiumButtonWidget(
+              text: 'โทร',
+              onClicked: () async {
+                String number = activity.phoneStore;
+                await FlutterPhoneDirectCaller.callNumber(number);
+              },
+            ),
           ),
         ],
       ),

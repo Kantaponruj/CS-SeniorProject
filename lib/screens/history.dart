@@ -89,8 +89,7 @@ class _HistoryPageState extends State<HistoryPage> {
                                           ? activity.addressName
                                           : '${activity.address.characters.getRange(0, 10)}...',
                                     ),
-                                    activity.orderStatus.toString() !=
-                                        'ยกเลิกคำสั่งซื้อ',
+                                    activity.orderStatus.toString(),
                                   ),
                                   onTap: () {
                                     stores.storeList.forEach((store) {
@@ -167,8 +166,7 @@ class _HistoryPageState extends State<HistoryPage> {
                                           ? activity.addressName
                                           : '${activity.address.characters.getRange(0, 10)}...',
                                     ),
-                                    activity.orderStatus.toString() !=
-                                        'ยกเลิกคำสั่งซื้อ',
+                                    activity.orderStatus.toString(),
                                   ),
                                   onTap: () {
                                     activities.currentActivity = activity;
@@ -227,7 +225,7 @@ class _HistoryPageState extends State<HistoryPage> {
     String price,
     Widget childStore,
     Widget childAddress,
-    bool check,
+    String check,
   ) {
     return Container(
       child: Column(
@@ -236,18 +234,29 @@ class _HistoryPageState extends State<HistoryPage> {
             child: Row(
               mainAxisAlignment: MainAxisAlignment.spaceBetween,
               children: [
-                Expanded(
-                  child: AutoSizeText(
-                    orderStatus,
-                    maxLines: 1,
-                    style: (check)
-                        ? FontCollection.bodyTextStyle
-                        : TextStyle(
+                (check == 'ยกเลิกคำสั่งซื้อ')
+                    ? Expanded(
+                        child: AutoSizeText(
+                          orderStatus,
+                          maxLines: 1,
+                          style: TextStyle(
                             fontSize: 16,
                             color: CollectionsColors.red,
                           ),
-                  ),
-                ),
+                        ),
+                      )
+                    : Expanded(
+                        child: AutoSizeText(
+                          orderStatus,
+                          maxLines: 1,
+                          style: (check == 'จัดส่งเรียบร้อยแล้ว')
+                              ? TextStyle(
+                                  fontSize: 16,
+                                  color: CollectionsColors.orange,
+                                )
+                              : FontCollection.bodyTextStyle,
+                        ),
+                      ),
                 Container(
                   child: Text(
                     date,
@@ -257,13 +266,16 @@ class _HistoryPageState extends State<HistoryPage> {
               ],
             ),
           ),
-          Container(child: childStore),
+          Container(
+            child: childStore,
+          ),
           Container(
             child: Row(
+              mainAxisSize: MainAxisSize.min,
               mainAxisAlignment: MainAxisAlignment.spaceBetween,
               children: [
                 childAddress,
-                Container(
+                Expanded(
                   child: AutoSizeText(
                     price,
                     style: FontCollection.bodyTextStyle,

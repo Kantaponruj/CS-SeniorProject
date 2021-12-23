@@ -382,11 +382,11 @@ class _ShopMenuState extends State<ShopMenu> {
         physics: NeverScrollableScrollPhysics(),
         gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
           crossAxisCount: 2,
-          childAspectRatio: 0.7,
-          mainAxisSpacing: 10,
-          crossAxisSpacing: 20,
+          childAspectRatio: 0.6,
+          mainAxisSpacing: 5,
+          crossAxisSpacing: 15,
         ),
-        padding: EdgeInsets.fromLTRB(20, 20, 20, 0),
+        padding: EdgeInsets.fromLTRB(10, 20, 10, 0),
         controller: controller,
         itemCount: menuList[indexC].length,
         itemBuilder: (context, index) {
@@ -433,7 +433,8 @@ class _ShopMenuState extends State<ShopMenu> {
             child: Column(
               children: [
                 Container(
-                  height: 150,
+                  height: 120,
+                  width: 120,
                   margin: EdgeInsets.only(top: 15),
                   child: SizedBox(
                     child: menu.image != null
@@ -512,6 +513,13 @@ class _ShopMenuState extends State<ShopMenu> {
     ActivitiesNotifier activity =
         Provider.of<ActivitiesNotifier>(context, listen: false);
 
+    String startTime = activity.startWaitingTime != null
+        ? '${activity.startWaitingTime} น.'
+        : 'ตอนนี้';
+    String endTime = activity.endWaitingTime != null
+        ? '${activity.endWaitingTime} น.'
+        : 'กรุณาเลือกเวลา';
+
     return Container(
       height: 130,
       child: Card(
@@ -519,10 +527,11 @@ class _ShopMenuState extends State<ShopMenu> {
           borderRadius: BorderRadius.circular(20),
         ),
         child: Container(
-          margin: EdgeInsets.symmetric(horizontal: 20, vertical: 20),
+          margin: EdgeInsets.symmetric(vertical: 20),
           child: Column(
             children: [
               Container(
+                padding: EdgeInsets.only(left: 20),
                 alignment: Alignment.centerLeft,
                 child: Text(
                   'การนัดหมาย/จัดส่ง',
@@ -531,39 +540,53 @@ class _ShopMenuState extends State<ShopMenu> {
               ),
               ListTile(
                 leading: Icon(Icons.access_time),
-                title: Row(
-                  children: [
-                    Text(
-                      activity.dateOrdered != null ? activity.dateOrdered : '',
-                      style: FontCollection.bodyTextStyle,
-                    ),
-                    Text(
-                      activity.startWaitingTime != null
-                          ? '${activity.startWaitingTime} น.'
-                          : 'ตอนนี้',
-                      style: FontCollection.bodyTextStyle,
-                    ),
-                    Container(
-                      child: Row(
-                        children: [
-                          Container(
-                            padding: EdgeInsets.symmetric(horizontal: 10),
-                            child: Text(
-                              'จนถึง',
-                              style: FontCollection.bodyTextStyle,
-                            ),
-                          ),
-                          Text(
-                            activity.endWaitingTime != null
-                                ? '${activity.endWaitingTime} น.'
-                                : 'กรุณาเลือกเวลา',
-                            style: FontCollection.bodyTextStyle,
-                          ),
-                        ],
-                      ),
-                    ),
-                  ],
+                title: AutoSizeText(
+                  startTime + ' จนถึง ' + endTime,
+                  style: FontCollection.bodyTextStyle,
                 ),
+                // Row(
+                //   mainAxisSize: MainAxisSize.min,
+                //   children: [
+                //     // Text(
+                //     //   activity.dateOrdered != null ? activity.dateOrdered : '',
+                //     //   style: FontCollection.bodyTextStyle,
+                //     // ),
+                //     Expanded(
+                //       child: AutoSizeText(
+                //         activity.startWaitingTime != null
+                //             ? '${activity.startWaitingTime} น. จนถึง ' +
+                //                         activity.endWaitingTime !=
+                //                     null
+                //                 ? '${activity.endWaitingTime} น.'
+                //                 : 'กรุณาเลือกเวลา'
+                //             : 'ตอนนี้ จนถึง ' + activity.endWaitingTime != null
+                //                 ? '${activity.endWaitingTime} น.'
+                //                 : 'กรุณาเลือกเวลา',
+                //         style: FontCollection.bodyTextStyle,
+                //       ),
+                //     ),
+                //     // Container(
+                //     //   child: Row(
+                //     //     mainAxisSize: MainAxisSize.min,
+                //     //     children: [
+                //     //       Container(
+                //     //         padding: EdgeInsets.symmetric(horizontal: 10),
+                //     //         child: AutoSizeText(
+                //     //           'จนถึง',
+                //     //           style: FontCollection.bodyTextStyle,
+                //     //         ),
+                //     //       ),
+                //     //       AutoSizeText(
+                //     //         activity.endWaitingTime != null
+                //     //             ? '${activity.endWaitingTime} น.'
+                //     //             : 'กรุณาเลือกเวลา',
+                //     //         style: FontCollection.bodyTextStyle,
+                //     //       ),
+                //     //     ],
+                //     //   ),
+                //     // ),
+                //   ],
+                // ),
                 trailing: IconButton(
                   onPressed: () {
                     showDialog(
@@ -584,31 +607,32 @@ class _ShopMenuState extends State<ShopMenu> {
   }
 
   Widget editDeliTime() {
-    return AlertDialog(
-      content: Container(
-        width: MediaQuery.of(context).size.width,
-        decoration: BoxDecoration(borderRadius: BorderRadius.circular(30)),
-        child: Column(
-          mainAxisSize: MainAxisSize.min,
-          children: [
-            Align(
-              alignment: Alignment.topRight,
-              child: IconButton(
-                icon: Icon(Icons.close),
-                onPressed: () {
-                  Navigator.of(context).pop();
-                },
+    return ClipRRect(
+      borderRadius: BorderRadius.circular(20),
+      child: AlertDialog(
+        content: Container(
+          width: MediaQuery.of(context).size.width,
+          decoration: BoxDecoration(borderRadius: BorderRadius.circular(30)),
+          child: Column(
+            mainAxisSize: MainAxisSize.min,
+            children: [
+              Align(
+                alignment: Alignment.topRight,
+                child: IconButton(
+                  icon: Icon(Icons.close),
+                  onPressed: () {
+                    Navigator.of(context).pop();
+                  },
+                ),
               ),
-            ),
-            Expanded(
-              child: Container(
+              Container(
                 child: Column(
                   children: [
                     Align(
                       alignment: Alignment.topLeft,
                       child: Text(
-                        'เวลาการรับ/จัดส่ง',
-                        style: FontCollection.bodyTextStyle,
+                        'วันการรับ/จัดส่ง',
+                        style: FontCollection.bodyBoldTextStyle,
                       ),
                     ),
                     Container(
@@ -619,16 +643,32 @@ class _ShopMenuState extends State<ShopMenu> {
                       margin: EdgeInsets.fromLTRB(0, 5, 0, 20),
                       child: Column(
                         children: [
-                          Row(children: [
-                            TimePickerWidget(isStartWaitingTime: true),
-                            Container(
-                              padding: EdgeInsets.symmetric(horizontal: 10),
-                              child: Text(
-                                'จนถึง',
-                                style: FontCollection.bodyTextStyle,
-                              ),
+                          Container(
+                            alignment: Alignment.topLeft,
+                            padding: EdgeInsets.symmetric(vertical: 10),
+                            child: AutoSizeText(
+                              'เวลาการรับ/จัดส่ง',
+                              style: FontCollection.bodyBoldTextStyle,
+                              maxLines: 1,
                             ),
-                          ]),
+                          ),
+                          Container(
+                            alignment: Alignment.topLeft,
+                            padding: EdgeInsets.symmetric(vertical: 10),
+                            child: Text(
+                              'ตั้งแต่',
+                              style: FontCollection.bodyTextStyle,
+                            ),
+                          ),
+                          TimePickerWidget(isStartWaitingTime: true),
+                          Container(
+                            alignment: Alignment.topLeft,
+                            padding: EdgeInsets.symmetric(vertical: 10),
+                            child: Text(
+                              'จนถึง',
+                              style: FontCollection.bodyTextStyle,
+                            ),
+                          ),
                           TimePickerWidget(isStartWaitingTime: false),
                         ],
                       ),
@@ -636,8 +676,8 @@ class _ShopMenuState extends State<ShopMenu> {
                   ],
                 ),
               ),
-            ),
-          ],
+            ],
+          ),
         ),
       ),
     );

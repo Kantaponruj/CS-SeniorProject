@@ -33,11 +33,18 @@ class _NotificationsPageState extends State<NotificationsPage> {
                 'ไอศกรีมไผ่ทองโปรสุดพิเศษ',
                 'เพียงซื้อไอศกรีมร้านไผ่ทอง 8-10 ก.ย. 64',
                 '12.59',
+                () {
+                  Navigator.push(
+                      context,
+                      MaterialPageRoute(
+                          builder: (context) => NotificationDetail()));
+                },
               ),
               buildCard(
                 'ใกล้ถึงเวลานัด !',
                 'อีก 10 นาทีจะถึงเวลานัดของคุณกับร้านโตเกียวหน้า ม.',
                 '12.42',
+                () {},
               ),
             ],
           ),
@@ -46,17 +53,12 @@ class _NotificationsPageState extends State<NotificationsPage> {
     );
   }
 
-  Widget buildCard(String title, String subTitle, String time) {
+  Widget buildCard(
+      String title, String subTitle, String time, VoidCallback onClicked) {
     return Padding(
       padding: const EdgeInsets.only(bottom: 10),
       child: GestureDetector(
-        onTap: (){
-          Navigator.push(
-              context,
-              MaterialPageRoute(
-                  builder: (context) => NotificationDetail())
-          );
-        },
+        onTap: onClicked,
         child: Card(
           shape: RoundedRectangleBorder(
             borderRadius: BorderRadius.circular(20),

@@ -59,8 +59,8 @@ class _DetailPageState extends State<DetailPage> {
                         padding: const EdgeInsets.only(bottom: 15),
                         child: BuildIconText(
                           icon: Icons.calendar_today,
-                          text: activity.dateOrdered != null
-                              ? activity.dateOrdered
+                          text: activity.currentActivity.dateOrdered != null
+                              ? activity.currentActivity.dateOrdered
                               : DateFormat('d MMMM y').format(DateTime.now()),
                         ),
                       ),
@@ -74,14 +74,14 @@ class _DetailPageState extends State<DetailPage> {
                           children: [
                             Container(
                               child: Text(
-                                activity.startWaitingTime == null
+                                activity.currentActivity.startWaitingTime == null
                                     ? 'ตอนนี้'
-                                    : activity.startWaitingTime.toString() +
-                                        '  น.',
+                                    : activity.currentActivity.startWaitingTime
+                                        ,
                                 style: FontCollection.bodyTextStyle,
                               ),
                             ),
-                            activity.endWaitingTime == null
+                            activity.currentActivity.endWaitingTime == null
                                 ? SizedBox.shrink()
                                 : Container(
                                     padding:
@@ -91,7 +91,7 @@ class _DetailPageState extends State<DetailPage> {
                                       style: FontCollection.bodyTextStyle,
                                     ),
                                   ),
-                            activity.endWaitingTime == null
+                            activity.currentActivity.endWaitingTime == null
                                 ? SizedBox.shrink()
                                 : Container(
                                     child: activity.endWaitingTime == null
@@ -166,59 +166,65 @@ class _DetailPageState extends State<DetailPage> {
                                   ),
                                 ],
                               ),
-                              Row(
-                                mainAxisAlignment:
-                                    MainAxisAlignment.spaceBetween,
-                                children: [
-                                  Container(
-                                    child: AutoSizeText('ค่าส่ง'),
-                                  ),
-                                  Container(
-                                    child: Row(
-                                      children: [
-                                        AutoSizeText(activity
-                                            .currentActivity.shippingFee),
-                                        Container(
-                                          padding: EdgeInsets.only(left: 20),
-                                          child:
-                                              AutoSizeText('บาท', maxLines: 1),
-                                        ),
-                                      ],
+                              Container(
+                                padding: EdgeInsets.only(top: 10),
+                                child: Row(
+                                  mainAxisAlignment:
+                                      MainAxisAlignment.spaceBetween,
+                                  children: [
+                                    Container(
+                                      child: AutoSizeText('ค่าส่ง'),
                                     ),
-                                  ),
-                                ],
-                              ),
-                              Row(
-                                mainAxisAlignment:
-                                    MainAxisAlignment.spaceBetween,
-                                children: [
-                                  Container(
-                                    child: AutoSizeText(
-                                      'ราคาสุทธิ',
-                                      style: FontCollection.bodyBoldTextStyle,
-                                    ),
-                                  ),
-                                  Container(
-                                    child: Row(
-                                      children: [
-                                        AutoSizeText(
-                                          activity.currentActivity.netPrice,
-                                          style:
-                                              FontCollection.bodyBoldTextStyle,
-                                        ),
-                                        Container(
-                                          padding: EdgeInsets.only(left: 20),
-                                          child: AutoSizeText(
-                                            'บาท',
-                                            maxLines: 1,
-                                            style: FontCollection
-                                                .bodyBoldTextStyle,
+                                    Container(
+                                      child: Row(
+                                        children: [
+                                          AutoSizeText(activity
+                                              .currentActivity.shippingFee),
+                                          Container(
+                                            padding: EdgeInsets.only(left: 20),
+                                            child:
+                                                AutoSizeText('บาท', maxLines: 1),
                                           ),
-                                        ),
-                                      ],
+                                        ],
+                                      ),
                                     ),
-                                  ),
-                                ],
+                                  ],
+                                ),
+                              ),
+                              Container(
+                                padding: EdgeInsets.only(top: 10),
+                                child: Row(
+                                  mainAxisAlignment:
+                                      MainAxisAlignment.spaceBetween,
+                                  children: [
+                                    Container(
+                                      child: AutoSizeText(
+                                        'ราคาสุทธิ',
+                                        style: FontCollection.bodyBoldTextStyle,
+                                      ),
+                                    ),
+                                    Container(
+                                      child: Row(
+                                        children: [
+                                          AutoSizeText(
+                                            activity.currentActivity.netPrice,
+                                            style:
+                                                FontCollection.bodyBoldTextStyle,
+                                          ),
+                                          Container(
+                                            padding: EdgeInsets.only(left: 20),
+                                            child: AutoSizeText(
+                                              'บาท',
+                                              maxLines: 1,
+                                              style: FontCollection
+                                                  .bodyBoldTextStyle,
+                                            ),
+                                          ),
+                                        ],
+                                      ),
+                                    ),
+                                  ],
+                                ),
                               ),
                             ],
                           )),

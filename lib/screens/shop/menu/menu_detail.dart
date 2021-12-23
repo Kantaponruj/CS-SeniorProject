@@ -117,46 +117,34 @@ class _MenuDetailState extends State<MenuDetail> {
     StoreNotifier storeNotifier =
         Provider.of<StoreNotifier>(context, listen: false);
 
-    if (selectedTopping.length == storeNotifier.count) {
-      if (orderNotifier.currentOrder != null) {
-        if (amount < 1) {
-          orderNotifier.removeOrder(orderNotifier.currentOrder);
-          orderNotifier.currentOrder = null;
-        } else {
-          order.totalPrice = price;
-          order.topping = selectedTopping;
-          order.amount = amount;
-          order.other = otherController.text.trim();
-        }
+    if (orderNotifier.currentOrder != null) {
+      if (amount < 1) {
+        orderNotifier.removeOrder(orderNotifier.currentOrder);
+        orderNotifier.currentOrder = null;
       } else {
-        order.storeId = widget.storeId;
-        order.menuId = widget.menuId;
-        order.menuName = storeNotifier.currentMenu.name;
         order.totalPrice = price;
         order.topping = selectedTopping;
         order.amount = amount;
         order.other = otherController.text.trim();
-
-        orderNotifier.addOrder(order);
       }
-
-      orderNotifier.getNetPrice(
-        storeNotifier.currentStore.storeId,
-        storeNotifier.currentStore.isDelivery,
-      );
-
-      Navigator.of(context).pop();
     } else {
-      Fluttertoast.showToast(
-        msg: "โปรดเลือกรายการเพิ่มเติม",
-        toastLength: Toast.LENGTH_SHORT,
-        gravity: ToastGravity.CENTER,
-        timeInSecForIosWeb: 1,
-        backgroundColor: Colors.red,
-        textColor: Colors.white,
-        fontSize: 16.0,
-      );
+      order.storeId = widget.storeId;
+      order.menuId = widget.menuId;
+      order.menuName = storeNotifier.currentMenu.name;
+      order.totalPrice = price;
+      order.topping = selectedTopping;
+      order.amount = amount;
+      order.other = otherController.text.trim();
+
+      orderNotifier.addOrder(order);
     }
+
+    orderNotifier.getNetPrice(
+      storeNotifier.currentStore.storeId,
+      storeNotifier.currentStore.isDelivery,
+    );
+
+    Navigator.of(context).pop();
   }
 
   @override
@@ -226,7 +214,21 @@ class _MenuDetailState extends State<MenuDetail> {
         ),
         bottomNavigationBar: BottomOrder(
           price: price,
-          onClicked: handleClick,
+          onClicked: () {
+            if (selectedTopping.length >= storeNotifier.countRequired) {
+              handleClick();
+            } else {
+              Fluttertoast.showToast(
+                msg: "โปรดเลือกรายการเพิ่มเติม",
+                toastLength: Toast.LENGTH_SHORT,
+                gravity: ToastGravity.CENTER,
+                timeInSecForIosWeb: 1,
+                backgroundColor: Colors.red,
+                textColor: Colors.white,
+                fontSize: 16.0,
+              );
+            }
+          },
           child: Column(
             children: [
               Container(

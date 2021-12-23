@@ -521,7 +521,7 @@ class _ShopMenuState extends State<ShopMenu> {
         : 'กรุณาเลือกเวลา';
 
     return Container(
-      height: 130,
+      height: 135,
       child: Card(
         shape: RoundedRectangleBorder(
           borderRadius: BorderRadius.circular(20),
@@ -543,6 +543,7 @@ class _ShopMenuState extends State<ShopMenu> {
                 title: AutoSizeText(
                   startTime + ' จนถึง ' + endTime,
                   style: FontCollection.bodyTextStyle,
+                  maxLines: 1,
                 ),
                 // Row(
                 //   mainAxisSize: MainAxisSize.min,

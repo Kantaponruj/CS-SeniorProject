@@ -1,6 +1,6 @@
 # StallTruckr Application | Senior Project
 
-<img src="https://www.picz.in.th/image/stalltruckr-logo-merchant-tran.nW9izt" alt="StallTruckr.png" width="150"/>
+<img src="https://i2.fpic.cc/file/img-b1/2021/12/27/stalltruckr_logo_merchant_tran.md.png" alt="StallTruckr.png" width="150"/>
 
 StallTruckr is a mobile application which created by using Flutter and Firebase. This application is about ordering food and tracking location of food stalls and food trucks.
 
